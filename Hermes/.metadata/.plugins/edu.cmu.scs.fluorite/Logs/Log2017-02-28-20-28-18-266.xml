@@ -1,0 +1,24 @@
+<Events startTimestamp="1488331698266" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[620, 37, 893, 768]" timestamp="11" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="66" docActiveCodeLength="310" docExpressionCount="36" docLength="310" projectName="test" timestamp="3977">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+import java.util.Scanner;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+		try {
+			Scanner scanner = new Scanner(System.in);
+			while(scanner.hasNext()) {l
+				System.out.println(scanner.next());
+			}
+		} catch (Exception ex) {}
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="149" docOffset="149" timestamp="4044" />
+  <Command __id="3" _type="RunCommand" kind="Create" projectName="test" timestamp="6963" type="Run" />
+  <Command __id="4" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="7040" type="Run" />
+  <Command __id="5" _type="MoveCaretCommand" caretOffset="227" docOffset="227" timestamp="9144" />

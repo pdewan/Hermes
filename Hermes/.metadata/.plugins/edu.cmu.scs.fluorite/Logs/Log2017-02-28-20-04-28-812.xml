@@ -1,0 +1,36 @@
+<Events startTimestamp="1488330268812" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="7" />
+  <Command __id="1" _type="RunCommand" kind="Create" projectName="test" timestamp="474" type="Run" />
+  <Command __id="2" _type="RunCommand" kind="Create" projectName="test" timestamp="7639" type="Run" />
+  <Command __id="3" _type="FileOpenCommand" docASTNodeCount="63" docActiveCodeLength="309" docExpressionCount="36" docLength="309" projectName="test" timestamp="13274">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+import java.util.Scanner;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+		try {
+			Scanner scanner = new Scanner(System.in);
+			while(scanner.hasNext()) {
+				System.out.println(scanner.next());
+			}
+		} catch (Exception ex) {}
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="4" _type="MoveCaretCommand" caretOffset="302" docOffset="302" timestamp="13315" />
+  <Command __id="5" _type="MoveCaretCommand" caretOffset="250" docOffset="250" timestamp="13732" />
+  <Command __id="6" _type="RunCommand" kind="Create" projectName="test" timestamp="15045" type="Run" />
+  <Command __id="7" _type="MoveCaretCommand" caretOffset="267" docOffset="267" timestamp="17292" />
+  <DocumentChange __id="8" _type="Insert" docASTNodeCount="65" docActiveCodeLength="311" docExpressionCount="37" docLength="311" length="2" offset="267" repeat="2" timestamp="18491" timestamp2="18636">
+    <text><![CDATA[ll]]></text>
+  </DocumentChange>
+  <Command __id="9" _type="InsertStringCommand" repeat="2" timestamp="18496" timestamp2="18641">
+    <data><![CDATA[ll]]></data>
+  </Command>
+  <Command __id="12" _type="RunCommand" kind="Create" projectName="test" timestamp="23985" type="Run" />
+  <Command __id="13" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="24061" type="Run" />
+  <Command __id="14" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="95725" />
+</Events>

@@ -1,0 +1,28 @@
+<Events startTimestamp="1487687885091" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[-8, -8, 1616, 886]" timestamp="8" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="24" docActiveCodeLength="118" docExpressionCount="11" docLength="118" projectName="test" timestamp="30">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="61" />
+  <Command __id="3" _type="MoveCaretCommand" caretOffset="118" docOffset="118" timestamp="1993" />
+  <DocumentChange __id="4" _type="Insert" docASTNodeCount="24" docActiveCodeLength="120" docExpressionCount="11" docLength="120" length="2" offset="118" repeat="2" timestamp="2320" timestamp2="2907">
+    <text><![CDATA[tt]]></text>
+  </DocumentChange>
+  <Command __id="5" _type="InsertStringCommand" repeat="2" timestamp="2327" timestamp2="2915">
+    <data><![CDATA[tt]]></data>
+  </Command>
+  <DocumentChange __id="8" _type="Insert" docASTNodeCount="24" docActiveCodeLength="122" docExpressionCount="11" docLength="122" length="2" offset="120" repeat="2" timestamp="7341" timestamp2="7691">
+    <text><![CDATA[hh]]></text>
+  </DocumentChange>
+  <Command __id="9" _type="InsertStringCommand" repeat="2" timestamp="7357" timestamp2="7699">
+    <data><![CDATA[hh]]></data>
+  </Command>
+  <Command __id="12" _type="ShellBoundsCommand" bounds="[-8, -8, 1616, 886]" timestamp="11853" />
+</Events>

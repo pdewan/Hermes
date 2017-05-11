@@ -1,0 +1,8 @@
+<Events startTimestamp="1488328473158" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="12" />
+  <Command __id="1" _type="RunCommand" exitValue="0" kind="Terminate" projectName="test" timestamp="44062" type="Run" />
+  <Command __id="2" _type="RunCommand" kind="Create" projectName="test" timestamp="58570" type="Run" />
+  <Command __id="3" _type="RunCommand" exitValue="0" kind="Terminate" projectName="test" timestamp="68416" type="Run" />
+  <Command __id="4" _type="RunCommand" kind="Create" projectName="test" timestamp="75716" type="Run" />
+  <Command __id="5" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="95844" />
+</Events>

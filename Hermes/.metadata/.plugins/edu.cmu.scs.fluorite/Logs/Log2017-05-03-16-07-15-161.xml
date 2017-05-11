@@ -1,0 +1,10 @@
+<Events startTimestamp="1493842035161" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[538, 12, 814, 814]" timestamp="10" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="0" docExpressionCount="0" docLength="0" projectName="test" timestamp="34">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\sort\Sort.java]]></filePath>
+    <snapshot><![CDATA[]]></snapshot>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="47" />
+  <Command __id="3" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" repeat="89" timestamp="623" timestamp2="1704" />
+  <Command __id="92" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="21230" />
+</Events>

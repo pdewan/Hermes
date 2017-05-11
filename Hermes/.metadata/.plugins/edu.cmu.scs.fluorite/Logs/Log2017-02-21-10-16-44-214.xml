@@ -1,0 +1,34 @@
+<Events startTimestamp="1487690204214" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[-8, -8, 1616, 886]" timestamp="11" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="24" docActiveCodeLength="118" docExpressionCount="11" docLength="118" projectName="test" timestamp="38">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="2" _type="SelectTextCommand" caretOffset="117" docEnd="117" docOffset="117" docStart="115" end="117" start="115" timestamp="67" />
+  <Command __id="3" _type="MoveCaretCommand" caretOffset="118" docOffset="118" timestamp="1253" />
+  <DocumentChange __id="4" _type="Insert" docASTNodeCount="24" docActiveCodeLength="131" docExpressionCount="11" docLength="131" length="13" offset="118" repeat="13" timestamp="2096" timestamp2="4709">
+    <text><![CDATA[lll99hh55ddd6]]></text>
+  </DocumentChange>
+  <Command __id="5" _type="InsertStringCommand" repeat="13" timestamp="2104" timestamp2="4716">
+    <data><![CDATA[lll99hh55ddd6]]></data>
+  </Command>
+  <DocumentChange __id="30" _type="Insert" docASTNodeCount="24" docActiveCodeLength="133" docExpressionCount="11" docLength="133" length="2" offset="131" timestamp="15541">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="31" _type="InsertStringCommand" timestamp="15544">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="32" _type="Insert" docASTNodeCount="24" docActiveCodeLength="135" docExpressionCount="11" docLength="135" length="2" offset="133" timestamp="15719">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="33" _type="InsertStringCommand" timestamp="15721">
+    <data><![CDATA[]]></data>
+  </Command>

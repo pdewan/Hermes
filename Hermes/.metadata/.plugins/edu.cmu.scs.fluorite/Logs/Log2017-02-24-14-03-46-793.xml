@@ -1,0 +1,70 @@
+<Events startTimestamp="1487963026793" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[-8, -8, 1616, 886]" timestamp="129" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="24" docActiveCodeLength="118" docExpressionCount="11" docLength="118" projectName="test" timestamp="913">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="2" _type="SelectTextCommand" caretOffset="117" docEnd="117" docOffset="117" docStart="115" end="117" start="115" timestamp="1007" />
+  <Command __id="3" _type="EclipseCommand" commandID="org.eclipse.ui.views.showView" repeat="2" timestamp="38125" timestamp2="38125" />
+  <Command __id="5" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" repeat="69" timestamp="52792" timestamp2="53673" />
+  <Command __id="74" _type="MoveCaretCommand" caretOffset="118" docOffset="118" timestamp="67211" />
+  <DocumentChange __id="75" _type="Insert" docASTNodeCount="29" docActiveCodeLength="125" docExpressionCount="13" docLength="125" length="7" offset="118" repeat="7" timestamp="67713" timestamp2="70083">
+    <text><![CDATA[ a b c ]]></text>
+  </DocumentChange>
+  <Command __id="76" _type="InsertStringCommand" repeat="7" timestamp="67827" timestamp2="70085">
+    <data><![CDATA[ a b c ]]></data>
+  </Command>
+  <DocumentChange __id="89" _type="Insert" docASTNodeCount="29" docActiveCodeLength="127" docExpressionCount="13" docLength="127" length="2" offset="125" timestamp="70439">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="90" _type="InsertStringCommand" timestamp="70442">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="91" _type="Insert" docASTNodeCount="29" docActiveCodeLength="129" docExpressionCount="13" docLength="129" length="2" offset="127" timestamp="70617">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="92" _type="InsertStringCommand" timestamp="70619">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="93" _type="Insert" docASTNodeCount="39" docActiveCodeLength="136" docExpressionCount="17" docLength="136" length="7" offset="129" repeat="7" timestamp="71015" timestamp2="72336">
+    <text><![CDATA[e f g h]]></text>
+  </DocumentChange>
+  <Command __id="94" _type="InsertStringCommand" repeat="7" timestamp="71019" timestamp2="72338">
+    <data><![CDATA[e f g h]]></data>
+  </Command>
+  <DocumentChange __id="107" _type="Insert" docASTNodeCount="39" docActiveCodeLength="138" docExpressionCount="17" docLength="138" length="2" offset="136" timestamp="72753">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="108" _type="InsertStringCommand" timestamp="72756">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="109" _type="Insert" docASTNodeCount="44" docActiveCodeLength="141" docExpressionCount="19" docLength="141" length="3" offset="138" repeat="3" timestamp="73113" timestamp2="73624">
+    <text><![CDATA[jjj]]></text>
+  </DocumentChange>
+  <Command __id="110" _type="InsertStringCommand" repeat="3" timestamp="73128" timestamp2="73630">
+    <data><![CDATA[jjj]]></data>
+  </Command>
+  <DocumentChange __id="115" _type="Insert" docASTNodeCount="44" docActiveCodeLength="143" docExpressionCount="19" docLength="143" length="2" offset="141" timestamp="73898">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="116" _type="InsertStringCommand" timestamp="73899">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="117" _type="Insert" docASTNodeCount="44" docActiveCodeLength="146" docExpressionCount="19" docLength="146" length="3" offset="143" repeat="3" timestamp="74208" timestamp2="75992">
+    <text><![CDATA[jjf]]></text>
+  </DocumentChange>
+  <Command __id="118" _type="InsertStringCommand" repeat="3" timestamp="74213" timestamp2="75995">
+    <data><![CDATA[jjf]]></data>
+  </Command>
+  <Command __id="123" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="112116" />
+</Events>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="dayton.ellwanger.hermes.connectionListener">
+      <listener
+            class="dayton.ellwanger.hermes.HermesConnectionManager"></listener>
+   </extension>
+	<extension
+         point="org.eclipse.ecf.containerFactory">
+      <containerFactory
+            class="dayton.ellwanger.ecfchat.MyXMPPContainerInstantiator"
+            description="XMPP (Custom)"
+            name="dayton.ellwanger.hermes">
+      </containerFactory>
+   </extension>
+</plugin>

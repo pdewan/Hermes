@@ -1,0 +1,23 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.igniterealtime.smack:smack-java7:4.1.7"
+    compile "org.igniterealtime.smack:smack-tcp:4.1.7"
+    compile "org.igniterealtime.smack:smack-im:4.1.7"
+    compile "org.igniterealtime.smack:smack-extensions:4.1.7"
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    compile "org.eclipse:swt:3.3.0-v3346"
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/output/lib"
+    from configurations.runtime
+}

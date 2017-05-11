@@ -1,0 +1,19 @@
+<Events startTimestamp="1493840694864" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[415, 11, 814, 814]" timestamp="11" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="4" docActiveCodeLength="30" docExpressionCount="1" docLength="30" projectName="test" timestamp="121223">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\online.java]]></filePath>
+    <snapshot><![CDATA[
+public class online {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="30" docOffset="30" timestamp="121259" />
+  <DocumentChange __id="3" _type="Insert" docASTNodeCount="4" docActiveCodeLength="32" docExpressionCount="1" docLength="32" length="2" offset="30" repeat="2" timestamp="123032" timestamp2="123262">
+    <text><![CDATA[lk]]></text>
+  </DocumentChange>
+  <Command __id="4" _type="InsertStringCommand" repeat="2" timestamp="123034" timestamp2="123266">
+    <data><![CDATA[lk]]></data>
+  </Command>
+  <Command __id="7" _type="ShellBoundsCommand" bounds="[415, 11, 814, 814]" timestamp="352830" />
+</Events>

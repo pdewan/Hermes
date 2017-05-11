@@ -1,0 +1,32 @@
+<Events startTimestamp="1488496159836" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[621, 41, 893, 768]" timestamp="104" />
+  <Command __id="1" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" repeat="93" timestamp="145" timestamp2="1337" />
+  <Command __id="94" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="0" docExpressionCount="0" docLength="0" projectName="test" timestamp="56030">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[]]></snapshot>
+  </Command>
+  <Command __id="95" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="56147" />
+  <Command __id="96" _type="EclipseCommand" commandID="org.eclipse.ui.file.refresh" timestamp="203314" />
+  <DocumentChange __id="97" _type="Insert" docASTNodeCount="63" docActiveCodeLength="309" docExpressionCount="36" docLength="309" length="309" offset="0" timestamp="203509">
+    <text><![CDATA[package test;
+
+import java.util.Scanner;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+		try {
+			Scanner scanner = new Scanner(System.in);
+			while(scanner.hasNext()) {
+				System.out.println(scanner.next());
+			}
+		} catch (Exception ex) {}
+	}
+}]]></text>
+  </DocumentChange>
+  <Command __id="98" _type="MoveCaretCommand" caretOffset="273" docOffset="273" timestamp="205365" />
+  <Command __id="99" _type="MoveCaretCommand" caretOffset="309" docOffset="309" timestamp="213791" />
+  <Command __id="100" _type="SelectTextCommand" caretOffset="108" docEnd="140" docOffset="108" docStart="108" end="140" start="108" timestamp="215127" />
+  <Command __id="101" _type="MoveCaretCommand" caretOffset="226" docOffset="226" timestamp="222429" />
+  <Command __id="102" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="290518" />
+</Events>

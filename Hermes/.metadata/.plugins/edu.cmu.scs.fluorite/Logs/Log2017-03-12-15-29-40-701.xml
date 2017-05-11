@@ -1,0 +1,4 @@
+<Events startTimestamp="1489346980701" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[660, 94, 893, 768]" timestamp="33" />
+  <Command __id="1" _type="ShellBoundsCommand" bounds="[660, 94, 893, 768]" timestamp="124741" />
+</Events>

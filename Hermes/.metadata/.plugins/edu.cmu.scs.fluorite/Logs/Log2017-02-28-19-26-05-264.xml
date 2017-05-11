@@ -1,0 +1,18 @@
+<Events startTimestamp="1488327965264" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[342, -13, 893, 768]" timestamp="36" />
+  <Command __id="1" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" repeat="61" timestamp="534" timestamp2="1356" />
+  <Command __id="62" _type="FileOpenCommand" docASTNodeCount="24" docActiveCodeLength="118" docExpressionCount="11" docLength="118" projectName="test" timestamp="39125">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="63" _type="MoveCaretCommand" caretOffset="118" docOffset="118" timestamp="39187" />
+  <Command __id="64" _type="RunCommand" kind="Create" projectName="test" timestamp="40948" type="Run" />
+  <Command __id="65" _type="RunCommand" exitValue="0" kind="Terminate" projectName="test" timestamp="40967" type="Run" />
+  <Command __id="66" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="71972" />
+</Events>

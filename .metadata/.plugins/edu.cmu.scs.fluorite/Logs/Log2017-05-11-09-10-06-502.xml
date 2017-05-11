@@ -1,0 +1,347 @@
+<Events startTimestamp="1494508206502" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[-8, -8, 1616, 886]" timestamp="6" />
+  <Command __id="1" _type="RunCommand" kind="Create" projectName="null" timestamp="24792" type="Run" />
+  <Command __id="2" _type="FileOpenCommand" docASTNodeCount="644" docActiveCodeLength="3829" docExpressionCount="461" docLength="3862" projectName="HelpView" timestamp="70694">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes5\HelpView\src\dayton\ellwanger\helpbutton\HelpView.java]]></filePath>
+    <snapshot><![CDATA[package dayton.ellwanger.helpbutton;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.part.ViewPart;
+
+import dayton.ellwanger.hermes.SubView;
+
+
+public class HelpView extends ViewPart implements SubView {
+	
+	private static final String HELP_BUTTON_STRING = "Request Help";
+	private List<HelpListener> helpListeners;
+	private Text helpText;
+	
+	
+	public HelpView() {
+		helpListeners = new LinkedList<HelpListener>();
+	}
+	
+	public void addHelpListener(HelpListener l) {
+		helpListeners.add(l);
+	}
+	
+	public void removeHelpListener(HelpListener l) {
+		helpListeners.remove(l);
+	}
+
+	@Override
+	public void createPartControl(Composite parent) {
+		RowLayout parentLayout = new RowLayout();
+		parentLayout.type = SWT.VERTICAL;
+		parentLayout.pack = true;
+		parent.setLayout(parentLayout);
+		
+		
+		Composite difficultyComposite = new Composite(parent, SWT.NONE);
+		difficultyComposite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		RowLayout difficultyLayout = new RowLayout();
+		difficultyLayout.type = SWT.HORIZONTAL;
+		difficultyLayout.pack = true;
+		difficultyComposite.setLayout(difficultyLayout);
+		
+		Label difficultyLabel = new Label(difficultyComposite, SWT.NONE);
+		difficultyLabel.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		difficultyLabel.setText("Difficulty: ");
+		String[] difficultyLabels = {"Trivial", "Easy", "Challenging", "Hard", "Impossible"};
+		for(int i = 0; i < difficultyLabels.length; i++) {
+			Button button = new Button(difficultyComposite, SWT.RADIO);
+			button.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+			button.setText(difficultyLabels[i]);
+			button.addSelectionListener(new DifficultyButtonHandler(i));
+		}
+		
+		
+		Composite helpComposite = new Composite(parent, SWT.NONE);
+		helpComposite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		RowLayout helpLayout = new RowLayout();
+		helpLayout.type = SWT.VERTICAL;
+		helpComposite.setLayout(helpLayout);
+		
+		helpText = new Text(helpComposite, SWT.MULTI | SWT.BORDER |
+				SWT.WRAP | SWT.BORDER | SWT.V_SCROLL | SWT.SEARCH);
+		helpText.setLayoutData(new RowData(400,70));
+		helpText.setMessage("What are you having trouble with?");
+		Button helpButton = new Button(helpComposite, SWT.PUSH);
+		helpButton.addSelectionListener(new HelpButtonHandler());
+		helpButton.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		helpButton.setText(HelpView.HELP_BUTTON_STRING);
+		helpComposite.pack();
+		
+		new HelpViewController(this);
+	}
+
+	@Override
+	public void setFocus() {}
+	
+	//class HelpTextListener extends 
+	class DifficultyButtonHandler extends SelectionAdapter {
+		
+		int difficulty;
+		
+		public DifficultyButtonHandler(int difficulty) {
+			this.difficulty = difficulty;
+		}
+		
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			Button b = (Button) e.getSource();
+			if(b.getSelection()) {
+				for(HelpListener l : helpListeners) {
+					l.difficultyUpdate(difficulty);
+				}
+			}
+		}
+	}
+	
+	class HelpButtonHandler extends SelectionAdapter {
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			Button b = (Button) e.getSource();
+			if(b.getSelection()) {
+				for(HelpListener l : helpListeners) {
+					l.help(helpText.getText());
+				}
+			}
+		}
+
+	}
+
+}]]></snapshot>
+  </Command>
+  <Command __id="3" _type="MoveCaretCommand" caretOffset="3288" docOffset="3853" timestamp="70730" />
+  <Command __id="4" _type="EclipseCommand" commandID="AUTOGEN:::org.eclipse.jdt.debug.CompilationUnitEditor.BreakpointRulerActions/org.eclipse.jdt.debug.ui.actions.ManageBreakpointRulerAction" timestamp="71049" />
+  <Command __id="5" _type="MoveCaretCommand" caretOffset="3286" docOffset="3851" timestamp="613036" />
+  <Command __id="6" _type="RunCommand" exitValue="0" kind="Terminate" projectName="null" timestamp="614324" type="Run" />
+  <Command __id="7" _type="EclipseCommand" commandID="AUTOGEN:::org.eclipse.jdt.debug.CompilationUnitEditor.BreakpointRulerActions/org.eclipse.jdt.debug.ui.actions.ManageBreakpointRulerAction" timestamp="615919" />
+  <Command __id="8" _type="EclipseCommand" commandID="org.eclipse.pde.ui.runtimeWorkbenchShortcut.debug" timestamp="625244" />
+  <Command __id="9" _type="RunCommand" kind="Create" projectName="null" timestamp="625556" type="Run" />
+  <Command __id="10" _type="RunCommand" kind="Create" projectName="null" timestamp="625916" type="Debug" />
+  <Command __id="11" _type="MoveCaretCommand" caretOffset="3125" docOffset="3690" timestamp="650636" />
+  <Command __id="12" _type="MoveCaretCommand" caretOffset="3164" docOffset="3729" timestamp="651292" />
+  <Command __id="13" _type="EclipseCommand" commandID="org.eclipse.debug.ui.commands.StepOver" repeat="2" timestamp="652651" timestamp2="653445" />
+  <Command __id="15" _type="EclipseCommand" commandID="org.eclipse.debug.ui.commands.StepOver" timestamp="657302" />
+  <Command __id="16" _type="FileOpenCommand" projectName="null" timestamp="657569">
+    <filePath><![CDATA[null]]></filePath>
+  </Command>
+  <Command __id="17" _type="MoveCaretCommand" caretOffset="6816" docOffset="7301" timestamp="657673" />
+  <Command __id="18" _type="EclipseCommand" commandID="org.eclipse.debug.ui.commands.Resume" timestamp="662988" />
+  <Command __id="19" _type="FileOpenCommand" docASTNodeCount="644" docActiveCodeLength="3829" docExpressionCount="461" docLength="3862" projectName="HelpView" timestamp="665283">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes5\HelpView\src\dayton\ellwanger\helpbutton\HelpView.java]]></filePath>
+  </Command>
+  <Command __id="20" _type="MoveCaretCommand" caretOffset="3127" docOffset="3692" timestamp="665328" />
+  <Command __id="21" _type="MoveCaretCommand" caretOffset="3164" docOffset="3729" timestamp="667044" />
+  <Command __id="22" _type="EclipseCommand" commandID="org.eclipse.debug.ui.commands.StepOver" timestamp="668444" />
+  <Command __id="23" _type="EclipseCommand" commandID="org.eclipse.ui.views.showView" timestamp="690380">
+    <org.eclipse.ui.views.showView.viewId><![CDATA[org.eclipse.jdt.debug.ui.DisplayView]]></org.eclipse.ui.views.showView.viewId>
+  </Command>
+  <Command __id="24" _type="EclipseCommand" commandID="org.eclipse.jdt.debug.ui.commands.Display" timestamp="700565" />
+  <Command __id="25" _type="EclipseCommand" commandID="org.eclipse.debug.ui.commands.Resume" timestamp="732429" />
+  <Command __id="26" _type="MoveCaretCommand" caretOffset="3275" docOffset="3840" timestamp="736291" />
+  <Command __id="27" _type="RunCommand" exitValue="0" kind="Terminate" projectName="null" timestamp="736361" type="Debug" />
+  <Command __id="28" _type="RunCommand" exitValue="0" kind="Terminate" projectName="null" timestamp="736731" type="Run" />
+  <Command __id="29" _type="SelectTextCommand" caretOffset="3127" docEnd="3756" docOffset="3692" docStart="3692" end="3191" start="3127" timestamp="742745" />
+  <DocumentChange __id="30" _type="Delete" docASTNodeCount="628" docActiveCodeLength="3763" docExpressionCount="451" docLength="3796" endLine="114" length="66" offset="3690" repeat="2" startLine="112" timestamp="743571" timestamp2="743787">
+    <text><![CDATA[
+			Button b = (Button) e.getSource();
+			if(b.getSelection()) {]]></text>
+  </DocumentChange>
+  <Command __id="31" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="743618" timestamp2="743794" />
+  <Command __id="34" _type="SelectTextCommand" caretOffset="3211" docEnd="3780" docOffset="3776" docStart="3776" end="3215" start="3211" timestamp="746155" />
+  <DocumentChange __id="35" _type="Delete" docASTNodeCount="628" docActiveCodeLength="3757" docExpressionCount="451" docLength="3790" endLine="116" length="6" offset="3774" repeat="2" startLine="115" timestamp="746622" timestamp2="746767">
+    <text><![CDATA[
+			}]]></text>
+  </DocumentChange>
+  <Command __id="36" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="746625" timestamp2="746772" />
+  <Command __id="39" _type="SelectTextCommand" caretOffset="3064" docEnd="3779" docOffset="3629" docStart="3629" end="3214" start="3064" timestamp="749179" />
+  <DocumentChange __id="40" _type="Replace" docASTNodeCount="628" docActiveCodeLength="3756" docExpressionCount="451" docLength="3789" endLine="113" insertionLength="0" int_docASTNodeCount="628" int_docActiveCodeLength="3756" int_docExpressionCount="451" int_docLength="3789" length="1" offset="3695" startLine="113" timestamp="749791">
+    <deletedText><![CDATA[	]]></deletedText>
+    <insertedText><![CDATA[]]></insertedText>
+  </DocumentChange>
+  <DocumentChange __id="41" _type="Replace" docASTNodeCount="628" docActiveCodeLength="3755" docExpressionCount="451" docLength="3788" endLine="114" insertionLength="0" int_docASTNodeCount="628" int_docActiveCodeLength="3755" int_docExpressionCount="451" int_docLength="3788" length="1" offset="3738" startLine="114" timestamp="749800">
+    <deletedText><![CDATA[	]]></deletedText>
+    <insertedText><![CDATA[]]></insertedText>
+  </DocumentChange>
+  <DocumentChange __id="42" _type="Replace" docASTNodeCount="628" docActiveCodeLength="3754" docExpressionCount="451" docLength="3787" endLine="115" insertionLength="0" int_docASTNodeCount="628" int_docActiveCodeLength="3754" int_docExpressionCount="451" int_docLength="3787" length="1" offset="3770" startLine="115" timestamp="749805">
+    <deletedText><![CDATA[	]]></deletedText>
+    <insertedText><![CDATA[]]></insertedText>
+  </DocumentChange>
+  <Command __id="43" _type="EclipseCommand" commandID="org.eclipse.jdt.ui.edit.text.java.indent" timestamp="749809" />
+  <Command __id="44" _type="EclipseCommand" commandID="org.eclipse.ui.file.saveAll" timestamp="751828" />
+  <Command __id="45" _type="FileOpenCommand" docASTNodeCount="570" docActiveCodeLength="3438" docExpressionCount="369" docLength="3447" projectName="TimeTracker" timestamp="762500">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes5\TimeTracker\src\dayton\ellwanger\timetracker\hermes\FluoriteListener.java]]></filePath>
+    <snapshot><![CDATA[package dayton.ellwanger.timetracker.hermes;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.Date;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import dayton.ellwanger.hermes.xmpp.ConnectionManager;
+import edu.cmu.scs.fluorite.commands.FileOpenCommand;
+import edu.cmu.scs.fluorite.commands.ICommand;
+import edu.cmu.scs.fluorite.commands.document.DocChange;
+import edu.cmu.scs.fluorite.model.CommandExecutionListener;
+import edu.cmu.scs.fluorite.model.DocumentChangeListener;
+import edu.cmu.scs.fluorite.model.EventRecorder;
+
+public class FluoriteListener implements DocumentChangeListener, CommandExecutionListener {
+
+	IdleTimer idleTimer;
+	
+	public FluoriteListener() {
+		idleTimer = new IdleTimer();
+		EventRecorder eventRecorder = EventRecorder.getInstance();
+		eventRecorder.addCommandExecutionListener(this);
+		eventRecorder.addDocumentChangeListener(this);
+	}
+
+	@Override
+	public void commandExecuted(ICommand arg0) {
+		idleTimer.recordActivity();
+	}
+
+	@Override
+	public void activeFileChanged(FileOpenCommand arg0) {}
+
+	@Override
+	public void documentChangeAmended(DocChange arg0, DocChange arg1) {}
+
+	@Override
+	public void documentChangeFinalized(DocChange arg0) {}
+
+	@Override
+	public void documentChangeUpdated(DocChange arg0) {}
+
+	@Override
+	public void documentChanged(DocChange arg0) {
+		idleTimer.recordActivity();
+	}
+	
+	private void sessionEnded(Date startDate, Date endDate) {
+		double sessionLength = ((endDate.getTime() - startDate.getTime()) / (60.0 * 1000));
+		File sessionFile = new File(System.getProperty("user.home") + "/sessions.txt");
+		try {
+			sessionFile.createNewFile();
+		} catch (Exception ex) {ex.printStackTrace();}
+		try {
+			PrintWriter output = new PrintWriter(new FileWriter(sessionFile, true));
+			output.append("Session start: " + startDate);
+			output.append("\nSession end: " + endDate);
+			output.append("\nSession duration: " + sessionLength + "\n\n");
+			output.close();
+		} catch (Exception ex) {ex.printStackTrace();}
+		sendSession(startDate, endDate);
+	}
+	
+	public void sendSession(Date startDate, Date endDate) {
+		if(ConnectionManager.getInstance() != null) {
+			JSONObject messageData = new JSONObject();
+			try {
+				messageData.put("startDate", startDate.toString());
+				messageData.put("endDate", endDate.toString());
+				JSONArray tags = new JSONArray();
+				tags.put("TIME_TRACKER");
+				messageData.put("tags", tags);
+			} catch (Exception ex) {}
+			ConnectionManager.getInstance().sendMessage(messageData);
+		}
+	}
+	
+	class IdleTimer implements Runnable {
+		
+		private boolean inSession;
+		private boolean idleLastMinute;
+		
+		public IdleTimer() {
+			inSession = false;
+		}
+		
+		public void run() {
+			System.out.println("Session started");
+			Date startDate = new Date();
+			Date endDate = new Date();
+			int idleMinutes = 0;
+			while(idleMinutes < 10) {
+				idleLastMinute = true;
+				try {
+					Thread.sleep(/*60 * */ 1000);
+				} catch (Exception ex) {}
+				if(idleLastMinute) {
+					idleMinutes++;
+				} else {
+					endDate = new Date();
+					idleMinutes = 0;
+				}
+			}
+			inSession = false;
+			sessionEnded(startDate, endDate);
+		}
+		
+		public void recordActivity() {
+			if(inSession) {
+				idleLastMinute = false;
+			} else {
+				inSession = true;
+				(new Thread(this)).start();
+			}
+		}
+		
+	}
+	
+}
+]]></snapshot>
+  </Command>
+  <Command __id="46" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="762594" />
+  <Command __id="47" _type="MoveCaretCommand" caretOffset="973" docOffset="1502" timestamp="789739" />
+  <DocumentChange __id="48" _type="Insert" docASTNodeCount="570" docActiveCodeLength="3442" docExpressionCount="369" docLength="3451" length="4" offset="1502" timestamp="790397">
+    <text><![CDATA[
+		]]></text>
+  </DocumentChange>
+  <DocumentChange __id="49" _type="Insert" docASTNodeCount="577" docActiveCodeLength="3478" docExpressionCount="375" docLength="3487" length="36" offset="1506" repeat="34" timestamp="791136" timestamp2="796373">
+    <text><![CDATA[System.out.println("Session ended");]]></text>
+  </DocumentChange>
+  <Command __id="50" _type="InsertStringCommand" repeat="7" timestamp="791177" timestamp2="791912">
+    <data><![CDATA[System.]]></data>
+  </Command>
+  <Command __id="63" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="792726" />
+  <Command __id="67" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="793272" />
+  <Command __id="69" _type="InsertStringCommand" repeat="9" timestamp="793281" timestamp2="793356">
+    <data><![CDATA[.println(]]></data>
+  </Command>
+  <Command __id="86" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="793374" />
+  <Command __id="88" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="794024" />
+  <Command __id="90" _type="InsertStringCommand" repeat="16" timestamp="794032" timestamp2="796376">
+    <data><![CDATA[Session ended");]]></data>
+  </Command>
+  <Command __id="119" _type="EclipseCommand" commandID="org.eclipse.ui.file.saveAll" timestamp="802550" />
+  <Command __id="120" _type="EclipseCommand" commandID="org.eclipse.pde.ui.runtimeWorkbenchShortcut.run" timestamp="806647" />
+  <Command __id="121" _type="RunCommand" kind="Create" projectName="null" timestamp="806808" type="Run" />
+  <Command __id="122" _type="RunCommand" exitValue="0" kind="Terminate" projectName="null" timestamp="863324" type="Run" />
+  <Command __id="123" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" repeat="71" timestamp="869757" timestamp2="870717" />
+  <Command __id="194" _type="ShellBoundsCommand" bounds="[-8, -8, 1616, 886]" repeat="59" timestamp="874733" timestamp2="875492" />
+  <Command __id="253" _type="EclipseCommand" commandID="org.eclipse.pde.ui.runtimeWorkbenchShortcut.run" timestamp="879375" />
+  <Command __id="254" _type="RunCommand" kind="Create" projectName="null" timestamp="879507" type="Run" />
+  <Command __id="255" _type="RunCommand" exitValue="0" kind="Terminate" projectName="null" timestamp="965682" type="Run" />

@@ -1,0 +1,34 @@
+<Events startTimestamp="1488066805873" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="31" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="24" docActiveCodeLength="118" docExpressionCount="11" docLength="118" projectName="test" timestamp="15938">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="118" docOffset="118" timestamp="15988" />
+  <DocumentChange __id="3" _type="Insert" docASTNodeCount="24" docActiveCodeLength="120" docExpressionCount="11" docLength="120" length="2" offset="118" repeat="2" timestamp="17320" timestamp2="17634">
+    <text><![CDATA[gg]]></text>
+  </DocumentChange>
+  <Command __id="4" _type="InsertStringCommand" repeat="2" timestamp="17366" timestamp2="17642">
+    <data><![CDATA[gg]]></data>
+  </Command>
+  <Command __id="7" _type="ShellBoundsCommand" bounds="[1772, 113, 893, 768]" repeat="299" timestamp="42381" timestamp2="46701" />
+  <DocumentChange __id="306" _type="Insert" docASTNodeCount="24" docActiveCodeLength="121" docExpressionCount="11" docLength="121" length="1" offset="120" timestamp="66790">
+    <text><![CDATA[j]]></text>
+  </DocumentChange>
+  <Command __id="307" _type="InsertStringCommand" timestamp="66799">
+    <data><![CDATA[j]]></data>
+  </Command>
+  <DocumentChange __id="308" _type="Insert" docASTNodeCount="24" docActiveCodeLength="123" docExpressionCount="11" docLength="123" length="2" offset="121" repeat="2" timestamp="126892" timestamp2="127099">
+    <text><![CDATA[ll]]></text>
+  </DocumentChange>
+  <Command __id="309" _type="InsertStringCommand" repeat="2" timestamp="126906" timestamp2="127120">
+    <data><![CDATA[ll]]></data>
+  </Command>
+  <Command __id="312" _type="ShellBoundsCommand" bounds="[1772, 113, 893, 768]" timestamp="174495" />
+</Events>

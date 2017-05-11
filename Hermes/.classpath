@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java">
+		<attributes>
+			<attribute name="FROM_GRADLE_MODEL" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang3-3.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jxmpp-core-0.4.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jxmpp-util-cache-0.4.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/smack-core-4.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/smack-extensions-4.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/smack-im-4.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/smack-java7-4.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/smack-resolver-javax-4.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/smack-sasl-javax-4.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/smack-tcp-4.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/swt-3.3.0-v3346.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xpp3-1.1.4c.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

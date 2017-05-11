@@ -1,0 +1,60 @@
+package dayton.ellwanger.hermes;
+
+import org.eclipse.swt.widgets.Display;
+
+import dayton.ellwanger.ecfchat.ECFConnector;
+import dayton.ellwanger.ecfchat.EditorSharer;
+import dayton.ellwanger.hermes.preferences.Preferences;
+import dayton.ellwanger.hermes.xmpp.ConnectStateListener;
+import dayton.ellwanger.hermes.xmpp.ConnectionManager;
+import dayton.ellwanger.hermes.xmpp.ConnectionState;
+import dayton.ellwanger.hermes.xmpp.MessageListener;
+
+public class HermesConnectionManager implements ConnectStateListener, MessageListener {
+	
+	EditorSharer editorSharer;
+	ECFConnector connector;
+
+	public HermesConnectionManager() {
+		editorSharer = new EditorSharer();
+		ConnectionManager.getInstance().addMessageListener(this);
+	}
+	
+	@Override
+	public void stateChanged(ConnectionState newState) {
+		if(newState == ConnectionState.CONNECTED) {
+			connect();
+			try {
+				//wait for roster to load
+				Thread.sleep(1000);
+			} catch (Exception ex) {}
+			System.out.println(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
+			editorSharer.setShareWith(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
+		}
+	}
+	
+	private void connect() {
+		connector = new ECFConnector();
+		try {
+			connector.connect(ConnectionManager.getInstance().getXMPPID(),
+					ConnectionManager.getInstance().getXMPPPassword(), 
+					ConnectionManager.getInstance().getHostname());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public void messageReceieved(String message) {
+		//System.out.println("Message: " + message);
+		if(message.equalsIgnoreCase("share")) {
+			System.out.println("Share message");
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					editorSharer.shareEditor();
+				}
+			});
+		}
+	}
+
+}

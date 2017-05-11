@@ -1,0 +1,34 @@
+<Events startTimestamp="1488330860454" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="13" />
+  <Command __id="1" _type="ShellBoundsCommand" bounds="[620, 37, 893, 768]" repeat="43" timestamp="1875" timestamp2="2848" />
+  <Command __id="44" _type="RunCommand" kind="Create" projectName="test" timestamp="9719" type="Run" />
+  <Command __id="45" _type="FileOpenCommand" docASTNodeCount="63" docActiveCodeLength="309" docExpressionCount="36" docLength="309" projectName="test" timestamp="57108">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+import java.util.Scanner;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+		try {
+			Scanner scanner = new Scanner(System.in);
+			while(scanner.hasNext()) {
+				System.out.println(scanner.next());
+			}
+		} catch (Exception ex) {}
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="46" _type="MoveCaretCommand" caretOffset="226" docOffset="226" timestamp="57146" />
+  <DocumentChange __id="47" _type="Insert" docASTNodeCount="66" docActiveCodeLength="310" docExpressionCount="36" docLength="310" length="1" offset="226" timestamp="57965">
+    <text><![CDATA[l]]></text>
+  </DocumentChange>
+  <Command __id="48" _type="InsertStringCommand" timestamp="57970">
+    <data><![CDATA[l]]></data>
+  </Command>
+  <Command __id="49" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="60094" type="Run" />
+  <Command __id="50" _type="RunCommand" kind="Create" projectName="test" timestamp="67768" type="Run" />
+  <Command __id="51" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="67835" type="Run" />
+  <Command __id="52" _type="ShellBoundsCommand" bounds="[620, 37, 893, 768]" timestamp="465329" />
+</Events>

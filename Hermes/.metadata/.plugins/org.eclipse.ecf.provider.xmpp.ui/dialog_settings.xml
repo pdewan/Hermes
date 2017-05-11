@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ecf.internal.provider.xmpp.ui.wizards.XMPPConnectWizardPage">
+		<item value="alpha@dayton-surface.com" key="connectTextValue"/>
+		<list key="comboValues">
+			<item value="alpha@dayton-surface.com"/>
+		</list>
+	</section>
+</section>

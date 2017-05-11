@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="dayton.ellwanger.hermes.connectionListener">
+         <listener class="hermes.HermesConnectionManager">
+         </listener>
+   </extension>
+   <extension
+         point="dayton.ellwanger.subview">
+         <subview
+         	class="workspacelistener.ui.PrivacyView">
+         </subview>
+   </extension>>
+</plugin>

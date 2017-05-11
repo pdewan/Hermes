@@ -1,0 +1,31 @@
+<Events startTimestamp="1488330521919" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="11" />
+  <Command __id="1" _type="RunCommand" kind="Create" projectName="test" timestamp="9329" type="Run" />
+  <Command __id="2" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="9393" type="Run" />
+  <Command __id="3" _type="FileOpenCommand" docASTNodeCount="67" docActiveCodeLength="310" docExpressionCount="39" docLength="310" projectName="test" timestamp="12678">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+import java.util.Scanner;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+		try {
+			Scanner scanner = new Scanner(System.in);
+			while(scanner.hasNext()) {
+				System.out.println(scanner.next());1
+			}
+		} catch (Exception ex) {}
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="4" _type="MoveCaretCommand" caretOffset="268" docOffset="268" timestamp="12715" />
+  <DocumentChange __id="5" _type="Delete" docASTNodeCount="63" docActiveCodeLength="309" docExpressionCount="36" docLength="309" endLine="10" length="1" offset="267" startLine="10" timestamp="13378">
+    <text><![CDATA[1]]></text>
+  </DocumentChange>
+  <Command __id="6" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="13401" />
+  <Command __id="7" _type="RunCommand" kind="Create" projectName="test" timestamp="16745" type="Run" />
+  <Command __id="8" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="19247" type="Run" />
+  <Command __id="9" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="39344" />
+</Events>

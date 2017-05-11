@@ -1,0 +1,38 @@
+<Events startTimestamp="1493841313847" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[481, 58, 814, 814]" timestamp="9" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="125" docActiveCodeLength="507" docExpressionCount="76" docLength="507" projectName="test" timestamp="34">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\sort\Sort.java]]></filePath>
+    <snapshot><![CDATA[package sort;
+
+public class Sort {
+
+	public static void main(String[] args) {
+		int[] testArr = {5,2,1,9,4};
+		doSort(testArr);
+		for(int i : testArr) {
+			System.out.println(testArr[i]);
+		}
+	}
+	
+	static void doSort(int[] arr) {
+		for(int i = 1; i < arr.length; i++) {
+			int element = arr[i];
+			for(int j = 0; j < i; j++) {
+				if(element < arr[j]) {
+					for(int k = i; k > j; k--) {
+						arr[k] = arr[k - 1];
+					}
+					arr[j] = element;
+					break;
+				}
+			}
+		}
+	}
+	
+}
+]]></snapshot>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="213" docOffset="213" timestamp="48" />
+  <Command __id="3" _type="MoveCaretCommand" caretOffset="432" docOffset="432" timestamp="14040" />
+  <Command __id="4" _type="ShellBoundsCommand" bounds="[481, 58, 814, 814]" timestamp="16616" />
+</Events>

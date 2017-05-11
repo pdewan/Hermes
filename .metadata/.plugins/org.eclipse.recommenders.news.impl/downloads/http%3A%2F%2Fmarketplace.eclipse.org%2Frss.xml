@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" ?><rss version="2.0" xml:base="http://marketplace.eclipse.org/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Eclipse Plugins, Bundles and Products - Eclipse Marketplace</title>
+    <link>http://marketplace.eclipse.org/</link>
+    <description></description>
+    <language>en</language>
+     <atom:link href="http://marketplace.eclipse.org/rss.xml" rel="self" type="application/rss+xml" />
+      <item>
+    <title>JAS-mine Plugin for Eclipse IDE</title>
+    <link>http://marketplace.eclipse.org/content/jas-mine-plugin-eclipse-ide</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/JAS-mineLOGO.png&quot; width=&quot;97&quot; height=&quot;80&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Sat, 2016-01-16 09:09&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Wed, 2017-05-10 17:32&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22JAS-mine%22&quot;&gt;JAS-mine&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/jsimulation/listings&quot; title=&quot;JASmine Simulation&quot;&gt;JASmine Simulation&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;&lt;strong&gt;JAS-mine simulation project plugin for Eclipse IDE. &lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;This plugin allows the easy creation of a new JAS-mine simulation project within the Eclipse IDE. New projects containing a simple structure that can be used as a template to build microsimulation and agent-based modelling projects that utilise the JAS-mine core and gui libraries. New projects contain a .pom files, therefore use of Maven is recommended to easily add project dependencies (in particular, this has been tested using the &#039;Maven Integration for Eclipse WTP&#039; plugin). &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;JAS-mine is a Java platform that aims at providing a unique simulation tool for discrete-event simulations, including agent-based and microsimulation models. With the aim to develop large-scale, data-driven models, the main architectural choice of JAS-mine is to use whenever possible standard, open-source tools already available in the software development community.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;The main value added of the platform are:&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;
+		integration of I/O communication tools, in the form of embedded RDBMS (relational database management systems) tools and automatic CSV table creation,&lt;/li&gt;
+&lt;li&gt;
+		advanced multi-run tools to facilitate design of experiments (DOE),&lt;/li&gt;
+&lt;li&gt;
+		sophisticated regression libraries that allow a complete separation of regression specifications from the code, and permit uncertainty analysis of the model outcome by bootstrapping the estimated coefficients across different simulation runs.&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;JAS-mine allows to separate data representation and management, which is automatically taken care of by the simulation engine, from the implementation of processes and behavioral algorithms, which should be the primary concern of the modeler. This results in quicker, more robust and more transparent model building.&lt;/p&gt;
+&lt;p&gt;Features:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;
+		A discrete-event simulation engine, allowing for both discrete-time and continuous-time simulation modeling;&lt;/li&gt;
+&lt;li&gt;
+		A Model-Collector-Observer structure;&lt;/li&gt;
+&lt;li&gt;
+		Interactive (GUI based) batch and multi-run execution modes, the latter allowing for detailed design of experiments (DOE);&lt;/li&gt;
+&lt;li&gt;
+		A library implementing a number of different matching methods, to match different lists of agents;&lt;/li&gt;
+&lt;li&gt;
+		A library implementing a number of different alignment methods, to force the microsimulation outcomes meeting some exogenous aggregate targets;&lt;/li&gt;
+&lt;li&gt;
+		A Regression library implementing a number of common econometric models, from continuous response linear regression models to binomial and multinomial logit and probit models, which includes automatic bootstrapping of the coefficients for uncertainty analysis of the model oucomes;&lt;/li&gt;
+&lt;li&gt;
+		A statistical package based on the cern.jet libraries;&lt;/li&gt;
+&lt;li&gt;
+		Embedded H2 database;&lt;/li&gt;
+&lt;li&gt;
+		Export to .CSV files as a faster alternative to database persistence;&lt;/li&gt;
+&lt;li&gt;
+		MS Excel I/O communication tools;&lt;/li&gt;
+&lt;li&gt;
+		Automatic GUI creation for parameters by using Java annotation;&lt;/li&gt;
+&lt;li&gt;
+		Automatic output database creation;&lt;/li&gt;
+&lt;li&gt;
+		Automatic agents’ sampling and recording;&lt;/li&gt;
+&lt;li&gt;
+		Powerful probes for real-time statistical analysis and data collection;&lt;/li&gt;
+&lt;li&gt;
+		A rich graphical library for real-time plotting of simulation outcomes;&lt;/li&gt;
+&lt;li&gt;
+		Eclipse plugin, which allows to create a JAS-mine project in just a few clicks, with template classes organised in the JAS-mine standard package and folder structure;&lt;/li&gt;
+&lt;li&gt;
+		Maven version control.&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;For further details on JAS-mine, see &lt;a href=&quot;http://www.jas-mine.net&quot; rel=&quot;nofollow&quot;&gt;www.jas-mine.net&lt;/a&gt;. Copyright 2017 Ross E. Richardson&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Sat, 16 Jan 2016 14:09:12 +0000</pubDate>
+ <dc:creator>jsimulation</dc:creator>
+ <guid isPermaLink="false">2684519 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/jas-mine-plugin-eclipse-ide#comments</comments>
+  </item>
+  <item>
+    <title>emfjson</title>
+    <link>http://marketplace.eclipse.org/content/emfjson</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/default_images/default_2.png&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Fri, 2012-01-20 09:50&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Wed, 2017-05-10 16:34&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/ghillairet/listings&quot; title=&quot;Guillaume Hillairet&quot;&gt;Guillaume Hillairet&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;EMF Binding for JSON. JSON binding for EMF (Eclipse Modeling Framework) models, that allows serialization and deserialization of EMF Resources in a specific JSON format. This software is distributed under the terms of the Eclipse Public License 1.0 - EPL.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Fri, 20 Jan 2012 14:50:35 +0000</pubDate>
+ <dc:creator>ghillairet</dc:creator>
+ <guid isPermaLink="false">188636 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/emfjson#comments</comments>
+  </item>
+  <item>
+    <title>Avroclipse</title>
+    <link>http://marketplace.eclipse.org/content/avroclipse</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/default_images/default_2.png&quot; width=&quot;110&quot; height=&quot;80&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Mon, 2015-11-09 06:30&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Wed, 2017-05-10 10:02&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22Avroclipse%22&quot;&gt;Avroclipse&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/dvanderkruk/listings&quot; title=&quot;Damiaan van der Kruk&quot;&gt;Damiaan van der Kruk&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;An (unofficial) Eclipse plugin for editing Avro IDL (avdl) files.&lt;/p&gt;
+&lt;h2&gt;
+	Features&lt;/h2&gt;
+&lt;h3&gt;
+	Syntax Highlighting&lt;/h3&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;h3&gt;
+	Validation&lt;/h3&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;h3&gt;
+	Code Completion&lt;/h3&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Mon, 09 Nov 2015 11:30:38 +0000</pubDate>
+ <dc:creator>dvanderkruk</dc:creator>
+ <guid isPermaLink="false">2600501 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/avroclipse#comments</comments>
+  </item>
+  <item>
+    <title>KaiZen OpenAPI Editor</title>
+    <link>http://marketplace.eclipse.org/content/kaizen-openapi-editor</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/KaiZen%20Symbol%20%28v2%29.png&quot; width=&quot;80&quot; height=&quot;80&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Sat, 2017-05-06 00:51&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Wed, 2017-05-10 09:40&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22RepreZen%22&quot;&gt;RepreZen&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/tepsteinccr/listings&quot; title=&quot;Theodore Epstein&quot;&gt;Theodore Epstein&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/RepreZen/KaiZen-OpenAPI-Editor&quot; rel=&quot;nofollow&quot;&gt;KaiZen OpenAPI Editor&lt;/a&gt; is RepreZen&#039;s open source, Eclipse-based editor for the industry-standard &lt;a href=&quot;http://openapis.org/&quot; rel=&quot;nofollow&quot;&gt;OpenAPI Specification&lt;/a&gt; language, based on Swagger.  This is the same full-featured editor, formerly known as SwagEdit, and featured in the popular &lt;a href=&quot;https://marketplace.eclipse.org/content/reprezen-api-studio&quot; rel=&quot;nofollow&quot;&gt;RepreZen API Studio&lt;/a&gt; solution. &lt;/p&gt;
+&lt;h2&gt;
+	Swagger-OpenAPI Zen In Your Eclipse IDE&lt;/h2&gt;
+&lt;p&gt;Features Include:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;
+		&lt;strong&gt;Full OpenAPI 2.0 compatibility&lt;/strong&gt;, with OpenAPI version 3.0 coming soon!&lt;br /&gt;
+		 &lt;/li&gt;
+&lt;li&gt;
+		&lt;strong&gt;Syntax highlighting&lt;/strong&gt; with configurable colors&lt;br /&gt;
+		 &lt;/li&gt;
+&lt;li&gt;
+		&lt;strong&gt;Content assist&lt;/strong&gt; with custom templates&lt;br /&gt;
+		 &lt;/li&gt;
+&lt;li&gt;
+		&lt;strong&gt;Real-time validation&lt;/strong&gt;&lt;br /&gt;
+		 &lt;/li&gt;
+&lt;li&gt;
+		&lt;strong&gt;Multi-file support&lt;/strong&gt; with scope-cycling code assist on $ref properties&lt;br /&gt;
+		 &lt;/li&gt;
+&lt;li&gt;
+		&lt;strong&gt;Outline view&lt;/strong&gt; and Quick Outline navigation&lt;br /&gt;
+		 &lt;/li&gt;
+&lt;li&gt;
+		&lt;strong&gt;Hyperlink navigation&lt;/strong&gt; through $ref properties&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;Requires Eclipse Mars.2 release or later.&lt;/p&gt;
+&lt;h2&gt;
+	Resources&lt;/h2&gt;
+&lt;h4&gt;
+	KaiZen OpenAPI Editor on GitHub&lt;/h4&gt;
+&lt;ul&gt;&lt;li&gt;
+		&lt;a href=&quot;https://github.com/RepreZen/KaiZen-OpenAPI-Editor&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Project Page on GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+		&lt;a href=&quot;https://github.com/RepreZen/KaiZen-OpenAPI-Editor/blob/master/GETTING_STARTED.md&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Getting Started Guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+		&lt;a href=&quot;https://github.com/RepreZen/KaiZen-OpenAPI-Editor/blob/master/TROUBLESHOOTING.md&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Troubleshooting Guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+		&lt;a href=&quot;https://github.com/RepreZen/KaiZen-OpenAPI-Editor/blob/master/DEVELOPERS_GUIDE.md&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Developer&#039;s Guide&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;h4&gt;
+	OpenAPI Specifications&lt;/h4&gt;
+&lt;ul&gt;&lt;li&gt;
+		&lt;a href=&quot;https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Swagger-OpenAPI 2.0 Specification&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+		&lt;a href=&quot;https://github.com/OAI/OpenAPI-Specification/blob/OpenAPI.next/versions/3.0.md&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;OpenAPI 3.0 Specification (DRAFT)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt; &lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Sat, 06 May 2017 04:51:50 +0000</pubDate>
+ <dc:creator>tepsteinccr</dc:creator>
+ <guid isPermaLink="false">3429028 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/kaizen-openapi-editor#comments</comments>
+  </item>
+  <item>
+    <title>Actifsource - Model-Driven Code Generator</title>
+    <link>http://marketplace.eclipse.org/content/actifsource-model-driven-code-generator</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/a_eclipse_marktplace.png&quot; width=&quot;110&quot; height=&quot;80&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Thu, 2010-04-15 11:35&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Wed, 2017-05-10 07:51&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22actifsource%20GmbH%22&quot;&gt;actifsource GmbH&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/mriser6li/listings&quot; title=&quot;Micha Riser&quot;&gt;Micha Riser&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Actifsource is a code generator plug-in for the Eclipse IDE. Code generation is driven by models which are created according to user-defined meta-models. UML-like graphic editor assists modeling. Generic code templates which directly connect to the user&#039;s meta-model enable code generation. Among the supported all textual programminig languages (i.e. C/C++, Scala, Groovy, Java, Cobol, IEC 61131, ...). Regeneration of code happens in realtime whenever model, meta-model or code templates change. The user is guided by content-assist in every situation. Interoperability with other UML and modeling tools is provided by importing and exporting from/to ecore.&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;Free Community Version available!&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt; &lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt; &lt;/p&gt;
+&lt;h2&gt;
+	Feature List&lt;/h2&gt;
+&lt;ul&gt;&lt;li&gt;
+		Lightweight&lt;/li&gt;
+&lt;li&gt;
+		Manage models and meta-models in a single workspace&lt;/li&gt;
+&lt;li&gt;
+		Realtime validation&lt;/li&gt;
+&lt;li&gt;
+		Type-safe code templates&lt;/li&gt;
+&lt;li&gt;
+		Groundbreaking template editor concept&lt;/li&gt;
+&lt;li&gt;
+		Strong typing and content assist&lt;/li&gt;
+&lt;li&gt;
+		VCS integration&lt;/li&gt;
+&lt;li&gt;
+		File-based (no database)&lt;/li&gt;
+&lt;li&gt;
+		Graphical UML-like editor for meta-models&lt;/li&gt;
+&lt;li&gt;
+		Generate code for any programming language&lt;/li&gt;
+&lt;li&gt;
+		All references linkable&lt;/li&gt;
+&lt;li&gt;
+		Parallel build with outstanding performance&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt; &lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Thu, 15 Apr 2010 15:35:03 +0000</pubDate>
+ <dc:creator>mriser6li</dc:creator>
+ <guid isPermaLink="false">1177 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/actifsource-model-driven-code-generator#comments</comments>
+  </item>
+  <item>
+    <title>Eclipse uroboroSQL Formatter</title>
+    <link>http://marketplace.eclipse.org/content/eclipse-uroborosql-formatter</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/uroboroSQLformatter_logo_nomargin.png&quot; width=&quot;110&quot; height=&quot;28&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Tue, 2017-05-09 09:51&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Tue, 2017-05-09 20:09&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22Future%20Architect%2C%20Inc.%22&quot;&gt;Future Architect, Inc.&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/khoshi/listings&quot; title=&quot;Kenichi Hoshi&quot;&gt;Kenichi Hoshi&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;h2&gt;
+	Eclipse uroboroSQL Formatter&lt;/h2&gt;
+&lt;p&gt;uroboroSQL Formatter is often used in enterprise systems, For formatting to a highly maintainable style even for very long SQL (1 K step or more) It is a plug-in of Eclipse.&lt;/p&gt;
+&lt;p&gt;In particular, in countries where English is not their mother tongue, such as Japan, comments may be included in SELECT clauses. In that case, we will align the vertical position of the AS clause and the comment, pursuing the viewability which can be said as artistic anymore, This was developed to realize this automatically.&lt;/p&gt;
+&lt;h2&gt;
+	How to use&lt;/h2&gt;
+&lt;p&gt;Use Ctrl + Shift + L on Windows, Cmd + Shift + L on OS X to format currently active document.&lt;/p&gt;
+&lt;p&gt;The following options can be selected by the Preferences dialog.&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;
+		Convert reserved words and identifiers to upper case&lt;/li&gt;
+&lt;li&gt;
+		Using backslash escape sequences&lt;/li&gt;
+&lt;li&gt;
+		Comment syntax type(uroboroSQL or DOMA2)&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Tue, 09 May 2017 13:51:34 +0000</pubDate>
+ <dc:creator>khoshi</dc:creator>
+ <guid isPermaLink="false">3434118 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/eclipse-uroborosql-formatter#comments</comments>
+  </item>
+  <item>
+    <title>EasyShell</title>
+    <link>http://marketplace.eclipse.org/content/easyshell</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/easyshell.png&quot; width=&quot;16&quot; height=&quot;16&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Mon, 2009-07-27 10:52&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Tue, 2017-05-09 15:25&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22anb0s%22&quot;&gt;anb0s&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/mmisingnamefdb/listings&quot; title=&quot;Andre Bossert&quot;&gt;Andre Bossert&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;This Eclipse plugin allows to open a shell window or file manager from the popup menu in the navigation tree or editor view. Additionally it is possible to run selected file in the shell, copy file or directory path or run user defined external tools. Key shortcuts and multiple selections are also supported!&lt;/p&gt;
+&lt;p&gt;EasyShell 2.1&lt;br /&gt;
+Cleanups, enhancements and bugfixes for new v2.x stream.&lt;br /&gt;
+release: &lt;a href=&quot;https://github.com/anb0s/EasyShell/releases/tag/V2_1_0&quot;&gt;https://github.com/anb0s/EasyShell/releases/tag/V2_1_0&lt;/a&gt;&lt;br /&gt;
+resolved issues: &lt;a href=&quot;https://github.com/anb0s/EasyShell/milestone/4?closed=1&quot;&gt;https://github.com/anb0s/EasyShell/milestone/4?closed=1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;EasyShell 2.0:&lt;br /&gt;
+First release after migration to GitHub with EPL license and support for Eclipse 4.6 Neon. It&amp;#039;s a complete rewrite of code with extended tool, dynamic presets and dynamic menus support!&lt;br /&gt;
+release: &lt;a href=&quot;https://github.com/anb0s/EasyShell/releases/tag/V2_0_0&quot;&gt;https://github.com/anb0s/EasyShell/releases/tag/V2_0_0&lt;/a&gt;&lt;br /&gt;
+resolved issues: &lt;a href=&quot;https://github.com/anb0s/EasyShell/milestone/2?closed=1&quot;&gt;https://github.com/anb0s/EasyShell/milestone/2?closed=1&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Mon, 27 Jul 2009 14:52:14 +0000</pubDate>
+ <dc:creator>mmisingnamefdb</dc:creator>
+ <guid isPermaLink="false">974 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/easyshell#comments</comments>
+  </item>
+  <item>
+    <title>eclox</title>
+    <link>http://marketplace.eclipse.org/content/eclox</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/ecloxH_0.png&quot; width=&quot;110&quot; height=&quot;80&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Fri, 2014-03-07 03:42&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Tue, 2017-05-09 14:04&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22anb0s%22&quot;&gt;anb0s&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/ipajuelo/listings&quot; title=&quot;Ivan Pajuelo&quot;&gt;Ivan Pajuelo&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;Eclox is a simple doxygen frontend plug-in for eclipse.&lt;/p&gt;
+&lt;p&gt;It aims to provide a slim and sleek integration of the code documentation process into eclipse by providing a high-level graphical user interface over doxygen.&lt;/p&gt;
+&lt;p&gt;Features:&lt;br /&gt;
+- graphical edition of doxyfile settings&lt;br /&gt;
+- integrated doxygen invocation&lt;br /&gt;
+- doxygen outputs logging and&lt;br /&gt;
+- optional packaged doxygen binaries (for windows and linux)&lt;/p&gt;
+&lt;p&gt;Eclox is a free software distributed under the term of the:&lt;br /&gt;
+- Eclipse Public Licence v 1.0 from version 0-10-0&lt;br /&gt;
+- GNU General Public Licence (GPL) for version 0-8-x and older&lt;/p&gt;
+&lt;p&gt;Project page and update site: &lt;a href=&quot;http://anb0s.github.io/eclox&quot;&gt;http://anb0s.github.io/eclox&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;v0.11.2: Bug fixes for the first minor release @GitHub&lt;br /&gt;
+Fixed issues (&lt;a href=&quot;https://github.com/anb0s/eclox/milestone/5?closed=1&quot;&gt;https://github.com/anb0s/eclox/milestone/5?closed=1&lt;/a&gt;):&lt;br /&gt;
+- #191 exception after build if OUTPUT_DIRECTORY is an absolute path&lt;br /&gt;
+- #192 add Eclipse 4.2 target platform&lt;br /&gt;
+- #193 fix feature and plugin provider-name&lt;/p&gt;
+&lt;p&gt;v0.11.1: Bug fixes for the first release @GitHub!&lt;br /&gt;
+Fixed issues (&lt;a href=&quot;https://github.com/anb0s/eclox/milestone/4?closed=1&quot;&gt;https://github.com/anb0s/eclox/milestone/4?closed=1&lt;/a&gt;):&lt;br /&gt;
+- #175 java.lang.IllegalArgumentException: endRule without matching beginRule&lt;br /&gt;
+- #186 NPE when trying to create new Doxyfile&lt;br /&gt;
+- #187 obsolete settings are not marked&lt;br /&gt;
+- #189 Doxygen binaries 1.8.13.v20170413-1543&lt;/p&gt;
+&lt;p&gt;v0.11.0: First official release at GitHub!&lt;br /&gt;
+Main changes:&lt;br /&gt;
+- migrate to GitHub #161&lt;br /&gt;
+- support configurable working directory #87&lt;br /&gt;
+- support relative or project-based path to doxygen.exe #75&lt;br /&gt;
+- open a file that is not a resource in eclipse #15, #68&lt;br /&gt;
+- support resources in linked folders #176 **Thanks to Corderbollie**&lt;br /&gt;
+- scrollbar for input directories in graphical editor #167&lt;br /&gt;
+- sorting column in advanced tab #171&lt;br /&gt;
+- add update site with bundled Doxygen executables #182&lt;br /&gt;
+- updated project structure and build process&lt;br /&gt;
+- added composite site to support testing and release update streams Fixed execution of bundled linux x86_64 binary.&lt;/p&gt;
+&lt;p&gt;All fixed issues (&lt;a href=&quot;https://github.com/anb0s/eclox/milestone/1?closed=1&quot;&gt;https://github.com/anb0s/eclox/milestone/1?closed=1&lt;/a&gt;):&lt;br /&gt;
+- #11 muliple Doxyfiles - editing&lt;br /&gt;
+- #12 Import of existing configuration files&lt;br /&gt;
+- #15 Add ability to use Doxyfile not in project scope&lt;br /&gt;
+- #68 open a file that is not a resource in eclipse&lt;br /&gt;
+- #75 relative or project-based path to doxygen.exe&lt;br /&gt;
+- #86 environment variables needed for some doxyfiles&lt;br /&gt;
+- #87 working directory not configurable&lt;br /&gt;
+- #114 Improvement static declaration of plugin relative identifier&lt;br /&gt;
+- #144 Tell more about the directory where eclox is stared&lt;br /&gt;
+- #161 migrate to GitHub&lt;br /&gt;
+- #162 prepare release 0.11.0&lt;br /&gt;
+- #163 Unable to use GraphViz&lt;br /&gt;
+- #164 Unable to create the selected preference page. eclox/core/ui/PreferencePage : Unsupported major.minor version 52.0&lt;br /&gt;
+- #165 new GitHub update site shows only one version &amp;amp;quot;Eclox 0.10.2.201508272130&amp;amp;quot;&lt;br /&gt;
+- #167 Scrollbar missing for Input Directories in Graphical Editor&lt;br /&gt;
+- #170 Graphviz and PlantUML on Windows&lt;br /&gt;
+- #171 Sorting column in Advanced tab&lt;br /&gt;
+- #173 [v0.11] invalid custom doxygen identifier found&lt;br /&gt;
+- #174 [v0.11] endRule without matching beginRule&lt;br /&gt;
+- #175 java.lang.IllegalArgumentException: endRule without matching beginRule&lt;br /&gt;
+- #178 No groups on advanced tab&lt;br /&gt;
+- #176 Support resources in linked folders&lt;br /&gt;
+- #182 [v0.11] add update site with bundled Doxygen executables&lt;br /&gt;
+- #184 [v0.11] bundled Doxygen binaries are not working (not executable) at Linux Known issues:&lt;br /&gt;
+- #166 freeze of build with Grep Console installed --&amp;amp;gt; **related to other plugin, please apply the described workaround**&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Fri, 07 Mar 2014 08:42:41 +0000</pubDate>
+ <dc:creator>ipajuelo</dc:creator>
+ <guid isPermaLink="false">1536329 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/eclox#comments</comments>
+  </item>
+  <item>
+    <title>FTP Server plugin</title>
+    <link>http://marketplace.eclipse.org/content/ftp-server-plugin</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/ftpsever-logo-marketplace.png&quot; width=&quot;80&quot; height=&quot;80&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Wed, 2012-06-20 15:58&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Tue, 2017-05-09 10:53&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22Holm%20Consulting%20Ltd%22&quot;&gt;Holm Consulting Ltd&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/amehio/listings&quot; title=&quot;Alan Mehio&quot;&gt;Alan Mehio&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;This is an eclipse FTP Server plugin where you can start your FTP server from eclipse and shut it down.There is a preference page where you can set up different configuration values such as username, password, port, persisting between session ( start and stop of the ftp server), debug information into the console When the files get uploaded and appears on the grid table; double click on any row entry in the &quot;File Store&quot; view and the file will open using the native application; for example .html file will open using your default browser. Alan Mehio Lonon,UK&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Wed, 20 Jun 2012 19:58:31 +0000</pubDate>
+ <dc:creator>amehio</dc:creator>
+ <guid isPermaLink="false">304652 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/ftp-server-plugin#comments</comments>
+  </item>
+  <item>
+    <title>HSQLDB Database Server plugin</title>
+    <link>http://marketplace.eclipse.org/content/hsqldb-database-server-plugin</link>
+    <description>&lt;div class=&quot;field field-name-field-resource-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img class=&quot;img-responsive&quot; src=&quot;http://marketplace.eclipse.org/sites/default/files/database_plugin.png&quot; width=&quot;32&quot; height=&quot;32&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-created field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Created:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Mon, 2012-06-25 14:42&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-shared-date-updated field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Date Updated:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;Tue, 2017-05-09 10:49&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;a href=&quot;/search/content/%22Holm%20Consulting%20Ltd%22&quot;&gt;Holm Consulting Ltd&lt;/a&gt;&lt;div class=&quot;field field-name-shared-submitted-by field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;Submitted by:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;a href=&quot;/user/amehio/listings&quot; title=&quot;Alan Mehio&quot;&gt;Alan Mehio&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_start --&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;p&gt;This is an eclipse HSQLDB Server plugin where you can start your HSQLDB server from eclipse and shut it down.There is a preference page where you can set up different configuration values such as username, password,database name, persisting between session ( start and stop of the database server), debug information into the console. In addition, you can start up the Swing database client from this plugin from the drop down menu on the top right of the view ( HSQLDB Server) view. The database client is enabled once the server is up and running and is disabled if the server has been stopped Regards, Alan Mehio Lonon,UK&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- google_ad_section_end --&gt;</description>
+     <pubDate>Mon, 25 Jun 2012 18:42:34 +0000</pubDate>
+ <dc:creator>amehio</dc:creator>
+ <guid isPermaLink="false">309316 at http://marketplace.eclipse.org</guid>
+ <comments>http://marketplace.eclipse.org/content/hsqldb-database-server-plugin#comments</comments>
+  </item>
+  </channel>
+</rss>

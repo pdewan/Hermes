@@ -1,0 +1,8 @@
+[2017-05-03 16:51:02] Executing startup tasks
+[2017-05-03 16:51:02] Java(TM) SE Runtime Environment 1.8.0_65-b17
+[2017-05-03 16:51:02] Product self.product.version
+[2017-05-03 16:51:02] Bundle org.eclipse.oomph.setup 1.5.0.v20160818-1158, build=2579, branch=e4f1d664d61945a8713876d1825628ea2d0558e9
+[2017-05-03 16:51:02] Bundle org.eclipse.oomph.setup.core 1.5.0.v20160818-1158, build=2579, branch=e4f1d664d61945a8713876d1825628ea2d0558e9
+[2017-05-03 16:51:02] Bundle org.eclipse.oomph.setup.p2 1.5.0.v20160707-0243, build=2579, branch=e4f1d664d61945a8713876d1825628ea2d0558e9
+[2017-05-03 16:51:02] Performing Preference /instance/org.eclipse.ui.editors/security
+[2017-05-03 16:51:02] 

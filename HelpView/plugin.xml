@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.ui.views">
+   		<view
+            category="hermes.viewCategory"
+            class="dayton.ellwanger.helpbutton.HelpView"
+            icon="icons/sample.gif"
+            id="help.helpView"
+            name="Help!">
+      	</view>
+   </extension>
+   <extension
+         point="dayton.ellwanger.subview">
+         <subview
+         	class="dayton.ellwanger.helpbutton.HelpView">
+         </subview>
+   </extension>>
+</plugin>

@@ -1,0 +1,31 @@
+<Events startTimestamp="1488565240922" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="9" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="63" docActiveCodeLength="309" docExpressionCount="36" docLength="309" projectName="test" timestamp="41977">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+import java.util.Scanner;
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello");
+		try {
+			Scanner scanner = new Scanner(System.in);
+			while(scanner.hasNext()) {
+				System.out.println(scanner.next());
+			}
+		} catch (Exception ex) {}
+	}
+}]]></snapshot>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="226" docOffset="226" timestamp="42066" />
+  <Command __id="3" _type="EclipseCommand" commandID="org.eclipse.ecf.presence.ui.rosterCommand.156" timestamp="52596" />
+  <Command __id="4" _type="EclipseCommand" commandID="org.eclipse.ecf.presence.ui.rosterCommand.319" timestamp="62657" />
+  <Command __id="5" _type="EclipseCommand" commandID="org.eclipse.ecf.presence.ui.rosterCommand.482" timestamp="71000" />
+  <Command __id="6" _type="EclipseCommand" commandID="org.eclipse.ui.views.showView" repeat="2" timestamp="1086262" timestamp2="1086263" />
+  <Command __id="8" _type="EclipseCommand" commandID="org.eclipse.ecf.presence.ui.rosterCommand.590" timestamp="1104117" />
+  <Command __id="9" _type="MoveCaretCommand" caretOffset="220" docOffset="220" timestamp="1106510" />
+  <Command __id="10" _type="EclipseCommand" commandID="org.eclipse.ecf.presence.ui.rosterCommand.699" timestamp="1111709" />
+  <Command __id="11" _type="MoveCaretCommand" caretOffset="99" docOffset="99" timestamp="1146598" />
+  <Command __id="12" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" timestamp="1149449" />
+</Events>

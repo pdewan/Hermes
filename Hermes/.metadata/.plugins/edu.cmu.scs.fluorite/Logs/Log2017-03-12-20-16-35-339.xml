@@ -1,0 +1,626 @@
+<Events startTimestamp="1489364195339" logVersion="0.11.0.201504031625" osName="Windows 10" osVersion="10.0" lineSeparator="\r\n" numMonitors="2" monitorBounds="[0, 0, 1600, 900], [1600, 0, 1280, 1024]">
+  <Command __id="0" _type="ShellBoundsCommand" bounds="[793, 25, 814, 845]" timestamp="9" />
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="6" docActiveCodeLength="41" docExpressionCount="2" docLength="41" projectName="test" timestamp="32">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\test\Test.java]]></filePath>
+    <snapshot><![CDATA[package test;
+
+public class Test {
+
+}]]></snapshot>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="41" docOffset="41" timestamp="44" />
+  <DocumentChange __id="3" _type="Insert" docASTNodeCount="6" docActiveCodeLength="44" docExpressionCount="2" docLength="44" length="3" offset="38" timestamp="56310">
+    <text><![CDATA[
+	]]></text>
+  </DocumentChange>
+  <DocumentChange __id="4" _type="Insert" docASTNodeCount="6" docActiveCodeLength="44" docExpressionCount="2" docLength="81" length="37" offset="41" repeat="37" timestamp="57649" timestamp2="62393">
+    <text><![CDATA[//Okay, you need to add a main method]]></text>
+  </DocumentChange>
+  <Command __id="41" _type="ShellBoundsCommand" bounds="[-8, -8, 1616, 886]" repeat="41" timestamp="6020726" timestamp2="6021544" />
+  <Command __id="82" _type="SelectTextCommand" caretOffset="38" docEnd="78" docOffset="38" docStart="38" end="78" start="38" timestamp="6027468" />
+  <DocumentChange __id="83" _type="Replace" docASTNodeCount="6" docActiveCodeLength="42" docExpressionCount="2" docLength="42" endLine="4" insertionLength="1" int_docASTNodeCount="6" int_docActiveCodeLength="41" int_docExpressionCount="2" int_docLength="41" length="40" offset="38" startLine="3" timestamp="6028815">
+    <deletedText><![CDATA[
+	//Okay, you need to add a main method]]></deletedText>
+    <insertedText><![CDATA[\]]></insertedText>
+  </DocumentChange>
+  <Command __id="84" _type="InsertStringCommand" timestamp="6028855">
+    <data><![CDATA[\]]></data>
+  </Command>
+  <DocumentChange __id="85" _type="Delete" docASTNodeCount="6" docActiveCodeLength="41" docExpressionCount="2" docLength="41" endLine="3" length="1" offset="38" startLine="3" timestamp="6029707">
+    <text><![CDATA[\]]></text>
+  </DocumentChange>
+  <Command __id="86" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="6029745" />
+  <Command __id="87" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="6031662" />
+  <Command __id="88" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="6042679" />
+  <Command __id="89" _type="AssistCommand" assist_type="QUICK_ASSIST" auto_activated="false" start_end="END" timestamp="6042680" />
+  <Command __id="90" _type="EclipseCommand" commandID="org.eclipse.jdt.ui.edit.text.java.rename.element" timestamp="6042751" />
+  <Command __id="91" _type="EclipseCommand" commandID="org.eclipse.jdt.ui.edit.text.java.rename.element" timestamp="6047760" />
+  <Command __id="92" _type="InsertStringCommand" repeat="22" timestamp="6052129" timestamp2="6054630">
+    <data><![CDATA[public static voi dmai]]></data>
+  </Command>
+  <Command __id="114" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="5" timestamp="6054884" timestamp2="6055428" />
+  <Command __id="119" _type="InsertStringCommand" repeat="23" timestamp="6055653" timestamp2="6058774">
+    <data><![CDATA[d main(String[] args) {]]></data>
+  </Command>
+  <Command __id="142" _type="InsertStringCommand" timestamp="6059037">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="143" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" timestamp="6059625" />
+  <Command __id="144" _type="InsertStringCommand" timestamp="6059818">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="145" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" repeat="2" timestamp="6060033" timestamp2="6060625" />
+  <Command __id="147" _type="InsertStringCommand" repeat="17" timestamp="6060896" timestamp2="6063336">
+    <data><![CDATA[	System.out.print]]></data>
+  </Command>
+  <Command __id="164" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="15" timestamp="6064231" timestamp2="6065308" />
+  <Command __id="179" _type="InsertStringCommand" repeat="17" timestamp="6065433" timestamp2="6069359">
+    <data><![CDATA[tring s1 = "Hello]]></data>
+  </Command>
+  <Command __id="196" _type="InsertStringCommand" repeat="3" timestamp="6072385" timestamp2="6072928">
+    <data><![CDATA[ ";]]></data>
+  </Command>
+  <Command __id="199" _type="InsertStringCommand" timestamp="6074530">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="200" _type="InsertStringCommand" repeat="20" timestamp="6074941" timestamp2="6078478">
+    <data><![CDATA[Strings2 = "world!";]]></data>
+  </Command>
+  <Command __id="220" _type="InsertStringCommand" timestamp="6078841">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="221" _type="InsertStringCommand" repeat="4" timestamp="6079371" timestamp2="6079773">
+    <data><![CDATA[Syst]]></data>
+  </Command>
+  <Command __id="225" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="6080115" timestamp2="6080275" />
+  <Command __id="227" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" repeat="2" timestamp="6080895" timestamp2="6081152" />
+  <Command __id="229" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" timestamp="6081480" />
+  <Command __id="230" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="4" timestamp="6081681" timestamp2="6082226" />
+  <Command __id="234" _type="InsertStringCommand" timestamp="6082421">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="235" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" timestamp="6082601" />
+  <Command __id="236" _type="InsertStringCommand" repeat="4" timestamp="6083501" timestamp2="6083837">
+    <data><![CDATA[yste]]></data>
+  </Command>
+  <Command __id="240" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="4" timestamp="6084139" timestamp2="6084723" />
+  <Command __id="244" _type="InsertStringCommand" repeat="24" timestamp="6084852" timestamp2="6089775">
+    <data><![CDATA[stem.out.println(s1, s2)]]></data>
+  </Command>
+  <Command __id="268" _type="RunCommand" kind="Create" projectName="test" timestamp="6126447" type="Run" />
+  <Command __id="269" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="6126531" type="Run" />
+  <Command __id="270" _type="RunCommand" kind="Create" projectName="test" timestamp="6176755" type="Run" />
+  <Command __id="271" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="6176825" type="Run" />
+  <Command __id="272" _type="CopyCommand" timestamp="6339287" />
+  <Command __id="273" _type="ShellBoundsCommand" bounds="[1592, -8, 1296, 1010]" repeat="25" timestamp="6632337" timestamp2="6633158" />
+  <Command __id="298" _type="CopyCommand" timestamp="6642422" />
+  <Command __id="299" _type="SelectTextCommand" caretOffset="0" docEnd="176" docOffset="0" docStart="0" end="176" start="0" timestamp="6647356" />
+  <Command __id="300" _type="CopyCommand" timestamp="6647872" />
+  <Command __id="301" _type="MoveCaretCommand" caretOffset="176" docOffset="176" timestamp="7233474" />
+  <Command __id="302" _type="FileOpenCommand" docASTNodeCount="6" docActiveCodeLength="43" docExpressionCount="2" docLength="43" projectName="test" timestamp="7270119">
+    <filePath><![CDATA[C:\Users\Dayton Ellwanger\Documents\Hermes4\Hermes\test\src\sort\Sort.java]]></filePath>
+    <snapshot><![CDATA[package sort;
+
+public class Sort {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="303" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="7270186" />
+  <Command __id="304" _type="MoveCaretCommand" caretOffset="41" docOffset="41" timestamp="7271578" />
+  <Command __id="305" _type="MoveCaretCommand" caretOffset="38" docOffset="38" timestamp="7272069" />
+  <DocumentChange __id="306" _type="Insert" docASTNodeCount="6" docActiveCodeLength="46" docExpressionCount="2" docLength="46" length="3" offset="38" timestamp="7272935">
+    <text><![CDATA[
+	]]></text>
+  </DocumentChange>
+  <DocumentChange __id="307" _type="Insert" docASTNodeCount="17" docActiveCodeLength="86" docExpressionCount="5" docLength="86" length="40" offset="41" repeat="38" timestamp="7273779" timestamp2="7279099">
+    <text><![CDATA[public static void main(String[] args) {]]></text>
+  </DocumentChange>
+  <Command __id="308" _type="InsertStringCommand" repeat="40" timestamp="7273781" timestamp2="7279100">
+    <data><![CDATA[public static void main(String[] args) {]]></data>
+  </Command>
+  <DocumentChange __id="385" _type="Insert" docASTNodeCount="17" docActiveCodeLength="94" docExpressionCount="5" docLength="94" length="8" offset="81" timestamp="7279476">
+    <text><![CDATA[
+		
+	}]]></text>
+  </DocumentChange>
+  <Command __id="386" _type="InsertStringCommand" timestamp="7279477">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="387" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" timestamp="7280222" />
+  <DocumentChange __id="388" _type="Insert" docASTNodeCount="17" docActiveCodeLength="97" docExpressionCount="5" docLength="97" length="3" offset="89" timestamp="7280604">
+    <text><![CDATA[
+	]]></text>
+  </DocumentChange>
+  <Command __id="389" _type="InsertStringCommand" timestamp="7280605">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="390" _type="Insert" docASTNodeCount="17" docActiveCodeLength="100" docExpressionCount="5" docLength="100" length="3" offset="92" timestamp="7280810">
+    <text><![CDATA[
+	]]></text>
+  </DocumentChange>
+  <Command __id="391" _type="InsertStringCommand" timestamp="7280811">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="392" _type="Insert" docASTNodeCount="17" docActiveCodeLength="103" docExpressionCount="5" docLength="103" length="3" offset="95" timestamp="7281468">
+    <text><![CDATA[
+	]]></text>
+  </DocumentChange>
+  <Command __id="393" _type="InsertStringCommand" timestamp="7281469">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="394" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="7281861" />
+  <DocumentChange __id="395" _type="Insert" docASTNodeCount="25" docActiveCodeLength="127" docExpressionCount="7" docLength="127" length="24" offset="95" repeat="22" timestamp="7284115" timestamp2="7287518">
+    <text><![CDATA[void doSort(int[] arr) {]]></text>
+  </DocumentChange>
+  <Command __id="396" _type="InsertStringCommand" repeat="24" timestamp="7284117" timestamp2="7287523">
+    <data><![CDATA[void doSort(int[] arr) {]]></data>
+  </Command>
+  <DocumentChange __id="441" _type="Insert" docASTNodeCount="25" docActiveCodeLength="135" docExpressionCount="7" docLength="135" length="8" offset="119" timestamp="7287865">
+    <text><![CDATA[
+		
+	}]]></text>
+  </DocumentChange>
+  <Command __id="442" _type="InsertStringCommand" timestamp="7287866">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="443" _type="Insert" docASTNodeCount="35" docActiveCodeLength="161" docExpressionCount="13" docLength="161" length="26" offset="123" repeat="25" timestamp="7313363" timestamp2="7319592">
+    <text><![CDATA[for(int i = 1; i <= arr.l)]]></text>
+  </DocumentChange>
+  <Command __id="444" _type="InsertStringCommand" repeat="24" timestamp="7313367" timestamp2="7319263">
+    <data><![CDATA[for(int i = 1; i <= arr.]]></data>
+  </Command>
+  <Command __id="491" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="7319267" />
+  <DocumentChange __id="493" _type="Delete" docASTNodeCount="33" docActiveCodeLength="155" docExpressionCount="11" docLength="155" endLine="9" length="6" offset="142" repeat="6" startLine="9" timestamp="7319977" timestamp2="7320695">
+    <text><![CDATA[ arr.l]]></text>
+  </DocumentChange>
+  <Command __id="499" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="7321037" />
+  <DocumentChange __id="500" _type="Insert" docASTNodeCount="33" docActiveCodeLength="157" docExpressionCount="11" docLength="157" length="2" offset="142" timestamp="7321043">
+    <text><![CDATA[i ]]></text>
+  </DocumentChange>
+  <Command __id="501" _type="InsertStringCommand" timestamp="7321051">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <DocumentChange __id="502" _type="Delete" docASTNodeCount="33" docActiveCodeLength="154" docExpressionCount="11" docLength="154" endLine="9" length="3" offset="141" repeat="3" startLine="9" timestamp="7321223" timestamp2="7321598">
+    <text><![CDATA[=i ]]></text>
+  </DocumentChange>
+  <Command __id="503" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="3" timestamp="7321228" timestamp2="7321602" />
+  <DocumentChange __id="508" _type="Insert" docASTNodeCount="35" docActiveCodeLength="163" docExpressionCount="13" docLength="163" length="9" offset="141" repeat="9" timestamp="7321711" timestamp2="7323105">
+    <text><![CDATA[ arr.legn]]></text>
+  </DocumentChange>
+  <Command __id="509" _type="InsertStringCommand" repeat="5" timestamp="7321718" timestamp2="7322437">
+    <data><![CDATA[ arr.]]></data>
+  </Command>
+  <Command __id="518" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="7322440" />
+  <Command __id="523" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="7323118" />
+  <DocumentChange __id="524" _type="Delete" docASTNodeCount="35" docActiveCodeLength="161" docExpressionCount="13" docLength="161" endLine="9" length="2" offset="148" repeat="2" startLine="9" timestamp="7323575" timestamp2="7323695">
+    <text><![CDATA[gn]]></text>
+  </DocumentChange>
+  <Command __id="525" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="7323580" timestamp2="7323699" />
+  <DocumentChange __id="528" _type="Insert" docASTNodeCount="30" docActiveCodeLength="170" docExpressionCount="9" docLength="170" length="9" offset="148" repeat="9" timestamp="7323944" timestamp2="7325392">
+    <text><![CDATA[ngth; i++]]></text>
+  </DocumentChange>
+  <Command __id="529" _type="InsertStringCommand" repeat="12" timestamp="7323950" timestamp2="7326080">
+    <data><![CDATA[ngth; i++) {]]></data>
+  </Command>
+  <DocumentChange __id="547" _type="Insert" docASTNodeCount="39" docActiveCodeLength="172" docExpressionCount="17" docLength="172" length="2" offset="158" repeat="2" timestamp="7325944" timestamp2="7326075">
+    <text><![CDATA[ {]]></text>
+  </DocumentChange>
+  <DocumentChange __id="551" _type="Insert" docASTNodeCount="39" docActiveCodeLength="182" docExpressionCount="17" docLength="182" length="10" offset="160" timestamp="7326351">
+    <text><![CDATA[
+			
+		}]]></text>
+  </DocumentChange>
+  <Command __id="552" _type="InsertStringCommand" timestamp="7326353">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="553" _type="Insert" docASTNodeCount="46" docActiveCodeLength="203" docExpressionCount="21" docLength="203" length="21" offset="165" repeat="20" timestamp="7328681" timestamp2="7332951">
+    <text><![CDATA[int element = arr[i];]]></text>
+  </DocumentChange>
+  <Command __id="554" _type="InsertStringCommand" repeat="21" timestamp="7328685" timestamp2="7332957">
+    <data><![CDATA[int element = arr[i];]]></data>
+  </Command>
+  <DocumentChange __id="594" _type="Insert" docASTNodeCount="46" docActiveCodeLength="208" docExpressionCount="21" docLength="208" length="5" offset="186" timestamp="7333987">
+    <text><![CDATA[
+			]]></text>
+  </DocumentChange>
+  <Command __id="595" _type="InsertStringCommand" timestamp="7333990">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="596" _type="Insert" docASTNodeCount="58" docActiveCodeLength="236" docExpressionCount="29" docLength="236" length="28" offset="191" repeat="27" timestamp="7334359" timestamp2="7341007">
+    <text><![CDATA[for(int j = 0; j < i; j++) {]]></text>
+  </DocumentChange>
+  <Command __id="597" _type="InsertStringCommand" repeat="28" timestamp="7334365" timestamp2="7341015">
+    <data><![CDATA[for(int j = 0; j < i; j++) {]]></data>
+  </Command>
+  <DocumentChange __id="651" _type="Insert" docASTNodeCount="58" docActiveCodeLength="248" docExpressionCount="29" docLength="248" length="12" offset="219" timestamp="7341420">
+    <text><![CDATA[
+				
+			}]]></text>
+  </DocumentChange>
+  <Command __id="652" _type="InsertStringCommand" timestamp="7341423">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="653" _type="Insert" docASTNodeCount="65" docActiveCodeLength="270" docExpressionCount="34" docLength="270" length="22" offset="225" repeat="20" timestamp="7345176" timestamp2="7351624">
+    <text><![CDATA[if(element < arr[j]) {]]></text>
+  </DocumentChange>
+  <Command __id="654" _type="InsertStringCommand" repeat="22" timestamp="7345181" timestamp2="7351631">
+    <data><![CDATA[if(element < arr[j]) {]]></data>
+  </Command>
+  <DocumentChange __id="695" _type="Insert" docASTNodeCount="65" docActiveCodeLength="284" docExpressionCount="34" docLength="284" length="14" offset="247" timestamp="7352004">
+    <text><![CDATA[
+					
+				}]]></text>
+  </DocumentChange>
+  <Command __id="696" _type="InsertStringCommand" timestamp="7352007">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="697" _type="Insert" docASTNodeCount="72" docActiveCodeLength="301" docExpressionCount="38" docLength="301" length="17" offset="254" repeat="16" timestamp="7357727" timestamp2="7360781">
+    <text><![CDATA[int tmp = arr[j];]]></text>
+  </DocumentChange>
+  <Command __id="698" _type="InsertStringCommand" repeat="17" timestamp="7357733" timestamp2="7360789">
+    <data><![CDATA[int tmp = arr[j];]]></data>
+  </Command>
+  <DocumentChange __id="730" _type="Insert" docASTNodeCount="72" docActiveCodeLength="308" docExpressionCount="38" docLength="308" length="7" offset="271" timestamp="7361036">
+    <text><![CDATA[
+					]]></text>
+  </DocumentChange>
+  <Command __id="731" _type="InsertStringCommand" timestamp="7361038">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="732" _type="Insert" docASTNodeCount="78" docActiveCodeLength="325" docExpressionCount="43" docLength="325" length="17" offset="278" repeat="16" timestamp="7361254" timestamp2="7364583">
+    <text><![CDATA[arr[j] = element;]]></text>
+  </DocumentChange>
+  <Command __id="733" _type="InsertStringCommand" repeat="17" timestamp="7361260" timestamp2="7364588">
+    <data><![CDATA[arr[j] = element;]]></data>
+  </Command>
+  <DocumentChange __id="765" _type="Insert" docASTNodeCount="78" docActiveCodeLength="332" docExpressionCount="43" docLength="332" length="7" offset="295" timestamp="7364827">
+    <text><![CDATA[
+					]]></text>
+  </DocumentChange>
+  <Command __id="766" _type="InsertStringCommand" timestamp="7364830">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="767" _type="Insert" docASTNodeCount="84" docActiveCodeLength="345" docExpressionCount="48" docLength="345" length="13" offset="302" repeat="12" timestamp="7365766" timestamp2="7369869">
+    <text><![CDATA[arr[i] = tmp;]]></text>
+  </DocumentChange>
+  <Command __id="768" _type="InsertStringCommand" repeat="13" timestamp="7365771" timestamp2="7369875">
+    <data><![CDATA[arr[i] = tmp;]]></data>
+  </Command>
+  <Command __id="792" _type="MoveCaretCommand" caretOffset="85" docOffset="85" timestamp="7375162" />
+  <Command __id="793" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="3" timestamp="7380135" timestamp2="7380488" />
+  <Command __id="796" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" repeat="4" timestamp="7380732" timestamp2="7381252" />
+  <DocumentChange __id="800" _type="Insert" docASTNodeCount="85" docActiveCodeLength="352" docExpressionCount="48" docLength="352" length="7" offset="95" repeat="7" timestamp="7381463" timestamp2="7382245">
+    <text><![CDATA[static ]]></text>
+  </DocumentChange>
+  <Command __id="801" _type="InsertStringCommand" repeat="7" timestamp="7381469" timestamp2="7382252">
+    <data><![CDATA[static ]]></data>
+  </Command>
+  <Command __id="814" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" repeat="3" timestamp="7382808" timestamp2="7383173" />
+  <DocumentChange __id="817" _type="Insert" docASTNodeCount="96" docActiveCodeLength="380" docExpressionCount="55" docLength="380" length="28" offset="85" repeat="27" timestamp="7385246" timestamp2="7393477">
+    <text><![CDATA[int[] testArr = {5,2,1,9,4};]]></text>
+  </DocumentChange>
+  <Command __id="818" _type="InsertStringCommand" repeat="28" timestamp="7385252" timestamp2="7393485">
+    <data><![CDATA[int[] testArr = {5,2,1,9,4};]]></data>
+  </Command>
+  <DocumentChange __id="872" _type="Insert" docASTNodeCount="96" docActiveCodeLength="384" docExpressionCount="55" docLength="384" length="4" offset="113" timestamp="7395043">
+    <text><![CDATA[
+		]]></text>
+  </DocumentChange>
+  <Command __id="873" _type="InsertStringCommand" timestamp="7395046">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="874" _type="Insert" docASTNodeCount="98" docActiveCodeLength="389" docExpressionCount="56" docLength="389" length="5" offset="117" repeat="5" timestamp="7396974" timestamp2="7397590">
+    <text><![CDATA[doSro]]></text>
+  </DocumentChange>
+  <Command __id="875" _type="InsertStringCommand" repeat="5" timestamp="7396980" timestamp2="7397595">
+    <data><![CDATA[doSro]]></data>
+  </Command>
+  <DocumentChange __id="884" _type="Delete" docASTNodeCount="98" docActiveCodeLength="387" docExpressionCount="56" docLength="387" endLine="6" length="2" offset="120" repeat="2" startLine="6" timestamp="7397934" timestamp2="7398062">
+    <text><![CDATA[ro]]></text>
+  </DocumentChange>
+  <Command __id="885" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="7397939" timestamp2="7398066" />
+  <DocumentChange __id="888" _type="Insert" docASTNodeCount="100" docActiveCodeLength="400" docExpressionCount="58" docLength="400" length="13" offset="120" repeat="12" timestamp="7398295" timestamp2="7400229">
+    <text><![CDATA[ort(testArr);]]></text>
+  </DocumentChange>
+  <Command __id="889" _type="InsertStringCommand" repeat="13" timestamp="7398301" timestamp2="7400235">
+    <data><![CDATA[ort(testArr);]]></data>
+  </Command>
+  <DocumentChange __id="913" _type="Insert" docASTNodeCount="100" docActiveCodeLength="404" docExpressionCount="58" docLength="404" length="4" offset="133" timestamp="7400563">
+    <text><![CDATA[
+		]]></text>
+  </DocumentChange>
+  <Command __id="914" _type="InsertStringCommand" timestamp="7400565">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="915" _type="Insert" docASTNodeCount="106" docActiveCodeLength="417" docExpressionCount="63" docLength="417" length="13" offset="137" repeat="13" timestamp="7401911" timestamp2="7403475">
+    <text><![CDATA[System.out.pr]]></text>
+  </DocumentChange>
+  <Command __id="916" _type="InsertStringCommand" repeat="7" timestamp="7401916" timestamp2="7402629">
+    <data><![CDATA[System.]]></data>
+  </Command>
+  <Command __id="929" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="7402632" />
+  <Command __id="933" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="7403192" />
+  <Command __id="935" _type="InsertStringCommand" timestamp="7403204">
+    <data><![CDATA[.]]></data>
+  </Command>
+  <Command __id="936" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="7403211" />
+  <DocumentChange __id="939" _type="Delete" docASTNodeCount="100" docActiveCodeLength="404" docExpressionCount="58" docLength="404" endLine="7" length="13" offset="137" repeat="13" startLine="7" timestamp="7404173" timestamp2="7405429">
+    <text><![CDATA[System.out.pr]]></text>
+  </DocumentChange>
+  <DocumentChange __id="952" _type="Insert" docASTNodeCount="106" docActiveCodeLength="426" docExpressionCount="60" docLength="426" length="22" offset="137" repeat="21" timestamp="7405590" timestamp2="7409408">
+    <text><![CDATA[for(int i : testArr) {]]></text>
+  </DocumentChange>
+  <Command __id="956" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="7406022" />
+  <Command __id="958" _type="InsertStringCommand" repeat="18" timestamp="7406214" timestamp2="7409415">
+    <data><![CDATA[int i : testArr) {]]></data>
+  </Command>
+  <DocumentChange __id="992" _type="Insert" docASTNodeCount="106" docActiveCodeLength="436" docExpressionCount="60" docLength="436" length="10" offset="159" timestamp="7409596">
+    <text><![CDATA[
+			
+		}]]></text>
+  </DocumentChange>
+  <Command __id="993" _type="InsertStringCommand" timestamp="7409598">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="994" _type="Insert" docASTNodeCount="112" docActiveCodeLength="454" docExpressionCount="65" docLength="454" length="22" offset="164" repeat="19" timestamp="7409878" timestamp2="7411891">
+    <text><![CDATA[System.out.println(x);]]></text>
+  </DocumentChange>
+  <Command __id="995" _type="InsertStringCommand" repeat="7" timestamp="7409883" timestamp2="7410476">
+    <data><![CDATA[System.]]></data>
+  </Command>
+  <Command __id="1008" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="7410479" />
+  <Command __id="1012" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="7411015" />
+  <Command __id="1014" _type="InsertStringCommand" timestamp="7411032">
+    <data><![CDATA[.]]></data>
+  </Command>
+  <Command __id="1015" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="7411043" />
+  <Command __id="1023" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="7411886" />
+  <Command __id="1025" _type="InsertStringCommand" repeat="4" timestamp="7411943" timestamp2="7412564">
+    <data><![CDATA[(i);]]></data>
+  </Command>
+  <DocumentChange __id="1026" _type="Replace" docASTNodeCount="113" docActiveCodeLength="458" docExpressionCount="66" docLength="458" endLine="8" insertionLength="1" int_docASTNodeCount="112" int_docActiveCodeLength="457" int_docExpressionCount="65" int_docLength="457" length="1" offset="183" startLine="8" timestamp="7412093">
+    <deletedText><![CDATA[x]]></deletedText>
+    <insertedText><![CDATA[i]]></insertedText>
+  </DocumentChange>
+  <DocumentChange __id="1029" _type="Insert" docASTNodeCount="114" docActiveCodeLength="459" docExpressionCount="66" docLength="459" length="1" offset="186" timestamp="7412557">
+    <text><![CDATA[;]]></text>
+  </DocumentChange>
+  <DocumentChange __id="1031" _type="Delete" docASTNodeCount="113" docActiveCodeLength="458" docExpressionCount="66" docLength="458" endLine="8" length="1" offset="186" startLine="8" timestamp="7413588">
+    <text><![CDATA[;]]></text>
+  </DocumentChange>
+  <Command __id="1032" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7413610" />
+  <Command __id="1033" _type="EclipseCommand" commandID="org.eclipse.ui.file.saveAll" timestamp="7418843" />
+  <Command __id="1034" _type="RunCommand" kind="Create" projectName="test" timestamp="7423073" type="Run" />
+  <Command __id="1035" _type="RunCommand" exitValue="0" kind="Terminate" projectName="test" timestamp="7423145" type="Run" />
+  <Command __id="1036" _type="MoveCaretCommand" caretOffset="408" docOffset="408" timestamp="7461849" />
+  <DocumentChange __id="1037" _type="Insert" docASTNodeCount="113" docActiveCodeLength="465" docExpressionCount="66" docLength="465" length="7" offset="408" timestamp="7465701">
+    <text><![CDATA[
+					]]></text>
+  </DocumentChange>
+  <DocumentChange __id="1038" _type="Insert" docASTNodeCount="118" docActiveCodeLength="478" docExpressionCount="68" docLength="478" length="13" offset="415" repeat="12" timestamp="7466572" timestamp2="7469247">
+    <text><![CDATA[for(int k = )]]></text>
+  </DocumentChange>
+  <Command __id="1039" _type="InsertStringCommand" repeat="12" timestamp="7466573" timestamp2="7469253">
+    <data><![CDATA[for(int k = ]]></data>
+  </Command>
+  <DocumentChange __id="1062" _type="Insert" docASTNodeCount="120" docActiveCodeLength="486" docExpressionCount="70" docLength="486" length="8" offset="427" repeat="8" timestamp="7481168" timestamp2="7483838">
+    <text><![CDATA[j; k <= ]]></text>
+  </DocumentChange>
+  <Command __id="1063" _type="InsertStringCommand" repeat="8" timestamp="7481175" timestamp2="7483844">
+    <data><![CDATA[j; k <= ]]></data>
+  </Command>
+  <DocumentChange __id="1078" _type="Delete" docASTNodeCount="120" docActiveCodeLength="484" docExpressionCount="70" docLength="484" endLine="19" length="2" offset="433" repeat="2" startLine="19" timestamp="7484948" timestamp2="7485126">
+    <text><![CDATA[= ]]></text>
+  </DocumentChange>
+  <Command __id="1079" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="7484952" timestamp2="7485133" />
+  <DocumentChange __id="1082" _type="Insert" docASTNodeCount="124" docActiveCodeLength="491" docExpressionCount="74" docLength="491" length="7" offset="433" repeat="7" timestamp="7485286" timestamp2="7487300">
+    <text><![CDATA[ i; k++]]></text>
+  </DocumentChange>
+  <Command __id="1083" _type="InsertStringCommand" repeat="10" timestamp="7485294" timestamp2="7487712">
+    <data><![CDATA[ i; k++) {]]></data>
+  </Command>
+  <DocumentChange __id="1097" _type="Insert" docASTNodeCount="125" docActiveCodeLength="493" docExpressionCount="74" docLength="493" length="2" offset="441" repeat="2" timestamp="7487573" timestamp2="7487703">
+    <text><![CDATA[ {]]></text>
+  </DocumentChange>
+  <DocumentChange __id="1101" _type="Insert" docASTNodeCount="125" docActiveCodeLength="509" docExpressionCount="74" docLength="509" length="16" offset="443" timestamp="7487971">
+    <text><![CDATA[
+						
+					}]]></text>
+  </DocumentChange>
+  <Command __id="1102" _type="InsertStringCommand" timestamp="7487974">
+    <data><![CDATA[]]></data>
+  </Command>
+  <DocumentChange __id="1103" _type="Insert" docASTNodeCount="135" docActiveCodeLength="529" docExpressionCount="83" docLength="529" length="20" offset="451" repeat="18" timestamp="7489566" timestamp2="7495173">
+    <text><![CDATA[arr[k + 1] = arr[k];]]></text>
+  </DocumentChange>
+  <Command __id="1104" _type="InsertStringCommand" repeat="20" timestamp="7489572" timestamp2="7495179">
+    <data><![CDATA[arr[k + 1] = arr[k];]]></data>
+  </Command>
+  <Command __id="1141" _type="MoveCaretCommand" caretOffset="490" docOffset="490" timestamp="7499849" />
+  <Command __id="1142" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" timestamp="7501488" />
+  <DocumentChange __id="1143" _type="Delete" docASTNodeCount="136" docActiveCodeLength="528" docExpressionCount="82" docLength="528" endLine="22" length="1" offset="490" startLine="22" timestamp="7501806">
+    <text><![CDATA[i]]></text>
+  </DocumentChange>
+  <Command __id="1144" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7501815" />
+  <DocumentChange __id="1145" _type="Insert" docASTNodeCount="135" docActiveCodeLength="529" docExpressionCount="83" docLength="529" length="1" offset="490" timestamp="7504029">
+    <text><![CDATA[k]]></text>
+  </DocumentChange>
+  <Command __id="1146" _type="InsertStringCommand" timestamp="7504038">
+    <data><![CDATA[k]]></data>
+  </Command>
+  <DocumentChange __id="1147" _type="Delete" docASTNodeCount="136" docActiveCodeLength="528" docExpressionCount="82" docLength="528" endLine="22" length="1" offset="490" startLine="22" timestamp="7504776">
+    <text><![CDATA[k]]></text>
+  </DocumentChange>
+  <Command __id="1148" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7504779" />
+  <DocumentChange __id="1149" _type="Insert" docASTNodeCount="135" docActiveCodeLength="529" docExpressionCount="83" docLength="529" length="1" offset="490" timestamp="7505108">
+    <text><![CDATA[j]]></text>
+  </DocumentChange>
+  <Command __id="1150" _type="InsertStringCommand" timestamp="7505118">
+    <data><![CDATA[j]]></data>
+  </Command>
+  <Command __id="1151" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="7" timestamp="7505826" timestamp2="7506859" />
+  <DocumentChange __id="1158" _type="Delete" docASTNodeCount="135" docActiveCodeLength="526" docExpressionCount="83" docLength="526" endLine="22" length="3" offset="495" repeat="3" startLine="22" timestamp="7507139" timestamp2="7507436">
+    <text><![CDATA[tmp]]></text>
+  </DocumentChange>
+  <Command __id="1159" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="3" timestamp="7507146" timestamp2="7507439" />
+  <DocumentChange __id="1164" _type="Insert" docASTNodeCount="140" docActiveCodeLength="531" docExpressionCount="85" docLength="531" length="5" offset="495" repeat="5" timestamp="7507692" timestamp2="7508223">
+    <text><![CDATA[e;e,e]]></text>
+  </DocumentChange>
+  <Command __id="1165" _type="InsertStringCommand" repeat="5" timestamp="7507698" timestamp2="7508228">
+    <data><![CDATA[e;e,e]]></data>
+  </Command>
+  <DocumentChange __id="1174" _type="Delete" docASTNodeCount="135" docActiveCodeLength="527" docExpressionCount="83" docLength="527" endLine="22" length="4" offset="496" repeat="4" startLine="22" timestamp="7508446" timestamp2="7508820">
+    <text><![CDATA[;e,e]]></text>
+  </DocumentChange>
+  <Command __id="1175" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="4" timestamp="7508451" timestamp2="7508825" />
+  <DocumentChange __id="1182" _type="Insert" docASTNodeCount="135" docActiveCodeLength="533" docExpressionCount="83" docLength="533" length="6" offset="496" repeat="6" timestamp="7509141" timestamp2="7509972">
+    <text><![CDATA[lement]]></text>
+  </DocumentChange>
+  <Command __id="1183" _type="InsertStringCommand" repeat="6" timestamp="7509147" timestamp2="7509978">
+    <data><![CDATA[lement]]></data>
+  </Command>
+  <Command __id="1194" _type="SelectTextCommand" caretOffset="362" docEnd="408" docOffset="362" docStart="362" end="408" start="362" timestamp="7514017" />
+  <DocumentChange __id="1195" _type="Delete" docASTNodeCount="122" docActiveCodeLength="485" docExpressionCount="74" docLength="485" endLine="18" length="48" offset="360" repeat="2" startLine="16" timestamp="7520453" timestamp2="7520796">
+    <text><![CDATA[
+					int tmp = arr[j];
+					arr[j] = element;]]></text>
+  </DocumentChange>
+  <Command __id="1196" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="7520464" timestamp2="7520808" />
+  <Command __id="1199" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="7523028" />
+  <Command __id="1200" _type="RunCommand" kind="Create" projectName="test" timestamp="7525656" type="Run" />
+  <Command __id="1201" _type="RunCommand" exitValue="0" kind="Terminate" projectName="test" timestamp="7525728" type="Run" />
+  <Command __id="1202" _type="MoveCaretCommand" caretOffset="411" docOffset="411" timestamp="7583946" />
+  <Command __id="1203" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="7585055" />
+  <Command __id="1204" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" timestamp="7585300" />
+  <DocumentChange __id="1205" _type="Delete" docASTNodeCount="122" docActiveCodeLength="484" docExpressionCount="74" docLength="484" endLine="17" length="1" offset="379" startLine="17" timestamp="7585599">
+    <text><![CDATA[j]]></text>
+  </DocumentChange>
+  <Command __id="1206" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7585625" />
+  <DocumentChange __id="1207" _type="Insert" docASTNodeCount="122" docActiveCodeLength="485" docExpressionCount="74" docLength="485" length="1" offset="379" timestamp="7586308">
+    <text><![CDATA[o]]></text>
+  </DocumentChange>
+  <Command __id="1208" _type="InsertStringCommand" timestamp="7586313">
+    <data><![CDATA[o]]></data>
+  </Command>
+  <DocumentChange __id="1209" _type="Delete" docASTNodeCount="122" docActiveCodeLength="484" docExpressionCount="74" docLength="484" endLine="17" length="1" offset="379" startLine="17" timestamp="7586798">
+    <text><![CDATA[o]]></text>
+  </DocumentChange>
+  <Command __id="1210" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7586803" />
+  <DocumentChange __id="1211" _type="Insert" docASTNodeCount="122" docActiveCodeLength="485" docExpressionCount="74" docLength="485" length="1" offset="379" timestamp="7587044">
+    <text><![CDATA[i]]></text>
+  </DocumentChange>
+  <Command __id="1212" _type="InsertStringCommand" timestamp="7587052">
+    <data><![CDATA[i]]></data>
+  </Command>
+  <Command __id="1213" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="5" timestamp="7587817" timestamp2="7588664" />
+  <DocumentChange __id="1218" _type="Delete" docASTNodeCount="120" docActiveCodeLength="484" docExpressionCount="72" docLength="484" endLine="17" length="1" offset="384" startLine="17" timestamp="7588927">
+    <text><![CDATA[<]]></text>
+  </DocumentChange>
+  <Command __id="1219" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7588934" />
+  <DocumentChange __id="1220" _type="Insert" docASTNodeCount="76" docActiveCodeLength="485" docExpressionCount="35" docLength="485" length="1" offset="384" timestamp="7589414">
+    <text><![CDATA[?]]></text>
+  </DocumentChange>
+  <Command __id="1221" _type="InsertStringCommand" timestamp="7589421">
+    <data><![CDATA[?]]></data>
+  </Command>
+  <Command __id="1222" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" timestamp="7589932" />
+  <Command __id="1223" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" timestamp="7590369" />
+  <DocumentChange __id="1224" _type="Delete" docASTNodeCount="120" docActiveCodeLength="484" docExpressionCount="72" docLength="484" endLine="17" length="1" offset="384" startLine="17" timestamp="7590693">
+    <text><![CDATA[?]]></text>
+  </DocumentChange>
+  <Command __id="1225" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7590699" />
+  <DocumentChange __id="1226" _type="Insert" docASTNodeCount="122" docActiveCodeLength="485" docExpressionCount="74" docLength="485" length="1" offset="384" timestamp="7591101">
+    <text><![CDATA[>]]></text>
+  </DocumentChange>
+  <Command __id="1227" _type="InsertStringCommand" timestamp="7591108">
+    <data><![CDATA[>]]></data>
+  </Command>
+  <Command __id="1228" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="2" timestamp="7591522" timestamp2="7591707" />
+  <DocumentChange __id="1230" _type="Delete" docASTNodeCount="76" docActiveCodeLength="484" docExpressionCount="35" docLength="484" endLine="17" length="1" offset="386" startLine="17" timestamp="7592013">
+    <text><![CDATA[i]]></text>
+  </DocumentChange>
+  <Command __id="1231" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7592019" />
+  <DocumentChange __id="1232" _type="Insert" docASTNodeCount="122" docActiveCodeLength="485" docExpressionCount="74" docLength="485" length="1" offset="386" timestamp="7592508">
+    <text><![CDATA[j]]></text>
+  </DocumentChange>
+  <Command __id="1233" _type="InsertStringCommand" timestamp="7592515">
+    <data><![CDATA[j]]></data>
+  </Command>
+  <Command __id="1234" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="5" timestamp="7592955" timestamp2="7593869" />
+  <DocumentChange __id="1239" _type="Delete" docASTNodeCount="123" docActiveCodeLength="483" docExpressionCount="75" docLength="483" endLine="17" length="2" offset="390" repeat="2" startLine="17" timestamp="7594157" timestamp2="7594317">
+    <text><![CDATA[++]]></text>
+  </DocumentChange>
+  <Command __id="1240" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="7594164" timestamp2="7594322" />
+  <DocumentChange __id="1243" _type="Insert" docASTNodeCount="122" docActiveCodeLength="485" docExpressionCount="74" docLength="485" length="2" offset="390" repeat="2" timestamp="7594943" timestamp2="7595107">
+    <text><![CDATA[--]]></text>
+  </DocumentChange>
+  <Command __id="1244" _type="InsertStringCommand" repeat="2" timestamp="7594949" timestamp2="7595116">
+    <data><![CDATA[--]]></data>
+  </Command>
+  <Command __id="1247" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" timestamp="7595984" />
+  <Command __id="1248" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" repeat="13" timestamp="7596365" timestamp2="7597923" />
+  <DocumentChange __id="1261" _type="Delete" docASTNodeCount="120" docActiveCodeLength="484" docExpressionCount="72" docLength="484" endLine="18" length="1" offset="409" startLine="18" timestamp="7599693">
+    <text><![CDATA[+]]></text>
+  </DocumentChange>
+  <Command __id="1262" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="7599700" />
+  <DocumentChange __id="1263" _type="Insert" docASTNodeCount="122" docActiveCodeLength="485" docExpressionCount="74" docLength="485" length="1" offset="409" timestamp="7600084">
+    <text><![CDATA[-]]></text>
+  </DocumentChange>
+  <Command __id="1264" _type="InsertStringCommand" timestamp="7600090">
+    <data><![CDATA[-]]></data>
+  </Command>
+  <Command __id="1265" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="2" timestamp="7605691" timestamp2="7605893" />
+  <DocumentChange __id="1267" _type="Delete" docASTNodeCount="120" docActiveCodeLength="481" docExpressionCount="72" docLength="481" endLine="18" length="4" offset="408" repeat="4" startLine="18" timestamp="7606198" timestamp2="7606700">
+    <text><![CDATA[ - 1]]></text>
+  </DocumentChange>
+  <Command __id="1268" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="4" timestamp="7606203" timestamp2="7606705" />
+  <Command __id="1275" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="9" timestamp="7607004" timestamp2="7608366" />
+  <DocumentChange __id="1284" _type="Insert" docASTNodeCount="122" docActiveCodeLength="485" docExpressionCount="74" docLength="485" length="4" offset="417" repeat="4" timestamp="7608924" timestamp2="7609492">
+    <text><![CDATA[ - 1]]></text>
+  </DocumentChange>
+  <Command __id="1285" _type="InsertStringCommand" repeat="4" timestamp="7608930" timestamp2="7609498">
+    <data><![CDATA[ - 1]]></data>
+  </Command>
+  <Command __id="1292" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="7612273" />
+  <Command __id="1293" _type="RunCommand" kind="Create" projectName="test" timestamp="7614712" type="Run" />
+  <Command __id="1294" _type="RunCommand" exitValue="0" kind="Terminate" projectName="test" timestamp="7614780" type="Run" />
+  <Command __id="1295" _type="MoveCaretCommand" caretOffset="455" docOffset="455" timestamp="7679089" />
+  <DocumentChange __id="1296" _type="Insert" docASTNodeCount="122" docActiveCodeLength="492" docExpressionCount="74" docLength="492" length="7" offset="455" timestamp="7679868">
+    <text><![CDATA[
+					]]></text>
+  </DocumentChange>
+  <DocumentChange __id="1297" _type="Insert" docASTNodeCount="123" docActiveCodeLength="498" docExpressionCount="74" docLength="498" length="6" offset="462" repeat="6" timestamp="7681477" timestamp2="7682020">
+    <text><![CDATA[break;]]></text>
+  </DocumentChange>
+  <Command __id="1298" _type="InsertStringCommand" repeat="6" timestamp="7681482" timestamp2="7682026">
+    <data><![CDATA[break;]]></data>
+  </Command>
+  <Command __id="1309" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="7685756" />
+  <Command __id="1310" _type="RunCommand" kind="Create" projectName="test" timestamp="7689033" type="Run" />
+  <Command __id="1311" _type="RunCommand" exitValue="0" kind="Terminate" projectName="test" timestamp="7689103" type="Run" />
+  <Command __id="1312" _type="MoveCaretCommand" caretOffset="183" docOffset="183" timestamp="7719832" />
+  <DocumentChange __id="1313" _type="Insert" docASTNodeCount="125" docActiveCodeLength="506" docExpressionCount="76" docLength="506" length="8" offset="183" repeat="8" timestamp="7722434" timestamp2="7724338">
+    <text><![CDATA[testArr[]]></text>
+  </DocumentChange>
+  <Command __id="1314" _type="InsertStringCommand" repeat="8" timestamp="7722443" timestamp2="7724340">
+    <data><![CDATA[testArr[]]></data>
+  </Command>
+  <Command __id="1329" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" timestamp="7724908" />
+  <DocumentChange __id="1330" _type="Insert" docASTNodeCount="125" docActiveCodeLength="507" docExpressionCount="76" docLength="507" length="1" offset="192" timestamp="7725740">
+    <text><![CDATA[]]]></text>
+  </DocumentChange>
+  <Command __id="1331" _type="InsertStringCommand" timestamp="7725747">
+    <data><![CDATA[]]]></data>
+  </Command>
+  <Command __id="1332" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="7727833" />
+  <Command __id="1333" _type="RunCommand" kind="Create" projectName="test" timestamp="7729816" type="Run" />
+  <Command __id="1334" _type="RunCommand" exitValue="1" kind="Terminate" projectName="test" timestamp="7729884" type="Run" />
+  <Command __id="1335" _type="CopyCommand" timestamp="7836529" />
+  <Command __id="1336" _type="ShellBoundsCommand" bounds="[764, 111, 814, 845]" repeat="48" timestamp="8118316" timestamp2="8119448" />
+  <Command __id="1384" _type="ShellBoundsCommand" bounds="[793, 86, 814, 791]" repeat="547" timestamp="8130191" timestamp2="8146161" />
+  <Command __id="1931" _type="MoveCaretCommand" caretOffset="436" docOffset="436" timestamp="8147398" />
+  <DocumentChange __id="1932" _type="Insert" docASTNodeCount="125" docActiveCodeLength="512" docExpressionCount="76" docLength="512" length="5" offset="159" timestamp="8191529">
+    <text><![CDATA[
+			]]></text>
+  </DocumentChange>

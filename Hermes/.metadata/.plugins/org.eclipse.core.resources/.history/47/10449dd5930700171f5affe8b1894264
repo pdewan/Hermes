@@ -1,0 +1,26 @@
+package sort;
+
+public class Sort {
+
+	public static void main(String[] args) {
+		int[] testArr = {5,2,1,9,4};
+		doSort(testArr);
+		for(int i : testArr) {
+			System.out.println(i);
+		}
+	}
+	
+	static void doSort(int[] arr) {
+		for(int i = 1; i < arr.length; i++) {
+			int element = arr[i];
+			for(int j = 0; j < i; j++) {
+				if(element < arr[j]) {
+					int tmp = arr[j];
+					arr[j] = element;
+					arr[i] = tmp;
+				}
+			}
+		}
+	}
+	
+}
