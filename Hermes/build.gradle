@@ -15,6 +15,7 @@ dependencies {
     compile "org.igniterealtime.smack:smack-extensions:4.1.7"
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     compile "org.eclipse:swt:3.3.0-v3346"
+	compile group: 'org.json', name: 'json', version: '20090211'
 }
 
 task copyToLib(type: Copy) {
