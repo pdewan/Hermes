@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>ConsoleListener</name>
-	<comment>Project ConsoleListener created by Buildship.</comment>
+	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -11,13 +11,24 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.buildship.core.gradleprojectbuilder</name>
+			<name>org.eclipse.pde.ManifestBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.pde.SchemaBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>net.sourceforge.metrics.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
+		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>net.sourceforge.metrics.nature</nature>
 	</natures>
 </projectDescription>
