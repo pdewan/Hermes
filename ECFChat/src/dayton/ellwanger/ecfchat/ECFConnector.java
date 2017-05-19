@@ -21,19 +21,23 @@ import org.eclipse.ecf.presence.roster.IRosterEntry;
 import org.eclipse.ecf.presence.roster.IRosterItem;
 import org.eclipse.ecf.presence.roster.IRosterManager;
 import org.eclipse.ecf.presence.ui.MessagesView;
+import org.eclipse.ecf.provider.xmpp.XMPPContainer;
 import org.eclipse.ecf.ui.actions.AsynchContainerConnectAction;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
+import org.jivesoftware.smack.XMPPException;
+
+import dayton.ellwanger.hermes.xmpp.ConnectionManager;
 
 
 public class ECFConnector {
 
 	private ID targetID;
 	private IConnectContext connectContext;
-	protected IContainer container;
+	protected MyXMPPContainer container;
 	private IChatMessageSender icms;
 	private ITypingMessageSender itms;
 	private IRosterManager rosterManager;
@@ -43,6 +47,12 @@ public class ECFConnector {
 		
 		public void run() {
 			System.out.println("ECF Connected");
+			String instructorID = ConnectionManager.getInstance().getInstructorID();
+			try {
+				container.getRoster().createEntry(instructorID, instructorID, null);
+			} catch (XMPPException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -52,7 +62,7 @@ public class ECFConnector {
 		try {
 			//this.container = ContainerFactory.getDefault().createContainer("ecf.xmpp.smack");
 			String[] hostnameArgs = {hostname};
-			this.container = ContainerFactory.getDefault().createContainer("dayton.ellwanger.hermes", hostnameArgs);
+			this.container = (MyXMPPContainer) ContainerFactory.getDefault().createContainer("dayton.ellwanger.hermes", hostnameArgs);
 		} catch (Exception ex) {
 			System.out.println("Could not obtain container");
 			ex.printStackTrace();

@@ -106,6 +106,9 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 		}
 	}
 	
+	public String getInstructorID() {
+		return serverID;
+	}
 	
 	public String getXMPPID() {
 		return xmppID;

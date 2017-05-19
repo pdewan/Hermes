@@ -27,21 +27,7 @@ public class MyXMPPContainerInstantiator extends GenericContainerInstantiator {
 	public IContainer createInstance(ContainerTypeDescription description,
 			Object[] args) throws ContainerCreateException {
 		try {
-			Integer ka = new Integer(XMPPContainer.DEFAULT_KEEPALIVE);
-			String name = null;
-			if (args != null) {
-				if (args.length > 0) {
-					name = (String) args[0];
-					if (args.length > 1) {
-						ka = getIntegerFromArg(args[1]);
-					}
-				}
-			}
-			if (name == null) {
-				return new MyXMPPContainer("talk.google.com");
-			} else {
-				return new MyXMPPContainer(name);
-			}
+			return new MyXMPPContainer();
 		} catch (Exception e) {
 			throw new ContainerCreateException(
 					"Exception creating generic container", e);
