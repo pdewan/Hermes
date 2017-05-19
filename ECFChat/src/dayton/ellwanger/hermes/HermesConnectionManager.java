@@ -22,10 +22,12 @@ public class HermesConnectionManager implements ConnectStateListener, MessageLis
 	
 	@Override
 	public void stateChanged(ConnectionState newState) {
+		
 		if(newState == ConnectionState.CONNECTED) {
 			connect();
 		}
-		if(newState == ConnectionState.DISCONNECTED) {
+		if(connector != null && newState == ConnectionState.DISCONNECTED) {
+			
 			connector.disconnect();
 		}
 	}
@@ -48,6 +50,7 @@ public class HermesConnectionManager implements ConnectStateListener, MessageLis
 	@Override
 	public void messageReceieved(String message) {
 		if(message.equalsIgnoreCase("share")) {
+			// add dialogue to allow this
 			System.out.println("Share message");
 			System.out.println(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
 			editorSharer.setShareWith(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
