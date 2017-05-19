@@ -20,6 +20,7 @@ import org.eclipse.ecf.presence.im.ITypingMessageSender;
 import org.eclipse.ecf.presence.roster.IRosterEntry;
 import org.eclipse.ecf.presence.roster.IRosterItem;
 import org.eclipse.ecf.presence.roster.IRosterManager;
+import org.eclipse.ecf.presence.roster.RosterGroup;
 import org.eclipse.ecf.presence.ui.MessagesView;
 import org.eclipse.ecf.provider.xmpp.XMPPContainer;
 import org.eclipse.ecf.ui.actions.AsynchContainerConnectAction;
@@ -28,6 +29,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.XMPPException;
 
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
@@ -49,7 +51,10 @@ public class ECFConnector {
 			System.out.println("ECF Connected");
 			String instructorID = ConnectionManager.getInstance().getInstructorID();
 			try {
-				container.getRoster().createEntry(instructorID, instructorID, null);
+				Roster roster = container.getRoster();
+				if(!roster.contains(instructorID)) {
+					roster.createEntry(instructorID, instructorID, null);
+				}
 			} catch (XMPPException e) {
 				e.printStackTrace();
 			}
@@ -147,10 +152,22 @@ public class ECFConnector {
 	}
 
 	public IRosterEntry getEntryForUsername(String username) {
-		Collection<IRosterItem> rosterItems = (Collection<IRosterItem>) rosterManager.getRoster().getItems();
+		Collection<IRosterItem> mainRosterItems = (Collection<IRosterItem>) rosterManager.getRoster().getItems();
+		return getEntryForUsername(username, mainRosterItems);
+	}
+	
+	private IRosterEntry getEntryForUsername(String username, Collection<IRosterItem> rosterItems) {
 		for(IRosterItem r : rosterItems) {
+			if(r instanceof RosterGroup) {
+				RosterGroup rg = (RosterGroup) r;
+				Collection<IRosterItem> groupRosterItems = (Collection<IRosterItem>) rg.getEntries();
+				IRosterEntry groupSearchResult = getEntryForUsername(username, groupRosterItems);
+				if(groupSearchResult != null) {
+					return groupSearchResult;
+				}
+			}
 			if(r instanceof IRosterEntry) {
-				String name = ((IRosterEntry) r).getName();
+				String name = ((IRosterEntry) r).getUser().getID().getName();
 				if(name.equals(username)) {
 					return ((IRosterEntry) r);
 				}

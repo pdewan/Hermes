@@ -24,12 +24,6 @@ public class HermesConnectionManager implements ConnectStateListener, MessageLis
 	public void stateChanged(ConnectionState newState) {
 		if(newState == ConnectionState.CONNECTED) {
 			connect();
-			try {
-				//wait for roster to load
-				Thread.sleep(1000);
-			} catch (Exception ex) {}
-			System.out.println(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
-			editorSharer.setShareWith(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
 		}
 		if(newState == ConnectionState.DISCONNECTED) {
 			connector.disconnect();
@@ -53,9 +47,10 @@ public class HermesConnectionManager implements ConnectStateListener, MessageLis
 
 	@Override
 	public void messageReceieved(String message) {
-		//System.out.println("Message: " + message);
 		if(message.equalsIgnoreCase("share")) {
 			System.out.println("Share message");
+			System.out.println(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
+			editorSharer.setShareWith(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
 			Display.getDefault().asyncExec(new Runnable() {
 				public void run() {
 					editorSharer.shareEditor();
