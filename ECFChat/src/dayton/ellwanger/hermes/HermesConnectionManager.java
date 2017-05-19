@@ -36,9 +36,13 @@ public class HermesConnectionManager implements ConnectStateListener, MessageLis
 	private void connect() {
 		connector = new ECFConnector();
 		try {
-			connector.connect(ConnectionManager.getInstance().getXMPPID(),
-					ConnectionManager.getInstance().getXMPPPassword(), 
-					ConnectionManager.getInstance().getHostname());
+			ConnectionManager connectionManager = ConnectionManager.getInstance();
+			String xmppID = connectionManager.getXMPPID();
+			//I don't know why ECF requires the ID to be in this format, but it does
+			if(!connectionManager.isGoogle()) {
+				xmppID += ";" + connectionManager.getHostname();
+			}
+			connector.connect(xmppID, connectionManager.getXMPPPassword(), connectionManager.getHostname());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

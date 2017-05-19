@@ -36,7 +36,9 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 	private List<MessageListener> messageListeners;
 	private String serverID;
 	private String xmppID;
+	private String internalXmppID;
 	private String xmppUsername;
+	private String internalXmppUsername;
 	private String xmppPassword;
 	private String hostname;
 	
@@ -88,7 +90,7 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 	
 	public void sendMessage(JSONObject messageData) {
 		try {
-			messageData.put("from", xmppID);
+			messageData.put("from", internalXmppID);
 		} catch (Exception ex) {ex.printStackTrace();}
 
 		//System.out.println(messageData.toString());
@@ -104,11 +106,20 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 		}
 	}
 	
-	//Here for chat plugins, like ECF, to set up their own connection to manage chats
+	
 	public String getXMPPID() {
 		return xmppID;
 	}
 	
+	public String getInternalXMPPID() {
+		return internalXmppID;
+	}
+	
+	public boolean isGoogle() {
+		return Preferences.getPreference(Preferences.DOMAIN).toLowerCase().equals("gmail");
+	}
+	
+	//Here for chat plugins, like ECF, to set up their own connection to manage chats
 	public String getXMPPPassword() {
 		return xmppPassword;
 	}
@@ -118,11 +129,11 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 	}
 
 	private void createAccount() {
-		String username = this.xmppUsername;
-		String password = this.xmppPassword;
 		try {
 			AccountManager.sensitiveOperationOverInsecureConnectionDefault(true);
-			AccountManager.getInstance(connection).createAccount(username, password);
+			AccountManager accountManager = AccountManager.getInstance(connection);
+			accountManager.createAccount(this.xmppUsername, this.xmppPassword);
+			accountManager.createAccount(this.internalXmppUsername, this.xmppPassword);
 			EditorsUI.getPreferenceStore().setValue(Preferences.CREATE, false);
 		} catch (XMPPErrorException xmppErrorException) {
 			if(xmppErrorException.getXMPPError().getCondition() == XMPPError.Condition.conflict) {
@@ -138,8 +149,10 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 		serverID = Preferences.getPreference(Preferences.INSTRUCTOR);
 		//usernames must be all lower-space
 		xmppUsername = Preferences.getPreference(Preferences.USERNAME).toLowerCase();
+		internalXmppUsername = xmppUsername + "_internal";
 		String domain = Preferences.getPreference(Preferences.DOMAIN).toLowerCase();
 		xmppID = xmppUsername + "@" + domain;
+		internalXmppID = internalXmppUsername + "@" + domain;
 		hostname = Preferences.getPreference(Preferences.HOST);
 		xmppPassword = Preferences.getPreference(Preferences.PASSWORD);
 		try {
@@ -154,7 +167,7 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 			connection.connect();
 			if(EditorsUI.getPreferenceStore().getBoolean(Preferences.CREATE))
 				createAccount();
-			connection.login(xmppUsername, xmppPassword);
+			connection.login(internalXmppUsername, xmppPassword);
 			System.out.println("XMPP Connected");
 			setState(ConnectionState.CONNECTED);
 			connection.addSyncStanzaListener(this, this);
