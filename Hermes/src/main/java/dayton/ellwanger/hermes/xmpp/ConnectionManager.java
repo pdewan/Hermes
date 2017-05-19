@@ -11,12 +11,13 @@ import org.jivesoftware.smack.XMPPException.XMPPErrorException;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.filter.StanzaFilter;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Message.Type;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.packet.XMPPError;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
-
+import org.jivesoftware.smackx.jiveproperties.JivePropertiesManager;
 import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.ExtensionManager;
@@ -149,6 +150,8 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 
 	private void connect() {
 		setState(ConnectionState.CONNECTING);
+		//Needs to be true, or when ECF chat message begins, error is thrown
+		JivePropertiesManager.setJavaObjectEnabled(true);
 		serverID = Preferences.getPreference(Preferences.INSTRUCTOR);
 		//usernames must be all lower-space
 		xmppUsername = Preferences.getPreference(Preferences.USERNAME).toLowerCase();
