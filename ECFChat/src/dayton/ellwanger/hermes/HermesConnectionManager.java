@@ -31,6 +31,9 @@ public class HermesConnectionManager implements ConnectStateListener, MessageLis
 			System.out.println(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
 			editorSharer.setShareWith(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
 		}
+		if(newState == ConnectionState.DISCONNECTED) {
+			connector.disconnect();
+		}
 	}
 	
 	private void connect() {

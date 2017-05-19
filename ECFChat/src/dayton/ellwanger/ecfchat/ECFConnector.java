@@ -89,6 +89,10 @@ public class ECFConnector {
 				new ConnectionSetter()).run();
 
 	}
+	
+	public void disconnect() {
+		container.disconnect();
+	}
 
 	void displayMessage(IChatMessageEvent e) {
 		final IChatMessage message = e.getChatMessage();
