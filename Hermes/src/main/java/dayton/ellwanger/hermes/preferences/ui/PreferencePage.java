@@ -85,8 +85,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		SecureStringFieldEditor domain = new SecureStringFieldEditor(Preferences.DOMAIN, "Domain:", getFieldEditorParent());
 		SecureStringFieldEditor host = new SecureStringFieldEditor(Preferences.HOST, 
 				"Host:", getFieldEditorParent());
-		SecureStringFieldEditor instructor = new SecureStringFieldEditor(Preferences.INSTRUCTOR, 
-				"Instructor:", getFieldEditorParent());
+		SecureStringFieldEditor instructor = new SecureStringFieldEditor(Preferences.MESSAGE_BUS, 
+				"Message Bus Account:", getFieldEditorParent());
 		BooleanFieldEditor security = new BooleanFieldEditor(Preferences.SECURITY, "Security", getFieldEditorParent());
 		BooleanFieldEditor createAccount = new BooleanFieldEditor(Preferences.CREATE, "Create Account", getFieldEditorParent());
 		BooleanFieldEditor autoLogin = new BooleanFieldEditor(Preferences.AUTOLOGIN, "Auto Login", getFieldEditorParent());

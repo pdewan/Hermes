@@ -152,7 +152,7 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 		setState(ConnectionState.CONNECTING);
 		//Needs to be true, or when ECF chat message begins, error is thrown
 		JivePropertiesManager.setJavaObjectEnabled(true);
-		serverID = Preferences.getPreference(Preferences.INSTRUCTOR);
+		serverID = Preferences.getPreference(Preferences.MESSAGE_BUS);
 		//usernames must be all lower-space
 		xmppUsername = Preferences.getPreference(Preferences.USERNAME).toLowerCase();
 		internalXmppUsername = xmppUsername + "_internal";
@@ -216,9 +216,9 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 		messageListeners.remove(l);
 	}
 	
-	public void alertMessageListeners(String message) {
+	public void alertMessageListeners(String from, String message) {
 		for(MessageListener l : messageListeners) {
-			l.messageReceieved(message);
+			l.messageReceieved(from, message);
 		}
 	}
 	
@@ -267,8 +267,8 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 		if(body == null) {
 			body = "";
 		}
-		alertMessageListeners(body);
 		String user = stanza.getFrom().split("/")[0];
+		alertMessageListeners(user, body);
 		try {
 			JSONObject json = new JSONObject(message.getBody());
 		} catch (Exception ex) {

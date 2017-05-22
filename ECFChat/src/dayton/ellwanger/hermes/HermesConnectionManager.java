@@ -46,11 +46,14 @@ public class HermesConnectionManager implements ConnectStateListener, MessageLis
 	}
 
 	@Override
-	public void messageReceieved(String message) {
+	public void messageReceieved(String from, String message) {
 		if(message.equalsIgnoreCase("share")) {
+			//Do a check to make sure 'from' is an authorized user
 			System.out.println("Share message");
-			System.out.println(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
-			editorSharer.setShareWith(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
+			//System.out.println(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
+			System.out.println(connector.getEntryForUsername(from));
+			//editorSharer.setShareWith(connector.getEntryForUsername(Preferences.getPreference(Preferences.INSTRUCTOR)));
+			editorSharer.setShareWith(connector.getEntryForUsername(from));
 			Display.getDefault().asyncExec(new Runnable() {
 				public void run() {
 					editorSharer.shareEditor();
