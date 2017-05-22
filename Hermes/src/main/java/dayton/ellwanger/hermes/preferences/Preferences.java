@@ -16,7 +16,7 @@ public class Preferences {
 	public static final String DOMAIN = "domain";
 	public static final String PASSWORD = "password";
 	public static final String HOST = "host";
-	public static final String INSTRUCTOR = "instructor";
+	public static final String MESSAGE_BUS = "messagebus";
 	public static final String SECURITY = "security";
 	public static final String CREATE = "create";
 	public static final String AUTOLOGIN = "autologin";
