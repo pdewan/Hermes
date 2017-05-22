@@ -1,9 +1,11 @@
 package dayton.ellwanger.helpbutton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
+import workspaceConnectionManager.WorkspaceConnectionManager;
 
 public class HelpViewController implements HelpListener {
 
@@ -17,6 +19,10 @@ public class HelpViewController implements HelpListener {
 			JSONObject messageData = new JSONObject();
 			try {
 				messageData.put("help", helpText);
+				JSONArray tags = new JSONArray();
+				tags.put("HELP_MESSAGE");
+				messageData.put("tags", tags);
+				messageData.put("filename", WorkspaceConnectionManager.getActiveDocumentName());
 			} catch (JSONException ex) {}
 			ConnectionManager.getInstance().sendMessage(messageData);
 		}

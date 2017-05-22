@@ -12,7 +12,6 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 public class EditorListener implements IPartListener, WorkspaceFileListener {
-
 	private WorkspaceFileListener listener;
 	private HashSet<IDocument> documents;
 	

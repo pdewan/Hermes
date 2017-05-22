@@ -1,4 +1,4 @@
-package hermes;
+package workspaceConnectionManager;
 
 import java.util.HashMap;
 
@@ -15,13 +15,15 @@ import workspacelistener.ui.PrivacyView;
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
 
 
-public class HermesConnectionManager implements WorkspaceFileListener {
+public class WorkspaceConnectionManager implements WorkspaceFileListener {
+    static String activeDocumentName = "";
+
 	
 	private String workspaceString;
 	private WorkspaceListener workspaceListener;
 	private HashMap<String, ContentSender> pendingChanges;
 	
-	public HermesConnectionManager() {
+	public WorkspaceConnectionManager() {
 		EditorsUI.getPreferenceStore().setDefault(PrivacyView.PRIVACY_PREFERENCE, 1);
 		pendingChanges = new HashMap<String, ContentSender>();
 		workspaceString = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString().replace("/",".");
@@ -52,6 +54,8 @@ public class HermesConnectionManager implements WorkspaceFileListener {
 
 	@Override
 	public void fileDelta(Delta fileDelta) {
+		String aFileName = workspaceString + fileDelta.getFilePath();
+		setActiveDocumentName(aFileName);
 		if(ConnectionManager.getInstance() != null) {
 			ContentSender cs = pendingChanges.get(fileDelta.getFilePath());
 			if(cs == null) {
@@ -88,5 +92,13 @@ public class HermesConnectionManager implements WorkspaceFileListener {
 		}
 		
 	}
+	public static String getActiveDocumentName() {
+		return activeDocumentName;
+	}
+
+	public static void setActiveDocumentName(String activeDocumentName) {
+		WorkspaceConnectionManager.activeDocumentName = activeDocumentName;
+	}
+
 	
 }
