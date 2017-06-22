@@ -16,4 +16,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: workspaceConnectionManager,
  workspacelistener
 Bundle-ClassPath: lib/diffutils-1.2.1.jar,
- .
+ .,
+ lib/messagebusclientlibraries.jar,
+ lib/oeall22.jar
+Import-Package: util.trace.hermes.workspacelistener

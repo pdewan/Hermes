@@ -13,6 +13,9 @@ import workspacelistener.WorkspaceFileListener;
 import workspacelistener.WorkspaceListener;
 import workspacelistener.ui.PrivacyView;
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
+import util.trace.hermes.workspacelistener.FileForwardedToConnectionManager;
+//import util.trace.messagebus.clients.JSONObjectForwardedToConnectionManager;
+import util.trace.hermes.workspacelistener.WorkspaceListenerTraceUtility;
 
 
 public class WorkspaceConnectionManager implements WorkspaceFileListener {
@@ -29,6 +32,7 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 		workspaceString = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString().replace("/",".");
 		workspaceListener = new WorkspaceListener();
 		workspaceListener.addWorkspaceFileListener(this);	
+//		WorkspaceListenerTraceUtility.setTracing();
 	}
 
 	@Override
@@ -47,7 +51,12 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 				JSONArray tags = new JSONArray();
 				tags.put("EDITOR_CONTENTS");
 				messageData.put("tags", tags);
-			} catch (Exception ex) {}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			FileForwardedToConnectionManager.newCase(this, messageData.toString());
+//			JSONObjectForwardedToConnectionManager.newCase(this, messageData.toString());
+			
 			ConnectionManager.getInstance().sendMessage(messageData);
 		}
 	}

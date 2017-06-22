@@ -1,0 +1,2948 @@
+<Events startTimestamp="1379166504508" logVersion="0.5.3.201309111108">
+  <Command __id="0" _type="ShellCommand" timestamp="62" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="1" _type="ShellCommand" timestamp="672" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="2" _type="ShellCommand" timestamp="2766" type="ECLIPSE_MINIMIZED" />
+  <Command __id="3" _type="ShellCommand" timestamp="4203" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="4" _type="ShellCommand" timestamp="4344" type="ECLIPSE_MAXIMIZED" />
+  <Command __id="5" _type="ShellCommand" timestamp="4359" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="6" _type="ShellCommand" timestamp="19890" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="7" _type="ShellCommand" timestamp="25750" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="8" _type="ShellCommand" timestamp="40765" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="9" _type="ShellCommand" timestamp="43140" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="10" _type="ShellCommand" timestamp="54812" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="11" _type="ShellCommand" timestamp="56093" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="12" _type="ShellCommand" timestamp="136327" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="13" _type="ShellCommand" timestamp="165702" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="14" _type="DifficultyCommand" timestamp="165858" type="Making_Progress">
+    <otherOvercomeDifficultySaveText><![CDATA[]]></otherOvercomeDifficultySaveText>
+    <tryingToDo><![CDATA[]]></tryingToDo>
+    <personAskedForHelp><![CDATA[]]></personAskedForHelp>
+    <overcomeDifficultyDropDown><![CDATA[]]></overcomeDifficultyDropDown>
+    <otherCausedDifficulty><![CDATA[]]></otherCausedDifficulty>
+    <otherMinutes><![CDATA[]]></otherMinutes>
+    <causedDifficulty><![CDATA[]]></causedDifficulty>
+  </Command>
+  <Command __id="15" _type="ShellCommand" timestamp="208061" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="16" _type="ShellCommand" timestamp="212280" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="17" _type="FileOpenCommand" projectName="null" timestamp="226748">
+    <filePath><![CDATA[null]]></filePath>
+  </Command>
+  <Command __id="18" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="227217" />
+  <DocumentChange __id="19" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1255" docExpressionCount="0" docLength="1255" length="1255" offset="0" timestamp="229998">
+    <text><![CDATA[Complete as many of the tasks as you can in the hour and a half time limit. There is no specific order in 
+
+which you must complete tasks. When you are finished, please let us know. 
+
+Tasks:
+
+Using the Swing/AWT Toolkit and any Java programming resources:
+
+- Create a program that visually represents a car with a red body and two black tires.
+
+- Allow the user to use arrow keys to move around the car in any direction (up, forward, left, and 
+
+right) by 10 pixel decrements/increments.
+
+- Allow the user to make the car a bus by clicking anywhere on the screen
+
+o A bus has an extra body that should be colored black. It should be positioned directly on 
+
+top of the car.
+
+o When the extra body is on top of the car, it should move with the rest of it.
+
+o The extra body should be removed
+
+- Allow the user to make the bus a car by pressing the ‘r’ key
+
+- Allow the user to scale up the car/bus 2X, each time they press the ‘m’ key
+
+- Allow the user to scale down the car/bus 2X, each time they press the ‘s’ key
+
+- Draw a transparent square (not a rectangle) with yellow borders. The car/bus should be inside 
+
+the square.
+
+- Do not allow the car/bus to go outside of the square (when moving and resizing the vehicle).]]></text>
+  </DocumentChange>
+  <Command __id="20" _type="PasteCommand" timestamp="230030" />
+  <Command __id="21" _type="MoveCaretCommand" caretOffset="111" docOffset="111" timestamp="235311" />
+  <Command __id="22" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" timestamp="236436" />
+  <DocumentChange __id="23" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1253" docExpressionCount="0" docLength="1253" endLine="2" length="2" offset="108" startLine="1" timestamp="237030">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="24" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="237030" />
+  <Command __id="25" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="238342" timestamp2="238780" />
+  <Command __id="27" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="6" timestamp="239295" timestamp2="240264" />
+  <DocumentChange __id="33" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1243" docExpressionCount="0" docLength="1243" endLine="3" length="10" offset="182" repeat="8" startLine="1" timestamp="240983" timestamp2="242780">
+    <text><![CDATA[
+
+Tasks:]]></text>
+  </DocumentChange>
+  <Command __id="34" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="8" timestamp="240983" timestamp2="242780" />
+  <Command __id="49" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="8" timestamp="244280" timestamp2="246389" />
+  <Command __id="57" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineStart" timestamp="247123" />
+  <DocumentChange __id="58" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1239" docExpressionCount="0" docLength="1239" endLine="9" length="4" offset="442" repeat="2" startLine="7" timestamp="247373" timestamp2="248217">
+    <text><![CDATA[
+
+]]></text>
+  </DocumentChange>
+  <Command __id="59" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="247389" timestamp2="248233" />
+  <Command __id="62" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="6" timestamp="249686" timestamp2="250670" />
+  <DocumentChange __id="68" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1241" docExpressionCount="0" docLength="1241" length="2" offset="448" timestamp="251326">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="69" _type="InsertStringCommand" timestamp="251342" timestamp2="251342">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="70" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="4" timestamp="252420" timestamp2="254030" />
+  <DocumentChange __id="74" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1242" docExpressionCount="0" docLength="1242" length="1" offset="566" timestamp="255717">
+    <text><![CDATA[	]]></text>
+  </DocumentChange>
+  <Command __id="75" _type="InsertStringCommand" timestamp="255733" timestamp2="255733">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="76" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="256045" timestamp2="256373" />
+  <Command __id="78" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineStart" timestamp="257108" />
+  <DocumentChange __id="79" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1243" docExpressionCount="0" docLength="1243" length="1" offset="663" timestamp="257311">
+    <text><![CDATA[	]]></text>
+  </DocumentChange>
+  <Command __id="80" _type="InsertStringCommand" timestamp="257311" timestamp2="257311">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="81" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="257967" />
+  <DocumentChange __id="82" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1241" docExpressionCount="0" docLength="1241" endLine="13" length="2" offset="659" startLine="12" timestamp="258592">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="83" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="258592" />
+  <Command __id="84" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="3" timestamp="267889" timestamp2="268404" />
+  <Command __id="87" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineStart" timestamp="269248" />
+  <DocumentChange __id="88" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1242" docExpressionCount="0" docLength="1242" length="1" offset="681" timestamp="271186">
+    <text><![CDATA[	]]></text>
+  </DocumentChange>
+  <Command __id="89" _type="InsertStringCommand" timestamp="271186" timestamp2="271186">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="90" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="272186" timestamp2="272529" />
+  <Command __id="92" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineStart" timestamp="273701" />
+  <Command __id="93" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.select.lineEnd" timestamp="274389" />
+  <DocumentChange __id="94" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1204" docExpressionCount="0" docLength="1204" endLine="19" length="38" offset="765" repeat="3" startLine="17" timestamp="275233" timestamp2="277139">
+    <text><![CDATA[o The extra body should be removed
+
+]]></text>
+  </DocumentChange>
+  <Command __id="95" _type="CutCommand" timestamp="275248" />
+  <Command __id="97" _type="EclipseCommand" commandID="org.eclipse.ui.edit.delete" repeat="2" timestamp="276123" timestamp2="277139" />
+  <Command __id="100" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineEnd" timestamp="279545" />
+  <DocumentChange __id="101" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1241" docExpressionCount="0" docLength="1241" length="37" offset="827" repeat="3" timestamp="280248" timestamp2="282733">
+    <text><![CDATA[
+	o The extra body should be removed]]></text>
+  </DocumentChange>
+  <Command __id="102" _type="InsertStringCommand" timestamp="280248" timestamp2="280248">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="104" _type="PasteCommand" timestamp="281420" />
+  <Command __id="105" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineStart" timestamp="282326" />
+  <Command __id="107" _type="InsertStringCommand" timestamp="282748" timestamp2="282748">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="108" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="283436" />
+  <Command __id="109" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" repeat="4" timestamp="284014" timestamp2="284576" />
+  <Command __id="113" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" repeat="3" timestamp="284967" timestamp2="285279" />
+  <DocumentChange __id="116" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1239" docExpressionCount="0" docLength="1239" endLine="14" length="2" offset="677" startLine="13" timestamp="286186">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="117" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="286186" />
+  <Command __id="118" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="7" timestamp="289607" timestamp2="292717" />
+  <DocumentChange __id="125" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1237" docExpressionCount="0" docLength="1237" endLine="20" length="2" offset="943" startLine="19" timestamp="293342">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="126" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="293342" />
+  <Command __id="127" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="294045" timestamp2="294248" />
+  <DocumentChange __id="129" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1235" docExpressionCount="0" docLength="1235" endLine="21" length="2" offset="1024" startLine="20" timestamp="294889">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="130" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="294889" />
+  <Command __id="131" _type="MoveCaretCommand" caretOffset="1126" docOffset="1126" timestamp="298248" />
+  <DocumentChange __id="132" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1231" docExpressionCount="0" docLength="1231" endLine="23" length="4" offset="1122" repeat="2" startLine="21" timestamp="299248" timestamp2="299420">
+    <text><![CDATA[
+
+]]></text>
+  </DocumentChange>
+  <Command __id="133" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="299248" timestamp2="299436" />
+  <Command __id="136" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="302936" />
+  <Command __id="137" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="304092" timestamp2="304498" />
+  <DocumentChange __id="139" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1229" docExpressionCount="0" docLength="1229" endLine="23" length="2" offset="1135" startLine="22" timestamp="305139">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="140" _type="EclipseCommand" commandID="org.eclipse.ui.edit.delete" timestamp="305139" />
+  <Command __id="141" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="9" timestamp="305592" timestamp2="306310" />
+  <Command __id="150" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineEnd" timestamp="310482" />
+  <Command __id="151" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="318951" />
+  <Command __id="152" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="17" timestamp="319654" timestamp2="320654" />
+  <Command __id="169" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="8" timestamp="320701" timestamp2="321404" />
+  <Command __id="177" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="321404" />
+  <Command __id="178" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="14" timestamp="321435" timestamp2="321857" />
+  <Command __id="192" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" repeat="21" timestamp="322482" timestamp2="328717" />
+  <Command __id="213" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="5" timestamp="329123" timestamp2="330092" />
+  <Command __id="218" _type="ShellCommand" timestamp="339076" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="219" _type="ShellCommand" timestamp="359466" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="220" _type="ShellCommand" timestamp="362466" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="221" _type="ShellCommand" timestamp="371138" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="222" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="371466" />
+  <Command __id="223" _type="ShellCommand" timestamp="377529" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="224" _type="ShellCommand" timestamp="393060" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="225" _type="ShellCommand" timestamp="394388" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="226" _type="ShellCommand" timestamp="395888" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="227" _type="ShellCommand" timestamp="395935" type="ECLIPSE_CLOSED" />
+  <Command __id="228" _type="ShellCommand" timestamp="405638" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="229" _type="ShellCommand" timestamp="406341" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="230" _type="ShellCommand" timestamp="406732" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="231" _type="ShellCommand" timestamp="409544" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="232" _type="ShellCommand" timestamp="411982" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="233" _type="ShellCommand" timestamp="1529631" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="234" _type="ShellCommand" timestamp="1529803" type="ECLIPSE_MINIMIZED" />
+  <Command __id="235" _type="ShellCommand" timestamp="1532381" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="236" _type="ShellCommand" timestamp="1533037" type="ECLIPSE_MAXIMIZED" />
+  <Command __id="237" _type="ShellCommand" timestamp="1533053" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="238" _type="ShellCommand" timestamp="1590427" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="239" _type="ShellCommand" timestamp="1603880" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="240" _type="ShellCommand" timestamp="1604896" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="241" _type="ShellCommand" timestamp="1609146" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="242" _type="ShellCommand" timestamp="1614552" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="243" _type="ShellCommand" timestamp="1616583" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="244" _type="ShellCommand" timestamp="1623443" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="245" _type="ShellCommand" timestamp="1627661" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="246" _type="ShellCommand" timestamp="1638630" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="247" _type="ShellCommand" timestamp="1642333" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="248" _type="ShellCommand" timestamp="1644286" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="249" _type="ShellCommand" timestamp="1659896" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="250" _type="ShellCommand" timestamp="1790051" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="251" _type="ShellCommand" timestamp="1790207" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="252" _type="ShellCommand" timestamp="1790223" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="253" _type="ShellCommand" timestamp="1801520" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="254" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1229" docExpressionCount="0" docLength="1229" projectName="User_Study" timestamp="1809332">
+    <snapshot><![CDATA[Complete as many of the tasks as you can in the hour and a half time limit. There is no specific order in 
+which you must complete tasks. When you are finished, please let us know. 
+
+Using the Swing/AWT Toolkit and any Java programming resources:
+
+- Create a program that visually represents a car with a red body and two black tires.
+
+- Allow the user to use arrow keys to move around the car in any direction (up, forward, left, and right)
+ by 10 pixel decrements/increments.
+
+- Allow the user to make the car a bus by clicking anywhere on the screen
+
+	o A bus has an extra body that should be colored black. It should be positioned directly on 
+	top of the car.
+	o When the extra body is on top of the car, it should move with the rest of it.
+
+- Allow the user to make the bus a car by pressing the ‘r’ key
+	o The extra body should be removed
+
+- Allow the user to scale up the car/bus 2X, each time they press the ‘m’ key
+- Allow the user to scale down the car/bus 2X, each time they press the ‘s’ key
+- Draw a transparent square (not a rectangle) with yellow borders. The car/bus should be inside the square.
+- Do not allow the car/bus to go outside of the square (when moving and resizing the vehicle).]]></snapshot>
+    <filePath><![CDATA[C:\Projects\Aaron_Brown\User_Study\Tasks]]></filePath>
+  </Command>
+  <Command __id="255" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1810051" />
+  <Command __id="256" _type="ShellCommand" timestamp="1909925" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="257" _type="ShellCommand" timestamp="1942144" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="258" _type="ShellCommand" timestamp="1951847" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="259" _type="ShellCommand" timestamp="1955925" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="260" _type="ShellCommand" timestamp="1966909" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="261" _type="ShellCommand" timestamp="1982644" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="262" _type="ShellCommand" timestamp="1987253" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="263" _type="ShellCommand" timestamp="1989456" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="264" _type="EclipseCommand" commandID="org.eclipse.ltk.ui.refactoring.commands.deleteResources" timestamp="1989643" />
+  <Command __id="265" _type="EclipseCommand" commandID="org.eclipse.ui.edit.delete" timestamp="1989643" />
+  <Command __id="266" _type="ShellCommand" timestamp="1997706" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="267" _type="ShellCommand" timestamp="2015925" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="268" _type="FileOpenCommand" docASTNodeCount="6" docActiveCodeLength="40" docExpressionCount="2" docLength="40" projectName="User_Study" timestamp="2017862">
+    <snapshot><![CDATA[package us;
+
+public class Car {
+
+}
+]]></snapshot>
+    <filePath><![CDATA[C:\Projects\Aaron_Brown\User_Study\src\us\Car.java]]></filePath>
+  </Command>
+  <Command __id="269" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="2018862" />
+  <Command __id="270" _type="ShellCommand" timestamp="2022706" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="271" _type="ShellCommand" timestamp="2032440" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="272" _type="MoveCaretCommand" caretOffset="35" docOffset="35" timestamp="2035096" />
+  <DocumentChange __id="273" _type="Insert" docASTNodeCount="6" docActiveCodeLength="41" docExpressionCount="2" docLength="41" length="1" offset="35" timestamp="2036393">
+    <text><![CDATA[	]]></text>
+  </DocumentChange>
+  <Command __id="274" _type="InsertStringCommand" timestamp="2036393" timestamp2="2036393">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="275" _type="ShellCommand" timestamp="2052440" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="276" _type="ShellCommand" timestamp="2470219" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="277" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1229" docExpressionCount="0" docLength="1229" projectName="User_Study" timestamp="2472906">
+    <filePath><![CDATA[C:\Projects\Aaron_Brown\User_Study\Tasks]]></filePath>
+  </Command>
+  <Command __id="278" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="2473250" />
+  <Command __id="279" _type="ShellCommand" timestamp="2484656" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="280" _type="ShellCommand" timestamp="2871841" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="281" _type="ShellCommand" timestamp="2876700" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="282" _type="ShellCommand" timestamp="2879091" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="283" _type="ShellCommand" timestamp="2891169" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="284" _type="ShellCommand" timestamp="2894528" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="285" _type="ShellCommand" timestamp="2902622" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="286" _type="ShellCommand" timestamp="2919013" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="287" _type="FileOpenCommand" docASTNodeCount="6" docActiveCodeLength="41" docExpressionCount="2" docLength="41" projectName="User_Study" timestamp="2939919">
+    <filePath><![CDATA[C:\Projects\Aaron_Brown\User_Study\src\us\Car.java]]></filePath>
+  </Command>
+  <Command __id="288" _type="MoveCaretCommand" caretOffset="36" docOffset="36" timestamp="2940294" />
+  <DocumentChange __id="289" _type="Insert" docASTNodeCount="6" docActiveCodeLength="44" docExpressionCount="2" docLength="44" length="3" offset="36" timestamp="2952622">
+    <text><![CDATA[
+	]]></text>
+  </DocumentChange>
+  <Command __id="290" _type="InsertStringCommand" timestamp="2952622" timestamp2="2952622">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="291" _type="ShellCommand" timestamp="2962481" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="292" _type="ShellCommand" timestamp="2969231" type="ECLIPSE_GAINED_FOCUS" />
+  <DocumentChange __id="293" _type="Insert" docASTNodeCount="6" docActiveCodeLength="53" docExpressionCount="2" docLength="53" length="9" offset="39" repeat="9" timestamp="2970028" timestamp2="2971278">
+    <text><![CDATA[Buffered ]]></text>
+  </DocumentChange>
+  <Command __id="294" _type="InsertStringCommand" repeat="5" timestamp="2970028" timestamp2="2970622">
+    <data><![CDATA[Buffe]]></data>
+  </Command>
+  <Command __id="303" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="2970622" />
+  <Command __id="305" _type="InsertStringCommand" repeat="4" timestamp="2970700" timestamp2="2971293">
+    <data><![CDATA[red ]]></data>
+  </Command>
+  <DocumentChange __id="312" _type="Delete" docASTNodeCount="6" docActiveCodeLength="52" docExpressionCount="2" docLength="52" endLine="4" length="1" offset="47" startLine="4" timestamp="2971762">
+    <text><![CDATA[ ]]></text>
+  </DocumentChange>
+  <Command __id="313" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="2971762" />
+  <Command __id="314" _type="CompilationCommand" timestamp="2972372" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "Buffered", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[46]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="315" _type="Insert" docASTNodeCount="6" docActiveCodeLength="58" docExpressionCount="2" docLength="58" length="6" offset="47" repeat="6" timestamp="2972512" timestamp2="2973543">
+    <text><![CDATA[Image ]]></text>
+  </DocumentChange>
+  <Command __id="316" _type="InsertStringCommand" repeat="6" timestamp="2972512" timestamp2="2973543">
+    <data><![CDATA[Image ]]></data>
+  </Command>
+  <Command __id="327" _type="CompilationCommand" timestamp="2974184" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "BufferedImage", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="328" _type="CompilationCommand" timestamp="2975028" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "BufferedImage", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="329" _type="Insert" docASTNodeCount="6" docActiveCodeLength="59" docExpressionCount="2" docLength="59" length="1" offset="53" timestamp="2981075">
+    <text><![CDATA[=]]></text>
+  </DocumentChange>
+  <Command __id="330" _type="InsertStringCommand" timestamp="2981090" timestamp2="2981090">
+    <data><![CDATA[=]]></data>
+  </Command>
+  <DocumentChange __id="331" _type="Delete" docASTNodeCount="6" docActiveCodeLength="58" docExpressionCount="2" docLength="58" endLine="4" length="1" offset="53" startLine="4" timestamp="2981575">
+    <text><![CDATA[=]]></text>
+  </DocumentChange>
+  <Command __id="332" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="2981575" />
+  <Command __id="333" _type="CompilationCommand" timestamp="2982559" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "BufferedImage", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="334" _type="Insert" docASTNodeCount="11" docActiveCodeLength="61" docExpressionCount="4" docLength="61" length="3" offset="53" repeat="3" timestamp="2983434" timestamp2="2984028">
+    <text><![CDATA[Car]]></text>
+  </DocumentChange>
+  <Command __id="335" _type="InsertStringCommand" repeat="3" timestamp="2983434" timestamp2="2984028">
+    <data><![CDATA[Car]]></data>
+  </Command>
+  <Command __id="340" _type="CompilationCommand" timestamp="2984606" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="341" _type="CompilationCommand" timestamp="2984778" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete ClassBodyDeclarations]]></errorMessage>
+    <sourceEnd><![CDATA[55]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[53]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="342" _type="Delete" docASTNodeCount="6" docActiveCodeLength="58" docExpressionCount="2" docLength="58" endLine="4" length="3" offset="53" repeat="3" startLine="4" timestamp="2984918" timestamp2="2985293">
+    <text><![CDATA[Car]]></text>
+  </DocumentChange>
+  <Command __id="343" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="3" timestamp="2984950" timestamp2="2985293" />
+  <Command __id="348" _type="CompilationCommand" timestamp="2985840" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "BufferedImage", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="349" _type="Insert" docASTNodeCount="11" docActiveCodeLength="67" docExpressionCount="4" docLength="67" length="9" offset="53" repeat="9" timestamp="2987903" timestamp2="2990278">
+    <text><![CDATA[redCar = ]]></text>
+  </DocumentChange>
+  <Command __id="350" _type="InsertStringCommand" repeat="6" timestamp="2987903" timestamp2="2988934">
+    <data><![CDATA[redCar]]></data>
+  </Command>
+  <Command __id="361" _type="CompilationCommand" timestamp="2989528" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="362" _type="CompilationCommand" timestamp="2989559" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete ClassBodyDeclarations]]></errorMessage>
+    <sourceEnd><![CDATA[58]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[53]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="364" _type="InsertStringCommand" repeat="3" timestamp="2990090" timestamp2="2990293">
+    <data><![CDATA[ = ]]></data>
+  </Command>
+  <Command __id="369" _type="CompilationCommand" timestamp="2990856" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="370" _type="CompilationCommand" timestamp="2990856" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="371" _type="Delete" docASTNodeCount="6" docActiveCodeLength="47" docExpressionCount="2" docLength="47" endLine="4" length="20" offset="42" repeat="20" startLine="4" timestamp="2991559" timestamp2="2992653">
+    <text><![CDATA[feredImage redCar = ]]></text>
+  </DocumentChange>
+  <Command __id="372" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="20" timestamp="2991559" timestamp2="2992653" />
+  <Command __id="411" _type="CompilationCommand" timestamp="2993184" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "Buf", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[41]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="412" _type="CompilationCommand" timestamp="2993871" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "Buf", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[41]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="413" _type="Insert" docASTNodeCount="6" docActiveCodeLength="53" docExpressionCount="2" docLength="53" length="6" offset="42" repeat="6" timestamp="2995090" timestamp2="2995825">
+    <text><![CDATA[fered ]]></text>
+  </DocumentChange>
+  <Command __id="414" _type="InsertStringCommand" repeat="6" timestamp="2995090" timestamp2="2995825">
+    <data><![CDATA[fered ]]></data>
+  </Command>
+  <Command __id="425" _type="CompilationCommand" timestamp="2996403" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "Buffered", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[46]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="426" _type="Delete" docASTNodeCount="6" docActiveCodeLength="52" docExpressionCount="2" docLength="52" endLine="4" length="1" offset="47" startLine="4" timestamp="2996481">
+    <text><![CDATA[ ]]></text>
+  </DocumentChange>
+  <Command __id="427" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="2996496" />
+  <Command __id="428" _type="CompilationCommand" timestamp="2997059" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "Buffered", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[46]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="429" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="2997059" />
+  <DocumentChange __id="430" _type="Insert" docASTNodeCount="11" docActiveCodeLength="67" docExpressionCount="4" docLength="67" length="15" offset="47" repeat="15" timestamp="2997762" timestamp2="3001059">
+    <text><![CDATA[Image redCar = ]]></text>
+  </DocumentChange>
+  <Command __id="431" _type="InsertStringCommand" repeat="13" timestamp="2997778" timestamp2="3000778">
+    <data><![CDATA[Image redCar ]]></data>
+  </Command>
+  <Command __id="456" _type="CompilationCommand" timestamp="3000793" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="457" _type="CompilationCommand" timestamp="3000793" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete ClassBodyDeclarations]]></errorMessage>
+    <sourceEnd><![CDATA[58]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[53]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="459" _type="InsertStringCommand" repeat="2" timestamp="3000981" timestamp2="3001074">
+    <data><![CDATA[= ]]></data>
+  </Command>
+  <Command __id="462" _type="CompilationCommand" timestamp="3001590" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="463" _type="CompilationCommand" timestamp="3001590" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="464" _type="CompilationCommand" timestamp="3002418" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="465" _type="CompilationCommand" timestamp="3002418" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="466" _type="Insert" docASTNodeCount="11" docActiveCodeLength="71" docExpressionCount="4" docLength="71" length="4" offset="62" repeat="4" timestamp="3004856" timestamp2="3006496">
+    <text><![CDATA[new ]]></text>
+  </DocumentChange>
+  <Command __id="467" _type="InsertStringCommand" repeat="3" timestamp="3004887" timestamp2="3005215">
+    <data><![CDATA[new]]></data>
+  </Command>
+  <Command __id="472" _type="CompilationCommand" timestamp="3005778" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="473" _type="CompilationCommand" timestamp="3005778" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="474" _type="CompilationCommand" timestamp="3005793" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="475" _type="CompilationCommand" timestamp="3005793" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="476" _type="CompilationCommand" timestamp="3006434" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="477" _type="CompilationCommand" timestamp="3006434" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="478" _type="CompilationCommand" timestamp="3006434" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="479" _type="CompilationCommand" timestamp="3006434" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="481" _type="InsertStringCommand" timestamp="3006496" timestamp2="3006496">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="482" _type="CompilationCommand" timestamp="3007356" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="483" _type="CompilationCommand" timestamp="3007356" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="484" _type="CompilationCommand" timestamp="3007356" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="485" _type="CompilationCommand" timestamp="3007371" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="486" _type="CompilationCommand" timestamp="3007949" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[51]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="487" _type="CompilationCommand" timestamp="3007965" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="488" _type="CompilationCommand" timestamp="3007965" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="489" _type="CompilationCommand" timestamp="3007965" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[60]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="490" _type="MoveCaretCommand" caretOffset="42" docOffset="42" timestamp="3009653" />
+  <Command __id="491" _type="AssistCommand" assist_type="QUICK_ASSIST" auto_activated="false" start_end="START" timestamp="3012653" />
+  <Command __id="492" _type="EclipseCommand" commandID="AUTOGEN:::org.eclipse.jdt.internal.ui.CompilationUnitEditor.ruler.actions/org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction" timestamp="3013231" />
+  <Command __id="493" _type="AssistCommand" assist_type="QUICK_ASSIST" auto_activated="false" start_end="END" timestamp="3014824" />
+  <Command __id="494" _type="ShellCommand" timestamp="3023184" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="495" _type="ShellCommand" timestamp="3050027" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="496" _type="MoveCaretCommand" caretOffset="11" docOffset="11" timestamp="3050168" />
+  <DocumentChange __id="497" _type="Insert" docASTNodeCount="11" docActiveCodeLength="75" docExpressionCount="4" docLength="75" length="4" offset="11" repeat="2" timestamp="3051434" timestamp2="3051621">
+    <text><![CDATA[
+
+]]></text>
+  </DocumentChange>
+  <Command __id="498" _type="InsertStringCommand" timestamp="3051434" timestamp2="3051434">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="500" _type="InsertStringCommand" timestamp="3051621" timestamp2="3051621">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="501" _type="CompilationCommand" timestamp="3052168" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[55]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[43]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="502" _type="CompilationCommand" timestamp="3052184" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="503" _type="CompilationCommand" timestamp="3052184" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="504" _type="CompilationCommand" timestamp="3052199" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="505" _type="CompilationCommand" timestamp="3052855" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[55]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[43]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="506" _type="CompilationCommand" timestamp="3052887" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="507" _type="CompilationCommand" timestamp="3052887" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="508" _type="CompilationCommand" timestamp="3052887" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="509" _type="Insert" docASTNodeCount="11" docActiveCodeLength="79" docExpressionCount="4" docLength="79" length="4" offset="15" repeat="4" timestamp="3053809" timestamp2="3054137">
+    <text><![CDATA[java]]></text>
+  </DocumentChange>
+  <Command __id="510" _type="InsertStringCommand" repeat="4" timestamp="3053824" timestamp2="3054137">
+    <data><![CDATA[java]]></data>
+  </Command>
+  <Command __id="517" _type="CompilationCommand" timestamp="3054746" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "java", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[18]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[15]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="518" _type="CompilationCommand" timestamp="3054762" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[59]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[47]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="519" _type="CompilationCommand" timestamp="3054762" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[68]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[68]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="520" _type="CompilationCommand" timestamp="3054762" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[68]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[68]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="521" _type="CompilationCommand" timestamp="3054762" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[68]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[68]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="522" _type="CompilationCommand" timestamp="3055402" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "java", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[18]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[15]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="523" _type="CompilationCommand" timestamp="3055402" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[59]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[47]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="524" _type="CompilationCommand" timestamp="3055402" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[68]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[68]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="525" _type="CompilationCommand" timestamp="3055418" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[68]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[68]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="526" _type="CompilationCommand" timestamp="3055418" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[68]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[68]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="527" _type="Delete" docASTNodeCount="11" docActiveCodeLength="75" docExpressionCount="4" docLength="75" endLine="2" length="4" offset="15" repeat="4" startLine="2" timestamp="3056371" timestamp2="3056871">
+    <text><![CDATA[java]]></text>
+  </DocumentChange>
+  <Command __id="528" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="4" timestamp="3056371" timestamp2="3056871" />
+  <Command __id="535" _type="CompilationCommand" timestamp="3057418" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[55]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[43]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="536" _type="CompilationCommand" timestamp="3057418" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="537" _type="CompilationCommand" timestamp="3057434" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="539" _type="CompilationCommand" timestamp="3057449" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="538" _type="CompilationCommand" timestamp="3057434" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[55]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[43]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="540" _type="CompilationCommand" timestamp="3057449" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="541" _type="CompilationCommand" timestamp="3057449" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="542" _type="CompilationCommand" timestamp="3057465" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="543" _type="Insert" docASTNodeCount="11" docActiveCodeLength="82" docExpressionCount="4" docLength="82" length="7" offset="15" repeat="7" timestamp="3058074" timestamp2="3059293">
+    <text><![CDATA[import ]]></text>
+  </DocumentChange>
+  <Command __id="544" _type="InsertStringCommand" repeat="6" timestamp="3058090" timestamp2="3059090">
+    <data><![CDATA[import]]></data>
+  </Command>
+  <Command __id="555" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="3059105" />
+  <Command __id="557" _type="InsertStringCommand" timestamp="3059293" timestamp2="3059293">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <DocumentChange __id="558" _type="Delete" docASTNodeCount="11" docActiveCodeLength="81" docExpressionCount="4" docLength="81" endLine="2" length="1" offset="21" startLine="2" timestamp="3059683">
+    <text><![CDATA[ ]]></text>
+  </DocumentChange>
+  <Command __id="559" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="3059683" />
+  <DocumentChange __id="560" _type="Insert" docASTNodeCount="17" docActiveCodeLength="92" docExpressionCount="9" docLength="92" length="11" offset="21" repeat="11" timestamp="3060215" timestamp2="3068762">
+    <text><![CDATA[ java.awt.b]]></text>
+  </DocumentChange>
+  <Command __id="561" _type="InsertStringCommand" timestamp="3060230" timestamp2="3060230">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="562" _type="CompilationCommand" timestamp="3060293" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "import", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[20]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[15]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="563" _type="CompilationCommand" timestamp="3060293" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[62]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[50]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="564" _type="CompilationCommand" timestamp="3060293" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[71]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[71]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="565" _type="CompilationCommand" timestamp="3060293" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[71]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[71]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="566" _type="CompilationCommand" timestamp="3060308" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[71]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[71]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="568" _type="InsertStringCommand" repeat="5" timestamp="3060543" timestamp2="3061418">
+    <data><![CDATA[java.]]></data>
+  </Command>
+  <Command __id="577" _type="CompilationCommand" timestamp="3061465" type="Error">
+    <errorMessage><![CDATA[Syntax error on token ".", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[26]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[26]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="578" _type="CompilationCommand" timestamp="3061465" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[67]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[55]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="579" _type="CompilationCommand" timestamp="3061480" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[76]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[76]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="580" _type="CompilationCommand" timestamp="3061496" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[76]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[76]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="581" _type="CompilationCommand" timestamp="3061496" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[76]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[76]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="582" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="3061824" />
+  <Command __id="584" _type="CompilationCommand" timestamp="3062746" type="Error">
+    <errorMessage><![CDATA[The import java.a cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[27]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="585" _type="CompilationCommand" timestamp="3062762" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "a", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[27]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="586" _type="CompilationCommand" timestamp="3062762" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[68]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[56]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="587" _type="CompilationCommand" timestamp="3062777" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[77]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[77]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="588" _type="CompilationCommand" timestamp="3062777" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[77]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[77]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="589" _type="CompilationCommand" timestamp="3062777" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[77]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[77]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="590" _type="CompilationCommand" timestamp="3063496" type="Error">
+    <errorMessage><![CDATA[The import java.a cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[27]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="591" _type="CompilationCommand" timestamp="3063496" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "a", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[27]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="592" _type="CompilationCommand" timestamp="3063496" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[68]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[56]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="593" _type="CompilationCommand" timestamp="3063496" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[77]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[77]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="594" _type="CompilationCommand" timestamp="3063512" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[77]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[77]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="595" _type="CompilationCommand" timestamp="3063512" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[77]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[77]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="597" _type="CompilationCommand" timestamp="3064480" type="Error">
+    <errorMessage><![CDATA[The import java.aw cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[28]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="598" _type="CompilationCommand" timestamp="3064480" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "aw", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[28]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="599" _type="CompilationCommand" timestamp="3064480" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[69]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[57]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="600" _type="CompilationCommand" timestamp="3064496" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="601" _type="CompilationCommand" timestamp="3064496" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="602" _type="CompilationCommand" timestamp="3064496" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="603" _type="CompilationCommand" timestamp="3065027" type="Error">
+    <errorMessage><![CDATA[The import java.aw cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[28]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="604" _type="CompilationCommand" timestamp="3065027" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "aw", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[28]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="605" _type="CompilationCommand" timestamp="3065027" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[69]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[57]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="606" _type="CompilationCommand" timestamp="3065027" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="607" _type="CompilationCommand" timestamp="3065027" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="608" _type="CompilationCommand" timestamp="3065043" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="610" _type="CompilationCommand" timestamp="3066183" type="Error">
+    <errorMessage><![CDATA[Only a type can be imported. java.awt resolves to a package]]></errorMessage>
+    <sourceEnd><![CDATA[29]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="611" _type="CompilationCommand" timestamp="3066199" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "awt", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[29]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="612" _type="CompilationCommand" timestamp="3066199" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[70]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[58]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="613" _type="CompilationCommand" timestamp="3066199" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="614" _type="CompilationCommand" timestamp="3066199" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="615" _type="CompilationCommand" timestamp="3066246" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="616" _type="CompilationCommand" timestamp="3067043" type="Error">
+    <errorMessage><![CDATA[Only a type can be imported. java.awt resolves to a package]]></errorMessage>
+    <sourceEnd><![CDATA[29]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="617" _type="CompilationCommand" timestamp="3067043" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "awt", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[29]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="618" _type="CompilationCommand" timestamp="3067058" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[70]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[58]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="619" _type="CompilationCommand" timestamp="3067058" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="620" _type="CompilationCommand" timestamp="3067058" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="621" _type="CompilationCommand" timestamp="3067058" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="623" _type="CompilationCommand" timestamp="3067902" type="Error">
+    <errorMessage><![CDATA[Syntax error on token ".", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[30]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[30]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="624" _type="CompilationCommand" timestamp="3067918" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[71]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[59]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="625" _type="CompilationCommand" timestamp="3067918" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="626" _type="CompilationCommand" timestamp="3067918" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="627" _type="CompilationCommand" timestamp="3067918" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="628" _type="CompilationCommand" timestamp="3068621" type="Error">
+    <errorMessage><![CDATA[Syntax error on token ".", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[30]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[30]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="629" _type="CompilationCommand" timestamp="3068621" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[71]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[59]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="630" _type="CompilationCommand" timestamp="3068621" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="631" _type="CompilationCommand" timestamp="3068637" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="632" _type="CompilationCommand" timestamp="3068637" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="634" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="3068840" />
+  <Command __id="635" _type="CompilationCommand" timestamp="3069371" type="Error">
+    <errorMessage><![CDATA[The import java.awt.b cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[31]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="636" _type="CompilationCommand" timestamp="3069371" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "b", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[31]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[31]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="637" _type="CompilationCommand" timestamp="3069387" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[72]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[60]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="638" _type="CompilationCommand" timestamp="3069387" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[81]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[81]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="639" _type="CompilationCommand" timestamp="3069387" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[81]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[81]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="640" _type="CompilationCommand" timestamp="3069387" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[81]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[81]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="641" _type="Delete" docASTNodeCount="11" docActiveCodeLength="87" docExpressionCount="4" docLength="87" endLine="2" length="5" offset="27" repeat="5" startLine="2" timestamp="3069808" timestamp2="3071496">
+    <text><![CDATA[awt.b]]></text>
+  </DocumentChange>
+  <Command __id="642" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="3069824" />
+  <Command __id="643" _type="CompilationCommand" timestamp="3070418" type="Error">
+    <errorMessage><![CDATA[Syntax error on token ".", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[30]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[30]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="644" _type="CompilationCommand" timestamp="3070418" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[71]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[59]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="645" _type="CompilationCommand" timestamp="3070418" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="646" _type="CompilationCommand" timestamp="3070433" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="647" _type="CompilationCommand" timestamp="3070433" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="649" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="4" timestamp="3070980" timestamp2="3071496" />
+  <DocumentChange __id="656" _type="Insert" docASTNodeCount="11" docActiveCodeLength="91" docExpressionCount="4" docLength="91" length="4" offset="27" repeat="4" timestamp="3071871" timestamp2="3074840">
+    <text><![CDATA[awt.]]></text>
+  </DocumentChange>
+  <Command __id="657" _type="InsertStringCommand" repeat="2" timestamp="3071887" timestamp2="3072168">
+    <data><![CDATA[aw]]></data>
+  </Command>
+  <Command __id="660" _type="CompilationCommand" timestamp="3072793" type="Error">
+    <errorMessage><![CDATA[The import java.aw cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[28]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="661" _type="CompilationCommand" timestamp="3072793" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "aw", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[28]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="662" _type="CompilationCommand" timestamp="3072793" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[69]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[57]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="663" _type="CompilationCommand" timestamp="3072793" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="664" _type="CompilationCommand" timestamp="3072808" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="665" _type="CompilationCommand" timestamp="3072824" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[78]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="667" _type="InsertStringCommand" timestamp="3073387" timestamp2="3073387">
+    <data><![CDATA[t]]></data>
+  </Command>
+  <Command __id="668" _type="CompilationCommand" timestamp="3073949" type="Error">
+    <errorMessage><![CDATA[Only a type can be imported. java.awt resolves to a package]]></errorMessage>
+    <sourceEnd><![CDATA[29]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="669" _type="CompilationCommand" timestamp="3073965" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "awt", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[29]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="670" _type="CompilationCommand" timestamp="3073965" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[70]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[58]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="671" _type="CompilationCommand" timestamp="3073965" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="672" _type="CompilationCommand" timestamp="3073965" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="673" _type="CompilationCommand" timestamp="3073965" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="674" _type="CompilationCommand" timestamp="3074652" type="Error">
+    <errorMessage><![CDATA[Only a type can be imported. java.awt resolves to a package]]></errorMessage>
+    <sourceEnd><![CDATA[29]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="675" _type="CompilationCommand" timestamp="3074652" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "awt", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[29]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[27]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="676" _type="CompilationCommand" timestamp="3074652" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[70]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[58]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="677" _type="CompilationCommand" timestamp="3074668" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="678" _type="CompilationCommand" timestamp="3074683" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="679" _type="CompilationCommand" timestamp="3074683" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[79]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="681" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="3074840" />
+  <Command __id="682" _type="InsertStringCommand" timestamp="3074840" timestamp2="3074840">
+    <data><![CDATA[.]]></data>
+  </Command>
+  <Command __id="683" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="3075027" />
+  <Command __id="684" _type="CompilationCommand" timestamp="3075527" type="Error">
+    <errorMessage><![CDATA[Syntax error on token ".", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[30]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[30]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="685" _type="CompilationCommand" timestamp="3075527" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[71]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[59]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="686" _type="CompilationCommand" timestamp="3075527" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="687" _type="CompilationCommand" timestamp="3075543" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="688" _type="CompilationCommand" timestamp="3075543" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="689" _type="CompilationCommand" timestamp="3076199" type="Error">
+    <errorMessage><![CDATA[Syntax error on token ".", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[30]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[30]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="690" _type="CompilationCommand" timestamp="3076199" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[71]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[59]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="691" _type="CompilationCommand" timestamp="3076215" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="692" _type="CompilationCommand" timestamp="3076230" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="693" _type="CompilationCommand" timestamp="3076230" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[80]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="694" _type="ShellCommand" timestamp="3077496" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="695" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="3110793" />
+  <Command __id="696" _type="ShellCommand" timestamp="3173823" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="697" _type="MoveCaretCommand" caretOffset="89" docOffset="89" timestamp="3173964" />
+  <Command __id="698" _type="MoveCaretCommand" caretOffset="86" docOffset="86" timestamp="3174542" />
+  <Command __id="699" _type="ShellCommand" timestamp="3181151" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="700" _type="ShellCommand" timestamp="3189308" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="701" _type="MoveCaretCommand" caretOffset="31" docOffset="31" timestamp="3191073" />
+  <DocumentChange __id="702" _type="Insert" docASTNodeCount="17" docActiveCodeLength="99" docExpressionCount="9" docLength="99" length="8" offset="31" repeat="7" timestamp="3197167" timestamp2="3199292">
+    <text><![CDATA[Color;
+]]></text>
+  </DocumentChange>
+  <Command __id="703" _type="InsertStringCommand" repeat="5" timestamp="3197167" timestamp2="3197964">
+    <data><![CDATA[Color]]></data>
+  </Command>
+  <Command __id="712" _type="CompilationCommand" timestamp="3198573" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "Color", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[35]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[31]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="713" _type="CompilationCommand" timestamp="3198573" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[76]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[64]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="714" _type="CompilationCommand" timestamp="3198573" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[85]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[85]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="715" _type="CompilationCommand" timestamp="3198573" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[85]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[85]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="716" _type="CompilationCommand" timestamp="3198573" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[85]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[85]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="718" _type="InsertStringCommand" timestamp="3199042" timestamp2="3199042">
+    <data><![CDATA[;]]></data>
+  </Command>
+  <Command __id="720" _type="InsertStringCommand" timestamp="3199292" timestamp2="3199292">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="721" _type="CompilationCommand" timestamp="3199792" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[79]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[67]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="722" _type="CompilationCommand" timestamp="3199792" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[88]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[88]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="723" _type="CompilationCommand" timestamp="3199823" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[88]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[88]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="724" _type="CompilationCommand" timestamp="3199823" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[88]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[88]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="725" _type="Insert" docASTNodeCount="17" docActiveCodeLength="103" docExpressionCount="9" docLength="103" length="4" offset="39" repeat="4" timestamp="3201683" timestamp2="3202183">
+    <text><![CDATA[impr]]></text>
+  </DocumentChange>
+  <Command __id="726" _type="InsertStringCommand" repeat="4" timestamp="3201683" timestamp2="3202183">
+    <data><![CDATA[impr]]></data>
+  </Command>
+  <Command __id="733" _type="CompilationCommand" timestamp="3202792" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "impr", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[42]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="734" _type="CompilationCommand" timestamp="3202823" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[83]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[71]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="735" _type="CompilationCommand" timestamp="3202839" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[92]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[92]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="736" _type="CompilationCommand" timestamp="3202839" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[92]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[92]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="737" _type="CompilationCommand" timestamp="3202839" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[92]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[92]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="738" _type="CompilationCommand" timestamp="3202854" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "impr", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[42]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="739" _type="CompilationCommand" timestamp="3202854" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[83]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[71]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="740" _type="CompilationCommand" timestamp="3202870" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[92]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[92]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="741" _type="CompilationCommand" timestamp="3202870" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[92]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[92]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="742" _type="CompilationCommand" timestamp="3202870" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[92]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[92]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="743" _type="Delete" docASTNodeCount="17" docActiveCodeLength="102" docExpressionCount="9" docLength="102" endLine="3" length="1" offset="42" startLine="3" timestamp="3203198">
+    <text><![CDATA[r]]></text>
+  </DocumentChange>
+  <Command __id="744" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="3203214" />
+  <DocumentChange __id="745" _type="Insert" docASTNodeCount="17" docActiveCodeLength="106" docExpressionCount="9" docLength="106" length="4" offset="42" repeat="4" timestamp="3203573" timestamp2="3204339">
+    <text><![CDATA[ort ]]></text>
+  </DocumentChange>
+  <Command __id="746" _type="InsertStringCommand" repeat="4" timestamp="3203573" timestamp2="3204339">
+    <data><![CDATA[ort ]]></data>
+  </Command>
+  <DocumentChange __id="753" _type="Delete" docASTNodeCount="17" docActiveCodeLength="105" docExpressionCount="9" docLength="105" endLine="3" length="1" offset="45" startLine="3" timestamp="3204683">
+    <text><![CDATA[ ]]></text>
+  </DocumentChange>
+  <Command __id="754" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="3204683" />
+  <Command __id="755" _type="CompilationCommand" timestamp="3205401" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "import", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[44]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[39]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="756" _type="CompilationCommand" timestamp="3205417" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[85]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[73]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="757" _type="CompilationCommand" timestamp="3205417" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[94]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[94]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="758" _type="CompilationCommand" timestamp="3205433" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[94]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[94]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="759" _type="CompilationCommand" timestamp="3205433" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[94]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[94]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="760" _type="Insert" docASTNodeCount="21" docActiveCodeLength="114" docExpressionCount="12" docLength="114" length="9" offset="45" repeat="9" timestamp="3205714" timestamp2="3207745">
+    <text><![CDATA[ java.awt]]></text>
+  </DocumentChange>
+  <Command __id="761" _type="InsertStringCommand" repeat="9" timestamp="3205714" timestamp2="3207761">
+    <data><![CDATA[ java.awt]]></data>
+  </Command>
+  <Command __id="778" _type="CompilationCommand" timestamp="3208370" type="Error">
+    <errorMessage><![CDATA[Only a type can be imported. java.awt resolves to a package]]></errorMessage>
+    <sourceEnd><![CDATA[53]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[46]]></sourceStart>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="779" _type="CompilationCommand" timestamp="3208370" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "awt", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[53]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[51]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="780" _type="CompilationCommand" timestamp="3208370" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[94]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[82]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="781" _type="CompilationCommand" timestamp="3208370" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[103]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[103]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="782" _type="CompilationCommand" timestamp="3208370" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[103]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[103]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="783" _type="CompilationCommand" timestamp="3208386" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[103]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[103]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="784" _type="CompilationCommand" timestamp="3208948" type="Error">
+    <errorMessage><![CDATA[Only a type can be imported. java.awt resolves to a package]]></errorMessage>
+    <sourceEnd><![CDATA[53]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[46]]></sourceStart>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="785" _type="CompilationCommand" timestamp="3208964" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "awt", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[53]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[51]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="786" _type="CompilationCommand" timestamp="3208964" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[94]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[82]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="787" _type="CompilationCommand" timestamp="3208964" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[103]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[103]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="788" _type="CompilationCommand" timestamp="3208964" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[103]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[103]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="789" _type="CompilationCommand" timestamp="3208964" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[103]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[103]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="790" _type="Insert" docASTNodeCount="23" docActiveCodeLength="119" docExpressionCount="14" docLength="119" length="5" offset="54" repeat="5" timestamp="3210308" timestamp2="3211448">
+    <text><![CDATA[.Fial]]></text>
+  </DocumentChange>
+  <Command __id="791" _type="InsertStringCommand" timestamp="3210308" timestamp2="3210308">
+    <data><![CDATA[.]]></data>
+  </Command>
+  <Command __id="792" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="3210495" />
+  <Command __id="796" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="3211370" />
+  <Command __id="798" _type="InsertStringCommand" timestamp="3211479" timestamp2="3211479">
+    <data><![CDATA[l]]></data>
+  </Command>
+  <Command __id="799" _type="CompilationCommand" timestamp="3211979" type="Error">
+    <errorMessage><![CDATA[The import java.awt.Fial cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[58]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[46]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="800" _type="CompilationCommand" timestamp="3211979" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "Fial", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[58]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[55]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="801" _type="CompilationCommand" timestamp="3211995" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[99]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[87]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="802" _type="CompilationCommand" timestamp="3211995" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[108]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[108]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="803" _type="CompilationCommand" timestamp="3211995" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[108]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[108]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="804" _type="CompilationCommand" timestamp="3212011" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[108]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[108]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="805" _type="Delete" docASTNodeCount="23" docActiveCodeLength="117" docExpressionCount="14" docLength="117" endLine="3" length="2" offset="57" repeat="2" startLine="3" timestamp="3212573" timestamp2="3212745">
+    <text><![CDATA[al]]></text>
+  </DocumentChange>
+  <Command __id="806" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="3212573" />
+  <Command __id="807" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="3212589" />
+  <Command __id="809" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="3212745" />
+  <DocumentChange __id="810" _type="Insert" docASTNodeCount="23" docActiveCodeLength="128" docExpressionCount="14" docLength="128" length="11" offset="57" repeat="10" timestamp="3213323" timestamp2="3215917">
+    <text><![CDATA[leDialog;
+]]></text>
+  </DocumentChange>
+  <Command __id="811" _type="InsertStringCommand" timestamp="3213370" timestamp2="3213370">
+    <data><![CDATA[l]]></data>
+  </Command>
+  <Command __id="812" _type="CompilationCommand" timestamp="3213370" type="Error">
+    <errorMessage><![CDATA[The import java.awt.Fil cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[57]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[46]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="813" _type="CompilationCommand" timestamp="3213386" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "Fil", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[57]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[55]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="814" _type="CompilationCommand" timestamp="3213386" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[98]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[86]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="815" _type="CompilationCommand" timestamp="3213386" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[107]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[107]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="816" _type="CompilationCommand" timestamp="3213401" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[107]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[107]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="817" _type="CompilationCommand" timestamp="3213401" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[107]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[107]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="819" _type="InsertStringCommand" timestamp="3213448" timestamp2="3213448">
+    <data><![CDATA[e]]></data>
+  </Command>
+  <Command __id="820" _type="CompilationCommand" timestamp="3213948" type="Error">
+    <errorMessage><![CDATA[The import java.awt.File cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[58]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[46]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="821" _type="CompilationCommand" timestamp="3213948" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "File", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[58]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[55]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="822" _type="CompilationCommand" timestamp="3213948" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[99]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[87]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="823" _type="CompilationCommand" timestamp="3213964" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[108]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[108]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="824" _type="CompilationCommand" timestamp="3213964" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[108]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[108]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="825" _type="CompilationCommand" timestamp="3213964" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[108]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[108]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="827" _type="InsertStringCommand" repeat="6" timestamp="3214026" timestamp2="3214932">
+    <data><![CDATA[Dialog]]></data>
+  </Command>
+  <Command __id="838" _type="CompilationCommand" timestamp="3215495" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "FileDialog", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[55]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="839" _type="CompilationCommand" timestamp="3215495" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[105]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[93]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="840" _type="CompilationCommand" timestamp="3215511" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[114]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[114]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="841" _type="CompilationCommand" timestamp="3215511" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[114]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[114]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="842" _type="CompilationCommand" timestamp="3215511" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[114]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[114]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="844" _type="InsertStringCommand" timestamp="3215714" timestamp2="3215714">
+    <data><![CDATA[;]]></data>
+  </Command>
+  <Command __id="846" _type="InsertStringCommand" timestamp="3215948" timestamp2="3215948">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="847" _type="CompilationCommand" timestamp="3216479" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[108]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[96]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="848" _type="CompilationCommand" timestamp="3216479" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[117]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[117]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="849" _type="CompilationCommand" timestamp="3216495" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[117]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[117]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="850" _type="CompilationCommand" timestamp="3216495" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[117]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[117]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="851" _type="CompilationCommand" timestamp="3217026" type="Error">
+    <errorMessage><![CDATA[BufferedImage cannot be resolved to a type]]></errorMessage>
+    <sourceEnd><![CDATA[108]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[96]]></sourceStart>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="852" _type="CompilationCommand" timestamp="3217042" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[117]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[117]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="853" _type="CompilationCommand" timestamp="3217042" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[117]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[117]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="854" _type="CompilationCommand" timestamp="3217042" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[117]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[117]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="855" _type="ShellCommand" timestamp="3219448" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="856" _type="ShellCommand" timestamp="3226823" type="ECLIPSE_GAINED_FOCUS" />
+  <DocumentChange __id="857" _type="Insert" docASTNodeCount="127" docActiveCodeLength="608" docExpressionCount="102" docLength="608" length="480" offset="68" timestamp="3227651">
+    <text><![CDATA[import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;]]></text>
+  </DocumentChange>
+  <Command __id="858" _type="PasteCommand" timestamp="3227698" />
+  <Command __id="859" _type="CompilationCommand" timestamp="3228276" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[597]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[597]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[24]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="860" _type="CompilationCommand" timestamp="3228292" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[597]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[597]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[24]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="861" _type="CompilationCommand" timestamp="3228292" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[597]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[597]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[24]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="862" _type="CompilationCommand" timestamp="3229167" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[597]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[597]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[24]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="863" _type="CompilationCommand" timestamp="3229167" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete FieldDeclaration]]></errorMessage>
+    <sourceEnd><![CDATA[597]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[597]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[24]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="864" _type="CompilationCommand" timestamp="3229167" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete ClassBody]]></errorMessage>
+    <sourceEnd><![CDATA[597]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[597]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[24]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="865" _type="MoveCaretCommand" caretOffset="573" docOffset="573" timestamp="3229370" />
+  <Command __id="866" _type="MoveCaretCommand" caretOffset="603" docOffset="603" timestamp="3231182" />
+  <Command __id="867" _type="ShellCommand" timestamp="3231854" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="868" _type="ShellCommand" timestamp="3272370" type="ECLIPSE_GAINED_FOCUS" />
+  <DocumentChange __id="869" _type="Delete" docASTNodeCount="122" docActiveCodeLength="581" docExpressionCount="100" docLength="581" endLine="23" length="27" offset="576" repeat="27" startLine="23" timestamp="3272995" timestamp2="3275338">
+    <text><![CDATA[BufferedImage redCar = new ]]></text>
+  </DocumentChange>
+  <Command __id="870" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="4" timestamp="3273010" timestamp2="3273495" />
+  <Command __id="877" _type="CompilationCommand" timestamp="3273885" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "=", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[597]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[597]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[24]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="879" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="23" timestamp="3273979" timestamp2="3275338" />
+  <Command __id="924" _type="CompilationCommand" timestamp="3275932" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.Color is never used]]></errorMessage>
+    <sourceEnd><![CDATA[35]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="925" _type="CompilationCommand" timestamp="3275948" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.FileDialog is never used]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[46]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="926" _type="CompilationCommand" timestamp="3275963" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.Toolkit is never used]]></errorMessage>
+    <sourceEnd><![CDATA[90]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[75]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="927" _type="CompilationCommand" timestamp="3275979" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.ActionEvent is never used]]></errorMessage>
+    <sourceEnd><![CDATA[126]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[101]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="928" _type="CompilationCommand" timestamp="3275979" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.ActionListener is never used]]></errorMessage>
+    <sourceEnd><![CDATA[165]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[137]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="929" _type="CompilationCommand" timestamp="3275979" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.KeyEvent is never used]]></errorMessage>
+    <sourceEnd><![CDATA[198]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[176]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="930" _type="CompilationCommand" timestamp="3275995" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.image.BufferedImage is never used]]></errorMessage>
+    <sourceEnd><![CDATA[236]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[209]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="931" _type="CompilationCommand" timestamp="3275995" type="Warning">
+    <errorMessage><![CDATA[The import java.io.File is never used]]></errorMessage>
+    <sourceEnd><![CDATA[258]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[247]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[10]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="932" _type="CompilationCommand" timestamp="3275995" type="Warning">
+    <errorMessage><![CDATA[The import java.io.IOException is never used]]></errorMessage>
+    <sourceEnd><![CDATA[287]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[269]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[11]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="933" _type="CompilationCommand" timestamp="3276010" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.Color is never used]]></errorMessage>
+    <sourceEnd><![CDATA[35]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="935" _type="CompilationCommand" timestamp="3276026" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.FileDialog is never used]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[46]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="934" _type="CompilationCommand" timestamp="3276041" type="Warning">
+    <errorMessage><![CDATA[The import java.net.URL is never used]]></errorMessage>
+    <sourceEnd><![CDATA[309]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[298]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="936" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="3276041" />
+  <Command __id="937" _type="CompilationCommand" timestamp="3276041" type="Warning">
+    <errorMessage><![CDATA[The import javax.imageio.ImageIO is never used]]></errorMessage>
+    <sourceEnd><![CDATA[340]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[320]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[13]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="938" _type="CompilationCommand" timestamp="3276057" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.ImageIcon is never used]]></errorMessage>
+    <sourceEnd><![CDATA[371]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[351]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[14]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="940" _type="CompilationCommand" timestamp="3276073" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JFrame is never used]]></errorMessage>
+    <sourceEnd><![CDATA[399]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[382]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[15]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="939" _type="CompilationCommand" timestamp="3276057" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.Toolkit is never used]]></errorMessage>
+    <sourceEnd><![CDATA[90]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[75]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="942" _type="CompilationCommand" timestamp="3276088" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.ActionEvent is never used]]></errorMessage>
+    <sourceEnd><![CDATA[126]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[101]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="943" _type="CompilationCommand" timestamp="3276088" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.ActionListener is never used]]></errorMessage>
+    <sourceEnd><![CDATA[165]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[137]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="941" _type="CompilationCommand" timestamp="3276073" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JLabel is never used]]></errorMessage>
+    <sourceEnd><![CDATA[427]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[410]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[16]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="944" _type="CompilationCommand" timestamp="3276104" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.KeyEvent is never used]]></errorMessage>
+    <sourceEnd><![CDATA[198]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[176]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="946" _type="CompilationCommand" timestamp="3276104" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenu is never used]]></errorMessage>
+    <sourceEnd><![CDATA[454]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[438]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[17]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="945" _type="CompilationCommand" timestamp="3276104" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.image.BufferedImage is never used]]></errorMessage>
+    <sourceEnd><![CDATA[236]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[209]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="947" _type="CompilationCommand" timestamp="3276104" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenuBar is never used]]></errorMessage>
+    <sourceEnd><![CDATA[484]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[465]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[18]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="948" _type="CompilationCommand" timestamp="3276120" type="Warning">
+    <errorMessage><![CDATA[The import java.io.File is never used]]></errorMessage>
+    <sourceEnd><![CDATA[258]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[247]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[10]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="949" _type="CompilationCommand" timestamp="3276120" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenuItem is never used]]></errorMessage>
+    <sourceEnd><![CDATA[515]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[495]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[19]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="950" _type="CompilationCommand" timestamp="3276120" type="Warning">
+    <errorMessage><![CDATA[The import java.io.IOException is never used]]></errorMessage>
+    <sourceEnd><![CDATA[287]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[269]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[11]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="951" _type="CompilationCommand" timestamp="3276120" type="Warning">
+    <errorMessage><![CDATA[The import java.net.URL is never used]]></errorMessage>
+    <sourceEnd><![CDATA[309]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[298]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="952" _type="CompilationCommand" timestamp="3276120" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.KeyStroke is never used]]></errorMessage>
+    <sourceEnd><![CDATA[546]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[526]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[20]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="953" _type="CompilationCommand" timestamp="3276166" type="Warning">
+    <errorMessage><![CDATA[The import javax.imageio.ImageIO is never used]]></errorMessage>
+    <sourceEnd><![CDATA[340]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[320]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[13]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="954" _type="CompilationCommand" timestamp="3276166" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.ImageIcon is never used]]></errorMessage>
+    <sourceEnd><![CDATA[371]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[351]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[14]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="955" _type="CompilationCommand" timestamp="3276166" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JFrame is never used]]></errorMessage>
+    <sourceEnd><![CDATA[399]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[382]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[15]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="956" _type="CompilationCommand" timestamp="3276166" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JLabel is never used]]></errorMessage>
+    <sourceEnd><![CDATA[427]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[410]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[16]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="957" _type="CompilationCommand" timestamp="3276166" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenu is never used]]></errorMessage>
+    <sourceEnd><![CDATA[454]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[438]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[17]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="958" _type="CompilationCommand" timestamp="3276182" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenuBar is never used]]></errorMessage>
+    <sourceEnd><![CDATA[484]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[465]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[18]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="959" _type="CompilationCommand" timestamp="3276182" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenuItem is never used]]></errorMessage>
+    <sourceEnd><![CDATA[515]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[495]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[19]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="960" _type="CompilationCommand" timestamp="3276182" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.KeyStroke is never used]]></errorMessage>
+    <sourceEnd><![CDATA[546]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[526]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[20]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="961" _type="CompilationCommand" timestamp="3277198" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.Color is never used]]></errorMessage>
+    <sourceEnd><![CDATA[35]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="962" _type="CompilationCommand" timestamp="3277198" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.FileDialog is never used]]></errorMessage>
+    <sourceEnd><![CDATA[64]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[46]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[4]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="963" _type="CompilationCommand" timestamp="3277198" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.Toolkit is never used]]></errorMessage>
+    <sourceEnd><![CDATA[90]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[75]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="964" _type="CompilationCommand" timestamp="3277213" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.ActionEvent is never used]]></errorMessage>
+    <sourceEnd><![CDATA[126]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[101]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="965" _type="CompilationCommand" timestamp="3277229" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.ActionListener is never used]]></errorMessage>
+    <sourceEnd><![CDATA[165]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[137]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="966" _type="CompilationCommand" timestamp="3277229" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.event.KeyEvent is never used]]></errorMessage>
+    <sourceEnd><![CDATA[198]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[176]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="967" _type="CompilationCommand" timestamp="3277229" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.image.BufferedImage is never used]]></errorMessage>
+    <sourceEnd><![CDATA[236]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[209]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="968" _type="CompilationCommand" timestamp="3277229" type="Warning">
+    <errorMessage><![CDATA[The import java.io.File is never used]]></errorMessage>
+    <sourceEnd><![CDATA[258]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[247]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[10]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="969" _type="CompilationCommand" timestamp="3277245" type="Warning">
+    <errorMessage><![CDATA[The import java.io.IOException is never used]]></errorMessage>
+    <sourceEnd><![CDATA[287]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[269]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[11]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="970" _type="CompilationCommand" timestamp="3277245" type="Warning">
+    <errorMessage><![CDATA[The import java.net.URL is never used]]></errorMessage>
+    <sourceEnd><![CDATA[309]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[298]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="971" _type="CompilationCommand" timestamp="3277245" type="Warning">
+    <errorMessage><![CDATA[The import javax.imageio.ImageIO is never used]]></errorMessage>
+    <sourceEnd><![CDATA[340]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[320]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[13]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="972" _type="CompilationCommand" timestamp="3277245" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.ImageIcon is never used]]></errorMessage>
+    <sourceEnd><![CDATA[371]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[351]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[14]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="973" _type="CompilationCommand" timestamp="3277245" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JFrame is never used]]></errorMessage>
+    <sourceEnd><![CDATA[399]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[382]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[15]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="974" _type="CompilationCommand" timestamp="3277260" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JLabel is never used]]></errorMessage>
+    <sourceEnd><![CDATA[427]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[410]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[16]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="975" _type="CompilationCommand" timestamp="3277260" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenu is never used]]></errorMessage>
+    <sourceEnd><![CDATA[454]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[438]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[17]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="976" _type="CompilationCommand" timestamp="3277276" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenuBar is never used]]></errorMessage>
+    <sourceEnd><![CDATA[484]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[465]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[18]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="977" _type="CompilationCommand" timestamp="3277291" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.JMenuItem is never used]]></errorMessage>
+    <sourceEnd><![CDATA[515]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[495]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[19]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="978" _type="CompilationCommand" timestamp="3277291" type="Warning">
+    <errorMessage><![CDATA[The import javax.swing.KeyStroke is never used]]></errorMessage>
+    <sourceEnd><![CDATA[546]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[526]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[20]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="979" _type="ShellCommand" timestamp="3284213" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="980" _type="ShellCommand" timestamp="3328229" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="981" _type="ShellCommand" timestamp="3329885" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="982" _type="ShellCommand" timestamp="3339291" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="983" _type="ShellCommand" timestamp="3342682" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="984" _type="ShellCommand" timestamp="3441290" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="985" _type="ShellCommand" timestamp="3442353" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="986" _type="ShellCommand" timestamp="3443478" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="987" _type="ShellCommand" timestamp="3464759" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="988" _type="ShellCommand" timestamp="3516009" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="989" _type="DifficultyCommand" timestamp="3516087" type="Insurmountable">
+    <otherOvercomeDifficultySaveText><![CDATA[]]></otherOvercomeDifficultySaveText>
+    <tryingToDo><![CDATA[Create a picture representation of a red car]]></tryingToDo>
+    <personAskedForHelp><![CDATA[]]></personAskedForHelp>
+    <overcomeDifficultyDropDown><![CDATA[Looked up solution online]]></overcomeDifficultyDropDown>
+    <otherCausedDifficulty><![CDATA[Not sure how to code for it]]></otherCausedDifficulty>
+    <otherMinutes><![CDATA[]]></otherMinutes>
+    <causedDifficulty><![CDATA[Other]]></causedDifficulty>
+  </Command>
+  <Command __id="990" _type="MoveCaretCommand" caretOffset="573" docOffset="573" timestamp="3542321" />
+  <Command __id="991" _type="ShellCommand" timestamp="3548946" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="992" _type="ShellCommand" timestamp="3628555" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="993" _type="ShellCommand" timestamp="3641805" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="994" _type="ShellCommand" timestamp="3646805" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="995" _type="SelectTextCommand" caretOffset="15" end="548" start="15" timestamp="3658555" />
+  <DocumentChange __id="996" _type="Delete" docASTNodeCount="6" docActiveCodeLength="48" docExpressionCount="2" docLength="48" endLine="19" length="533" offset="15" startLine="2" timestamp="3659367">
+    <text><![CDATA[import java.awt.Color;
+import java.awt.FileDialog;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;]]></text>
+  </DocumentChange>
+  <Command __id="997" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="3659414" />
+  <Command __id="998" _type="MoveCaretCommand" caretOffset="17" docOffset="17" timestamp="3668508" />
+  <DocumentChange __id="999" _type="Delete" docASTNodeCount="6" docActiveCodeLength="44" docExpressionCount="2" docLength="44" endLine="3" length="4" offset="13" repeat="2" startLine="1" timestamp="3669273" timestamp2="3669476">
+    <text><![CDATA[
+
+]]></text>
+  </DocumentChange>
+  <Command __id="1000" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="3669289" timestamp2="3669476" />
+  <Command __id="1003" _type="MoveCaretCommand" caretOffset="32" docOffset="32" timestamp="3670851" />
+  <Command __id="1004" _type="SelectTextCommand" caretOffset="32" end="32" start="31" timestamp="3671336" />
+  <Command __id="1005" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" timestamp="3672273" />
+  <DocumentChange __id="1006" _type="Delete" docASTNodeCount="3" docActiveCodeLength="41" docExpressionCount="1" docLength="41" endLine="2" length="3" offset="28" repeat="3" startLine="2" timestamp="3673101" timestamp2="3673570">
+    <text><![CDATA[Car]]></text>
+  </DocumentChange>
+  <Command __id="1007" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="3" timestamp="3673101" timestamp2="3673601" />
+  <Command __id="1012" _type="CompilationCommand" timestamp="3674226" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "class", Identifier expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[26]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="1013" _type="CompilationCommand" timestamp="3674742" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "class", Identifier expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[26]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/us/Car.java]]></filename>
+    <sourceStart><![CDATA[22]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[3]]></sourceCodeLineNumber>
+  </Command>
+</Events>

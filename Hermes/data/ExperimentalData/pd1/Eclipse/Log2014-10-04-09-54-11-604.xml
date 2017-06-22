@@ -1,0 +1,6 @@
+<Events startTimestamp="1412430851604" logVersion="0.5.3.qualifier">
+  <Command __id="1" _type="ShellCommand" timestamp="6518" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="2" _type="ShellCommand" timestamp="8186" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="3" _type="ShellCommand" timestamp="9837" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="4" _type="ShellCommand" timestamp="10536" type="ECLIPSE_CLOSED" />
+</Events>

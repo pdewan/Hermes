@@ -3,6 +3,7 @@ package dayton.ellwanger.consolelistener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.osgi.framework.console.ConsoleSession;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleListener;
@@ -11,8 +12,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.xmpp.ConnectStateListener;
-import dayton.ellwanger.hermes.xmpp.ConnectionState;
+//import dayton.ellwanger.hermes.xmpp.ConnectionState;
+//import util.trace.hermes.connectionmanager.JSONObjectForwardedToConnectionManager;
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
+import dayton.ellwanger.hermes.xmpp.ConnectionState;
+import util.trace.hermes.consolelistener.ConsoleSentToConnectionManager;
 
 public class HermesConnectionManager implements ConnectStateListener, IDocumentListener, IConsoleListener {
 	
@@ -57,7 +61,13 @@ public class HermesConnectionManager implements ConnectStateListener, IDocumentL
 				JSONArray tags = new JSONArray();
 				tags.put("APPEND");
 				messageData.put("tags", tags);
-			} catch (Exception ex) {}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			
+//			JSONObjectForwardedToConnectionManager.newCase(this, messageData.toString());
+//			ConsoleSentToConnectionManager.newCase(this, messageData.toString());
+			ConsoleSentToConnectionManager.newCase(this, messageData.toString());
 			ConnectionManager.getInstance().sendMessage(messageData);
 		}
 	}

@@ -1,0 +1,27 @@
+<Events startTimestamp="1412430456829" logVersion="0.5.3.qualifier">
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="51" docActiveCodeLength="236" docExpressionCount="32" docLength="270" projectName="TestPlugIn" timestamp="57">
+    <snapshot><![CDATA[
+public class HelloWorld {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("Hello world");
+		int i = 0;
+		i++;
+		System.out.println("foo");
+		System.out.println("bar");
+		System.out.append("c");
+
+	}
+
+}
+]]></snapshot>
+    <filePath><![CDATA[D:\dewan_backup\Java\eclipse\runtime-EclipseApplication\TestPlugIn\src\HelloWorld.java]]></filePath>
+  </Command>
+  <Command __id="2" _type="ShellCommand" timestamp="105" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="3" _type="MoveCaretCommand" caretOffset="257" docOffset="257" timestamp="572" />
+  <Command __id="4" _type="ShellCommand" timestamp="22089" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="5" _type="ShellCommand" timestamp="23095" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="6" _type="ShellCommand" timestamp="25107" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="7" _type="ShellCommand" timestamp="26100" type="ECLIPSE_CLOSED" />
+</Events>

@@ -1,0 +1,192 @@
+<Events startTimestamp="1412257725037" logVersion="0.5.3.qualifier">
+  <Command __id="0" _type="ShellCommand" timestamp="10598" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="1" _type="ShellCommand" timestamp="30091" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="2" _type="ShellCommand" timestamp="47934" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="3" _type="ShellCommand" timestamp="62246" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="4" _type="FileOpenCommand" docASTNodeCount="15" docActiveCodeLength="89" docExpressionCount="4" docLength="123" projectName="TestPlugIn" timestamp="64110">
+    <snapshot><![CDATA[
+public class HelloWorld {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
+]]></snapshot>
+    <filePath><![CDATA[D:\dewan_backup\Java\eclipse\runtime-EclipseApplication\TestPlugIn\src\HelloWorld.java]]></filePath>
+  </Command>
+  <Command __id="5" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="64476" />
+  <Command __id="6" _type="MoveCaretCommand" caretOffset="87" docOffset="87" timestamp="66717" />
+  <Command __id="7" _type="SelectTextCommand" caretOffset="88" end="88" start="84" timestamp="66946" />
+  <Command __id="8" _type="MoveCaretCommand" caretOffset="110" docOffset="110" timestamp="68399" />
+  <DocumentChange __id="9" _type="Insert" docASTNodeCount="21" docActiveCodeLength="103" docExpressionCount="9" docLength="137" length="14" offset="110" repeat="11" timestamp="69008" timestamp2="71769">
+    <text><![CDATA[
+		System.out]]></text>
+  </DocumentChange>
+  <Command __id="10" _type="InsertStringCommand" timestamp="69026" timestamp2="69026">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="12" _type="InsertStringCommand" repeat="7" timestamp="69689" timestamp2="71017">
+    <data><![CDATA[System.]]></data>
+  </Command>
+  <Command __id="25" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="71336" />
+  <Command __id="26" _type="CompilationCommand" timestamp="71654" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "AssignmentOperator Expression" to complete Assignment]]></errorMessage>
+    <sourceEnd><![CDATA[119]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[114]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="27" _type="CompilationCommand" timestamp="71655" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete BlockStatements]]></errorMessage>
+    <sourceEnd><![CDATA[119]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[114]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="28" _type="CompilationCommand" timestamp="71655" type="Error">
+    <errorMessage><![CDATA[System cannot be resolved to a variable]]></errorMessage>
+    <sourceEnd><![CDATA[119]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[114]]></sourceStart>
+    <messageId><![CDATA[33554515]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="32" _type="CompilationCommand" timestamp="72673" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "AssignmentOperator Expression" to complete Expression]]></errorMessage>
+    <sourceEnd><![CDATA[123]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[121]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="33" _type="CompilationCommand" timestamp="72673" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete BlockStatements]]></errorMessage>
+    <sourceEnd><![CDATA[123]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[121]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="34" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="72808" />
+  <DocumentChange __id="35" _type="Replace" docASTNodeCount="21" docActiveCodeLength="104" docExpressionCount="9" docLength="138" endLine="5" insertionLength="4" int_docASTNodeCount="19" int_docActiveCodeLength="100" int_docExpressionCount="7" int_docLength="134" length="3" offset="121" startLine="5" timestamp="72821">
+    <insertedText><![CDATA[out.]]></insertedText>
+    <deletedText><![CDATA[out]]></deletedText>
+  </DocumentChange>
+  <Command __id="36" _type="InsertStringCommand" repeat="13" timestamp="72829" timestamp2="75098">
+    <data><![CDATA[.println("ehe]]></data>
+  </Command>
+  <DocumentChange __id="37" _type="Insert" docASTNodeCount="22" docActiveCodeLength="118" docExpressionCount="10" docLength="152" length="14" offset="125" repeat="12" timestamp="72836" timestamp2="75095">
+    <text><![CDATA[println("ehe")]]></text>
+  </DocumentChange>
+  <Command __id="61" _type="CompilationCommand" timestamp="75685" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete BlockStatements]]></errorMessage>
+    <sourceEnd><![CDATA[138]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[138]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="62" _type="Delete" docASTNodeCount="22" docActiveCodeLength="115" docExpressionCount="10" docLength="149" endLine="5" length="3" offset="134" repeat="3" startLine="5" timestamp="75887" timestamp2="76188">
+    <text><![CDATA[ehe]]></text>
+  </DocumentChange>
+  <Command __id="63" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="3" timestamp="75913" timestamp2="76191" />
+  <DocumentChange __id="68" _type="Insert" docASTNodeCount="22" docActiveCodeLength="126" docExpressionCount="10" docLength="160" length="11" offset="134" repeat="11" timestamp="76740" timestamp2="78128">
+    <text><![CDATA[Hello world]]></text>
+  </DocumentChange>
+  <Command __id="69" _type="InsertStringCommand" repeat="11" timestamp="76743" timestamp2="78131">
+    <data><![CDATA[Hello world]]></data>
+  </Command>
+  <Command __id="90" _type="CompilationCommand" timestamp="78696" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete BlockStatements]]></errorMessage>
+    <sourceEnd><![CDATA[146]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[146]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="91" _type="MoveCaretCommand" caretOffset="147" docOffset="147" timestamp="79969" />
+  <DocumentChange __id="92" _type="Insert" docASTNodeCount="22" docActiveCodeLength="127" docExpressionCount="10" docLength="161" length="1" offset="147" timestamp="80569">
+    <text><![CDATA[;]]></text>
+  </DocumentChange>
+  <Command __id="93" _type="InsertStringCommand" timestamp="80574" timestamp2="80574">
+    <data><![CDATA[;]]></data>
+  </Command>
+  <Command __id="94" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="80913" />
+  <Command __id="95" _type="ShellCommand" timestamp="83299" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="96" _type="ShellCommand" timestamp="263617" type="ECLIPSE_GAINED_FOCUS" />
+  <DocumentChange __id="97" _type="Insert" docASTNodeCount="22" docActiveCodeLength="137" docExpressionCount="10" docLength="171" length="10" offset="148" repeat="7" timestamp="265146" timestamp2="267058">
+    <text><![CDATA[
+		Syste,]]></text>
+  </DocumentChange>
+  <Command __id="98" _type="InsertStringCommand" timestamp="265153" timestamp2="265153">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="100" _type="InsertStringCommand" repeat="6" timestamp="265964" timestamp2="267061">
+    <data><![CDATA[Syste,]]></data>
+  </Command>
+  <DocumentChange __id="111" _type="Delete" docASTNodeCount="22" docActiveCodeLength="131" docExpressionCount="10" docLength="165" endLine="6" length="6" offset="152" repeat="6" startLine="6" timestamp="267636" timestamp2="269199">
+    <text><![CDATA[Syste,]]></text>
+  </DocumentChange>
+  <Command __id="112" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="6" timestamp="267639" timestamp2="269201" />
+  <DocumentChange __id="123" _type="Insert" docASTNodeCount="27" docActiveCodeLength="145" docExpressionCount="12" docLength="179" length="14" offset="152" repeat="11" timestamp="269632" timestamp2="272746">
+    <text><![CDATA[int i = 0;
+		]]></text>
+  </DocumentChange>
+  <Command __id="124" _type="InsertStringCommand" repeat="10" timestamp="269635" timestamp2="272010">
+    <data><![CDATA[int i = 0;]]></data>
+  </Command>
+  <Command __id="143" _type="CompilationCommand" timestamp="272729" type="Warning">
+    <errorMessage><![CDATA[The value of the local variable i is not used]]></errorMessage>
+    <sourceEnd><![CDATA[156]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[156]]></sourceStart>
+    <messageId><![CDATA[536870973]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="145" _type="InsertStringCommand" timestamp="272751" timestamp2="272751">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="146" _type="CompilationCommand" timestamp="273738" type="Warning">
+    <errorMessage><![CDATA[The value of the local variable i is not used]]></errorMessage>
+    <sourceEnd><![CDATA[156]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[156]]></sourceStart>
+    <messageId><![CDATA[536870973]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="147" _type="Insert" docASTNodeCount="30" docActiveCodeLength="149" docExpressionCount="14" docLength="183" length="4" offset="166" repeat="4" timestamp="274956" timestamp2="276316">
+    <text><![CDATA[i++;]]></text>
+  </DocumentChange>
+  <Command __id="148" _type="InsertStringCommand" repeat="3" timestamp="274959" timestamp2="275717">
+    <data><![CDATA[i++]]></data>
+  </Command>
+  <Command __id="153" _type="CompilationCommand" timestamp="276249" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete Statement]]></errorMessage>
+    <sourceEnd><![CDATA[168]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[167]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="155" _type="InsertStringCommand" timestamp="276320" timestamp2="276320">
+    <data><![CDATA[;]]></data>
+  </Command>
+  <Command __id="156" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="276800" />
+  <Command __id="157" _type="CompilationCommand" timestamp="277756" type="Warning">
+    <errorMessage><![CDATA[The value of the local variable i is not used]]></errorMessage>
+    <sourceEnd><![CDATA[156]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[156]]></sourceStart>
+    <messageId><![CDATA[536870973]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="158" _type="ShellCommand" timestamp="279265" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="159" _type="ShellCommand" timestamp="292969" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="160" _type="ShellCommand" timestamp="294922" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="161" _type="ShellCommand" timestamp="296319" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="162" _type="ShellCommand" timestamp="296994" type="ECLIPSE_CLOSED" />
+</Events>

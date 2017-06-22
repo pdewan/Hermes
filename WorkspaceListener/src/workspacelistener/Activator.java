@@ -3,6 +3,8 @@ package workspacelistener;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import util.trace.hermes.workspacelistener.WorkspaceListenerTraceUtility;
+
 public class Activator extends AbstractUIPlugin {
 
 	public static final String PLUGIN_ID = "WorkspaceListener"; //$NON-NLS-1$
@@ -14,6 +16,8 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		WorkspaceListenerTraceUtility.setTracing();
+//		MessageBusClientsTraceUtility.setTracing();
 	}
 
 	public void stop(BundleContext context) throws Exception {

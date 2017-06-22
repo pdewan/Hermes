@@ -15,6 +15,7 @@ import edu.cmu.scs.fluorite.commands.document.DocChange;
 import edu.cmu.scs.fluorite.model.CommandExecutionListener;
 import edu.cmu.scs.fluorite.model.DocumentChangeListener;
 import edu.cmu.scs.fluorite.model.EventRecorder;
+import util.trace.hermes.timetracker.TimeWorkedForwardedToConnectionManager;
 
 public class FluoriteListener implements DocumentChangeListener, CommandExecutionListener {
 
@@ -75,7 +76,11 @@ public class FluoriteListener implements DocumentChangeListener, CommandExecutio
 				JSONArray tags = new JSONArray();
 				tags.put("TIME_TRACKER");
 				messageData.put("tags", tags);
-			} catch (Exception ex) {}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			TimeWorkedForwardedToConnectionManager.newCase(this, messageData.toString());
+//			JSONObjectForwardedToConnectionManager.newCase(this, messageData.toString());
 			ConnectionManager.getInstance().sendMessage(messageData);
 		}
 	}

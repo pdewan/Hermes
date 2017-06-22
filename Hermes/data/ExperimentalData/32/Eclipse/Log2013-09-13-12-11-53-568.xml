@@ -1,0 +1,665 @@
+<Events startTimestamp="1379088713568" logVersion="0.5.3.201309111108">
+  <Command __id="0" _type="ShellCommand" timestamp="3547" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="1" _type="ShellCommand" timestamp="7313" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="2" _type="ShellCommand" timestamp="23516" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="3" _type="ShellCommand" timestamp="56171" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="4" _type="DifficultyCommand" timestamp="56328" type="Making_Progress">
+    <otherOvercomeDifficultySaveText><![CDATA[]]></otherOvercomeDifficultySaveText>
+    <tryingToDo><![CDATA[]]></tryingToDo>
+    <personAskedForHelp><![CDATA[]]></personAskedForHelp>
+    <overcomeDifficultyDropDown><![CDATA[]]></overcomeDifficultyDropDown>
+    <otherCausedDifficulty><![CDATA[]]></otherCausedDifficulty>
+    <otherMinutes><![CDATA[]]></otherMinutes>
+    <causedDifficulty><![CDATA[]]></causedDifficulty>
+  </Command>
+  <Command __id="5" _type="ShellCommand" timestamp="86405" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="6" _type="ShellCommand" timestamp="87577" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="7" _type="ShellCommand" timestamp="221201" type="ECLIPSE_MINIMIZED" />
+  <Command __id="8" _type="ShellCommand" timestamp="223654" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="9" _type="ShellCommand" timestamp="324934" type="ECLIPSE_MAXIMIZED" />
+  <Command __id="10" _type="ShellCommand" timestamp="325231" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="11" _type="ShellCommand" timestamp="327278" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="12" _type="ShellCommand" timestamp="331200" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="13" _type="ShellCommand" timestamp="339919" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="14" _type="ShellCommand" timestamp="356122" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="15" _type="ShellCommand" timestamp="356825" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="16" _type="ShellCommand" timestamp="425543" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="17" _type="ShellCommand" timestamp="431121" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="18" _type="ShellCommand" timestamp="442668" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="19" _type="FileOpenCommand" projectName="null" timestamp="451543">
+    <filePath><![CDATA[null]]></filePath>
+  </Command>
+  <Command __id="20" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="451965" />
+  <DocumentChange __id="21" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1254" docExpressionCount="0" docLength="1254" length="1254" offset="0" timestamp="453605">
+    <text><![CDATA[Complete as many of the tasks as you can in the hour and a half time limit. There is no specific order in
+
+which you must complete tasks. When you are finished, please let us know. 
+
+Tasks:
+
+Using the Swing/AWT Toolkit and any Java programming resources:
+
+- Create a program that visually represents a car with a red body and two black tires.
+
+- Allow the user to use arrow keys to move around the car in any direction (up, forward, left, and 
+
+right) by 10 pixel decrements/increments.
+
+- Allow the user to make the car a bus by clicking anywhere on the screen
+
+o A bus has an extra body that should be colored black. It should be positioned directly on 
+
+top of the car.
+
+o When the extra body is on top of the car, it should move with the rest of it.
+
+o The extra body should be removed
+
+- Allow the user to make the bus a car by pressing the ‘r’ key
+
+- Allow the user to scale up the car/bus 2X, each time they press the ‘m’ key
+
+- Allow the user to scale down the car/bus 2X, each time they press the ‘s’ key
+
+- Draw a transparent square (not a rectangle) with yellow borders. The car/bus should be inside 
+
+the square.
+
+- Do not allow the car/bus to go outside of the square (when moving and resizing the vehicle).]]></text>
+  </DocumentChange>
+  <Command __id="22" _type="PasteCommand" timestamp="453637" />
+  <Command __id="23" _type="SelectTextCommand" caretOffset="187" end="193" start="187" timestamp="457043" />
+  <DocumentChange __id="24" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1246" docExpressionCount="0" docLength="1246" endLine="5" length="8" offset="187" repeat="2" startLine="4" timestamp="457746" timestamp2="458137">
+    <text><![CDATA[Tasks:
+]]></text>
+  </DocumentChange>
+  <Command __id="25" _type="EclipseCommand" commandID="org.eclipse.ui.edit.delete" repeat="2" timestamp="457762" timestamp2="458152" />
+  <Command __id="28" _type="MoveCaretCommand" caretOffset="103" docOffset="103" timestamp="460183" />
+  <DocumentChange __id="29" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1248" docExpressionCount="0" docLength="1248" length="2" offset="103" timestamp="460746">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="30" _type="MoveCaretCommand" caretOffset="111" docOffset="111" timestamp="463590" />
+  <DocumentChange __id="31" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1244" docExpressionCount="0" docLength="1244" endLine="3" length="4" offset="107" repeat="2" startLine="1" timestamp="464262" timestamp2="464418">
+    <text><![CDATA[
+
+]]></text>
+  </DocumentChange>
+  <Command __id="32" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="464277" timestamp2="464433" />
+  <DocumentChange __id="35" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1245" docExpressionCount="0" docLength="1245" length="1" offset="107" timestamp="464965">
+    <text><![CDATA[ ]]></text>
+  </DocumentChange>
+  <Command __id="36" _type="InsertStringCommand" timestamp="464980" timestamp2="464980">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="37" _type="MoveCaretCommand" caretOffset="186" docOffset="186" timestamp="466230" />
+  <DocumentChange __id="38" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1243" docExpressionCount="0" docLength="1243" endLine="3" length="2" offset="184" startLine="2" timestamp="466965">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="39" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="466980" />
+  <Command __id="40" _type="MoveCaretCommand" caretOffset="444" docOffset="444" timestamp="468840" />
+  <DocumentChange __id="41" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1241" docExpressionCount="0" docLength="1241" endLine="8" length="2" offset="442" startLine="7" timestamp="469496">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="42" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="469496" />
+  <Command __id="43" _type="MoveCaretCommand" caretOffset="524" docOffset="524" timestamp="476605" />
+  <DocumentChange __id="44" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1251" docExpressionCount="0" docLength="1251" length="10" offset="524" repeat="10" timestamp="477636" timestamp2="479152">
+    <text><![CDATA[two story ]]></text>
+  </DocumentChange>
+  <Command __id="45" _type="InsertStringCommand" repeat="10" timestamp="477636" timestamp2="479152">
+    <data><![CDATA[two story ]]></data>
+  </Command>
+  <Command __id="64" _type="MoveCaretCommand" caretOffset="528" docOffset="528" timestamp="481886" />
+  <DocumentChange __id="65" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1250" docExpressionCount="0" docLength="1250" endLine="10" length="1" offset="527" startLine="10" timestamp="482558">
+    <text><![CDATA[ ]]></text>
+  </DocumentChange>
+  <Command __id="66" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="482574" />
+  <DocumentChange __id="67" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1251" docExpressionCount="0" docLength="1251" length="1" offset="527" timestamp="482777">
+    <text><![CDATA[-]]></text>
+  </DocumentChange>
+  <Command __id="68" _type="InsertStringCommand" timestamp="482777" timestamp2="482777">
+    <data><![CDATA[-]]></data>
+  </Command>
+  <Command __id="69" _type="SelectTextCommand" caretOffset="533" end="533" start="524" timestamp="486152" />
+  <Command __id="70" _type="CopyCommand" timestamp="487168" />
+  <Command __id="71" _type="MoveCaretCommand" caretOffset="580" docOffset="580" timestamp="487980" />
+  <DocumentChange __id="72" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1261" docExpressionCount="0" docLength="1261" length="10" offset="580" repeat="2" timestamp="488340" timestamp2="489027">
+    <text><![CDATA[two-story ]]></text>
+  </DocumentChange>
+  <Command __id="73" _type="PasteCommand" timestamp="488355" />
+  <Command __id="75" _type="InsertStringCommand" timestamp="489027" timestamp2="489027">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="76" _type="MoveCaretCommand" caretOffset="683" docOffset="683" timestamp="491324" />
+  <Command __id="77" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" timestamp="492011" />
+  <DocumentChange __id="78" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1259" docExpressionCount="0" docLength="1259" endLine="14" length="2" offset="680" startLine="13" timestamp="492590">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="79" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="492605" />
+  <DocumentChange __id="80" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1260" docExpressionCount="0" docLength="1260" length="1" offset="680" timestamp="493840">
+    <text><![CDATA[	]]></text>
+  </DocumentChange>
+  <Command __id="81" _type="InsertStringCommand" timestamp="493840" timestamp2="493840">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="82" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" repeat="2" timestamp="494105" timestamp2="494261" />
+  <DocumentChange __id="84" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1258" docExpressionCount="0" docLength="1258" endLine="12" length="2" offset="574" startLine="11" timestamp="496074">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="85" _type="EclipseCommand" commandID="org.eclipse.ui.edit.delete" timestamp="496089" />
+  <DocumentChange __id="86" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1259" docExpressionCount="0" docLength="1259" length="1" offset="574" timestamp="496621">
+    <text><![CDATA[	]]></text>
+  </DocumentChange>
+  <Command __id="87" _type="InsertStringCommand" timestamp="496636" timestamp2="496636">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="88" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="3" timestamp="496918" timestamp2="497558" />
+  <Command __id="91" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" repeat="4" timestamp="497886" timestamp2="498589" />
+  <Command __id="95" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="499605" />
+  <DocumentChange __id="96" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1257" docExpressionCount="0" docLength="1257" endLine="13" length="2" offset="695" startLine="12" timestamp="499902">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="97" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="499918" />
+  <Command __id="98" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" timestamp="500308" />
+  <Command __id="99" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineStart" timestamp="500902" />
+  <Command __id="100" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.toggleOverwrite" repeat="2" timestamp="500918" timestamp2="502027" />
+  <DocumentChange __id="102" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1258" docExpressionCount="0" docLength="1258" length="1" offset="697" timestamp="502293">
+    <text><![CDATA[	]]></text>
+  </DocumentChange>
+  <Command __id="103" _type="InsertStringCommand" timestamp="502308" timestamp2="502308">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="104" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="502683" timestamp2="503011" />
+  <Command __id="106" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" repeat="4" timestamp="503308" timestamp2="504214" />
+  <DocumentChange __id="110" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1259" docExpressionCount="0" docLength="1259" length="1" offset="781" timestamp="504543">
+    <text><![CDATA[	]]></text>
+  </DocumentChange>
+  <Command __id="111" _type="InsertStringCommand" timestamp="504558" timestamp2="504558">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="112" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="504855" />
+  <DocumentChange __id="113" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1257" docExpressionCount="0" docLength="1257" endLine="14" length="2" offset="777" startLine="13" timestamp="505668">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="114" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="505668" />
+  <Command __id="115" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="4" timestamp="506293" timestamp2="507089" />
+  <Command __id="119" _type="MoveCaretCommand" caretOffset="847" docOffset="847" timestamp="509105" />
+  <DocumentChange __id="120" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1267" docExpressionCount="0" docLength="1267" length="10" offset="847" repeat="2" timestamp="510246" timestamp2="510949">
+    <text><![CDATA[two-story ]]></text>
+  </DocumentChange>
+  <Command __id="121" _type="PasteCommand" timestamp="510246" />
+  <Command __id="123" _type="InsertStringCommand" timestamp="510949" timestamp2="510949">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="124" _type="MoveCaretCommand" caretOffset="931" docOffset="931" timestamp="511793" />
+  <DocumentChange __id="125" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1278" docExpressionCount="0" docLength="1278" length="11" offset="931" repeat="3" timestamp="511918" timestamp2="514199">
+    <text><![CDATA[ two-story ]]></text>
+  </DocumentChange>
+  <Command __id="126" _type="InsertStringCommand" timestamp="511933" timestamp2="511933">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="128" _type="PasteCommand" timestamp="513464" />
+  <Command __id="130" _type="InsertStringCommand" timestamp="514199" timestamp2="514199">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="131" _type="MoveCaretCommand" caretOffset="1025" docOffset="1025" timestamp="514996" />
+  <DocumentChange __id="132" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1288" docExpressionCount="0" docLength="1288" length="10" offset="1025" repeat="2" timestamp="515683" timestamp2="515980">
+    <text><![CDATA[two-story ]]></text>
+  </DocumentChange>
+  <Command __id="133" _type="PasteCommand" timestamp="515683" />
+  <Command __id="135" _type="InsertStringCommand" timestamp="515980" timestamp2="515980">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="136" _type="MoveCaretCommand" caretOffset="1154" docOffset="1154" timestamp="518386" />
+  <DocumentChange __id="137" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1298" docExpressionCount="0" docLength="1298" length="10" offset="1154" repeat="2" timestamp="519324" timestamp2="519574">
+    <text><![CDATA[two-story ]]></text>
+  </DocumentChange>
+  <Command __id="138" _type="PasteCommand" timestamp="519324" />
+  <Command __id="140" _type="InsertStringCommand" timestamp="519574" timestamp2="519574">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="141" _type="MoveCaretCommand" caretOffset="1227" docOffset="1227" timestamp="521792" />
+  <DocumentChange __id="142" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1308" docExpressionCount="0" docLength="1308" length="10" offset="1227" repeat="2" timestamp="522699" timestamp2="522949">
+    <text><![CDATA[two-story ]]></text>
+  </DocumentChange>
+  <Command __id="143" _type="PasteCommand" timestamp="522699" />
+  <Command __id="145" _type="InsertStringCommand" timestamp="522949" timestamp2="522949">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="146" _type="MoveCaretCommand" caretOffset="892" docOffset="892" timestamp="524089" />
+  <DocumentChange __id="147" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1306" docExpressionCount="0" docLength="1306" endLine="17" length="2" offset="890" startLine="16" timestamp="524746">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="148" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="524761" />
+  <Command __id="149" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="525417" timestamp2="525839" />
+  <DocumentChange __id="151" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1304" docExpressionCount="0" docLength="1304" endLine="18" length="2" offset="980" startLine="17" timestamp="526714">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="152" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="526730" />
+  <Command __id="153" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="527230" timestamp2="527589" />
+  <DocumentChange __id="155" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1302" docExpressionCount="0" docLength="1302" endLine="19" length="2" offset="1071" startLine="18" timestamp="529605">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="156" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="529621" />
+  <Command __id="157" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="3" timestamp="530167" timestamp2="530511" />
+  <Command __id="160" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.lineStart" timestamp="531292" />
+  <DocumentChange __id="161" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1300" docExpressionCount="0" docLength="1300" endLine="21" length="2" offset="1181" startLine="20" timestamp="531683">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="162" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="531699" />
+  <Command __id="163" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="4" timestamp="534714" timestamp2="535449" />
+  <Command __id="167" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_UP" timestamp="535855" />
+  <DocumentChange __id="168" _type="Delete" docASTNodeCount="1" docActiveCodeLength="1298" docExpressionCount="0" docLength="1298" endLine="21" length="2" offset="1192" startLine="20" timestamp="537042">
+    <text><![CDATA[
+]]></text>
+  </DocumentChange>
+  <Command __id="169" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="537042" />
+  <Command __id="170" _type="ShellCommand" timestamp="546964" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="171" _type="ShellCommand" timestamp="553699" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="172" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="554105" />
+  <Command __id="173" _type="ShellCommand" timestamp="566667" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="174" _type="ShellCommand" timestamp="596933" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="175" _type="ShellCommand" timestamp="607151" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="176" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="607183" />
+  <Command __id="177" _type="ShellCommand" timestamp="641698" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="178" _type="ShellCommand" timestamp="653120" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="179" _type="ShellCommand" timestamp="665167" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="180" _type="ShellCommand" timestamp="667807" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="181" _type="ShellCommand" timestamp="673651" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="182" _type="ShellCommand" timestamp="676057" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="183" _type="ShellCommand" timestamp="1451865" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="184" _type="ShellCommand" timestamp="1452162" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="185" _type="ShellCommand" timestamp="1465880" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="186" _type="ShellCommand" timestamp="1472833" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="187" _type="ShellCommand" timestamp="1495630" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="188" _type="ShellCommand" timestamp="1510271" type="ECLIPSE_MINIMIZED" />
+  <Command __id="189" _type="ShellCommand" timestamp="1511661" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="190" _type="ShellCommand" timestamp="1516270" type="ECLIPSE_MAXIMIZED" />
+  <Command __id="191" _type="ShellCommand" timestamp="1516302" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="192" _type="ShellCommand" timestamp="1621895" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="193" _type="ShellCommand" timestamp="1622004" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="194" _type="ShellCommand" timestamp="1622051" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="195" _type="ShellCommand" timestamp="1628379" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="196" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1298" docExpressionCount="0" docLength="1298" projectName="User_Study" timestamp="1629660">
+    <snapshot><![CDATA[Complete as many of the tasks as you can in the hour and a half time limit. There is no specific order 
+in which you must complete tasks. When you are finished, please let us know. 
+
+Using the Swing/AWT Toolkit and any Java programming resources:
+
+- Create a program that visually represents a car with a red body and two black tires.
+
+- Allow the user to use arrow keys to move around the car in any direction (up, forward, left, and 
+right) by 10 pixel decrements/increments.
+
+- Allow the user to make the car a two-story bus by clicking anywhere on the screen
+	o A two-story bus has an extra body that should be colored black. It should be positioned directly on 
+	top of the car.
+	o When the extra body is on top of the car, it should move with the rest of it.
+	o The extra body should be removed
+
+- Allow the user to make the two-story bus a car by pressing the ‘r’ key
+- Allow the user to scale up the car/ two-story bus 2X, each time they press the ‘m’ key
+- Allow the user to scale down the car/two-story bus 2X, each time they press the ‘s’ key
+- Draw a transparent square (not a rectangle) with yellow borders. The car/two-story bus should be inside 
+the square.
+- Do not allow the car/two-story bus to go outside of the square (when moving and resizing the vehicle).]]></snapshot>
+    <filePath><![CDATA[C:\Projects\JimJimgMa\User_Study\tasks]]></filePath>
+  </Command>
+  <Command __id="197" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1630317" />
+  <Command __id="198" _type="MoveCaretCommand" caretOffset="341" docOffset="341" timestamp="1630707" />
+  <Command __id="199" _type="MoveCaretCommand" caretOffset="360" docOffset="360" timestamp="1650207" />
+  <Command __id="200" _type="ShellCommand" timestamp="1670238" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="201" _type="ShellCommand" timestamp="1733129" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="202" _type="DifficultyCommand" timestamp="1733239" type="Surmountable">
+    <otherOvercomeDifficultySaveText><![CDATA[]]></otherOvercomeDifficultySaveText>
+    <tryingToDo><![CDATA[find out how to do visully representation using AWT online]]></tryingToDo>
+    <personAskedForHelp><![CDATA[]]></personAskedForHelp>
+    <overcomeDifficultyDropDown><![CDATA[Looked up solution online]]></overcomeDifficultyDropDown>
+    <otherCausedDifficulty><![CDATA[]]></otherCausedDifficulty>
+    <otherMinutes><![CDATA[]]></otherMinutes>
+    <causedDifficulty><![CDATA[API]]></causedDifficulty>
+  </Command>
+  <Command __id="203" _type="ShellCommand" timestamp="1738692" type="ECLIPSE_MINIMIZED" />
+  <Command __id="204" _type="ShellCommand" timestamp="1740239" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="205" _type="ShellCommand" timestamp="2131475" type="ECLIPSE_MAXIMIZED" />
+  <Command __id="206" _type="ShellCommand" timestamp="2131506" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="207" _type="ShellCommand" timestamp="2138615" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="208" _type="ShellCommand" timestamp="2156662" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="209" _type="FileOpenCommand" docASTNodeCount="15" docActiveCodeLength="90" docExpressionCount="4" docLength="124" projectName="User_Study" timestamp="2158662">
+    <snapshot><![CDATA[
+public class MyTestFrame {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
+]]></snapshot>
+    <filePath><![CDATA[C:\Projects\JimJimgMa\User_Study\src\MyTestFrame.java]]></filePath>
+  </Command>
+  <Command __id="210" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="2160693" />
+  <DocumentChange __id="211" _type="Insert" docASTNodeCount="15" docActiveCodeLength="97" docExpressionCount="4" docLength="131" length="7" offset="0" repeat="7" timestamp="2163162" timestamp2="2165568">
+    <text><![CDATA[import ]]></text>
+  </DocumentChange>
+  <Command __id="212" _type="InsertStringCommand" repeat="2" timestamp="2163178" timestamp2="2163303">
+    <data><![CDATA[im]]></data>
+  </Command>
+  <Command __id="215" _type="CompilationCommand" timestamp="2163896" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "im", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[1]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[0]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="217" _type="InsertStringCommand" repeat="4" timestamp="2164006" timestamp2="2164506">
+    <data><![CDATA[port]]></data>
+  </Command>
+  <Command __id="224" _type="CompilationCommand" timestamp="2165021" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "import", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[5]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[0]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="226" _type="InsertStringCommand" timestamp="2165584" timestamp2="2165584">
+    <data><![CDATA[ ]]></data>
+  </Command>
+  <Command __id="227" _type="CompilationCommand" timestamp="2166225" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "import", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[5]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[0]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="228" _type="CompilationCommand" timestamp="2167037" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "import", delete this token]]></errorMessage>
+    <sourceEnd><![CDATA[5]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[0]]></sourceStart>
+    <messageId><![CDATA[1610612968]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="229" _type="ShellCommand" timestamp="2168271" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="230" _type="ShellCommand" timestamp="2174365" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="231" _type="ShellCommand" timestamp="2179240" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="232" _type="ShellCommand" timestamp="2189037" type="ECLIPSE_GAINED_FOCUS" />
+  <DocumentChange __id="233" _type="Insert" docASTNodeCount="21" docActiveCodeLength="108" docExpressionCount="9" docLength="142" length="11" offset="7" repeat="11" timestamp="2190553" timestamp2="2194584">
+    <text><![CDATA[java.awt.fr]]></text>
+  </DocumentChange>
+  <Command __id="234" _type="InsertStringCommand" repeat="4" timestamp="2190553" timestamp2="2191209">
+    <data><![CDATA[java]]></data>
+  </Command>
+  <Command __id="241" _type="CompilationCommand" timestamp="2191834" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "java", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[10]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[7]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="242" _type="CompilationCommand" timestamp="2191834" type="Error">
+    <errorMessage><![CDATA[The import java cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[10]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[7]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="244" _type="InsertStringCommand" repeat="5" timestamp="2191896" timestamp2="2193162">
+    <data><![CDATA[.awt.]]></data>
+  </Command>
+  <Command __id="253" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="2193615" />
+  <Command __id="254" _type="CompilationCommand" timestamp="2194006" type="Error">
+    <errorMessage><![CDATA[Syntax error on token ".", ; expected]]></errorMessage>
+    <sourceEnd><![CDATA[15]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[15]]></sourceStart>
+    <messageId><![CDATA[1610612940]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="257" _type="CompilationCommand" timestamp="2195178" type="Error">
+    <errorMessage><![CDATA[The import java.awt.fr cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[17]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[7]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="258" _type="CompilationCommand" timestamp="2195225" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "fr", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[17]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[16]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="259" _type="CompilationCommand" timestamp="2196021" type="Error">
+    <errorMessage><![CDATA[The import java.awt.fr cannot be resolved]]></errorMessage>
+    <sourceEnd><![CDATA[17]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[7]]></sourceStart>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="260" _type="CompilationCommand" timestamp="2196021" type="Error">
+    <errorMessage><![CDATA[Syntax error on token "fr", ; expected after this token]]></errorMessage>
+    <sourceEnd><![CDATA[17]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[16]]></sourceStart>
+    <messageId><![CDATA[1610612967]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="261" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="2196475" />
+  <DocumentChange __id="262" _type="Replace" docASTNodeCount="21" docActiveCodeLength="112" docExpressionCount="9" docLength="146" endLine="0" insertionLength="6" int_docASTNodeCount="15" int_docActiveCodeLength="106" int_docExpressionCount="4" int_docLength="140" length="2" offset="16" startLine="0" timestamp="2196506">
+    <insertedText><![CDATA[Frame;]]></insertedText>
+    <deletedText><![CDATA[fr]]></deletedText>
+  </DocumentChange>
+  <Command __id="263" _type="InsertStringCommand" timestamp="2196568" timestamp2="2196568">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="264" _type="CompilationCommand" timestamp="2197068" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.Frame is never used]]></errorMessage>
+    <sourceEnd><![CDATA[20]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[7]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="265" _type="MoveCaretCommand" caretOffset="133" docOffset="133" timestamp="2200943" />
+  <Command __id="266" _type="EclipseCommand" commandID="org.eclipse.ui.edit.selectAll" timestamp="2202146" />
+  <Command __id="267" _type="MoveCaretCommand" caretOffset="133" docOffset="133" timestamp="2202881" />
+  <DocumentChange __id="268" _type="Delete" docASTNodeCount="21" docActiveCodeLength="112" docExpressionCount="9" docLength="112" endLine="4" length="34" offset="99" repeat="34" startLine="4" timestamp="2204600" timestamp2="2207303">
+    <text><![CDATA[// TODO Auto-generated method stub]]></text>
+  </DocumentChange>
+  <Command __id="269" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="17" timestamp="2204615" timestamp2="2205615" />
+  <Command __id="303" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="2205631" />
+  <Command __id="304" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="17" timestamp="2205646" timestamp2="2207303" />
+  <Command __id="337" _type="CompilationCommand" timestamp="2207896" type="Warning">
+    <errorMessage><![CDATA[The import java.awt.Frame is never used]]></errorMessage>
+    <sourceEnd><![CDATA[20]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[7]]></sourceStart>
+    <messageId><![CDATA[268435844]]></messageId>
+    <sourceCodeLineNumber><![CDATA[1]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="338" _type="Insert" docASTNodeCount="35" docActiveCodeLength="144" docExpressionCount="18" docLength="144" length="32" offset="99" repeat="28" timestamp="2208193" timestamp2="2217818">
+    <text><![CDATA[Frame f = new Frame();
+		f.setV]]></text>
+  </DocumentChange>
+  <Command __id="339" _type="InsertStringCommand" repeat="7" timestamp="2208209" timestamp2="2209615">
+    <data><![CDATA[Frame f]]></data>
+  </Command>
+  <Command __id="352" _type="CompilationCommand" timestamp="2210146" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete BlockStatements]]></errorMessage>
+    <sourceEnd><![CDATA[105]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[105]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="354" _type="InsertStringCommand" repeat="12" timestamp="2210428" timestamp2="2212381">
+    <data><![CDATA[ = new Frame]]></data>
+  </Command>
+  <Command __id="377" _type="CompilationCommand" timestamp="2212912" type="Error">
+    <errorMessage><![CDATA[Syntax error on tokens, delete these tokens]]></errorMessage>
+    <sourceEnd><![CDATA[111]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[107]]></sourceStart>
+    <messageId><![CDATA[1610612969]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="378" _type="CompilationCommand" timestamp="2212912" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete BlockStatements]]></errorMessage>
+    <sourceEnd><![CDATA[111]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[109]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="380" _type="InsertStringCommand" repeat="2" timestamp="2213084" timestamp2="2213100">
+    <data><![CDATA[()]]></data>
+  </Command>
+  <Command __id="382" _type="CompilationCommand" timestamp="2213678" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete BlockStatements]]></errorMessage>
+    <sourceEnd><![CDATA[119]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[119]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="384" _type="InsertStringCommand" timestamp="2213896" timestamp2="2213896">
+    <data><![CDATA[;]]></data>
+  </Command>
+  <Command __id="386" _type="InsertStringCommand" timestamp="2214006" timestamp2="2214006">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="388" _type="InsertStringCommand" repeat="2" timestamp="2214365" timestamp2="2214553">
+    <data><![CDATA[f.]]></data>
+  </Command>
+  <Command __id="391" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="true" start_end="START" timestamp="2214756" />
+  <Command __id="392" _type="CompilationCommand" timestamp="2215225" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "AssignmentOperator Expression" to complete Assignment]]></errorMessage>
+    <sourceEnd><![CDATA[125]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[125]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="393" _type="CompilationCommand" timestamp="2215240" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete Statement]]></errorMessage>
+    <sourceEnd><![CDATA[125]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[125]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="397" _type="CompilationCommand" timestamp="2216787" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "AssignmentOperator Expression" to complete Expression]]></errorMessage>
+    <sourceEnd><![CDATA[129]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[127]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="398" _type="CompilationCommand" timestamp="2216787" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete Statement]]></errorMessage>
+    <sourceEnd><![CDATA[129]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[127]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="399" _type="CompilationCommand" timestamp="2217303" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "AssignmentOperator Expression" to complete Expression]]></errorMessage>
+    <sourceEnd><![CDATA[129]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[127]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="400" _type="CompilationCommand" timestamp="2217318" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete Statement]]></errorMessage>
+    <sourceEnd><![CDATA[129]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[127]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="401" _type="CompilationCommand" timestamp="2217318" type="Error">
+    <errorMessage><![CDATA[set cannot be resolved or is not a field]]></errorMessage>
+    <sourceEnd><![CDATA[129]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[127]]></sourceStart>
+    <messageId><![CDATA[33554502]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="403" _type="CompilationCommand" timestamp="2218381" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert "AssignmentOperator Expression" to complete Expression]]></errorMessage>
+    <sourceEnd><![CDATA[130]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[127]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="404" _type="CompilationCommand" timestamp="2218396" type="Error">
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete Statement]]></errorMessage>
+    <sourceEnd><![CDATA[130]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[127]]></sourceStart>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="405" _type="CompilationCommand" timestamp="2218396" type="Error">
+    <errorMessage><![CDATA[setV cannot be resolved or is not a field]]></errorMessage>
+    <sourceEnd><![CDATA[130]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[127]]></sourceStart>
+    <messageId><![CDATA[33554502]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="406" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="2218646" />
+  <DocumentChange __id="407" _type="Replace" docASTNodeCount="34" docActiveCodeLength="154" docExpressionCount="17" docLength="154" endLine="5" insertionLength="14" int_docASTNodeCount="33" int_docActiveCodeLength="140" int_docExpressionCount="16" int_docLength="140" length="4" offset="127" startLine="5" timestamp="2218709">
+    <insertedText><![CDATA[setVisible(b);]]></insertedText>
+    <deletedText><![CDATA[setV]]></deletedText>
+  </DocumentChange>
+  <Command __id="408" _type="InsertStringCommand" timestamp="2218881" timestamp2="2218881">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="409" _type="CompilationCommand" timestamp="2219350" type="Error">
+    <errorMessage><![CDATA[b cannot be resolved to a variable]]></errorMessage>
+    <sourceEnd><![CDATA[138]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[138]]></sourceStart>
+    <messageId><![CDATA[33554515]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="410" _type="CompilationCommand" timestamp="2219912" type="Error">
+    <errorMessage><![CDATA[b cannot be resolved to a variable]]></errorMessage>
+    <sourceEnd><![CDATA[138]]></sourceEnd>
+    <filename><![CDATA[/User_Study/src/MyTestFrame.java]]></filename>
+    <sourceStart><![CDATA[138]]></sourceStart>
+    <messageId><![CDATA[33554515]]></messageId>
+    <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
+  </Command>
+  <DocumentChange __id="411" _type="Replace" docASTNodeCount="34" docActiveCodeLength="154" docExpressionCount="17" docLength="154" endLine="5" insertionLength="1" int_docASTNodeCount="33" int_docActiveCodeLength="153" int_docExpressionCount="16" int_docLength="153" length="1" offset="138" startLine="5" timestamp="2220084">
+    <insertedText><![CDATA[t]]></insertedText>
+    <deletedText><![CDATA[b]]></deletedText>
+  </DocumentChange>
+  <Command __id="412" _type="InsertStringCommand" repeat="4" timestamp="2220100" timestamp2="2220756">
+    <data><![CDATA[true]]></data>
+  </Command>
+</Events>

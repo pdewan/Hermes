@@ -22,6 +22,10 @@ import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.ExtensionManager;
 import dayton.ellwanger.hermes.preferences.Preferences;
+//import util.trace.hermes.connectionmanager.ForwardedJSONObjectReceivedByConnectionManager;
+import util.trace.json.JSONObjectReceived;
+import util.trace.xmpp.XMPPPacketReceived;
+import util.trace.xmpp.XMPPPacketSent;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -90,6 +94,7 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 	}
 	
 	public void sendMessage(JSONObject messageData) {
+		
 		try {
 			messageData.put("from", internalXmppID);
 		} catch (Exception ex) {ex.printStackTrace();}
@@ -100,6 +105,7 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 			message.setBody(messageData.toString());
 			try {
 				System.out.println(message);
+				XMPPPacketSent.newCase(this, message.toString());
 				connection.sendStanza(message);
 			} catch (NotConnectedException ex) {
 				ex.printStackTrace();

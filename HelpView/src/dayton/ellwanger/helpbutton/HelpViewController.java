@@ -5,6 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
+import util.trace.hermes.helpbutton.DifficultyUpdateForwardedToConnectionManager;
+import util.trace.hermes.helpbutton.HelpInformationForwardedToConnectionManager;
 import workspaceConnectionManager.WorkspaceConnectionManager;
 
 public class HelpViewController implements HelpListener {
@@ -23,7 +25,11 @@ public class HelpViewController implements HelpListener {
 				tags.put("HELP_MESSAGE");
 				messageData.put("tags", tags);
 				messageData.put("filename", WorkspaceConnectionManager.getActiveDocumentName());
-			} catch (JSONException ex) {}
+			} catch (JSONException ex) {
+				ex.printStackTrace();
+			}
+			HelpInformationForwardedToConnectionManager.newCase(this, messageData.toString());
+//			JSONObjectForwardedToConnectionManager.newCase(this, messageData.toString());
 			ConnectionManager.getInstance().sendMessage(messageData);
 		}
 	}
@@ -34,7 +40,12 @@ public class HelpViewController implements HelpListener {
 			JSONObject messageData = new JSONObject();
 			try {
 				messageData.put("difficulty", difficulty);
-			} catch (JSONException ex) {}
+			} catch (JSONException ex) {
+				ex.printStackTrace();
+			}
+			DifficultyUpdateForwardedToConnectionManager.newCase(this, messageData.toString());
+//			JSONObjectForwardedToConnectionManager.newCase(this, messageData.toString());
+
 			ConnectionManager.getInstance().sendMessage(messageData);
 		}		
 	}

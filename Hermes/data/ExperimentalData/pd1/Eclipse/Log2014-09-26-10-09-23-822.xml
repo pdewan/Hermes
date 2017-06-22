@@ -1,0 +1,21 @@
+<Events startTimestamp="1411740563822" logVersion="0.5.3.qualifier">
+  <Command __id="0" _type="ShellCommand" timestamp="17080" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="1" _type="ShellCommand" timestamp="40518" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="2" _type="ShellCommand" timestamp="744879" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="3" _type="ShellCommand" timestamp="750026" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="4" _type="ShellCommand" timestamp="757883" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="5" _type="ShellCommand" timestamp="831993" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="6" _type="ShellCommand" timestamp="843142" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="7" _type="ShellCommand" timestamp="851562" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="8" _type="ShellCommand" timestamp="862621" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="9" _type="ShellCommand" timestamp="874365" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="10" _type="ShellCommand" timestamp="891344" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="11" _type="ShellCommand" timestamp="907003" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="12" _type="ShellCommand" timestamp="908027" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="13" _type="ShellCommand" timestamp="915918" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="14" _type="ShellCommand" timestamp="931773" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="15" _type="ShellCommand" timestamp="1251248" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="16" _type="ShellCommand" timestamp="1252584" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="17" _type="ShellCommand" timestamp="1254383" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="18" _type="ShellCommand" timestamp="1254749" type="ECLIPSE_CLOSED" />
+</Events>

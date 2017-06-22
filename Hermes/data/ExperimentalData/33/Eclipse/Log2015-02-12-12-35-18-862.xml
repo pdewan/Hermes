@@ -1,0 +1,1369 @@
+<Events startTimestamp="1423762518862" logVersion="0.5.3.201410051725">
+  <Command __id="0" _type="ShellCommand" timestamp="12429" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="1" _type="ShellCommand" timestamp="415541" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="2" _type="FileOpenCommand" docASTNodeCount="83" docActiveCodeLength="449" docExpressionCount="43" docLength="546" projectName="miniJava" timestamp="441967">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\AssignStmt.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import miniJava.SyntacticAnalyzer.SourcePosition;
+
+public class AssignStmt extends Statement
+{
+    public AssignStmt(Reference r, Expression e, SourcePosition posn){
+        super(posn);
+        ref = r;
+        val = e;
+    }
+    
+    public <A,R> R visit(Visitor<A,R> v, A o) {
+        return v.visitAssignStmt(this, o);
+    }
+    
+    public Reference ref;
+    public Expression val;
+}]]></snapshot>
+  </Command>
+  <Command __id="3" _type="CompilationCommand" timestamp="442254" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/AssignStmt.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="4" _type="CompilationCommand" timestamp="442258" type="Error">
+    <sourceEnd><![CDATA[303]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/AssignStmt.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[290]]></sourceStart>
+  </Command>
+  <Command __id="5" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="442306" />
+  <Command __id="6" _type="FileOpenCommand" docASTNodeCount="103" docActiveCodeLength="559" docExpressionCount="61" docLength="656" projectName="miniJava" timestamp="444608">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\AST.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import miniJava.SyntacticAnalyzer.SourcePosition;
+
+public abstract class AST {
+
+  public AST (SourcePosition posn) {
+    this.posn = posn;
+  }
+  
+  public String toString() {
+      String fullClassName = this.getClass().getName();
+      String cn = fullClassName.substring(1 + fullClassName.lastIndexOf('.'));
+      if (ASTDisplay.showPosition)
+    	  cn = cn + " " + posn.toString();
+      return cn;
+  }
+
+  public abstract <A,R> R visit(Visitor<A,R> v, A o);
+
+  public SourcePosition posn;
+}
+]]></snapshot>
+  </Command>
+  <Command __id="7" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="444850" />
+  <Command __id="8" _type="CompilationCommand" timestamp="445042" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/AST.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="9" _type="CompilationCommand" timestamp="445043" type="Error">
+    <sourceEnd><![CDATA[253]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/AST.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[240]]></sourceStart>
+  </Command>
+  <Command __id="10" _type="CompilationCommand" timestamp="445045" type="Error">
+    <sourceEnd><![CDATA[276]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/AST.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[13]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[268]]></sourceStart>
+  </Command>
+  <Command __id="11" _type="CompilationCommand" timestamp="445046" type="Error">
+    <sourceEnd><![CDATA[525]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/AST.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[20]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[522]]></sourceStart>
+  </Command>
+  <Command __id="12" _type="CompilationCommand" timestamp="445051" type="Error">
+    <sourceEnd><![CDATA[644]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/AST.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[26]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[631]]></sourceStart>
+  </Command>
+  <Command __id="13" _type="FileOpenCommand" docASTNodeCount="1547" docActiveCodeLength="8603" docExpressionCount="1069" docLength="10960" projectName="miniJava" timestamp="476387">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\ASTDisplay.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+/*
+ * Display AST in text form
+ *   In-order traversal of AST, visiting each node with a method of the form  
+ *   
+ *       public Object visitXXX( XXX astnode, String arg)
+ *       
+ *   where arg is a prefix string (indentation) to precede display of ast node
+ *   and a null Object is returned as the result.
+ *   
+ *   implements Visitor<argtype,resulttype>
+ */
+public class ASTDisplay implements Visitor<String,Object> {
+	
+	public static boolean showPosition = false;
+    
+    /**
+     * print text representation of AST to stdout
+     * @param ast root node of AST 
+     */
+    public void showTree(AST ast){
+        System.out.println("======= AST Display =========================");
+        ast.visit(this, "");
+        System.out.println("=============================================");
+    }   
+    
+    // methods to format output
+    
+    /**
+     * display arbitrary text for a node
+     * @param prefix  spaced indent to indicate depth in AST
+     * @param text    preformatted node display
+     */
+    private void show(String prefix, String text) {
+        System.out.println(prefix + text);
+    }
+    
+    /**
+     * display AST node by name
+     * @param prefix  spaced indent to indicate depth in AST
+     * @param node    AST node, will be shown by name
+     */
+    private void show(String prefix, AST node) {
+    	System.out.println(prefix + node.toString());
+    }
+    
+    /**
+     * quote a string
+     * @param text    string to quote
+     */
+    private String quote(String text) {
+    	return ("\"" + text + "\"");
+    }
+    
+    /**
+     * increase depth in AST
+     * @param prefix  current spacing to indicate depth in AST
+     * @return  new spacing 
+     */
+    private String indent(String prefix) {
+        return prefix + "  ";
+    }
+    
+    
+	///////////////////////////////////////////////////////////////////////////////
+	//
+	// PACKAGE
+	//
+	/////////////////////////////////////////////////////////////////////////////// 
+
+    public Object visitPackage(Package prog, String arg){
+        show(arg, prog);
+        ClassDeclList cl = prog.classDeclList;
+        show(arg,"  ClassDeclList [" + cl.size() + "]");
+        String pfx = arg + "  . "; 
+        for (ClassDecl c: prog.classDeclList){
+            c.visit(this, pfx);
+        }
+        return null;
+    }
+    
+    
+	///////////////////////////////////////////////////////////////////////////////
+	//
+	// DECLARATIONS
+	//
+	///////////////////////////////////////////////////////////////////////////////
+    
+    public Object visitClassDecl(ClassDecl clas, String arg){
+        show(arg, clas);
+        show(indent(arg), quote(clas.name) + " classname");
+        show(arg,"  FieldDeclList [" + clas.fieldDeclList.size() + "]");
+        String pfx = arg + "  . "; 
+        for (FieldDecl f: clas.fieldDeclList)
+        	f.visit(this, pfx);
+        show(arg,"  MethodDeclList [" + clas.methodDeclList.size() + "]");
+        for (MethodDecl m: clas.methodDeclList)
+        	m.visit(this, pfx);
+        return null;
+    }
+    
+    public Object visitFieldDecl(FieldDecl f, String arg){
+       	show(arg, "(" + (f.isPrivate ? "private": "public") 
+    			+ (f.isStatic ? " static) " :") ") + f.toString());
+    	f.type.visit(this, indent(arg));
+    	show(indent(arg), quote(f.name) + " fieldname");
+        return null;
+    }
+    
+    public Object visitMethodDecl(MethodDecl m, String arg){
+       	show(arg, "(" + (m.isPrivate ? "private": "public") 
+    			+ (m.isStatic ? " static) " :") ") + m.toString());
+    	m.type.visit(this, indent(arg));
+    	show(indent(arg), quote(m.name) + " methodname");
+        ParameterDeclList pdl = m.parameterDeclList;
+        show(arg, "  ParameterDeclList [" + pdl.size() + "]");
+        String pfx = ((String) arg) + "  . ";
+        for (ParameterDecl pd: pdl) {
+            pd.visit(this, pfx);
+        }
+        StatementList sl = m.statementList;
+        show(arg, "  StmtList [" + sl.size() + "]");
+        for (Statement s: sl) {
+            s.visit(this, pfx);
+        }
+        if (m.returnExp != null) {
+            m.returnExp.visit(this, indent(arg));
+        }
+        return null;
+    }
+    
+    public Object visitParameterDecl(ParameterDecl pd, String arg){
+        show(arg, pd);
+        pd.type.visit(this, indent(arg));
+        show(indent(arg), quote(pd.name) + "parametername ");
+        return null;
+    } 
+    
+    public Object visitVarDecl(VarDecl vd, String arg){
+        show(arg, vd);
+        vd.type.visit(this, indent(arg));
+        show(indent(arg), quote(vd.name) + " varname");
+        return null;
+    }
+ 
+	
+	///////////////////////////////////////////////////////////////////////////////
+	//
+	// TYPES
+	//
+	///////////////////////////////////////////////////////////////////////////////
+    
+    public Object visitBaseType(BaseType type, String arg){
+        show(arg, type.typeKind + " " + type.toString());
+        return null;
+    }
+    
+    public Object visitClassType(ClassType type, String arg){
+        show(arg, type);
+        show(indent(arg), quote(type.className.spelling) + " classname");
+        return null;
+    }
+    
+    public Object visitArrayType(ArrayType type, String arg){
+        show(arg, type);
+        type.eltType.visit(this, indent(arg));
+        return null;
+    }
+    
+	
+	///////////////////////////////////////////////////////////////////////////////
+	//
+	// STATEMENTS
+	//
+	///////////////////////////////////////////////////////////////////////////////
+
+    public Object visitBlockStmt(BlockStmt stmt, String arg){
+        show(arg, stmt);
+        StatementList sl = stmt.sl;
+        show(arg,"  StatementList [" + sl.size() + "]");
+        String pfx = arg + "  . ";
+        for (Statement s: sl) {
+        	s.visit(this, pfx);
+        }
+        return null;
+    }
+    
+    public Object visitVardeclStmt(VarDeclStmt stmt, String arg){
+        show(arg, stmt);
+        stmt.varDecl.visit(this, indent(arg));	
+        stmt.initExp.visit(this, indent(arg));
+        return null;
+    }
+    
+    public Object visitAssignStmt(AssignStmt stmt, String arg){
+        show(arg,stmt);
+        stmt.ref.visit(this, indent(arg));
+        stmt.val.visit(this, indent(arg));
+        return null;
+    }
+    
+    public Object visitCallStmt(CallStmt stmt, String arg){
+        show(arg,stmt);
+        stmt.methodRef.visit(this, indent(arg));
+        ExprList al = stmt.argList;
+        show(arg,"  ExprList [" + al.size() + "]");
+        String pfx = arg + "  . ";
+        for (Expression e: al) {
+            e.visit(this, pfx);
+        }
+        return null;
+    }
+    
+    public Object visitIfStmt(IfStmt stmt, String arg){
+        show(arg,stmt);
+        stmt.cond.visit(this, indent(arg));
+        stmt.thenStmt.visit(this, indent(arg));
+        if (stmt.elseStmt != null)
+            stmt.elseStmt.visit(this, indent(arg));
+        return null;
+    }
+    
+    public Object visitWhileStmt(WhileStmt stmt, String arg){
+        show(arg, stmt);
+        stmt.cond.visit(this, indent(arg));
+        stmt.body.visit(this, indent(arg));
+        return null;
+    }
+    
+
+	///////////////////////////////////////////////////////////////////////////////
+	//
+	// EXPRESSIONS
+	//
+	///////////////////////////////////////////////////////////////////////////////
+
+    public Object visitUnaryExpr(UnaryExpr expr, String arg){
+        show(arg, expr);
+        expr.operator.visit(this, indent(arg));
+        expr.expr.visit(this, indent(indent(arg)));
+        return null;
+    }
+    
+    public Object visitBinaryExpr(BinaryExpr expr, String arg){
+        show(arg, expr);
+        expr.operator.visit(this, indent(arg));
+        expr.left.visit(this, indent(indent(arg)));
+        expr.right.visit(this, indent(indent(arg)));
+        return null;
+    }
+    
+    public Object visitRefExpr(RefExpr expr, String arg){
+        show(arg, expr);
+        expr.ref.visit(this, indent(arg));
+        return null;
+    }
+    
+    public Object visitCallExpr(CallExpr expr, String arg){
+        show(arg, expr);
+        expr.functionRef.visit(this, indent(arg));
+        ExprList al = expr.argList;
+        show(arg,"  ExprList + [" + al.size() + "]");
+        String pfx = arg + "  . ";
+        for (Expression e: al) {
+            e.visit(this, pfx);
+        }
+        return null;
+    }
+    
+    public Object visitLiteralExpr(LiteralExpr expr, String arg){
+        show(arg, expr);
+        expr.lit.visit(this, indent(arg));
+        return null;
+    }
+ 
+    public Object visitNewArrayExpr(NewArrayExpr expr, String arg){
+        show(arg, expr);
+        expr.eltType.visit(this, indent(arg));
+        expr.sizeExpr.visit(this, indent(arg));
+        return null;
+    }
+    
+    public Object visitNewObjectExpr(NewObjectExpr expr, String arg){
+        show(arg, expr);
+        expr.classtype.visit(this, indent(arg));
+        return null;
+    }
+    
+
+	///////////////////////////////////////////////////////////////////////////////
+	//
+	// REFERENCES
+	//
+	///////////////////////////////////////////////////////////////////////////////
+	
+    public Object visitQualifiedRef(QualifiedRef qr, String arg) {
+    	show(arg, qr);
+    	qr.id.visit(this, indent(arg));
+    	qr.ref.visit(this, indent(arg));
+	    return null;
+    }
+    
+    public Object visitIndexedRef(IndexedRef ir, String arg) {
+    	show(arg, ir);
+    	ir.indexExpr.visit(this, indent(arg));
+    	ir.ref.visit(this, indent(arg));
+    	return null;
+    }
+    
+    public Object visitIdRef(IdRef ref, String arg) {
+    	show(arg,ref);
+    	ref.id.visit(this, indent(arg));
+    	return null;
+    }
+   
+    public Object visitThisRef(ThisRef ref, String arg) {
+    	show(arg,ref);
+    	return null;
+    }
+    
+    
+	///////////////////////////////////////////////////////////////////////////////
+	//
+	// TERMINALS
+	//
+	///////////////////////////////////////////////////////////////////////////////
+    
+    public Object visitIdentifier(Identifier id, String arg){
+        show(arg, quote(id.spelling) + " " + id.toString());
+        return null;
+    }
+    
+    public Object visitOperator(Operator op, String arg){
+        show(arg, quote(op.spelling) + " " + op.toString());
+        return null;
+    }
+    
+    public Object visitIntLiteral(IntLiteral num, String arg){
+        show(arg, quote(num.spelling) + " " + num.toString());
+        return null;
+    }
+    
+    public Object visitBooleanLiteral(BooleanLiteral bool, String arg){
+        show(arg, quote(bool.spelling) + " " + bool.toString());
+        return null;
+    }
+}
+]]></snapshot>
+  </Command>
+  <Command __id="14" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="476663" />
+  <Command __id="15" _type="MoveCaretCommand" caretOffset="874" docOffset="931" timestamp="479611" />
+  <Command __id="16" _type="FileOpenCommand" docASTNodeCount="60" docActiveCodeLength="331" docExpressionCount="32" docLength="428" projectName="miniJava" timestamp="486553">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\BaseType.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import miniJava.SyntacticAnalyzer.SourcePosition;
+
+public class BaseType extends Type
+{
+    public BaseType(TypeKind t, SourcePosition posn){
+        super(t, posn);
+    }
+    
+    public <A,R> R visit(Visitor<A,R> v, A o) {
+        return v.visitBaseType(this, o);
+    }
+}
+]]></snapshot>
+  </Command>
+  <Command __id="17" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="486786" />
+  <Command __id="18" _type="CompilationCommand" timestamp="486891" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/BaseType.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="19" _type="CompilationCommand" timestamp="486894" type="Error">
+    <sourceEnd><![CDATA[279]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/BaseType.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[266]]></sourceStart>
+  </Command>
+  <Command __id="20" _type="ShellCommand" timestamp="543956" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="21" _type="ShellCommand" timestamp="580131" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="22" _type="FileOpenCommand" docASTNodeCount="89" docActiveCodeLength="512" docExpressionCount="47" docLength="609" projectName="miniJava" timestamp="583818">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\ClassDecl.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import  miniJava.SyntacticAnalyzer.SourcePosition;
+
+public class ClassDecl extends Declaration {
+
+  public ClassDecl(String cn, FieldDeclList fdl, MethodDeclList mdl, SourcePosition posn) {
+	  super(cn, null, posn);
+	  fieldDeclList = fdl;
+	  methodDeclList = mdl;
+  }
+  
+  public <A,R> R visit(Visitor<A, R> v, A o) {
+      return v.visitClassDecl(this, o);
+  }
+      
+  public FieldDeclList fieldDeclList;
+  public MethodDeclList methodDeclList;
+}
+]]></snapshot>
+  </Command>
+  <Command __id="23" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="584036" />
+  <Command __id="24" _type="CompilationCommand" timestamp="584221" type="Error">
+    <sourceEnd><![CDATA[190]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/ClassDecl.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[150]]></sourceStart>
+  </Command>
+  <Command __id="25" _type="CompilationCommand" timestamp="584233" type="Error">
+    <sourceEnd><![CDATA[326]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/ClassDecl.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[313]]></sourceStart>
+  </Command>
+  <Command __id="26" _type="MoveCaretCommand" caretOffset="361" docOffset="418" timestamp="588440" />
+  <Command __id="27" _type="FileOpenCommand" docASTNodeCount="59" docActiveCodeLength="328" docExpressionCount="32" docLength="425" projectName="miniJava" timestamp="599491">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\Declaration.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import miniJava.SyntacticAnalyzer.SourcePosition;
+
+public abstract class Declaration extends AST {
+	
+	public Declaration(String name, Type type, SourcePosition posn) {
+		super(posn);
+		this.name = name;
+		this.type = type;
+	}
+	
+	public String name;
+	public Type type;
+}
+]]></snapshot>
+  </Command>
+  <Command __id="28" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="599658" />
+  <Command __id="29" _type="CompilationCommand" timestamp="599868" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="30" _type="CompilationCommand" timestamp="599871" type="Error">
+    <sourceEnd><![CDATA[304]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[291]]></sourceStart>
+  </Command>
+  <Command __id="31" _type="ShellCommand" timestamp="618050" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="32" _type="ShellCommand" timestamp="624907" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="33" _type="CompilationCommand" timestamp="625682" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="34" _type="CompilationCommand" timestamp="625686" type="Error">
+    <sourceEnd><![CDATA[304]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[291]]></sourceStart>
+  </Command>
+  <Command __id="35" _type="ShellCommand" timestamp="631388" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="36" _type="ShellCommand" timestamp="636486" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="37" _type="EclipseCommand" commandID="org.eclipse.jdt.ui.edit.text.java.rename.element" timestamp="636508" />
+  <Command __id="38" _type="CompilationCommand" timestamp="637254" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="39" _type="CompilationCommand" timestamp="637256" type="Error">
+    <sourceEnd><![CDATA[304]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[291]]></sourceStart>
+  </Command>
+  <Command __id="40" _type="ShellCommand" timestamp="641975" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="41" _type="ShellCommand" timestamp="645423" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="42" _type="FileOpenCommand" docASTNodeCount="8" docActiveCodeLength="70" docExpressionCount="4" docLength="70" projectName="miniJava" timestamp="645854">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\AST.java]]></filePath>
+    <snapshot><![CDATA[package miniJava.AbstractSyntaxTrees;
+
+public interface AST {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="43" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="646057" />
+  <Command __id="44" _type="CompilationCommand" timestamp="646344" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="45" _type="CompilationCommand" timestamp="646357" type="Error">
+    <sourceEnd><![CDATA[304]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[291]]></sourceStart>
+  </Command>
+  <Command __id="46" _type="MoveCaretCommand" caretOffset="65" docOffset="65" timestamp="647265" />
+  <DocumentChange __id="47" _type="Insert" docASTNodeCount="8" docActiveCodeLength="74" docExpressionCount="4" docLength="74" length="4" offset="65" repeat="2" timestamp="648358" timestamp2="649107">
+    <text><![CDATA[	
+	]]></text>
+  </DocumentChange>
+  <Command __id="48" _type="InsertStringCommand" timestamp="648364" timestamp2="648364">
+    <data><![CDATA[	]]></data>
+  </Command>
+  <Command __id="50" _type="InsertStringCommand" timestamp="649112" timestamp2="649112">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="51" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="649948" />
+  <Command __id="52" _type="CompilationCommand" timestamp="650900" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="53" _type="CompilationCommand" timestamp="650904" type="Error">
+    <sourceEnd><![CDATA[304]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Declaration.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[291]]></sourceStart>
+  </Command>
+  <Command __id="54" _type="ShellCommand" timestamp="664974" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="55" _type="ShellCommand" timestamp="668770" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="56" _type="FileOpenCommand" docASTNodeCount="8" docActiveCodeLength="68" docExpressionCount="4" docLength="68" projectName="miniJava" timestamp="669066">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\AnAst.java]]></filePath>
+    <snapshot><![CDATA[package miniJava.AbstractSyntaxTrees;
+
+public class AnAst {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="57" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="669232" />
+  <Command __id="58" _type="ShellCommand" timestamp="672824" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="59" _type="AssistCommand" assist_type="CONTENT_ASSIST" auto_activated="false" start_end="END" timestamp="676862" />
+  <Command __id="60" _type="AssistCommand" assist_type="QUICK_ASSIST" auto_activated="false" start_end="END" timestamp="676869" />
+  <Command __id="61" _type="ShellCommand" timestamp="676976" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="62" _type="EclipseCommand" commandID="org.eclipse.jdt.ui.edit.text.java.rename.element" timestamp="677003" />
+  <Command __id="63" _type="ShellCommand" timestamp="699737" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="64" _type="ShellCommand" timestamp="704816" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="65" _type="ShellCommand" timestamp="708745" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="66" _type="ShellCommand" timestamp="712579" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="67" _type="FileOpenCommand" docASTNodeCount="8" docActiveCodeLength="78" docExpressionCount="4" docLength="78" projectName="miniJava" timestamp="712857">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\Declaration.java]]></filePath>
+    <snapshot><![CDATA[package miniJava.AbstractSyntaxTrees;
+
+public interface Declaration {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="68" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="713013" />
+  <Command __id="69" _type="ShellCommand" timestamp="716451" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="70" _type="ShellCommand" timestamp="719215" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="71" _type="FileOpenCommand" docASTNodeCount="8" docActiveCodeLength="75" docExpressionCount="4" docLength="75" projectName="miniJava" timestamp="719529">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\ADeclaration.java]]></filePath>
+    <snapshot><![CDATA[package miniJava.AbstractSyntaxTrees;
+
+public class ADeclaration {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="72" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="719698" />
+  <Command __id="73" _type="FileOpenCommand" docASTNodeCount="8" docActiveCodeLength="74" docExpressionCount="4" docLength="74" projectName="miniJava" timestamp="723297">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\AST.java]]></filePath>
+  </Command>
+  <Command __id="74" _type="MoveCaretCommand" caretOffset="69" docOffset="69" timestamp="723466" />
+  <DocumentChange __id="75" _type="Insert" docASTNodeCount="8" docActiveCodeLength="81" docExpressionCount="4" docLength="81" length="7" offset="69" repeat="7" timestamp="735028" timestamp2="735770">
+    <text><![CDATA[public ]]></text>
+  </DocumentChange>
+  <Command __id="76" _type="InsertStringCommand" repeat="7" timestamp="735033" timestamp2="735773">
+    <data><![CDATA[public ]]></data>
+  </Command>
+  <Command __id="89" _type="CompilationCommand" timestamp="736556" type="Error">
+    <sourceEnd><![CDATA[74]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "enum Identifier" to complete EnumHeader]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[69]]></sourceStart>
+  </Command>
+  <Command __id="90" _type="CompilationCommand" timestamp="736560" type="Error">
+    <sourceEnd><![CDATA[74]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "EnumBody" to complete EnumDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[69]]></sourceStart>
+  </Command>
+  <DocumentChange __id="91" _type="Insert" docASTNodeCount="8" docActiveCodeLength="84" docExpressionCount="4" docLength="84" length="3" offset="76" repeat="2" timestamp="737810" timestamp2="738169">
+    <text><![CDATA[<R>]]></text>
+  </DocumentChange>
+  <Command __id="92" _type="InsertStringCommand" repeat="2" timestamp="737871" timestamp2="738176">
+    <data><![CDATA[<R]]></data>
+  </Command>
+  <DocumentChange __id="95" _type="Delete" docASTNodeCount="8" docActiveCodeLength="83" docExpressionCount="4" docLength="83" endLine="4" length="1" offset="77" startLine="4" timestamp="738661">
+    <text><![CDATA[R]]></text>
+  </DocumentChange>
+  <Command __id="96" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" timestamp="738674" />
+  <Command __id="97" _type="CompilationCommand" timestamp="739582" type="Error">
+    <sourceEnd><![CDATA[74]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "enum Identifier" to complete EnumHeaderName]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[69]]></sourceStart>
+  </Command>
+  <Command __id="98" _type="CompilationCommand" timestamp="739586" type="Error">
+    <sourceEnd><![CDATA[74]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "EnumBody" to complete EnumDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[69]]></sourceStart>
+  </Command>
+  <Command __id="99" _type="CompilationCommand" timestamp="739588" type="Error">
+    <sourceEnd><![CDATA[74]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete InterfaceBody]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[69]]></sourceStart>
+  </Command>
+  <DocumentChange __id="100" _type="Insert" docASTNodeCount="8" docActiveCodeLength="86" docExpressionCount="4" docLength="86" length="3" offset="77" repeat="3" timestamp="740075" timestamp2="740980">
+    <text><![CDATA[A,R]]></text>
+  </DocumentChange>
+  <Command __id="101" _type="InsertStringCommand" timestamp="740079" timestamp2="740079">
+    <data><![CDATA[A]]></data>
+  </Command>
+  <Command __id="102" _type="CompilationCommand" timestamp="740607" type="Error">
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "Identifier (" to complete ConstructorHeaderName]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[78]]></sourceStart>
+  </Command>
+  <Command __id="103" _type="CompilationCommand" timestamp="740610" type="Error">
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert ")" to complete ConstructorDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[78]]></sourceStart>
+  </Command>
+  <Command __id="104" _type="CompilationCommand" timestamp="740612" type="Error">
+    <sourceEnd><![CDATA[78]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete InvalidConstructorDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[78]]></sourceStart>
+  </Command>
+  <Command __id="106" _type="InsertStringCommand" repeat="2" timestamp="740634" timestamp2="740984">
+    <data><![CDATA[,R]]></data>
+  </Command>
+  <Command __id="109" _type="CompilationCommand" timestamp="741630" type="Error">
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "Identifier (" to complete ConstructorHeaderName]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[80]]></sourceStart>
+  </Command>
+  <Command __id="110" _type="CompilationCommand" timestamp="741632" type="Error">
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert ")" to complete ConstructorDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[80]]></sourceStart>
+  </Command>
+  <Command __id="111" _type="CompilationCommand" timestamp="741634" type="Error">
+    <sourceEnd><![CDATA[80]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete InvalidConstructorDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[80]]></sourceStart>
+  </Command>
+  <Command __id="112" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" timestamp="741827" />
+  <DocumentChange __id="113" _type="Insert" docASTNodeCount="18" docActiveCodeLength="96" docExpressionCount="8" docLength="96" length="10" offset="81" repeat="9" timestamp="742014" timestamp2="744778">
+    <text><![CDATA[ R visit()]]></text>
+  </DocumentChange>
+  <Command __id="114" _type="InsertStringCommand" repeat="8" timestamp="742018" timestamp2="744112">
+    <data><![CDATA[ R visit]]></data>
+  </Command>
+  <Command __id="129" _type="CompilationCommand" timestamp="744650" type="Error">
+    <sourceEnd><![CDATA[82]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "Identifier (" to complete MethodHeaderName]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[82]]></sourceStart>
+  </Command>
+  <Command __id="130" _type="CompilationCommand" timestamp="744652" type="Error">
+    <sourceEnd><![CDATA[82]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert ")" to complete MethodDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[82]]></sourceStart>
+  </Command>
+  <Command __id="131" _type="CompilationCommand" timestamp="744654" type="Error">
+    <sourceEnd><![CDATA[82]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete MethodDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[82]]></sourceStart>
+  </Command>
+  <Command __id="132" _type="CompilationCommand" timestamp="744657" type="Error">
+    <sourceEnd><![CDATA[82]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert "}" to complete InterfaceBody]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[82]]></sourceStart>
+  </Command>
+  <Command __id="134" _type="InsertStringCommand" timestamp="744783" timestamp2="744783">
+    <data><![CDATA[(]]></data>
+  </Command>
+  <Command __id="135" _type="CompilationCommand" timestamp="745667" type="Error">
+    <sourceEnd><![CDATA[90]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTrees/AST.java]]></filename>
+    <errorMessage><![CDATA[Syntax error, insert ";" to complete MethodDeclaration]]></errorMessage>
+    <messageId><![CDATA[1610612976]]></messageId>
+    <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[90]]></sourceStart>
+  </Command>
+  <Command __id="136" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" timestamp="746990" />
+  <DocumentChange __id="137" _type="Insert" docASTNodeCount="17" docActiveCodeLength="97" docExpressionCount="8" docLength="97" length="1" offset="91" timestamp="747578">
+    <text><![CDATA[;]]></text>
+  </DocumentChange>
+  <Command __id="138" _type="InsertStringCommand" timestamp="747582" timestamp2="747582">
+    <data><![CDATA[;]]></data>
+  </Command>
+  <Command __id="139" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="748792" />
+  <Command __id="140" _type="EclipseCommand" commandID="org.eclipse.ui.edit.text.goto.wordPrevious" timestamp="749012" />
+  <Command __id="141" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" timestamp="749238" />
+  <Command __id="142" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_NEXT" repeat="2" timestamp="749567" timestamp2="749718" />
+  <DocumentChange __id="144" _type="Insert" docASTNodeCount="21" docActiveCodeLength="103" docExpressionCount="10" docLength="103" length="6" offset="90" repeat="6" timestamp="750098" timestamp2="751240">
+    <text><![CDATA[A args]]></text>
+  </DocumentChange>
+  <Command __id="145" _type="InsertStringCommand" repeat="6" timestamp="750102" timestamp2="751242">
+    <data><![CDATA[A args]]></data>
+  </Command>
+  <Command __id="156" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="752300" />
+  <Command __id="157" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.COLUMN_PREVIOUS" repeat="6" timestamp="752776" timestamp2="753526" />
+  <Command __id="163" _type="ShellCommand" timestamp="757482" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="164" _type="ShellCommand" timestamp="762116" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="165" _type="ShellCommand" timestamp="765413" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="166" _type="ShellCommand" timestamp="769688" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="167" _type="FileOpenCommand" docASTNodeCount="10" docActiveCodeLength="82" docExpressionCount="6" docLength="82" projectName="miniJava" timestamp="769978">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\visitor\Visitor.java]]></filePath>
+    <snapshot><![CDATA[package miniJava.AbstractSyntaxTrees.visitor;
+
+public interface Visitor {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="168" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="770158" />
+  <Command __id="169" _type="ShellCommand" timestamp="774549" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="170" _type="ShellCommand" timestamp="777261" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="171" _type="FileOpenCommand" docASTNodeCount="10" docActiveCodeLength="79" docExpressionCount="6" docLength="79" projectName="miniJava" timestamp="777509">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\visitor\AVisitor.java]]></filePath>
+    <snapshot><![CDATA[package miniJava.AbstractSyntaxTrees.visitor;
+
+public class AVisitor {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="172" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="777703" />
+  <Command __id="173" _type="ShellCommand" timestamp="783178" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="174" _type="ShellCommand" timestamp="788011" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="175" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="788037" />
+  <Command __id="176" _type="FileOpenCommand" docASTNodeCount="69" docActiveCodeLength="394" docExpressionCount="36" docLength="491" projectName="miniJava" timestamp="820674">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\Package.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import miniJava.SyntacticAnalyzer.SourcePosition;
+
+public class Package extends AST {
+
+  public Package(ClassDeclList cdl, SourcePosition posn) {
+    super(posn);
+    classDeclList = cdl;
+  }
+    
+    public <A,R> R visit(Visitor<A,R> v, A o) {
+        return v.visitPackage(this, o);
+    }
+
+    public ClassDeclList classDeclList;
+}
+]]></snapshot>
+  </Command>
+  <Command __id="177" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="820855" />
+  <Command __id="178" _type="CompilationCommand" timestamp="821109" type="Error">
+    <sourceEnd><![CDATA[189]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Package.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.SourcePosition cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="179" _type="CompilationCommand" timestamp="821110" type="Error">
+    <sourceEnd><![CDATA[282]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Package.java]]></filename>
+    <errorMessage><![CDATA[SourcePosition cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[269]]></sourceStart>
+  </Command>
+  <Command __id="180" _type="FileOpenCommand" docASTNodeCount="10" docActiveCodeLength="79" docExpressionCount="6" docLength="79" projectName="miniJava" timestamp="824885">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\visitor\AVisitor.java]]></filePath>
+  </Command>
+  <Command __id="181" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="825024" />
+  <Command __id="182" _type="FileOpenCommand" docASTNodeCount="402" docActiveCodeLength="2196" docExpressionCount="186" docLength="2499" projectName="miniJava" timestamp="826624">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\Visitor.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+/**
+ * An implementation of the Visitor interface provides a method visitX
+ * for each non-abstract AST class X.  
+ */
+public interface Visitor<ArgType,ResultType> {
+
+  // Package
+    public ResultType visitPackage(Package prog, ArgType arg);
+
+  // Declarations
+    public ResultType visitClassDecl(ClassDecl cd, ArgType arg);
+    public ResultType visitFieldDecl(FieldDecl fd, ArgType arg);
+    public ResultType visitMethodDecl(MethodDecl md, ArgType arg);
+    public ResultType visitParameterDecl(ParameterDecl pd, ArgType arg);
+    public ResultType visitVarDecl(VarDecl decl, ArgType arg);
+ 
+  // Types
+    public ResultType visitBaseType(BaseType type, ArgType arg);
+    public ResultType visitClassType(ClassType type, ArgType arg);
+    public ResultType visitArrayType(ArrayType type, ArgType arg);
+    
+  // Statements
+    public ResultType visitBlockStmt(BlockStmt stmt, ArgType arg);
+    public ResultType visitVardeclStmt(VarDeclStmt stmt, ArgType arg);
+    public ResultType visitAssignStmt(AssignStmt stmt, ArgType arg);
+    public ResultType visitCallStmt(CallStmt stmt, ArgType arg);
+    public ResultType visitIfStmt(IfStmt stmt, ArgType arg);
+    public ResultType visitWhileStmt(WhileStmt stmt, ArgType arg);
+    
+  // Expressions
+    public ResultType visitUnaryExpr(UnaryExpr expr, ArgType arg);
+    public ResultType visitBinaryExpr(BinaryExpr expr, ArgType arg);
+    public ResultType visitRefExpr(RefExpr expr, ArgType arg);
+    public ResultType visitCallExpr(CallExpr expr, ArgType arg);
+    public ResultType visitLiteralExpr(LiteralExpr expr, ArgType arg);
+    public ResultType visitNewObjectExpr(NewObjectExpr expr, ArgType arg);
+    public ResultType visitNewArrayExpr(NewArrayExpr expr, ArgType arg);
+    
+  // References
+    public ResultType visitQualifiedRef(QualifiedRef ref, ArgType arg);
+    public ResultType visitIndexedRef(IndexedRef ref, ArgType arg);
+    public ResultType visitIdRef(IdRef ref, ArgType arg);
+    public ResultType visitThisRef(ThisRef ref, ArgType arg);
+
+  // Terminals
+    public ResultType visitIdentifier(Identifier id, ArgType arg);
+    public ResultType visitOperator(Operator op, ArgType arg);
+    public ResultType visitIntLiteral(IntLiteral num, ArgType arg);
+    public ResultType visitBooleanLiteral(BooleanLiteral bool, ArgType arg);
+}
+]]></snapshot>
+  </Command>
+  <Command __id="183" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="826789" />
+  <Command __id="184" _type="FileOpenCommand" docASTNodeCount="10" docActiveCodeLength="79" docExpressionCount="6" docLength="79" projectName="miniJava" timestamp="830651">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\visitor\AVisitor.java]]></filePath>
+  </Command>
+  <Command __id="185" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="830797" />
+  <Command __id="186" _type="MoveCaretCommand" caretOffset="70" docOffset="70" timestamp="832250" />
+  <Command __id="187" _type="InsertStringCommand" repeat="4" timestamp="833454" timestamp2="834784">
+    <data><![CDATA[<A,R]]></data>
+  </Command>
+  <Command __id="191" _type="FileOpenCommand" docASTNodeCount="10" docActiveCodeLength="82" docExpressionCount="6" docLength="82" projectName="miniJava" timestamp="838677">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\visitor\Visitor.java]]></filePath>
+  </Command>
+  <Command __id="192" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="838762" />
+  <Command __id="193" _type="MoveCaretCommand" caretOffset="73" docOffset="73" timestamp="839554" />
+  <DocumentChange __id="194" _type="Insert" docASTNodeCount="14" docActiveCodeLength="87" docExpressionCount="8" docLength="87" length="5" offset="73" repeat="4" timestamp="840209" timestamp2="841291">
+    <text><![CDATA[<A,R>]]></text>
+  </DocumentChange>
+  <Command __id="195" _type="InsertStringCommand" repeat="4" timestamp="840213" timestamp2="841294">
+    <data><![CDATA[<A,R]]></data>
+  </Command>
+  <Command __id="202" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="841844" />
+  <Command __id="203" _type="FileOpenCommand" docASTNodeCount="14" docActiveCodeLength="84" docExpressionCount="8" docLength="84" projectName="miniJava" timestamp="843073">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\visitor\AVisitor.java]]></filePath>
+    <snapshot><![CDATA[package miniJava.AbstractSyntaxTrees.visitor;
+
+public class AVisitor<A,R> {
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="204" _type="MoveCaretCommand" caretOffset="74" docOffset="74" timestamp="843148" />
+  <Command __id="205" _type="MoveCaretCommand" caretOffset="75" docOffset="75" timestamp="843868" />
+  <DocumentChange __id="206" _type="Insert" docASTNodeCount="14" docActiveCodeLength="96" docExpressionCount="8" docLength="96" length="12" offset="75" repeat="12" timestamp="844178" timestamp2="845829">
+    <text><![CDATA[ implmenets ]]></text>
+  </DocumentChange>
+  <Command __id="207" _type="InsertStringCommand" repeat="24" timestamp="844181" timestamp2="845832">
+    <data><![CDATA[  iimmppllmmeenneettss  ]]></data>
+  </Command>
+  <DocumentChange __id="242" _type="Delete" docASTNodeCount="14" docActiveCodeLength="92" docExpressionCount="8" docLength="92" endLine="2" length="4" offset="83" repeat="4" startLine="2" timestamp="846181" timestamp2="846531">
+    <text><![CDATA[ets ]]></text>
+  </DocumentChange>
+  <Command __id="243" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="8" timestamp="846187" timestamp2="846535" />
+  <DocumentChange __id="254" _type="Insert" docASTNodeCount="14" docActiveCodeLength="95" docExpressionCount="8" docLength="95" length="3" offset="83" repeat="3" timestamp="847161" timestamp2="847524">
+    <text><![CDATA[ts ]]></text>
+  </DocumentChange>
+  <Command __id="255" _type="InsertStringCommand" repeat="6" timestamp="847166" timestamp2="847528">
+    <data><![CDATA[ttss  ]]></data>
+  </Command>
+  <DocumentChange __id="263" _type="Delete" docASTNodeCount="14" docActiveCodeLength="89" docExpressionCount="8" docLength="89" endLine="2" length="6" offset="80" repeat="6" startLine="2" timestamp="848315" timestamp2="849269">
+    <text><![CDATA[ments ]]></text>
+  </DocumentChange>
+  <Command __id="264" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="12" timestamp="848318" timestamp2="849274" />
+  <DocumentChange __id="281" _type="Insert" docASTNodeCount="21" docActiveCodeLength="108" docExpressionCount="11" docLength="108" length="19" offset="80" repeat="18" timestamp="849368" timestamp2="853545">
+    <text><![CDATA[ements Visitor<A,r>]]></text>
+  </DocumentChange>
+  <Command __id="282" _type="InsertStringCommand" repeat="14" timestamp="849372" timestamp2="850095">
+    <data><![CDATA[eemmeennttss  ]]></data>
+  </Command>
+  <Command __id="302" _type="PredictionCommand" prediction_type="MakingProgress" timestamp="850105" />
+  <Command __id="304" _type="InsertStringCommand" repeat="14" timestamp="850386" timestamp2="851514">
+    <data><![CDATA[VViissiittoorr]]></data>
+  </Command>
+  <Command __id="324" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="851945" />
+  <Command __id="326" _type="InsertStringCommand" repeat="8" timestamp="852705" timestamp2="853548">
+    <data><![CDATA[<<AA,,rr]]></data>
+  </Command>
+  <DocumentChange __id="337" _type="Delete" docASTNodeCount="14" docActiveCodeLength="107" docExpressionCount="8" docLength="107" endLine="2" length="1" offset="97" startLine="2" timestamp="854015">
+    <text><![CDATA[r]]></text>
+  </DocumentChange>
+  <Command __id="338" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.DELETE_PREVIOUS" repeat="2" timestamp="854019" timestamp2="854020" />
+  <DocumentChange __id="340" _type="Insert" docASTNodeCount="21" docActiveCodeLength="108" docExpressionCount="11" docLength="108" length="1" offset="97" timestamp="854216">
+    <text><![CDATA[R]]></text>
+  </DocumentChange>
+  <Command __id="341" _type="InsertStringCommand" repeat="2" timestamp="854219" timestamp2="854220">
+    <data><![CDATA[RR]]></data>
+  </Command>
+  <Command __id="343" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="854772" />
+  <Command __id="344" _type="EclipseCommand" commandID="eventLogger.styledTextCommand.LINE_DOWN" repeat="2" timestamp="856207" timestamp2="856207" />
+  <Command __id="346" _type="FileOpenCommand" docASTNodeCount="14" docActiveCodeLength="87" docExpressionCount="8" docLength="87" projectName="miniJava" timestamp="858390">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\visitor\Visitor.java]]></filePath>
+  </Command>
+  <Command __id="347" _type="MoveCaretCommand" caretOffset="77" docOffset="77" timestamp="858526" />
+  <Command __id="348" _type="FileOpenCommand" docASTNodeCount="8" docActiveCodeLength="75" docExpressionCount="4" docLength="75" projectName="miniJava" timestamp="858918">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTrees\ADeclaration.java]]></filePath>
+  </Command>
+  <Command __id="349" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="859005" />
+  <Command __id="350" _type="FileOpenCommand" docASTNodeCount="55" docActiveCodeLength="300" docExpressionCount="29" docLength="397" projectName="miniJava" timestamp="865586">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\BooleanLiteral.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import miniJava.SyntacticAnalyzer.Token;
+
+public class BooleanLiteral extends Terminal {
+
+  public BooleanLiteral(Token t) {
+    super (t);
+  }
+ 
+  public <A,R> R visit(Visitor<A,R> v, A o) {
+      return v.visitBooleanLiteral(this, o);
+  }
+}
+]]></snapshot>
+  </Command>
+  <Command __id="351" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="865747" />
+  <Command __id="352" _type="CompilationCommand" timestamp="866007" type="Error">
+    <sourceEnd><![CDATA[180]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/BooleanLiteral.java]]></filename>
+    <errorMessage><![CDATA[Only a type can be imported. miniJava.SyntacticAnalyzer.Token resolves to a package]]></errorMessage>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="353" _type="CompilationCommand" timestamp="866008" type="Error">
+    <sourceEnd><![CDATA[264]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/BooleanLiteral.java]]></filename>
+    <errorMessage><![CDATA[Token cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[260]]></sourceStart>
+  </Command>
+  <Command __id="354" _type="FileOpenCommand" docASTNodeCount="402" docActiveCodeLength="2196" docExpressionCount="186" docLength="2499" projectName="miniJava" timestamp="872190">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\Visitor.java]]></filePath>
+  </Command>
+  <Command __id="355" _type="SelectTextCommand" caretOffset="2402" end="2402" start="2383" timestamp="872416" />
+  <Command __id="356" _type="FileOpenCommand" docASTNodeCount="55" docActiveCodeLength="300" docExpressionCount="29" docLength="397" projectName="miniJava" timestamp="887814">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\BooleanLiteral.java]]></filePath>
+  </Command>
+  <Command __id="357" _type="MoveCaretCommand" caretOffset="309" docOffset="366" timestamp="887998" />
+  <Command __id="358" _type="FileOpenCommand" docASTNodeCount="55" docActiveCodeLength="290" docExpressionCount="29" docLength="387" projectName="miniJava" timestamp="895346">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\Identifier.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import miniJava.SyntacticAnalyzer.Token;
+
+public class Identifier extends Terminal {
+
+  public Identifier (Token t) {
+    super (t);
+  }
+
+  public <A,R> R visit(Visitor<A,R> v, A o) {
+      return v.visitIdentifier(this, o);
+  }
+
+}
+]]></snapshot>
+  </Command>
+  <Command __id="359" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="895512" />
+  <Command __id="360" _type="CompilationCommand" timestamp="895662" type="Error">
+    <sourceEnd><![CDATA[180]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Identifier.java]]></filename>
+    <errorMessage><![CDATA[Only a type can be imported. miniJava.SyntacticAnalyzer.Token resolves to a package]]></errorMessage>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="361" _type="CompilationCommand" timestamp="895664" type="Error">
+    <sourceEnd><![CDATA[257]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Identifier.java]]></filename>
+    <errorMessage><![CDATA[Token cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[12]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[253]]></sourceStart>
+  </Command>
+  <Command __id="362" _type="FileOpenCommand" docASTNodeCount="59" docActiveCodeLength="342" docExpressionCount="35" docLength="439" projectName="miniJava" timestamp="898729">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\Terminal.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import miniJava.SyntacticAnalyzer.Token;
+import miniJava.SyntacticAnalyzer.TokenKind;
+
+abstract public class Terminal extends AST {
+
+  public Terminal (Token t) {
+	super(t.posn);
+    spelling = t.spelling;
+    kind = t.kind;
+  }
+
+  public TokenKind kind;
+  public String spelling;
+}
+]]></snapshot>
+  </Command>
+  <Command __id="363" _type="SelectTextCommand" caretOffset="159" end="159" start="151" timestamp="898898" />
+  <Command __id="364" _type="CompilationCommand" timestamp="899203" type="Error">
+    <sourceEnd><![CDATA[180]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Terminal.java]]></filename>
+    <errorMessage><![CDATA[Only a type can be imported. miniJava.SyntacticAnalyzer.Token resolves to a package]]></errorMessage>
+    <messageId><![CDATA[268435843]]></messageId>
+    <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[149]]></sourceStart>
+  </Command>
+  <Command __id="365" _type="CompilationCommand" timestamp="899204" type="Error">
+    <sourceEnd><![CDATA[226]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Terminal.java]]></filename>
+    <errorMessage><![CDATA[The import miniJava.SyntacticAnalyzer.TokenKind cannot be resolved]]></errorMessage>
+    <messageId><![CDATA[268435846]]></messageId>
+    <sourceCodeLineNumber><![CDATA[9]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[191]]></sourceStart>
+  </Command>
+  <Command __id="366" _type="CompilationCommand" timestamp="899205" type="Error">
+    <sourceEnd><![CDATA[303]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Terminal.java]]></filename>
+    <errorMessage><![CDATA[Token cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[13]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[299]]></sourceStart>
+  </Command>
+  <Command __id="367" _type="CompilationCommand" timestamp="899206" type="Error">
+    <sourceEnd><![CDATA[363]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Terminal.java]]></filename>
+    <errorMessage><![CDATA[TokenKind cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[16]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[360]]></sourceStart>
+  </Command>
+  <Command __id="368" _type="CompilationCommand" timestamp="899209" type="Error">
+    <sourceEnd><![CDATA[400]]></sourceEnd>
+    <filename><![CDATA[/miniJava/src/miniJava/AbstractSyntaxTreesEX/Terminal.java]]></filename>
+    <errorMessage><![CDATA[TokenKind cannot be resolved to a type]]></errorMessage>
+    <messageId><![CDATA[16777218]]></messageId>
+    <sourceCodeLineNumber><![CDATA[19]]></sourceCodeLineNumber>
+    <sourceStart><![CDATA[392]]></sourceStart>
+  </Command>
+  <Command __id="369" _type="ShellCommand" timestamp="911151" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="370" _type="ShellCommand" timestamp="1145776" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="371" _type="FileOpenCommand" docASTNodeCount="89" docActiveCodeLength="537" docExpressionCount="42" docLength="634" projectName="miniJava" timestamp="1150663">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\ClassDeclList.java]]></filePath>
+    <snapshot><![CDATA[/**
+ * miniJava Abstract Syntax Tree classes
+ * @author prins
+ * @version COMP 520 (v2.2)
+ */
+package miniJava.AbstractSyntaxTreesEX;
+
+import java.util.*;
+
+public class ClassDeclList implements Iterable<ClassDecl>
+{
+	public ClassDeclList() {
+		classDeclList = new ArrayList<ClassDecl>();
+	}   
+
+	public void add(ClassDecl cd){
+		classDeclList.add(cd);
+	}
+
+	public ClassDecl get(int i){
+		return classDeclList.get(i);
+	}
+
+	public int size() {
+		return classDeclList.size();
+	}
+
+	public Iterator<ClassDecl> iterator() {
+		return classDeclList.iterator();
+	}
+
+	private List<ClassDecl> classDeclList;
+}
+
+]]></snapshot>
+  </Command>
+  <Command __id="372" _type="MoveCaretCommand" caretOffset="0" docOffset="5" timestamp="1150842" />
+  <Command __id="373" _type="FileOpenCommand" docASTNodeCount="59" docActiveCodeLength="342" docExpressionCount="35" docLength="439" projectName="miniJava" timestamp="1164230">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\Terminal.java]]></filePath>
+  </Command>
+  <Command __id="374" _type="SelectTextCommand" caretOffset="159" end="159" start="151" timestamp="1164517" />
+  <Command __id="375" _type="ShellCommand" timestamp="1173379" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="376" _type="ShellCommand" timestamp="1175541" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="377" _type="DifficultyCommand" timestamp="1182040" type="Making_Progress">
+    <otherCausedDifficulty><![CDATA[]]></otherCausedDifficulty>
+    <otherOvercomeDifficultySaveText><![CDATA[]]></otherOvercomeDifficultySaveText>
+    <tryingToDo><![CDATA[]]></tryingToDo>
+    <causedDifficulty><![CDATA[]]></causedDifficulty>
+    <overcomeDifficultyDropDown><![CDATA[]]></overcomeDifficultyDropDown>
+    <otherMinutes><![CDATA[]]></otherMinutes>
+    <personAskedForHelp><![CDATA[]]></personAskedForHelp>
+  </Command>
+  <Command __id="378" _type="FileOpenCommand" docASTNodeCount="59" docActiveCodeLength="342" docExpressionCount="35" docLength="439" projectName="miniJava" timestamp="1184432">
+    <filePath><![CDATA[C:\Users\wangk1\Desktop\Dropbox\Program\Java\miniJava\src\miniJava\AbstractSyntaxTreesEX\Terminal.java]]></filePath>
+  </Command>
+  <Command __id="379" _type="MoveCaretCommand" caretOffset="336" docOffset="439" timestamp="1184510" />
+  <Command __id="380" _type="MoveCaretCommand" caretOffset="336" docOffset="439" timestamp="1184526" />
+</Events>

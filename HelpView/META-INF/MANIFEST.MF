@@ -9,3 +9,4 @@ Require-Bundle: org.eclipse.ui,
  org.json;bundle-version="1.0.0",
  workspacelistener;bundle-version="1.0.0",
  dayton.ellwanger.Hermes
+Import-Package: util.trace.hermes.helpbutton

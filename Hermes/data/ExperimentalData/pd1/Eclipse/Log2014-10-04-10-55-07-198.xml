@@ -1,0 +1,50 @@
+<Events startTimestamp="1412434507198" logVersion="0.5.3.qualifier">
+  <Command __id="1" _type="FileOpenCommand" docASTNodeCount="65" docActiveCodeLength="292" docExpressionCount="44" docLength="326" projectName="TestPlugIn" timestamp="4945">
+    <snapshot><![CDATA[
+public class HelloWorld {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("Hello world");
+		int i = 0;
+		i++;
+		System.out.println("foo");
+		System.out.println("bar");
+		System.out.append("c");
+		System.out.println("f");
+		System.out.println("foo");
+	}
+
+}
+]]></snapshot>
+    <filePath><![CDATA[D:\dewan_backup\Java\eclipse\runtime-EclipseApplication\TestPlugIn\src\HelloWorld.java]]></filePath>
+  </Command>
+  <Command __id="2" _type="MoveCaretCommand" caretOffset="315" docOffset="315" timestamp="5044" />
+  <DocumentChange __id="3" _type="Insert" docASTNodeCount="65" docActiveCodeLength="296" docExpressionCount="44" docLength="330" length="4" offset="315" timestamp="5653">
+    <text><![CDATA[
+		]]></text>
+  </DocumentChange>
+  <Command __id="4" _type="InsertStringCommand" timestamp="5665" timestamp2="5665">
+    <data><![CDATA[]]></data>
+  </Command>
+  <Command __id="5" _type="CompilationCommand" timestamp="6450" type="Warning">
+    <errorMessage><![CDATA[The value of the local variable i is not used]]></errorMessage>
+    <sourceEnd><![CDATA[156]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[156]]></sourceStart>
+    <messageId><![CDATA[536870973]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="6" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="11997" />
+  <Command __id="7" _type="CompilationCommand" timestamp="12971" type="Warning">
+    <errorMessage><![CDATA[The value of the local variable i is not used]]></errorMessage>
+    <sourceEnd><![CDATA[156]]></sourceEnd>
+    <filename><![CDATA[/TestPlugIn/src/HelloWorld.java]]></filename>
+    <sourceStart><![CDATA[156]]></sourceStart>
+    <messageId><![CDATA[536870973]]></messageId>
+    <sourceCodeLineNumber><![CDATA[7]]></sourceCodeLineNumber>
+  </Command>
+  <Command __id="8" _type="ShellCommand" timestamp="21638" type="ECLIPSE_LOST_FOCUS" />
+  <Command __id="9" _type="ShellCommand" timestamp="23638" type="ECLIPSE_GAINED_FOCUS" />
+  <Command __id="10" _type="ShellCommand" timestamp="24378" type="ECLIPSE_CLOSED" />
+</Events>

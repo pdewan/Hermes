@@ -30,7 +30,13 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="dayton.ellwanger.hermes.Startup">
+            class="dayton.ellwanger.hermes.HermesStartup">
       </startup>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+          <initializer
+            class="fluorite.preferences.Initializer">
+           </initializer>
    </extension>
 </plugin>
