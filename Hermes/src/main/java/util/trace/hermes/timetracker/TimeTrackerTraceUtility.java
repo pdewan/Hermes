@@ -17,6 +17,12 @@ public class TimeTrackerTraceUtility {
 		TraceableInfo.setPrintTraceable(true);
 		TraceableInfo.setPrintSource(true);
 		Tracer.setImplicitPrintKeywordKind(ImplicitKeywordKind.OBJECT_CLASS_NAME);	
+		Tracer.setKeywordPrintStatus(ActivityDetected.class, true);
+		Tracer.setKeywordPrintStatus(ActivitySessionStarted.class, true);
+		Tracer.setKeywordPrintStatus(ActivitySessionEnded.class, true);
+		Tracer.setKeywordPrintStatus(EclipeSessionStarted.class, true);
+		Tracer.setKeywordPrintStatus(EclipeSessionEnded.class, true);
+		Tracer.setKeywordPrintStatus(IdleCycleDetected.class, true);
 		Tracer.setKeywordPrintStatus(TimeWorkedForwardedToConnectionManager.class, true);
 
 	}

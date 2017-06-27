@@ -15,43 +15,139 @@ import edu.cmu.scs.fluorite.commands.document.DocChange;
 import edu.cmu.scs.fluorite.model.CommandExecutionListener;
 import edu.cmu.scs.fluorite.model.DocumentChangeListener;
 import edu.cmu.scs.fluorite.model.EventRecorder;
+import fluorite.commands.EHBaseDocumentChangeEvent;
+import fluorite.commands.EHFileOpenCommand;
+import fluorite.model.EHCommandExecutionListener;
+import fluorite.model.EHDocumentChangeListener;
+import fluorite.model.EHEventRecorder;
+import fluorite.model.EclipseEventListener;
+import fluorite.model.RecorderListener;
+import util.trace.hermes.timetracker.ActivityDetected;
+import util.trace.hermes.timetracker.ActivitySessionEnded;
+import util.trace.hermes.timetracker.ActivitySessionStarted;
+import util.trace.hermes.timetracker.EclipeSessionEnded;
+import util.trace.hermes.timetracker.EclipeSessionStarted;
+import util.trace.hermes.timetracker.IdleCycleDetected;
 import util.trace.hermes.timetracker.TimeWorkedForwardedToConnectionManager;
 
-public class FluoriteListener implements DocumentChangeListener, CommandExecutionListener {
+public class FluoriteListener implements 
+	EclipseEventListener
+//	EHDocumentChangeListener,
+//	DocumentChangeListener, 
+//	CommandExecutionListener,
+//	EHCommandExecutionListener,
+//	RecorderListener
+	{
 
-	IdleTimer idleTimer;
-	
+	protected IdleTimer idleTimer;
+	/*
+	 * The granularity affects the delay before a session information is sent to a server
+	 */
+	public static long IDLE_CYCLE_GRANULARITY = 3*1000; // 1 sec
+	public static long IDLE_TIME_THRESHOLD = 3*60*1000; // 3 minutes
+	public static long IDLE_CYCLES_THRESHOLD = IDLE_TIME_THRESHOLD/IDLE_CYCLE_GRANULARITY;
+	protected long startTimestamp;
+	protected long lastCommandTimestamp;
+	protected long activityStartTimestamp;
+	protected long activityEndTimestamp;
+	protected int numCommands;
+	protected int numDocChanges;
+	protected int numActions;
 	public FluoriteListener() {
 		idleTimer = new IdleTimer();
-		EventRecorder eventRecorder = EventRecorder.getInstance();
-		eventRecorder.addCommandExecutionListener(this);
-		eventRecorder.addDocumentChangeListener(this);
+		EHEventRecorder eventRecorder = EHEventRecorder.getInstance();
+//		EventRecorder eventRecorder = EventRecorder.getInstance();
+
+//		eventRecorder.addCommandExecutionListener(this);
+//		eventRecorder.addDocumentChangeListener(this);
+//		eventRecorder.addRecorderListener(this);
+		eventRecorder.addEclipseEventListener(this);
+	}
+	@Override
+	public void eventRecordingStarted(long aStartTimestamp) {
+		startTimestamp = aStartTimestamp;
+		EclipeSessionStarted.newCase(this, aStartTimestamp);
+		
 	}
 
 	@Override
-	public void commandExecuted(ICommand arg0) {
+	public void eventRecordingEnded() {
+		EclipeSessionEnded.newCase(this, startTimestamp, lastCommandTimestamp);
+
+		
+	}
+	@Override
+	public void commandExecuted(long aTimestamp) {
+		lastCommandTimestamp = aTimestamp;
+		numActions++;
 		idleTimer.recordActivity();
+		
 	}
-
 	@Override
-	public void activeFileChanged(FileOpenCommand arg0) {}
+	public void documentChanged(long aTimestamp) {
+		lastCommandTimestamp = aTimestamp;
+		numDocChanges++;
+		numActions++;
 
-	@Override
-	public void documentChangeAmended(DocChange arg0, DocChange arg1) {}
-
-	@Override
-	public void documentChangeFinalized(DocChange arg0) {}
-
-	@Override
-	public void documentChangeUpdated(DocChange arg0) {}
-
-	@Override
-	public void documentChanged(DocChange arg0) {
 		idleTimer.recordActivity();
+		
 	}
+	@Override
+	public void documentChangeFinalized(long aTimestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+//	@Override
+//	public void commandExecuted(ICommand aCommand) {
+//		lastCommandTimestamp = aCommand.getTimestamp();
+//		numCommands++;
+//		numActions++;
+//		idleTimer.recordActivity();
+//	}
+//	@Override
+//	public void activeFileChanged(EHFileOpenCommand foc) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
+//	@Override
+//	public void documentChanged(EHBaseDocumentChangeEvent docChange) {
+//		lastCommandTimestamp = docChange.getTimestamp();
+//		numDocChanges++;
+//		numActions++;
+//
+//		idleTimer.recordActivity();
+//
+//		
+//	}
+//
+//	@Override
+//	public void documentChangeFinalized(EHBaseDocumentChangeEvent docChange) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
+//	@Override
+//	public void activeFileChanged(FileOpenCommand arg0) {}
+//
+//	@Override
+//	public void documentChangeAmended(DocChange arg0, DocChange arg1) {}
+//
+//	@Override
+//	public void documentChangeFinalized(DocChange arg0) {}
+//
+//	@Override
+//	public void documentChangeUpdated(DocChange arg0) {}
+//
+//	@Override
+//	public void documentChanged(DocChange arg0) {
+//		idleTimer.recordActivity();
+//	}
 	
 	private void sessionEnded(Date startDate, Date endDate) {
-		System.out.println("Session ended");
+//		System.out.println("Session ended");
+		ActivitySessionEnded.newCase(this, startTimestamp, lastCommandTimestamp);
 		double sessionLength = ((endDate.getTime() - startDate.getTime()) / (60.0 * 1000));
 		File sessionFile = new File(System.getProperty("user.home") + "/sessions.txt");
 		try {
@@ -64,6 +160,7 @@ public class FluoriteListener implements DocumentChangeListener, CommandExecutio
 			output.append("\nSession duration: " + sessionLength + "\n\n");
 			output.close();
 		} catch (Exception ex) {ex.printStackTrace();}
+		EclipeSessionEnded.newCase(this, startTimestamp, lastCommandTimestamp);
 		sendSession(startDate, endDate);
 	}
 	
@@ -85,45 +182,95 @@ public class FluoriteListener implements DocumentChangeListener, CommandExecutio
 		}
 	}
 	
+	
+	
 	class IdleTimer implements Runnable {
 		
-		private boolean inSession;
-		private boolean idleLastMinute;
+		private boolean inActivitySession;
+		private boolean idleLastCycle;
+		protected Date startDate;
+		protected Date endDate;
+		protected int idleCycles = 0;
+		protected int activeCycles;
 		
 		public IdleTimer() {
-			inSession = false;
+			inActivitySession = false;
 		}
-		
+		/**
+		 * This thread is constantly polling because a sleeping process cannot be interrupted.
+		 * Can have a thread wait on a timeout and be notified with each command, but
+		 * is probbaly more context switches than just sleeping for some period.
+		 */
 		public void run() {
-			System.out.println("Session started");
-			Date startDate = new Date();
-			Date endDate = new Date();
-			int idleMinutes = 0;
-			while(idleMinutes < 10) {
-				idleLastMinute = true;
+			activityStartTimestamp = startTimestamp + lastCommandTimestamp;
+//			System.out.println("Session started");
+			ActivitySessionStarted.newCase(this, activityStartTimestamp);
+//			Date startDate = new Date(); // make this global also
+			 startDate = new Date(); // make this global also
+
+//			Date endDate = new Date(); // in case we get no more commands or we terminate early
+//			int idleCycles = 0; // make this a global so eclipse termination can access it
+			// make this global also
+			endDate = new Date(); // in case we get no more commands or we terminate early
+			idleCycles = 0; // make this a global so eclipse termination can access it
+			while(idleCycles < IDLE_CYCLES_THRESHOLD) {
+
+//			while(idleCycles < 10) {
+				
+				idleLastCycle = true;
 				try {
-					Thread.sleep(/*60 * */ 1000);
+//					Thread.sleep(/*60 * */ 1000); // why is 60 removed?
+					Thread.sleep(IDLE_CYCLE_GRANULARITY); // why is 60 removed?
+
 				} catch (Exception ex) {}
-				if(idleLastMinute) {
-					idleMinutes++;
+				if(idleLastCycle) {
+					idleCycles++;
+					IdleCycleDetected.newCase(this, startTimestamp + lastCommandTimestamp, idleCycles);
 				} else {
-					endDate = new Date();
-					idleMinutes = 0;
+					endDate = new Date(); // this seems wrong, we have not ended session
+					// actually it is correct as this is ths last cycle in which the session was active
+					idleCycles = 0;
 				}
 			}
-			inSession = false;
+//			Date endDate = new Date(); // current time
+//
+//			inActivitySession = false;
+//			sessionEnded(startDate, endDate);
+			recordEndSession();
+		}
+		
+		public void recordEndSession() {
+//			Date endDate = new Date(); // current time
+
+			inActivitySession = false;
+			activityEndTimestamp = startTimestamp + lastCommandTimestamp;
+			long ativityDuration = activityEndTimestamp - activityStartTimestamp;
+			ActivitySessionEnded.newCase(this, activityEndTimestamp, ativityDuration);
 			sessionEnded(startDate, endDate);
 		}
 		
 		public void recordActivity() {
-			if(inSession) {
-				idleLastMinute = false;
+			if(inActivitySession) {
+				idleLastCycle = false;
 			} else {
-				inSession = true;
+				inActivitySession = true;
 				(new Thread(this)).start();
 			}
+			
+			ActivityDetected.newCase(this, startTimestamp + lastCommandTimestamp);
+
 		}
 		
 	}
+
+
+
+	
+
+
+
+
+
+	
 	
 }

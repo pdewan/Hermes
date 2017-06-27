@@ -18,8 +18,8 @@ public class FlouriteRecordingTraceUtility {
 		Tracer.setImplicitPrintKeywordKind(ImplicitKeywordKind.OBJECT_CLASS_NAME);
 		Tracer.setKeywordPrintStatus(AddedCommandToBuffers.class, true);
 		Tracer.setKeywordPrintStatus(CombinedCommand.class, true);
-		Tracer.setKeywordPrintStatus(DocumentChangeCommandReceived.class, true);
-		Tracer.setKeywordPrintStatus(NormalCommandReceived.class, true);
+		Tracer.setKeywordPrintStatus(DocumentChangeCommandExecuted.class, true);
+		Tracer.setKeywordPrintStatus(NonDocumentChangeCommandExecuted.class, true);
 		Tracer.setKeywordPrintStatus(ExcludedCommand.class, true);
 		Tracer.setKeywordPrintStatus(ForwardedCommandToPredictor.class, true);
 		Tracer.setKeywordPrintStatus(IgnoredCommandAsRecordingSuspended.class, true);

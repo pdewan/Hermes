@@ -59,7 +59,9 @@ import util.trace.plugin.PluginStopped;
 import util.trace.recorder.ReceivedCommand;
 import util.trace.recorder.AddedCommandToBuffers;
 import util.trace.recorder.CombinedCommand;
-import util.trace.recorder.DocumentChangeCommandReceived;
+import util.trace.recorder.DocumentChangeCommandExecuted;
+import util.trace.recorder.DocumentChangeCommandNotified;
+import util.trace.recorder.DocumentChangeFinalizedEventNotified;
 import util.trace.recorder.RemovedCommandFromBuffers;
 import util.trace.recorder.ForwardedCommandToPredictor;
 import util.trace.recorder.IgnoredCommandAsRecordingSuspended;
@@ -70,10 +72,12 @@ import util.trace.recorder.PendingCommandsLogEnd;
 import util.trace.recorder.CommandLoggingInitiated;
 import util.trace.recorder.MacroRecordingStarted;
 import util.trace.recorder.NewMacroCommand;
-import util.trace.recorder.NormalCommandReceived;
+import util.trace.recorder.NonDocumentChangeCommandExecuted;
+import util.trace.recorder.NonDocumentChangeCommandNotified;
 import util.trace.recorder.RecordedCommandsCleared;
 import util.trace.workbench.PartListenerAdded;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
+import edu.cmu.scs.fluorite.model.EventRecorder;
 import fluorite.actions.FindAction;
 import fluorite.commands.EHBaseDocumentChangeEvent;
 import fluorite.commands.DifficulyStatusCommand;
@@ -96,10 +100,12 @@ import fluorite.recorders.EHShellRecorder;
 import fluorite.recorders.EHStyledTextEventRecorder;
 import fluorite.recorders.EHVariableValueRecorder;
 import fluorite.util.EHUtilities;
+import edu.cmu.scs.fluorite.model.CommandExecutionListener;
+
 /*
  * Cannot extend EventRecorder as it has a private constructor
  */
-public class EHEventRecorder{
+public class EHEventRecorder {
 
 	public static final String MacroCommandCategory = "EventLogger utility command";
 	public static final String MacroCommandCategoryID = "eventlogger.category.utility.command";
@@ -151,6 +157,11 @@ public class EHEventRecorder{
 	private TimerTask mDocChangeTimerTask;
 
 	private ListenerList mDocumentChangeListeners;
+	private ListenerList<EHCommandExecutionListener> mCommandExecutionListeners;
+	protected ListenerList<RecorderListener> recorderListener;
+	protected ListenerList<EclipseEventListener> eventListener;
+
+
 
 	private List<Runnable> mScheduledTasks;
 
@@ -197,6 +208,9 @@ public class EHEventRecorder{
 		mAssistSession = false;
 
 		mDocumentChangeListeners = new ListenerList();
+		mCommandExecutionListeners = new ListenerList<>();
+		recorderListener = new ListenerList<>();
+		eventListener = new ListenerList<>();
 
 		mTimer = new Timer();
 
@@ -260,6 +274,35 @@ public class EHEventRecorder{
 	public void removeDocumentChangeListener(EHDocumentChangeListener docChangeListener) {
 		mDocumentChangeListeners.remove(docChangeListener);
 	}
+	
+	public void addRecorderListener(RecorderListener aListener) {
+		recorderListener.add(aListener);
+		if (mStartTimestamp > 0) {
+			aListener.eventRecordingStarted(mStartTimestamp);
+		}
+	}
+
+	public void removeRecorderListeer(RecorderListener aListener) {
+		recorderListener.remove(aListener);
+	}
+	public void addEclipseEventListener(EclipseEventListener aListener) {
+		eventListener.add(aListener);
+		addRecorderListener(aListener);
+//		recorderListener.add(aListener);
+	}
+
+	public void removeEclipseEventListener(RecorderListener aListener) {
+		eventListener.remove(aListener);
+		recorderListener.remove(aListener);
+	}
+	
+	public void addCommandExecutionListener(EHCommandExecutionListener aListener) {
+		mCommandExecutionListeners.add(aListener);
+	}
+
+	public void removeCommandExecutionListener(EHCommandExecutionListener aListener) {
+		mDocumentChangeListeners.remove(aListener);
+	}
 
 	public void setCombineCommands(boolean enabled) {
 		mCombineCommands = enabled;
@@ -291,12 +334,40 @@ public class EHEventRecorder{
 		for (Object listenerObj : mDocumentChangeListeners.getListeners()) {
 			((EHDocumentChangeListener) listenerObj).documentChanged(docChange);
 		}
+		for (Object listenerObj : eventListener.getListeners()) {
+			((EclipseEventListener)listenerObj).documentChanged(docChange.getTimestamp());
+		}
 	}
+	public void fireCommandExecutedEvent(EHICommand command) {
+		for (Object listenerObj : mCommandExecutionListeners.getListeners()) {
+			((EHCommandExecutionListener)listenerObj).commandExecuted(command);
+		}
+		for (Object listenerObj : eventListener.getListeners()) {
+			((EclipseEventListener)listenerObj).commandExecuted(command.getTimestamp());
+		}
+	}
+	
+	public void notifyRecordingStarted(long aStartTimestamp) {
+		for (Object listenerObj : recorderListener.getListeners()) {
+			((RecorderListener)listenerObj).eventRecordingStarted(aStartTimestamp);
+		}
+	}
+	public void notifyRecordingEnded() {
+		for (Object listenerObj : recorderListener.getListeners()) {
+			((RecorderListener)listenerObj).eventRecordingEnded();
+		}
+		for (Object listenerObj : eventListener.getListeners()) {
+			((EclipseEventListener)listenerObj).eventRecordingEnded();
+		}
+	}
+	
+	
 
 	public synchronized void fireDocumentChangeFinalizedEvent(EHBaseDocumentChangeEvent docChange) {
 		if (docChange instanceof EHFileOpenCommand) {
 			return;
 		}
+		
 
 		if (docChange == mLastFiredDocumentChange) {
 			return;
@@ -306,6 +377,10 @@ public class EHEventRecorder{
 			// System.out.println ("ASYNC EXEC ProCESSED");
 
 			((EHDocumentChangeListener) listenerObj).documentChangeFinalized(docChange);
+		}
+		
+		for (Object listenerObj : eventListener.getListeners()) {
+			((EclipseEventListener)listenerObj).documentChangeFinalized(docChange.getTimestamp());
 		}
 
 		mLastFiredDocumentChange = docChange;
@@ -458,6 +533,7 @@ public class EHEventRecorder{
 		// .getInt(Initializer.Pref_CombineTimeThreshold));
 
 		mStarted = true;
+		notifyRecordingStarted(mStartTimestamp);
 
 	}
 
@@ -540,6 +616,7 @@ public class EHEventRecorder{
 		for (Runnable runnable : mScheduledTasks) {
 			runnable.run();
 		}
+		
 
 	}
 
@@ -619,6 +696,7 @@ public class EHEventRecorder{
 		getTimer().purge();
 		ADifficultyPredictionPluginEventProcessor.getInstance().commandProcessingStopped();
 		// pendingPredictionCommands.add(new AnEndOfQueueCommand());
+		notifyRecordingEnded();
 	}
 
 	private void initializeLogger() {
@@ -730,6 +808,27 @@ public class EHEventRecorder{
 	boolean isPredictionRelatedCommand(final EHICommand newCommand) {
 		return newCommand instanceof PredictionCommand || newCommand instanceof DifficulyStatusCommand;
 	}
+	
+	protected void notifyCommandAndDocChangeListeners(EHICommand newCommand, 
+			EHICommand lastCommand) {
+		if (newCommand instanceof EHBaseDocumentChangeEvent) {
+			if (!(newCommand instanceof EHFileOpenCommand)) {
+				fireDocumentChangedEvent((EHBaseDocumentChangeEvent)newCommand);
+				DocumentChangeCommandNotified.newCase((EHBaseDocumentChangeEvent)newCommand, mStartTimestamp, this);
+			}
+			
+			if (lastCommand instanceof EHBaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
+				fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent)lastCommand);
+				DocumentChangeFinalizedEventNotified.newCase(
+						(EHBaseDocumentChangeEvent)lastCommand, mStartTimestamp, this);
+			}
+		}
+		else {
+			fireCommandExecutedEvent(newCommand);
+			NonDocumentChangeCommandNotified.newCase(newCommand, mStartTimestamp, this);
+		}
+	}
+	
 
 	public void recordCommand(final EHICommand newCommand) {
 //		System.out.println("Recording command:" + newCommand);
@@ -774,9 +873,9 @@ public class EHEventRecorder{
 				mDocumentChangeCommands : 
 					mNormalCommands;
 		if (isDocChange) {
-			DocumentChangeCommandReceived.newCase(newCommand, mStartTimestamp, this);
+			DocumentChangeCommandExecuted.newCase((EHBaseDocumentChangeEvent) newCommand, mStartTimestamp, this);
 		} else {
-			NormalCommandReceived.newCase(newCommand, mStartTimestamp, this);
+			NonDocumentChangeCommandExecuted.newCase(newCommand, mStartTimestamp, this);
 		}
 //		System.out.println(" isDocChange" + isDocChange + " commandslist:" + docOrNormalCommands);
 
@@ -804,14 +903,17 @@ public class EHEventRecorder{
 			docOrNormalCommands.add(newCommand);
 			allDocAndNonDocCommands.add(newCommand);
 			AddedCommandToBuffers.newCase(newCommand, docOrNormalCommands.toString(), allDocAndNonDocCommands.toString(),  this);
-
-			if (newCommand instanceof EHBaseDocumentChangeEvent && !(newCommand instanceof EHFileOpenCommand)) {
-				fireDocumentChangedEvent((EHBaseDocumentChangeEvent) newCommand);
-
-				if (lastCommand instanceof EHBaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
-					fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent) lastCommand);
-				}
-			}
+			notifyCommandAndDocChangeListeners(newCommand, lastCommand);
+			/*
+			 * The code below is old fluorite
+			 */
+//			if (newCommand instanceof EHBaseDocumentChangeEvent && !(newCommand instanceof EHFileOpenCommand)) {
+//				fireDocumentChangedEvent((EHBaseDocumentChangeEvent) newCommand);
+//
+//				if (lastCommand instanceof EHBaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
+//					fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent) lastCommand);
+//				}
+//			}
 
 		}
 

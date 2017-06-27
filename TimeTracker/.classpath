@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="D:/dewan_backup/Java/Hermes/Hermes/lib/oeall22.jar"/>
+	<classpathentry kind="lib" path="D:/dewan_backup/Java/Hermes/TimeTracker/lib/edu.cmu.scs.fluorite_0.11.0.201504031625.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

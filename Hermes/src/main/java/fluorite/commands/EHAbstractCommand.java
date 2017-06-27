@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import edu.cmu.scs.fluorite.commands.AbstractCommand;
 import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
+import fluorite.plugin.EHActivator;
 //import fluorite.plugin.Activator;
 import fluorite.preferences.Initializer;
 import fluorite.util.EHUtilities;
@@ -187,29 +188,35 @@ public abstract class EHAbstractCommand extends AbstractCommand implements
 //		return mBottomLineNumber;
 //	}
 //
-//	public boolean combineWith(EHICommand anotherCommand) {
+	/*
+	 * Trap calls to (Icimmand rather than EHICommandto handle more cases
+	 */
+	public boolean combineWith(ICommand anotherCommand) {
 //		IPreferenceStore prefStore = fluorite.plugin.Activator
 //				.getDefault().getPreferenceStore();
-//
-//		// preference option check.
-//		if (!prefStore.getBoolean(Initializer.Pref_CombineCommands)) {
-//			return false;
-//		}
-//
-//		// Time threshold check.
-//		if (anotherCommand.getTimestamp() - getTimestamp2() > prefStore
-//				.getInt(Initializer.Pref_CombineTimeThreshold)) {
-//			return false;
-//		}
-//
-//		if (combine(anotherCommand)) {
-//			setTimestamp2(anotherCommand.getTimestamp());
-//			increaseRepeatCount();
-//			return true;
-//		}
-//
-//		return false;
-//	}
+		
+		IPreferenceStore prefStore = EHActivator
+				.getDefault().getPreferenceStore();
+
+		// preference option check.
+		if (!prefStore.getBoolean(Initializer.Pref_CombineCommands)) {
+			return false;
+		}
+
+		// Time threshold check.
+		if (anotherCommand.getTimestamp() - getTimestamp2() > prefStore
+				.getInt(Initializer.Pref_CombineTimeThreshold)) {
+			return false;
+		}
+
+		if (combine(anotherCommand)) {
+			setTimestamp2(anotherCommand.getTimestamp());
+			increaseRepeatCount();
+			return true;
+		}
+
+		return false;
+	}
 //
 //	public abstract boolean combine(EHICommand anotherCommand);
 //

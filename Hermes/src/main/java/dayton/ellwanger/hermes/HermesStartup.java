@@ -25,8 +25,8 @@ public class HermesStartup implements IStartup {
 		DifficultyPredictionTraceUtility.setTracing();		
 		DifficultyNotificationTraceUtility.setTracing();
 		HelpPluginTraceUtility.setTracing();
-		AnalyzerTraceUtility.setTracing();
-		TimeTrackerTraceUtility.setTracing();
+		AnalyzerTraceUtility.setTracing();		
+//		TimeTrackerTraceUtility.setTracing(); // its startup sets the tracing
 		WorkspaceListenerTraceUtility.setTracing();
 		MessageBusClientsTraceUtility.setTracing();
 	}

@@ -36,9 +36,10 @@ public class EHEclipseCommand extends EclipseCommand implements EHICommand{
 	public EHEclipseCommand(String commandId) {
 		this(commandId, 1);
 	}
-	public String toString() {
-		return super.toString() + ":" + getName();
-	}
+//	public String toString() {
+//	
+//		return super.toString() + ":" + getName();
+//	}
 //
 //	public EHEclipseCommand() {
 //		// nothing to do here

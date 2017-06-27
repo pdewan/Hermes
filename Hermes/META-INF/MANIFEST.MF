@@ -16,6 +16,8 @@ Export-Package: .,
    org.json,
    org.jivesoftware.smack.filter,
    org.jivesoftware.smack.packet",
+ fluorite.commands,
+ fluorite.model,
  util.trace.difficultyPrediction,
  util.trace.hermes.connectionmanager,
  util.trace.hermes.consolelistener,
@@ -40,7 +42,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core;bundle-version="3.12.3",
  org.eclipse.ui.browser;bundle-version="3.5.2",
  org.eclipse.core.variables;bundle-version="3.3.0",
- edu.cmu.scs.fluorite;bundle-version="0.11.0",
  org.junit;bundle-version="4.12.0"
 Bundle-ClassPath: .,
  lib/commons-lang3-3.0.jar,
@@ -64,6 +65,8 @@ Bundle-ClassPath: .,
  lib/joda-time-2.2.jar,
  lib/oeall22.jar,
  lib/weka3_6.jar,
- lib/commons-logging-1.1.1.jar
+ lib/commons-logging-1.1.1.jar,
+ lib/edu.cmu.scs.fluorite_0.11.0.201504031625.jar,
+ lib/org.eclipse.jdt.junit-3.3.2.jar
 Bundle-Activator: dayton.ellwanger.hermes.HermesActivator
 Bundle-ActivationPolicy: lazy
