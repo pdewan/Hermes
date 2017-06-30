@@ -1,23 +1,49 @@
 package fluorite.recorders;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.logging.impl.WeakHashtable;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.compiler.CompilationParticipant;
 import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.compiler.ReconcileContext;
 
+
+import fluorite.commands.EHBuildEndCommand;
+import fluorite.commands.EHBuildStartCommand;
 import fluorite.commands.EHCompilationCommand;
+import util.misc.Common;
 
 
 public class EHCompilationParticipantRecorder extends CompilationParticipant {
-
+//	protected static final String PROBLEMS_FILE_NAME = "problemhistory.txt";
+	protected Set<IProblem> problemHistorySet;
 	private final int AST_LEVEL_THREE = 3;
 	private final int AST_LEVEL_FOUR = 4;
 	public static final int MAX_COMPILE_ERRORS = 15; // do not overwhelm the system for large workspaces
 	public static final int MAX_COMPILE_WARNINGS = 10; // do not overwhelm the system for large workspaces
 
 	private static EHCompilationRecorder compilationRecorder = EHCompilationRecorder.getInstance();
+	public EHCompilationParticipantRecorder() {
+		problemHistorySet = new HashSet<>();
+//		File aProblemHistoryFile = new File(PROBLEMS_FILE_NAME);
+//		if (aProblemHistoryFile.exists()) {
+//			
+//		}
 	
+	}
+//	protected void readProblemHistory(File aProblemHistoryFile) {
+//		try {
+//			StringBuilder aPreviousProblems = Common.readFile(aProblemHistoryFile);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
 	@Override
 	public void reconcile(ReconcileContext context) 
 	{
@@ -63,6 +89,9 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant {
 				for(int i = 0; i < problems.length && (numWarnings < MAX_COMPILE_WARNINGS || numErrors < MAX_COMPILE_ERRORS) ; i++)
 				{
 					IProblem problem = problems[i];
+					if (problemHistorySet.contains(problem)) {
+						continue;
+					}
 					if (problem.isWarning()) {
 						numWarnings++;
 						if (numWarnings > MAX_COMPILE_WARNINGS) {
@@ -110,16 +139,24 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant {
 	{
 		return true;
 	}
-	
+	/*
+	 * This is called before file save
+	 */
 	@Override
 	public int aboutToBuild(IJavaProject project) 
 	{
+		EHBuildStartCommand command = new EHBuildStartCommand("");
+		compilationRecorder.record(command);
 		return CompilationParticipant.READY_FOR_BUILD;
 	}
-	
+	/*
+	 * Called after file save
+	 */
 	@Override
 	public void buildFinished(IJavaProject project) 
 	{
+		EHBuildEndCommand command = new EHBuildEndCommand("");
+		compilationRecorder.record(command);
 		//upload files
 //		 ProjectUploader projectUploader = new ProjectUploader();
 //		 new Thread(projectUploader).start();

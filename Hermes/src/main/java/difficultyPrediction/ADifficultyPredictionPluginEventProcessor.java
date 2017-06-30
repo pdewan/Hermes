@@ -7,7 +7,7 @@ import org.eclipse.ui.PlatformUI;
 import config.FactorySingletonInitializer;
 import difficultyPrediction.extension.ADifficultyPredictionRegistry;
 import fluorite.commands.EHICommand;
-import fluorite.commands.PredictionCommand;
+import fluorite.commands.EHPredictionCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.StatusConsts;
 import fluorite.viewpart.HelpViewPart;
@@ -149,7 +149,7 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 						.asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PredictionCommand predictionCommand = (PredictionCommand) newCommand;
+								EHPredictionCommand predictionCommand = (EHPredictionCommand) newCommand;
 								changeStatusInHelpView(predictionCommand);
 							}
 						});
@@ -157,7 +157,7 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 						.asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PredictionCommand predictionCommand = (PredictionCommand) newCommand;
+								EHPredictionCommand predictionCommand = (EHPredictionCommand) newCommand;
 								changeStatusInHelpView(predictionCommand);
 							}
 						});
@@ -180,7 +180,7 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 						.asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PredictionCommand predictionCommand = (PredictionCommand) newCommand;
+								EHPredictionCommand predictionCommand = (EHPredictionCommand) newCommand;
 								changeStatusInHelpView(predictionCommand);
 							}
 						});
@@ -188,7 +188,7 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 						.asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PredictionCommand predictionCommand = (PredictionCommand) newCommand;
+								EHPredictionCommand predictionCommand = (EHPredictionCommand) newCommand;
 								changeStatusInHelpView(predictionCommand);
 							}
 						});
@@ -208,7 +208,7 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 	 * @see difficultyPrediction.DifficultyPredictionPluginEventProcessor#changeStatusInHelpView(edu.cmu.scs.fluorite.commands.PredictionCommand)
 	 */
 	String lastStatus = "";
-	public static String getStatus(PredictionCommand predictionCommand) {
+	public static String getStatus(EHPredictionCommand predictionCommand) {
 		String status = "";
 		switch (predictionCommand.getPredictionType()) {
 		case MakingProgress:
@@ -224,7 +224,7 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 		return status;
 	}
 	@Override
-	public void changeStatusInHelpView(PredictionCommand predictionCommand) {
+	public void changeStatusInHelpView(EHPredictionCommand predictionCommand) {
 //		String status = "";
 //		switch (predictionCommand.getPredictionType()) {
 //		case MakingProgress:

@@ -39,4 +39,12 @@
             class="fluorite.preferences.Initializer">
            </initializer>
    </extension>
+    <extension
+          point="org.eclipse.jdt.core.compilationParticipant">
+      <compilationParticipant
+            class="fluorite.recorders.EHCompilationParticipantRecorder"
+            id="hermes.EHCompilationParticipantRecorder"
+            modifiesEnvironment="true">
+      </compilationParticipant>
+   </extension>
 </plugin>

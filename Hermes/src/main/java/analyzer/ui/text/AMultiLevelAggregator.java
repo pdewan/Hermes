@@ -46,10 +46,10 @@ import difficultyPrediction.metrics.RatioCalculator;
 import difficultyPrediction.metrics.RatioCalculatorSelector;
 import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
 import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
-import fluorite.commands.DifficulyStatusCommand;
+import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
-import fluorite.commands.PredictionCommand;
-import fluorite.commands.PredictionCommand.PredictionType;
+import fluorite.commands.EHPredictionCommand;
+import fluorite.commands.EHPredictionCommand.PredictionType;
 import fluorite.model.StatusConsts;
 
 public class AMultiLevelAggregator implements MultiLevelAggregator{
@@ -129,7 +129,7 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 		predictionsBuffer.setLength(0);	
 		clearWebLinks();
 	}
-	public static String toString(DifficulyStatusCommand aCommand) {
+	public static String toString(EHDifficulyStatusCommand aCommand) {
 		if (aCommand.getStatus() == null)
 			return "";
 		return aCommand.getStatus().toString();		
@@ -161,11 +161,11 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	public void newCommand(EHICommand newCommand) {
 		// we wil get this as aggregated status as
 		// prediction command does not seem to be in sync wuth aggregated status
-		if (newCommand instanceof PredictionCommand && 
+		if (newCommand instanceof EHPredictionCommand && 
 				DifficultyPredictionSettings.isReplayMode() &&  // implied by the latter
 				DifficultyPredictionSettings.isReplayRatioFiles() ) { // this implies the former
 			// this should happen in live mode
-			PredictionCommand aPredictionCommand = (PredictionCommand) newCommand;
+			EHPredictionCommand aPredictionCommand = (EHPredictionCommand) newCommand;
 			System.out.println("received prediction command:" + newCommand);
 			if (aPredictionCommand.getPredictionType() != PredictionType.MakingProgress) {
 				System.out.println("Not making progress");
@@ -174,11 +174,11 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 //			newReplayedStatus(AnAnalyzerProcessor.toInt(((PredictionCommand) newCommand).getPredictionType()));
 			
 		}
-		if (newCommand instanceof DifficulyStatusCommand) {
+		if (newCommand instanceof EHDifficulyStatusCommand) {
 //			if (!AnalyzerFactory.getSingleton().getAnalyzerParameters().isReplayOutputFiles()) {
-				DifficulyStatusCommand aDifficultyStatusCommand = (DifficulyStatusCommand) newCommand;
+				EHDifficulyStatusCommand aDifficultyStatusCommand = (EHDifficulyStatusCommand) newCommand;
 				TimeStampComputerFactory.getSingleton().computeTimestamp(newCommand); // so that start time can be reset
-			setManualStatus(toString((DifficulyStatusCommand) newCommand)); // should this not be done always regardless of replay output files
+			setManualStatus(toString((EHDifficulyStatusCommand) newCommand)); // should this not be done always regardless of replay output files
 			setCorrectStatus(AnAnalyzerProcessor.toInt(aDifficultyStatusCommand.getStatus()));
 
 //			}

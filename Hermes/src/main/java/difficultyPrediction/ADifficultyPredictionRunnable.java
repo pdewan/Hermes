@@ -10,9 +10,9 @@ import org.eclipse.ui.PlatformUI;
 import analyzer.extension.AnAnalyzerProcessor;
 import config.PredictorConfigurer;
 //import dayton.ServerConnection;
-import fluorite.commands.DifficulyStatusCommand;
+import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
-import fluorite.commands.PredictionCommand;
+import fluorite.commands.EHPredictionCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.StatusConsts;
 import fluorite.viewpart.HelpViewPart;
@@ -65,7 +65,7 @@ public class ADifficultyPredictionRunnable implements
 				//
 				// }
 				// System.out.println("Taken command:" + newCommand);
-				if (newCommand instanceof DifficulyStatusCommand
+				if (newCommand instanceof EHDifficulyStatusCommand
 						&& !DifficultyPredictionSettings.isReplayMode()) { // should
 																			// handle
 																			// this
@@ -87,10 +87,10 @@ public class ADifficultyPredictionRunnable implements
 				if (!newCommand.getCommandType().equals("PredictionCommand")
 						&& !newCommand.getCommandType().equals(
 								"DifficultyStatusCommand")
-						&& !(newCommand instanceof PredictionCommand)
-						&& !(newCommand instanceof DifficulyStatusCommand)) {
+						&& !(newCommand instanceof EHPredictionCommand)
+						&& !(newCommand instanceof EHDifficulyStatusCommand)) {
 					mediator.processEvent(newCommand);
-				} else if (!(newCommand instanceof PredictionCommand)) {
+				} else if (!(newCommand instanceof EHPredictionCommand)) {
 					System.out.println("Ignoreing difficulty status Command "
 							+ newCommand);
 				} else {
@@ -100,13 +100,13 @@ public class ADifficultyPredictionRunnable implements
 					// } catch (Exception e) {
 					// System.out.println ("Could not get last status");
 					// }
-					final String currentStatus = getStatus((PredictionCommand) newCommand);
+					final String currentStatus = getStatus((EHPredictionCommand) newCommand);
 					// if (!currentStatus.equals(lastStatus)) {
 					if (DifficultyPredictionSettings.isReplayMode()) {
-						DifficultyRobot.getInstance().notifyNewReplayedStatus(AnAnalyzerProcessor.toInt(((PredictionCommand) newCommand).getPredictionType()));;
+						DifficultyRobot.getInstance().notifyNewReplayedStatus(AnAnalyzerProcessor.toInt(((EHPredictionCommand) newCommand).getPredictionType()));;
 						// try {
 						System.out.println("Prediction: "
-								+ ((PredictionCommand) newCommand)
+								+ ((EHPredictionCommand) newCommand)
 										.getPredictionType() + " comd " + newCommand + " " + newCommand.getTimestamp());
 						// } catch (ClassCastException e) {
 						// e.printStackTrace();
@@ -200,7 +200,7 @@ public class ADifficultyPredictionRunnable implements
 	// }
 	String lastStatus = "";
 
-	public static String getStatus(PredictionCommand predictionCommand) {
+	public static String getStatus(EHPredictionCommand predictionCommand) {
 		String status = "";
 		switch (predictionCommand.getPredictionType()) {
 		case MakingProgress:
@@ -216,7 +216,7 @@ public class ADifficultyPredictionRunnable implements
 		return status;
 	}
 
-	public void changeStatusInHelpView(PredictionCommand predictionCommand) {
+	public void changeStatusInHelpView(EHPredictionCommand predictionCommand) {
 		// String status = "";
 		// switch (predictionCommand.getPredictionType()) {
 		// case MakingProgress:

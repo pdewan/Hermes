@@ -11,19 +11,19 @@ import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.StatusConsts;
 
-public class PredictionCommand extends EHAbstractCommand{
+public class EHPredictionCommand extends EHAbstractCommand{
 	
 	public enum PredictionType
 	{
 		MakingProgress, Indeterminate, HavingDifficulty
 	}
 	
-	public PredictionCommand(PredictionType predictionType)
+	public EHPredictionCommand(PredictionType predictionType)
 	{
 		mPredictionType = predictionType;
 	}
 	
-	public PredictionCommand() {
+	public EHPredictionCommand() {
 		// TODO Auto-generated constructor stub
 	}
 

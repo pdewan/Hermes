@@ -10,13 +10,13 @@ import org.w3c.dom.Element;
 import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
 
-public class ShellCommand extends EHAbstractCommand{
+public class EHShellCommand extends EHAbstractCommand{
 
-	public ShellCommand() {
+	public EHShellCommand() {
 		
 	}
 	
-	public ShellCommand(boolean activated, boolean closed, boolean deactivated, boolean deiconified, boolean iconified)
+	public EHShellCommand(boolean activated, boolean closed, boolean deactivated, boolean deiconified, boolean iconified)
 	{
 		mActivated = activated;
 		mClosed = closed;

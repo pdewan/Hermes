@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
 
-public class DifficulyStatusCommand extends EHAbstractCommand {
+public class EHDifficulyStatusCommand extends EHAbstractCommand {
 	
 	public enum Status
 	{
@@ -27,12 +27,12 @@ public class DifficulyStatusCommand extends EHAbstractCommand {
 	private String mOtherOverComeDifficultySaveText;
 	private String mOtherMinutes;
     private String mPersonAskedForHelp;
-	public DifficulyStatusCommand()
+	public EHDifficulyStatusCommand()
 	{
 		
 	}
 	
-	public DifficulyStatusCommand(Status userStatus)
+	public EHDifficulyStatusCommand(Status userStatus)
 	{
 		mUserStatus = userStatus;
 		mTryingToDo = "";
@@ -44,7 +44,7 @@ public class DifficulyStatusCommand extends EHAbstractCommand {
 		mPersonAskedForHelp = "";
 	}
 	
-	public DifficulyStatusCommand(Status userStatus, String tryingToDo, String causedDifficulty, String otherCausedDifficulty,
+	public EHDifficulyStatusCommand(Status userStatus, String tryingToDo, String causedDifficulty, String otherCausedDifficulty,
 			String overcomeDifficultyDropDown, String otherOvercomeDifficultySaveText, String otherMinutes)
 	{
 		mUserStatus = userStatus;
@@ -57,7 +57,7 @@ public class DifficulyStatusCommand extends EHAbstractCommand {
 		mPersonAskedForHelp = "";
 	}
 	
-	public DifficulyStatusCommand(Status userStatus, String tryingToDo, String causedDifficulty, String otherCausedDifficulty,
+	public EHDifficulyStatusCommand(Status userStatus, String tryingToDo, String causedDifficulty, String otherCausedDifficulty,
 			String overcomeDifficultyDropDown, String otherOvercomeDifficultySaveText, String otherMinutes, String personAskedForHelp)
 	{
 		mUserStatus = userStatus;

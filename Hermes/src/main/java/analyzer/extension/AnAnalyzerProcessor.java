@@ -32,10 +32,10 @@ import difficultyPrediction.DifficultyRobot;
 import difficultyPrediction.extension.APrintingDifficultyPredictionListener;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
-import fluorite.commands.DifficulyStatusCommand;
+import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
-import fluorite.commands.PredictionCommand;
-import fluorite.commands.PredictionCommand.PredictionType;
+import fluorite.commands.EHPredictionCommand;
+import fluorite.commands.EHPredictionCommand.PredictionType;
 import fluorite.model.EHEventRecorder;
 
 public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
@@ -295,7 +295,7 @@ public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 		}
 		
 	}
-	public static int toInt(DifficulyStatusCommand.Status aStatus) {
+	public static int toInt(EHDifficulyStatusCommand.Status aStatus) {
 		if (aStatus == null) {
 			return ParticipantTimeLine.INDTERMINATE_INT;
 		}
@@ -313,7 +313,7 @@ public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 		
 	}
 
-	public static int toInt(PredictionCommand aCommand) {
+	public static int toInt(EHPredictionCommand aCommand) {
 		if (aCommand.getPredictionType() == null) {
 			return ParticipantTimeLine.INDTERMINATE_INT;
 		}
@@ -331,7 +331,7 @@ public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 //		return -1;
 	}
 
-	public static int toInt(DifficulyStatusCommand aCommand) {
+	public static int toInt(EHDifficulyStatusCommand aCommand) {
 		if (aCommand.getStatus() == null)
 			return -1;
 		switch (aCommand.getStatus()) {
@@ -355,14 +355,14 @@ public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 	}
 
 	void maybeProcessPrediction(EHICommand newCommand) {
-		if (newCommand instanceof PredictionCommand) {
-			lastPrediction = toInt((PredictionCommand) newCommand);
+		if (newCommand instanceof EHPredictionCommand) {
+			lastPrediction = toInt((EHPredictionCommand) newCommand);
 		}
 	}
 
 	void maybeProcessCorrection(EHICommand newCommand) {
-		if (newCommand instanceof DifficulyStatusCommand) { // what if status is null?
-			lastCorrection = toInt((DifficulyStatusCommand) newCommand);
+		if (newCommand instanceof EHDifficulyStatusCommand) { // what if status is null?
+			lastCorrection = toInt((EHDifficulyStatusCommand) newCommand);
 		}
 	}
 

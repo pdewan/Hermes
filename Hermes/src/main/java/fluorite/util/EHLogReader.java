@@ -25,7 +25,7 @@ import fluorite.commands.EHAbstractCommand;
 import fluorite.commands.EHAnnotateCommand;
 import fluorite.commands.EHCompilationCommand;
 import fluorite.commands.EHEclipseCommand;
-import fluorite.commands.DifficulyStatusCommand;
+import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.recorders.EHCompilationParticipantRecorder;
@@ -164,7 +164,7 @@ public class EHLogReader {
 		boolean prevState = EHAbstractCommand.getIncrementCommandID();
 		EHAbstractCommand.setIncrementCommandID(false);
 		String startTimestamp = root.getAttribute("startTimestamp");
-		DifficulyStatusCommand startCommand = new DifficulyStatusCommand();
+		EHDifficulyStatusCommand startCommand = new EHDifficulyStatusCommand();
 		startCommand.setTimestamp2(Long.parseLong(startTimestamp));
 		
 		result.add(startCommand);
@@ -271,7 +271,7 @@ public class EHLogReader {
 				else if(fullyQualifiedName
 						.equals("edu.cmu.scs.fluorite.commands.DifficultyCommand"))
 					{
-					DifficulyStatusCommand difficultyCommand = new DifficulyStatusCommand();
+					EHDifficulyStatusCommand difficultyCommand = new EHDifficulyStatusCommand();
 					difficultyCommand.createFrom(element);
 					return difficultyCommand;
 					
@@ -290,7 +290,7 @@ public class EHLogReader {
 
 			return annotateCommand;
 		} else if (isSurmountableDifficulty(element)) {
-			DifficulyStatusCommand surmountableDifficultyCommand = new DifficulyStatusCommand();
+			EHDifficulyStatusCommand surmountableDifficultyCommand = new EHDifficulyStatusCommand();
 			surmountableDifficultyCommand.createFrom(element);
 			return surmountableDifficultyCommand;
 		} else {

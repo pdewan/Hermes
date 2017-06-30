@@ -38,10 +38,17 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements
 	public void removeListeners(IEditorPart editor) {
 		// Do nothing.
 	}
+	
+	protected void printEvent(DebugEvent aDebugEvent) {
+		System.out.println("Printing debug event");
+		System.out.println("Kind" + aDebugEvent.getKind() + "Detail:" + aDebugEvent.getDetail() + "Source " + aDebugEvent.getSource() + "isStepStart " + aDebugEvent.isEvaluation() );
+		
+	}
 
 	public void handleDebugEvents(DebugEvent[] debugEvents) {
 		for (DebugEvent event : debugEvents) 
 		{
+			printEvent(event);
 			if (event.getKind() == DebugEvent.CREATE
 					|| event.getKind() == DebugEvent.TERMINATE)
 			{
@@ -69,7 +76,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements
 					// Retrieve the corresponding project name
 					String projectName = (String) (attributes
 							.get("org.eclipse.jdt.launching.PROJECT_ATTR"));
-
+// run command,no ddebug
 					getRecorder().recordCommand(
 							new EHRunCommand(false, terminate, projectName, 0, false, false, false, false));
 
@@ -104,7 +111,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements
 					// Retrieve the corresponding project name
 					String projectName = (String) (attributes
 							.get("org.eclipse.jdt.launching.PROJECT_ATTR"));
-					
+					// run command (f11), no debug
 					getRecorder().recordCommand(
 							new EHRunCommand(false, false, projectName, 0, true, false, false, false));
 				}

@@ -15,7 +15,7 @@ import analyzer.ui.graphics.PlayAndRewindCounter;
 import bus.uigen.OEFrame;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import fluorite.commands.EHICommand;
-import fluorite.commands.PredictionCommand.PredictionType;
+import fluorite.commands.EHPredictionCommand.PredictionType;
 import fluorite.model.StatusConsts;
 
 public class ARewindableMultiLevelAggregator extends AMultiLevelAggregator implements PropertyChangeListener {

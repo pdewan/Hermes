@@ -191,7 +191,33 @@ public abstract class EHAbstractCommand extends AbstractCommand implements
 	/*
 	 * Trap calls to (Icimmand rather than EHICommandto handle more cases
 	 */
-	public boolean combineWith(ICommand anotherCommand) {
+//	public boolean combineWith(ICommand anotherCommand) {
+////		IPreferenceStore prefStore = fluorite.plugin.Activator
+////				.getDefault().getPreferenceStore();
+//		
+//		IPreferenceStore prefStore = EHActivator
+//				.getDefault().getPreferenceStore();
+//
+//		// preference option check.
+//		if (!prefStore.getBoolean(Initializer.Pref_CombineCommands)) {
+//			return false;
+//		}
+//
+//		// Time threshold check.
+//		if (anotherCommand.getTimestamp() - getTimestamp2() > prefStore
+//				.getInt(Initializer.Pref_CombineTimeThreshold)) {
+//			return false;
+//		}
+//
+//		if (combine(anotherCommand)) {
+//			setTimestamp2(anotherCommand.getTimestamp());
+//			increaseRepeatCount();
+//			return true;
+//		}
+//
+//		return false;
+//	}
+	public static boolean combineWith(AbstractCommand aCommand, ICommand anotherCommand) {
 //		IPreferenceStore prefStore = fluorite.plugin.Activator
 //				.getDefault().getPreferenceStore();
 		
@@ -204,14 +230,14 @@ public abstract class EHAbstractCommand extends AbstractCommand implements
 		}
 
 		// Time threshold check.
-		if (anotherCommand.getTimestamp() - getTimestamp2() > prefStore
+		if (anotherCommand.getTimestamp() - aCommand.getTimestamp2() > prefStore
 				.getInt(Initializer.Pref_CombineTimeThreshold)) {
 			return false;
 		}
 
-		if (combine(anotherCommand)) {
-			setTimestamp2(anotherCommand.getTimestamp());
-			increaseRepeatCount();
+		if (aCommand.combine(anotherCommand)) {
+			aCommand.setTimestamp2(anotherCommand.getTimestamp());
+			aCommand.increaseRepeatCount();
 			return true;
 		}
 

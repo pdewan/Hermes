@@ -43,8 +43,8 @@ import difficultyPrediction.statusManager.StatusManagerDetails;
 
 
 import fluorite.commands.EHICommand;
-import fluorite.commands.PredictionCommand;
-import fluorite.commands.PredictionCommand.PredictionType;
+import fluorite.commands.EHPredictionCommand;
+import fluorite.commands.EHPredictionCommand.PredictionType;
 
 import fluorite.model.EHEventRecorder;
 

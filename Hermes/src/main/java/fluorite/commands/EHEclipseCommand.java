@@ -8,6 +8,7 @@ import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.IHandler2;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
@@ -17,6 +18,9 @@ import org.w3c.dom.Element;
 
 import difficultyPrediction.DifficultyPredictionSettings;
 import edu.cmu.scs.fluorite.commands.EclipseCommand;
+import edu.cmu.scs.fluorite.commands.ICommand;
+import fluorite.plugin.EHActivator;
+import fluorite.preferences.Initializer;
 import fluorite.util.EventLoggerConsole;
 import analyzer.AnalyzerFactory;
 
@@ -27,19 +31,45 @@ public class EHEclipseCommand extends EclipseCommand implements EHICommand{
 	public EHEclipseCommand(String commandId, int repeatCount) {
 		super(commandId);
 //		mCommandId = commandId;
-		mRepeatCount = repeatCount;
+//		mRepeatCount = repeatCount;
 	}
 //
 //	private String mCommandId;
-	private int mRepeatCount;
+//	private int mRepeatCount;
 //
 	public EHEclipseCommand(String commandId) {
 		this(commandId, 1);
 	}
-//	public String toString() {
-//	
-//		return super.toString() + ":" + getName();
+//	public boolean combineWith(ICommand anotherCommand) {
+////		IPreferenceStore prefStore = fluorite.plugin.Activator
+////				.getDefault().getPreferenceStore();
+//		
+//		IPreferenceStore prefStore = EHActivator
+//				.getDefault().getPreferenceStore();
+//
+//		// preference option check.
+//		if (!prefStore.getBoolean(Initializer.Pref_CombineCommands)) {
+//			return false;
+//		}
+//
+//		// Time threshold check.
+//		if (anotherCommand.getTimestamp() - getTimestamp2() > prefStore
+//				.getInt(Initializer.Pref_CombineTimeThreshold)) {
+//			return false;
+//		}
+//
+//		if (combine(anotherCommand)) {
+//			setTimestamp2(anotherCommand.getTimestamp());
+//			increaseRepeatCount();
+//			return true;
+//		}
+//
+//		return false;
 //	}
+	public String toString() {
+			
+		return super.toString() + ":" + getName();
+	}
 //
 //	public EHEclipseCommand() {
 //		// nothing to do here

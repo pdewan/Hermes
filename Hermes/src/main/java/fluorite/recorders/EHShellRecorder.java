@@ -4,7 +4,7 @@ import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
 import org.eclipse.ui.IEditorPart;
 
-import fluorite.commands.ShellCommand;
+import fluorite.commands.EHShellCommand;
 
 public class EHShellRecorder extends EHBaseRecorder implements ShellListener {
 
@@ -32,31 +32,31 @@ public class EHShellRecorder extends EHBaseRecorder implements ShellListener {
 
 	@Override
 	public void shellActivated(ShellEvent e) {
-		getRecorder().recordCommand(new ShellCommand(true,false,false,false, false));
+		getRecorder().recordCommand(new EHShellCommand(true,false,false,false, false));
 	}
 
 	@Override
 	public void shellClosed(ShellEvent e) {
-		getRecorder().recordCommand(new ShellCommand(false,true,false,false, false));
+		getRecorder().recordCommand(new EHShellCommand(false,true,false,false, false));
 		
 	}
 
 	@Override
 	public void shellDeactivated(ShellEvent e) {
-		getRecorder().recordCommand(new ShellCommand(false,false,true,false, false));
+		getRecorder().recordCommand(new EHShellCommand(false,false,true,false, false));
 		
 		
 	}
 
 	@Override
 	public void shellDeiconified(ShellEvent e) {//maximized
-		getRecorder().recordCommand(new ShellCommand(false,false,false,true, false));
+		getRecorder().recordCommand(new EHShellCommand(false,false,false,true, false));
 		
 	}
 
 	@Override
 	public void shellIconified(ShellEvent e) {//minimized
-		getRecorder().recordCommand(new ShellCommand(false,false,false,false, true));
+		getRecorder().recordCommand(new EHShellCommand(false,false,false,false, true));
 		
 	}
 

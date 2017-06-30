@@ -17,8 +17,8 @@ import config.LiveModePredictionConfigurer;
 //import context.saros.SarosAccessorFactory;
 import analyzer.ui.APredictionController;
 import bus.uigen.ObjectEditor;
-import fluorite.commands.DifficulyStatusCommand;
-import fluorite.commands.DifficulyStatusCommand.Status;
+import fluorite.commands.EHDifficulyStatusCommand;
+import fluorite.commands.EHDifficulyStatusCommand.Status;
 import fluorite.dialogs.InsurmountableDialog;
 import fluorite.dialogs.SurmountableDialog;
 import fluorite.model.EHEventRecorder;
@@ -62,7 +62,7 @@ public class HelpViewPart extends ViewPart {
 		HelpViewCreated.newCase(parent, this);
 		btnMakingProgress.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				DifficulyStatusCommand command = new DifficulyStatusCommand(Status.Making_Progress);
+				EHDifficulyStatusCommand command = new EHDifficulyStatusCommand(Status.Making_Progress);
 				EHEventRecorder.getInstance().recordCommand(command);
 				lblStatusValue.setText(StatusConsts.PROGRESS_TEXT);
 			}
@@ -82,8 +82,8 @@ public class HelpViewPart extends ViewPart {
 				SurmountableDialog dialog = new SurmountableDialog(shell);
 				dialog.create();
 				if (dialog.open() == Window.OK) {
-					DifficulyStatusCommand command =
-							new DifficulyStatusCommand(Status.Surmountable,dialog.getTryingToDo(), dialog.getCausedDifficulty(), 
+					EHDifficulyStatusCommand command =
+							new EHDifficulyStatusCommand(Status.Surmountable,dialog.getTryingToDo(), dialog.getCausedDifficulty(), 
 									dialog.getOtherCausedDifficulty(), dialog.getOvercomeDifficultyDropDown(), 
 									dialog.getOtherOverComeDifficultySaveText(), dialog.getOtherMinutes());
 					EHEventRecorder.getInstance().recordCommand(command);
@@ -103,8 +103,8 @@ public class HelpViewPart extends ViewPart {
 				InsurmountableDialog dialog = new InsurmountableDialog(shell);
 				dialog.create();
 				if (dialog.open() == Window.OK) {
-					DifficulyStatusCommand command =
-							new DifficulyStatusCommand(Status.Insurmountable,dialog.getTryingToDo(), dialog.getCausedDifficulty(), 
+					EHDifficulyStatusCommand command =
+							new EHDifficulyStatusCommand(Status.Insurmountable,dialog.getTryingToDo(), dialog.getCausedDifficulty(), 
 									dialog.getOtherCausedDifficulty(), dialog.getOvercomeDifficultyDropDown(), 
 									dialog.getOtherOverComeDifficultySaveText(), dialog.getOtherMinutes(), 
 									dialog.getPersonAskedForHelp());

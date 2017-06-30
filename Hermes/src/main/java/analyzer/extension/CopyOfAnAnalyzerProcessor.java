@@ -26,9 +26,9 @@ import difficultyPrediction.DifficultyRobot;
 import difficultyPrediction.extension.APrintingDifficultyPredictionListener;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
-import fluorite.commands.DifficulyStatusCommand;
+import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
-import fluorite.commands.PredictionCommand;
+import fluorite.commands.EHPredictionCommand;
 import fluorite.model.EHEventRecorder;
 
 public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionListener implements AnalyzerProcessor{
@@ -262,7 +262,7 @@ public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionList
 		//		participantTimeLine.getWebLinks().add(lastWebLink);
 		lastWebLink = null;
 	}
-	int toInt(PredictionCommand aCommand) {
+	int toInt(EHPredictionCommand aCommand) {
 		if (aCommand.getPredictionType() == null) {
 			return -1;
 		}
@@ -278,7 +278,7 @@ public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionList
 		}
 		return -1;
 	}
-	int toInt(DifficulyStatusCommand aCommand) {
+	int toInt(EHDifficulyStatusCommand aCommand) {
 		if (aCommand.getStatus() == null)
 			return -1;
 		switch (aCommand.getStatus()) {
@@ -300,13 +300,13 @@ public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionList
 		}
 	}
 	void maybeProcessPrediction(EHICommand newCommand) {
-		if (newCommand instanceof PredictionCommand) {
-			lastPrediction = toInt((PredictionCommand) newCommand);
+		if (newCommand instanceof EHPredictionCommand) {
+			lastPrediction = toInt((EHPredictionCommand) newCommand);
 		}
 	}
 	void maybeProcessCorrection(EHICommand newCommand) {
-		if (newCommand instanceof DifficulyStatusCommand) {
-			lastCorrection = toInt((DifficulyStatusCommand) newCommand);
+		if (newCommand instanceof EHDifficulyStatusCommand) {
+			lastCorrection = toInt((EHDifficulyStatusCommand) newCommand);
 		}
 	}
 	@Override

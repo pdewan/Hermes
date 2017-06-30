@@ -16,12 +16,28 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 
+import fluorite.commands.EHContentAssistProposalsCommand;
 import fluorite.commands.EHCopyCommand;
 import fluorite.commands.EHCutCommand;
+import fluorite.commands.EHDeleteResourceCommand;
 import fluorite.commands.EHEclipseCommand;
+import fluorite.commands.EHFileRefreshCommand;
+import fluorite.commands.EHFileSearchCommand;
+import fluorite.commands.EHFindDefinitionCommand;
+import fluorite.commands.EHFindReferencesCommand;
 import fluorite.commands.EHICommand;
+import fluorite.commands.EHImportProjectCommand;
+import fluorite.commands.EHMoveElementCommand;
 import fluorite.commands.EHPasteCommand;
 import fluorite.commands.EHRedoCommand;
+import fluorite.commands.EHRenameCommand;
+import fluorite.commands.EHSelectLineCommand;
+import fluorite.commands.EHStepIntoCommand;
+import fluorite.commands.EHStepReturnCommand;
+import fluorite.commands.EHTeamPullCommand;
+import fluorite.commands.EHToggleBreakpointCommand;
+import fluorite.commands.EHToggleCommentCommand;
+import fluorite.commands.EHTypeHierarchyCommand;
 import fluorite.commands.EHUndoCommand;
 import fluorite.util.EventLoggerConsole;
 import fluorite.util.EHUtilities;
@@ -166,6 +182,56 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 			return new EHCutCommand();
 		} else if (commandId.equals("org.eclipse.ui.edit.paste")) {
 			return new EHPasteCommand();
+		} else if (commandId.equals("org.eclipse.jdt.ui.edit.text.java.rename.element")){
+			return new EHRenameCommand(commandId);
+//			org.eclipse.jdt.ui.edit.text.java.move.element	
+		} else if (commandId.equals("org.eclipse.jdt.ui.edit.text.java.move.element")) {
+			return new EHMoveElementCommand(commandId);
+//			org.eclipse.ui.edit.text.contentAssist.proposals
+		} else if (commandId.equals("org.eclipse.ui.edit.text.contentAssist.proposals")) {
+			return new EHContentAssistProposalsCommand(commandId);			
+//			AUTOGEN:::org.eclipse.jdt.debug.CompilationUnitEditor.BreakpointRulerActions/org.eclipse.jdt.debug.ui.actions.ManageBreakpointRulerAction
+		} else if (commandId.equals("AUTOGEN:::org.eclipse.jdt.debug.CompilationUnitEditor.BreakpointRulerActions/org.eclipse.jdt.debug.ui.actions.ManageBreakpointRulerAction")) {
+			return new EHToggleBreakpointCommand(commandId);
+//			AUTOGEN:::org.eclipse.jdt.internal.ui.CompilationUnitEditor.ruler.actions/org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction
+		} else if (commandId.equals("AUTOGEN:::org.eclipse.jdt.internal.ui.CompilationUnitEditor.ruler.actions/org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction")) {
+			return new EHSelectLineCommand(commandId);//			AUTOGEN:::org.eclipse.jdt.internal.ui.CompilationUnitEditor.ruler.actions/org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction
+//			org.eclipse.debug.ui.commands.StepReturn
+		} else if (commandId.equals("org.eclipse.debug.ui.commands.StepReturn")) {
+			return new EHStepReturnCommand(commandId);//			org.eclipse.debug.ui.commands.StepOver
+//			org.eclipse.debug.ui.commands.StepInto
+		} else if (commandId.equals("org.eclipse.debug.ui.commands.StepInto")) {
+			return new EHStepIntoCommand(commandId);//			org.eclipse.debug.ui.commands.Resume
+//			org.eclipse.ui.file.refresh
+		} else if (commandId.equals("org.eclipse.ui.file.refresh")) {
+			return new EHFileRefreshCommand(commandId);//			org.eclipse.ui.file.properties
+//			org.eclipse.search.ui.openFileSearchPage
+		} else if (commandId.equals("org.eclipse.search.ui.openFileSearchPage")) {
+			return new EHFileSearchCommand(commandId);
+//			org.eclipse.jdt.ui.edit.text.java.open.editor (F3)
+		} else if (commandId.equals("org.eclipse.jdt.ui.edit.text.java.open.editor")) {
+			return new EHFindDefinitionCommand(commandId);			
+//			org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace (CTRL SHIFT G)
+		} else if (commandId.equals("org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace")) {
+			return new EHFindReferencesCommand(commandId);//			org.eclipse.jdt.ui.edit.text.java.open.type.hierarchy
+//			org.eclipse.jdt.ui.edit.text.java.open.type.hierarchy
+		} else if (commandId.equals("org.eclipse.jdt.ui.edit.text.java.open.type.hierarchy")) {
+			return new EHTypeHierarchyCommand(commandId);
+//			org.eclipse.ui.file.import
+		} else if (commandId.equals("org.eclipse.ui.file.import")) {
+			return new EHImportProjectCommand(commandId);
+//			org.eclipse.egit.ui.team.Pull
+		} else if (commandId.equals("org.eclipse.egit.ui.team.Pull")) {
+			return new EHTeamPullCommand(commandId);
+//			org.eclipse.ltk.ui.refactoring.commands.deleteResources
+		} else if (commandId.equals("org.eclipse.ltk.ui.refactoring.commands.deleteResources")) {
+			return new EHDeleteResourceCommand(commandId);
+//			org.eclipse.ui.file.save
+		} else if (commandId.equals("org.eclipse.ui.file.save")) {
+			return new EHDeleteResourceCommand(commandId);
+//			org.eclipse.jdt.ui.edit.text.java.toggle.comment
+		} else if (commandId.equals("org.eclipse.jdt.ui.edit.text.java.toggle.comment")) {
+			return new EHToggleCommentCommand(commandId);	
 		} else {
 			return new EHEclipseCommand(commandId);
 		}

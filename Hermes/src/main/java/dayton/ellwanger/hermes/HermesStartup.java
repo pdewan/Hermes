@@ -22,13 +22,13 @@ import util.trace.recorder.FlouriteRecordingTraceUtility;
 public class HermesStartup implements IStartup {
 	public void tracePlugins() {
 		FlouriteRecordingTraceUtility.setTracing();
-		DifficultyPredictionTraceUtility.setTracing();		
-		DifficultyNotificationTraceUtility.setTracing();
-		HelpPluginTraceUtility.setTracing();
-		AnalyzerTraceUtility.setTracing();		
-//		TimeTrackerTraceUtility.setTracing(); // its startup sets the tracing
-		WorkspaceListenerTraceUtility.setTracing();
-		MessageBusClientsTraceUtility.setTracing();
+//		DifficultyPredictionTraceUtility.setTracing();		
+//		DifficultyNotificationTraceUtility.setTracing();
+//		HelpPluginTraceUtility.setTracing();
+//		AnalyzerTraceUtility.setTracing();		
+////		TimeTrackerTraceUtility.setTracing(); // its startup sets the tracing
+//		WorkspaceListenerTraceUtility.setTracing();
+//		MessageBusClientsTraceUtility.setTracing();
 	}
 	@Override
 	public void earlyStartup() {

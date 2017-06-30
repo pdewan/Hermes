@@ -9,19 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
-import edu.cmu.scs.fluorite.commands.FileOpenCommand;
-import edu.cmu.scs.fluorite.commands.ICommand;
-import edu.cmu.scs.fluorite.commands.document.DocChange;
-import edu.cmu.scs.fluorite.model.CommandExecutionListener;
-import edu.cmu.scs.fluorite.model.DocumentChangeListener;
-import edu.cmu.scs.fluorite.model.EventRecorder;
-import fluorite.commands.EHBaseDocumentChangeEvent;
-import fluorite.commands.EHFileOpenCommand;
-import fluorite.model.EHCommandExecutionListener;
-import fluorite.model.EHDocumentChangeListener;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EclipseEventListener;
-import fluorite.model.RecorderListener;
+import hermes.tags.Tags;
 import util.trace.hermes.timetracker.ActivityDetected;
 import util.trace.hermes.timetracker.ActivitySessionEnded;
 import util.trace.hermes.timetracker.ActivitySessionStarted;
@@ -31,7 +21,8 @@ import util.trace.hermes.timetracker.IdleCycleDetected;
 import util.trace.hermes.timetracker.TimeWorkedForwardedToConnectionManager;
 
 public class FluoriteListener implements 
-	EclipseEventListener
+	EclipseEventListener,
+	TimeTrackerJSON, Tags
 //	EHDocumentChangeListener,
 //	DocumentChangeListener, 
 //	CommandExecutionListener,
@@ -43,8 +34,11 @@ public class FluoriteListener implements
 	/*
 	 * The granularity affects the delay before a session information is sent to a server
 	 */
-	public static long IDLE_CYCLE_GRANULARITY = 3*1000; // 1 sec
+//	public static long IDLE_CYCLE_GRANULARITY = 3*1000; // 1 sec
+
 	public static long IDLE_TIME_THRESHOLD = 3*60*1000; // 3 minutes
+	public static long IDLE_CYCLE_GRANULARITY = IDLE_TIME_THRESHOLD; // since we look at command time stamps, this does not have to be smaller than the threshold 
+
 	public static long IDLE_CYCLES_THRESHOLD = IDLE_TIME_THRESHOLD/IDLE_CYCLE_GRANULARITY;
 	protected long startTimestamp;
 	protected long lastCommandTimestamp;
@@ -53,6 +47,11 @@ public class FluoriteListener implements
 	protected int numCommands;
 	protected int numDocChanges;
 	protected int numActions;
+	protected int idleCycles = 0;
+	protected Date startDate; // not really needed
+	protected Date endDate; // not really needed
+//	protected int activeCycles = 0;
+
 	public FluoriteListener() {
 		idleTimer = new IdleTimer();
 		EHEventRecorder eventRecorder = EHEventRecorder.getInstance();
@@ -69,10 +68,19 @@ public class FluoriteListener implements
 		EclipeSessionStarted.newCase(this, aStartTimestamp);
 		
 	}
+	
+	protected void initActivitySession() {
+		numCommands = 0;
+		numDocChanges = 0;
+		numActions = 0;
+		idleCycles = 0;
+//		activeCycles = 0;
+	}
 
 	@Override
 	public void eventRecordingEnded() {
 		EclipeSessionEnded.newCase(this, startTimestamp, lastCommandTimestamp);
+		sendSession(startDate, endDate);
 
 		
 	}
@@ -164,15 +172,37 @@ public class FluoriteListener implements
 		sendSession(startDate, endDate);
 	}
 	
+//	public void sendSession(Date startDate, Date endDate) {
+//		if(ConnectionManager.getInstance() != null) {
+//			JSONObject messageData = new JSONObject();
+//			try {
+//				messageData.put("startDate", startDate.toString());
+//				messageData.put("endDate", endDate.toString());
+//				JSONArray tags = new JSONArray();
+//				tags.put("TIME_TRACKER");
+//				messageData.put("tags", tags);
+//			} catch (Exception ex) {
+//				ex.printStackTrace();
+//			}
+//			TimeWorkedForwardedToConnectionManager.newCase(this, messageData.toString());
+////			JSONObjectForwardedToConnectionManager.newCase(this, messageData.toString());
+//			ConnectionManager.getInstance().sendMessage(messageData);
+//		}
+//	}
+	
 	public void sendSession(Date startDate, Date endDate) {
 		if(ConnectionManager.getInstance() != null) {
 			JSONObject messageData = new JSONObject();
 			try {
-				messageData.put("startDate", startDate.toString());
-				messageData.put("endDate", endDate.toString());
-				JSONArray tags = new JSONArray();
-				tags.put("TIME_TRACKER");
-				messageData.put("tags", tags);
+				messageData.put(START_TIME, activityStartTimestamp);
+				messageData.put(END_TIME, activityEndTimestamp);
+				messageData.put(NUM_DOC_CHANGES, numDocChanges);
+				messageData.put(NUM_COMMANDS, numCommands);
+				Tags.putTags(messageData, TIME_TRACKER);
+//				JSONArray tags = new JSONArray();
+//				tags.put(Tags.TIME_TRACKER);
+//				tags.put(hermes.tags.Tags.)
+//				messageData.put("tags", tags);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -182,16 +212,13 @@ public class FluoriteListener implements
 		}
 	}
 	
-	
-	
 	class IdleTimer implements Runnable {
 		
 		private boolean inActivitySession;
 		private boolean idleLastCycle;
-		protected Date startDate;
-		protected Date endDate;
-		protected int idleCycles = 0;
-		protected int activeCycles;
+
+//		protected int idleCycles = 0;
+//		protected int activeCycles;
 		
 		public IdleTimer() {
 			inActivitySession = false;
@@ -229,7 +256,8 @@ public class FluoriteListener implements
 				} else {
 					endDate = new Date(); // this seems wrong, we have not ended session
 					// actually it is correct as this is ths last cycle in which the session was active
-					idleCycles = 0;
+//					idleCycles = 0;
+					initActivitySession();
 				}
 			}
 //			Date endDate = new Date(); // current time
@@ -246,6 +274,10 @@ public class FluoriteListener implements
 			activityEndTimestamp = startTimestamp + lastCommandTimestamp;
 			long ativityDuration = activityEndTimestamp - activityStartTimestamp;
 			ActivitySessionEnded.newCase(this, activityEndTimestamp, ativityDuration);
+			Date aStartDate = new Date(activityStartTimestamp);
+			Date anEndDate = new Date (activityEndTimestamp);
+			System.out.println("Start dates:" + aStartDate + "," + startDate);
+			System.out.println("End dates:" + anEndDate + "," + endDate);
 			sessionEnded(startDate, endDate);
 		}
 		

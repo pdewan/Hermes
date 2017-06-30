@@ -51,6 +51,7 @@ import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
+import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -80,12 +81,13 @@ import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
 import edu.cmu.scs.fluorite.model.EventRecorder;
 import fluorite.actions.FindAction;
 import fluorite.commands.EHBaseDocumentChangeEvent;
-import fluorite.commands.DifficulyStatusCommand;
+import fluorite.commands.EHDifficulyStatusCommand;
+import fluorite.commands.EHAbstractCommand;
 import fluorite.commands.EHFileOpenCommand;
 import fluorite.commands.EHFindCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.EHMoveCaretCommand;
-import fluorite.commands.PredictionCommand;
+import fluorite.commands.EHPredictionCommand;
 import fluorite.plugin.EHActivator;
 import fluorite.commands.EHSelectTextCommand;
 import fluorite.preferences.Initializer;
@@ -100,6 +102,7 @@ import fluorite.recorders.EHShellRecorder;
 import fluorite.recorders.EHStyledTextEventRecorder;
 import fluorite.recorders.EHVariableValueRecorder;
 import fluorite.util.EHUtilities;
+import edu.cmu.scs.fluorite.commands.AbstractCommand;
 import edu.cmu.scs.fluorite.model.CommandExecutionListener;
 
 /*
@@ -149,6 +152,8 @@ public class EHEventRecorder {
 	private boolean mNormalCommandCombinable;
 	private boolean mDocChangeCombinable;
 	private int mCombineTimeThreshold;
+	protected int numReceivedCommands;
+	protected int numNotifiedCommands;
 
 	private EHBaseDocumentChangeEvent mLastFiredDocumentChange;
 
@@ -583,7 +588,8 @@ public class EHEventRecorder {
 				}
 			}
 		}
-
+//		IWizardDescriptor[] aDescriptors = PlatformUI.getWorkbench().getNewWizardRegistry().getPrimaryWizards();
+		
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().addShellListener(EHShellRecorder.getInstance());
 
 		DebugPlugin.getDefault().addDebugEventListener(EHDebugEventSetRecorder.getInstance());
@@ -806,11 +812,18 @@ public class EHEventRecorder {
 	}
 
 	boolean isPredictionRelatedCommand(final EHICommand newCommand) {
-		return newCommand instanceof PredictionCommand || newCommand instanceof DifficulyStatusCommand;
+		return newCommand instanceof EHPredictionCommand || newCommand instanceof EHDifficulyStatusCommand;
+	}
+	public int getNumNotifiedCommands() {
+		return numNotifiedCommands;
+	}
+	public int getNumReceivedCommnads() {
+		return numReceivedCommands;
 	}
 	
 	protected void notifyCommandAndDocChangeListeners(EHICommand newCommand, 
 			EHICommand lastCommand) {
+		numNotifiedCommands++;
 		if (newCommand instanceof EHBaseDocumentChangeEvent) {
 			if (!(newCommand instanceof EHFileOpenCommand)) {
 				fireDocumentChangedEvent((EHBaseDocumentChangeEvent)newCommand);
@@ -833,6 +846,7 @@ public class EHEventRecorder {
 	public void recordCommand(final EHICommand newCommand) {
 //		System.out.println("Recording command:" + newCommand);
 		ReceivedCommand.newCase(newCommand, mStartTimestamp, this);
+		numReceivedCommands ++;
 		
 
 		if (!mRecordCommands) {
@@ -883,12 +897,17 @@ public class EHEventRecorder {
 		final EHICommand lastCommand = docOrNormalCommands.size() > 0 ?
 				docOrNormalCommands.get(docOrNormalCommands.size() - 1) : 
 				null;
-
+		try {
 		// See if combining with previous command is possible .
 		if (!isPredictionRelatedCommand(newCommand) && 
 				lastCommand != null
 				&& isCombineEnabled(newCommand, lastCommand, isDocChange)) {
-			combined = lastCommand.combineWith(newCommand);
+//			combined = lastCommand.combineWith(newCommand);
+			combined = EHAbstractCommand.combineWith((AbstractCommand) lastCommand, newCommand);
+			
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 //		System.out
 //				.println("Combining command:" + combined + " newCommand" + newCommand + " lastCommand " + lastCommand);
