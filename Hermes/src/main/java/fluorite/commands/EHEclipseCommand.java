@@ -67,8 +67,11 @@ public class EHEclipseCommand extends EclipseCommand implements EHICommand{
 //		return false;
 //	}
 	public String toString() {
+		String anId = getCommandID();
+	
 			
-		return super.toString() + ":" + getName();
+		return super.toString() + ":" + anId; 
+//		getName();
 	}
 //
 //	public EHEclipseCommand() {
@@ -186,6 +189,54 @@ public class EHEclipseCommand extends EclipseCommand implements EHICommand{
 //		return mCommandId;
 //	}
 //
+	public String getName() {
+	if (DifficultyPredictionSettings.isReplayMode()) // workbench is not initialized in replay mode
+		return getCommandID();
+	if (getCommandID().isEmpty()) {
+		return getCommandID();
+	}
+	return super.getName();
+	
+//	ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
+//			.getAdapter(ICommandService.class);
+//	if (cs == null) {
+//		System.err.println("Null command service:" );
+//		return mCommandId;
+//	}
+//	Command command = cs.getCommand(mCommandId);
+//	try {
+//		return command.getName();
+//	} catch (NotDefinedException e) {
+//		// e.printStackTrace();
+//	}
+//	
+//
+//	return mCommandId;
+}
+//
+	public String getCategory() {
+		if (DifficultyPredictionSettings.isReplayMode()) // workbench is not initialized in replay mode
+			return "";
+		return super.getCategory();
+//		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
+//				.getAdapter(ICommandService.class);
+//		if (cs == null) {
+//			System.err.println("Null command service:" );
+//			return "";
+//		}
+////		Command command = cs.getCommand(mCommandId);
+//		Command command = cs.getCommand(getCommandID());
+//
+//		try {
+//			Category cat = command.getCategory();
+//			if (cat != null)
+//				return cat.getName();
+//		} catch (NotDefinedException e) {
+//			// e.printStackTrace();
+//		}
+//
+//		return "";
+	}
 //	public String getCategory() {
 //		if (DifficultyPredictionSettings.isReplayMode()) // workbench is not initialized in replay mode
 //			return "";
@@ -195,7 +246,9 @@ public class EHEclipseCommand extends EclipseCommand implements EHICommand{
 //			System.err.println("Null command service:" );
 //			return "";
 //		}
-//		Command command = cs.getCommand(mCommandId);
+////		Command command = cs.getCommand(mCommandId);
+//		Command command = cs.getCommand(getCommandID());
+//
 //		try {
 //			Category cat = command.getCategory();
 //			if (cat != null)
@@ -206,7 +259,28 @@ public class EHEclipseCommand extends EclipseCommand implements EHICommand{
 //
 //		return "";
 //	}
+
+	public String getCategoryID() {
+		if (getCommandID().isEmpty())
+			return "";
+		return super.getCategoryID();
+//		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
+//				.getAdapter(ICommandService.class);
+//		if (cs == null) {
+//			return "";
+//		}
 //
+//		Command command = cs.getCommand(mCommandId);
+//		try {
+//			Category cat = command.getCategory();
+//			if (cat != null)
+//				return cat.getId();
+//		} catch (NotDefinedException e) {
+//			// e.printStackTrace();
+//		}
+//
+//		return "";
+	}
 //	public String getCategoryID() {
 //		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 //				.getAdapter(ICommandService.class);

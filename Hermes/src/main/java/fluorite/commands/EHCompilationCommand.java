@@ -35,6 +35,9 @@ public class EHCompilationCommand extends EHAbstractCommand {
 		mFileName = fileName;
 		initialTimestamp = System.currentTimeMillis();
 		initialCommandNumber = EHEventRecorder.getInstance().getNumNotifiedCommands();
+		initialDataEventNumber = EHEventRecorder.getInstance().getNumDataEvents();
+		initialFinalizedDataEventNumber = EHEventRecorder.getInstance().getNumFinalizedDataEvents();
+//		workingContext = aWorkingContext;
 	}
 
 	private String mErrorMessage;
@@ -44,13 +47,27 @@ public class EHCompilationCommand extends EHAbstractCommand {
 	private String mSourceStart;
 	private String mSourceEnd;
 	private boolean mIsWarning;
+	protected String workingContext;
 //	protected List<Long> timeStamps= new ArrayList();
 //	protected List<Integer> commandNumbers = new ArrayList();
 	protected long physicalDuration;
-	protected long logicalDuration;
+	protected long commandDuration;
+	protected long dataEventDuration;
+	protected long finalizedDataEventDuration;
 	protected long initialTimestamp;
-	protected long initialCommandNumber;
+	protected int initialCommandNumber;
+	protected int initialDataEventNumber;
+	protected int initialFinalizedDataEventNumber;
+	protected boolean disappeared;
+	
+	protected static final int MIN_PHYSICAL_DURATION = 10000; // 10 seconds
+	protected static final int MIN_COMMAND_DURATION = 3; //
+	protected static final int MIN_FINALIZED_DATA_EVENTS = 5;
+	protected static final int MIN_DATA_EVENT_DURATION = 5;
 
+	public String toString() {
+		return getFileName() + "-" + getErrorMessage();
+	}
 	public String getErrorMessage() {
 		return mErrorMessage;
 	}
@@ -78,14 +95,31 @@ public class EHCompilationCommand extends EHAbstractCommand {
 	public boolean getIsWarning() {
 		return mIsWarning;
 	}
+	public void setDisappeared(boolean newVal) {
+		disappeared = newVal;
+	}
+	public boolean isDisappeared() {
+		return disappeared;
+	}
 	public void increaseRepeatCount() {
 		super.increaseRepeatCount();
 		long aTimestamp = System.currentTimeMillis();
 		int aCommandNumber = EHEventRecorder.getInstance().getNumNotifiedCommands();
+		int aFinalizedDataEventNumber = EHEventRecorder.getInstance().getNumFinalizedDataEvents();
+		int aDataEventEventNumber = EHEventRecorder.getInstance().getNumDataEvents();
 		physicalDuration = aTimestamp - initialTimestamp;
-		logicalDuration = aCommandNumber - initialCommandNumber;
+		commandDuration = aCommandNumber - initialCommandNumber;
+		dataEventDuration = aDataEventEventNumber - initialDataEventNumber;
+		finalizedDataEventDuration = aFinalizedDataEventNumber - initialFinalizedDataEventNumber;
 	}
 	
+	public boolean isPersistent() {
+		return finalizedDataEventDuration >= MIN_FINALIZED_DATA_EVENTS &&
+				physicalDuration >= MIN_PHYSICAL_DURATION &&
+				commandDuration >= MIN_COMMAND_DURATION &&
+				dataEventDuration >= MIN_DATA_EVENT_DURATION;
+
+	}
 
 	@Override
 	public void createFrom(Element commandElement) {
@@ -142,7 +176,7 @@ public class EHCompilationCommand extends EHAbstractCommand {
 		if ((nodeList = commandElement.getElementsByTagName(XML_Logical_Duration_Tag))
 				.getLength() > 0) {
 			Node textNode = nodeList.item(0);
-			logicalDuration = Integer.parseInt(textNode.getTextContent());
+			commandDuration = Integer.parseInt(textNode.getTextContent());
 		}
 	}
 
@@ -191,7 +225,7 @@ public class EHCompilationCommand extends EHAbstractCommand {
 		if (mFileName != null)
 			dataMap.put(XML_FileName_Tag, mFileName);
 		dataMap.put(XML_Physical_Duration_Tag, String.valueOf(physicalDuration));
-		dataMap.put(XML_Logical_Duration_Tag, String.valueOf(logicalDuration));
+		dataMap.put(XML_Logical_Duration_Tag, String.valueOf(commandDuration));
 
 		return dataMap;
 	}
@@ -227,6 +261,14 @@ public class EHCompilationCommand extends EHAbstractCommand {
 	public String getCategoryID() {
 		// TODO Auto-generated method stub
 		return EHEventRecorder.MacroCommandCategoryID;
+	}
+	
+	public boolean equals(EHCompilationCommand anOther) {
+		return 
+				getMessageId().equals(anOther.getMessageId()) &&
+				getErrorMessage().equals(anOther.getMessageId()) &&
+				getSourceStart().equals(anOther.getSourceStart());
+				
 	}
 
 	@Override

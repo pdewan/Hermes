@@ -154,6 +154,8 @@ public class EHEventRecorder {
 	private int mCombineTimeThreshold;
 	protected int numReceivedCommands;
 	protected int numNotifiedCommands;
+	protected int numDataEvents;
+	protected int numFinalizedDataEvents;
 
 	private EHBaseDocumentChangeEvent mLastFiredDocumentChange;
 
@@ -336,6 +338,7 @@ public class EHEventRecorder {
 	}
 
 	public void fireDocumentChangedEvent(EHBaseDocumentChangeEvent docChange) {
+		numDataEvents++;
 		for (Object listenerObj : mDocumentChangeListeners.getListeners()) {
 			((EHDocumentChangeListener) listenerObj).documentChanged(docChange);
 		}
@@ -377,7 +380,7 @@ public class EHEventRecorder {
 		if (docChange == mLastFiredDocumentChange) {
 			return;
 		}
-
+		numFinalizedDataEvents++;
 		for (Object listenerObj : mDocumentChangeListeners.getListeners()) {
 			// System.out.println ("ASYNC EXEC ProCESSED");
 
@@ -821,6 +824,15 @@ public class EHEventRecorder {
 		return numReceivedCommands;
 	}
 	
+	public int getNumDataEvents() {
+		return numDataEvents;
+	}
+	
+	public int getNumFinalizedDataEvents() {
+		return numFinalizedDataEvents;
+	}
+	
+	
 	protected void notifyCommandAndDocChangeListeners(EHICommand newCommand, 
 			EHICommand lastCommand) {
 		numNotifiedCommands++;
@@ -832,6 +844,7 @@ public class EHEventRecorder {
 			
 			if (lastCommand instanceof EHBaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
 				fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent)lastCommand);
+				
 				DocumentChangeFinalizedEventNotified.newCase(
 						(EHBaseDocumentChangeEvent)lastCommand, mStartTimestamp, this);
 			}
@@ -869,7 +882,9 @@ public class EHEventRecorder {
 //		}
 		long timestamp = Calendar.getInstance().getTime().getTime();
 		timestamp -= mStartTimestamp;
-		NewMacroCommand.newCase(newCommand.getName(), mStartTimestamp, this);
+		
+//		NewMacroCommand.newCase(newCommand.getName(), mStartTimestamp, this);
+		NewMacroCommand.newCase(newCommand.toString(), mStartTimestamp, this);
 		newCommand.setTimestamp(timestamp);
 		newCommand.setTimestamp2(timestamp);
 		// NewMacroCommand.newCase(newCommand.getName(),
@@ -927,7 +942,7 @@ public class EHEventRecorder {
 			 * The code below is old fluorite
 			 */
 //			if (newCommand instanceof EHBaseDocumentChangeEvent && !(newCommand instanceof EHFileOpenCommand)) {
-//				fireDocumentChangedEvent((EHBaseDocumentChangeEvent) newCommand);
+//				DocumentChangedEvent((EHBaseDocumentChangeEvent) newCommand);
 //
 //				if (lastCommand instanceof EHBaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
 //					fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent) lastCommand);

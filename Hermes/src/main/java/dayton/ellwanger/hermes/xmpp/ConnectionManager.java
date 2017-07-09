@@ -18,21 +18,28 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
 import org.jivesoftware.smackx.jiveproperties.JivePropertiesManager;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.ExtensionManager;
 import dayton.ellwanger.hermes.preferences.Preferences;
+import hermes.tags.Tags;
 //import util.trace.hermes.connectionmanager.ForwardedJSONObjectReceivedByConnectionManager;
 import util.trace.json.JSONObjectReceived;
+import util.trace.messagebus.clients.ReceivedJSONObjectForwardedToClientProcess;
 import util.trace.xmpp.XMPPPacketReceived;
 import util.trace.xmpp.XMPPPacketSent;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.regex.Pattern;
 
 
-public class ConnectionManager implements ConnectionListener, StanzaListener, StanzaFilter {
+public class ConnectionManager implements 
+	ConnectionListener, StanzaListener, StanzaFilter, MessageBusInternalRegisterer, Tags {
 	
 	protected static ConnectionManager instance;
 	private AbstractXMPPConnection connection;
@@ -46,6 +53,8 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 	private String internalXmppUsername;
 	private String xmppPassword;
 	private String hostname;
+
+	protected List<MessageBusInternalRegistration> messageBusInternalRegistrations = new ArrayList();
 	
 	
 	private ConnectionManager() {
@@ -280,6 +289,51 @@ public class ConnectionManager implements ConnectionListener, StanzaListener, St
 		} catch (Exception ex) {
 			//Received invalid JSON
 		}
+	}
+//	public boolean matchesTag(Pattern aTagsPattern, String tag) {
+//		return (aTagsPattern == null) ? false : aTagsPattern.matcher(tag).matches();
+//	}
+	@Override
+	public void notifyNewJSONMessage(JSONObject aJSONObject) {
+		JSONArray aTags = Tags.toTags(aJSONObject);
+		for (MessageBusInternalRegistration aRegistration:messageBusInternalRegistrations) {
+			Pattern aTagsPattern = aRegistration.getTagsPattern();
+			TaggedJSONListener aListener = aRegistration.getTaggedJSONListener();	
+			for (int i = 0; i < aTags.length(); i++) {
+				String aTag;
+				try {
+					aTag = aTags.getString(i);
+					if(Tags.matchesTag(aTagsPattern, aTag)) {
+						aListener.newJSONObject(aJSONObject);
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+//	public static JSONArray toTags(JSONObject message){
+//		JSONArray tags = null;
+//		if(!message.has(TAGS_FIELD)) {
+//			tags = new JSONArray();
+//			tags.put(NO_TAGS);
+//		} else {
+//			try {
+//				tags = (JSONArray) message.get(TAGS_FIELD);
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return tags;
+//	}
+
+	@Override
+	public void addTaggedJSONObjectListener(TaggedJSONListener aListener, String aRegex) {
+		MessageBusInternalRegistration aRegistration = new AMessageBusInternalRegistration(aListener, aRegex);
+		messageBusInternalRegistrations.add(aRegistration);
+		
+		
 	}
 	
 }

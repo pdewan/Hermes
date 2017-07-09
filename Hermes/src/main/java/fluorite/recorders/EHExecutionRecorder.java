@@ -29,6 +29,7 @@ import fluorite.commands.EHICommand;
 import fluorite.commands.EHImportProjectCommand;
 import fluorite.commands.EHMoveElementCommand;
 import fluorite.commands.EHPasteCommand;
+import fluorite.commands.EHPropertyDialogClosedCommand;
 import fluorite.commands.EHRedoCommand;
 import fluorite.commands.EHRenameCommand;
 import fluorite.commands.EHSelectLineCommand;
@@ -231,7 +232,10 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 			return new EHDeleteResourceCommand(commandId);
 //			org.eclipse.jdt.ui.edit.text.java.toggle.comment
 		} else if (commandId.equals("org.eclipse.jdt.ui.edit.text.java.toggle.comment")) {
-			return new EHToggleCommentCommand(commandId);	
+			return new EHToggleCommentCommand(commandId);
+		} else if (commandId.equals("org.eclipse.ui.project.properties")) {
+			return new EHPropertyDialogClosedCommand(commandId);
+//org.eclipse.ui.project.properties		
 		} else {
 			return new EHEclipseCommand(commandId);
 		}
