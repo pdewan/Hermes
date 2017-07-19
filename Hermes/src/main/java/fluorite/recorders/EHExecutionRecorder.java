@@ -22,6 +22,7 @@ import fluorite.commands.EHCutCommand;
 import fluorite.commands.EHDeleteResourceCommand;
 import fluorite.commands.EHEclipseCommand;
 import fluorite.commands.EHFileRefreshCommand;
+import fluorite.commands.EHFileSaveCommand;
 import fluorite.commands.EHFileSearchCommand;
 import fluorite.commands.EHFindDefinitionCommand;
 import fluorite.commands.EHFindReferencesCommand;
@@ -229,7 +230,8 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 			return new EHDeleteResourceCommand(commandId);
 //			org.eclipse.ui.file.save
 		} else if (commandId.equals("org.eclipse.ui.file.save")) {
-			return new EHDeleteResourceCommand(commandId);
+//			return new EHDeleteResourceCommand(commandId);
+			return new EHFileSaveCommand(commandId);
 //			org.eclipse.jdt.ui.edit.text.java.toggle.comment
 		} else if (commandId.equals("org.eclipse.jdt.ui.edit.text.java.toggle.comment")) {
 			return new EHToggleCommentCommand(commandId);

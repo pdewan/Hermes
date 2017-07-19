@@ -343,7 +343,7 @@ public class EHEventRecorder {
 			((EHDocumentChangeListener) listenerObj).documentChanged(docChange);
 		}
 		for (Object listenerObj : eventListener.getListeners()) {
-			((EclipseEventListener)listenerObj).documentChanged(docChange.getTimestamp());
+			((EclipseEventListener)listenerObj).documentChanged(docChange.getClass().getSimpleName(), docChange.getTimestamp());
 		}
 	}
 	public void fireCommandExecutedEvent(EHICommand command) {
@@ -351,7 +351,7 @@ public class EHEventRecorder {
 			((EHCommandExecutionListener)listenerObj).commandExecuted(command);
 		}
 		for (Object listenerObj : eventListener.getListeners()) {
-			((EclipseEventListener)listenerObj).commandExecuted(command.getTimestamp());
+			((EclipseEventListener)listenerObj).commandExecuted(command.getClass().getSimpleName(), command.getTimestamp());
 		}
 	}
 	

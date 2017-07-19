@@ -14,32 +14,7 @@ import org.w3c.dom.NodeList;
 import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
 
-public class EHCompilationCommand extends EHAbstractCommand {
-
-	public EHCompilationCommand() {
-
-	}
-	/*
-	 * Wonder why message  id has been converted to string or why the sourve strings etc
-	 * have been converted. I suppose for xml conversion.
-	 */
-	public EHCompilationCommand(boolean isWarning, String errorMessage,
-			String messageId, String sourceCodeLineNumber, String sourceStart,
-			String sourceEnd, String fileName) {
-		mIsWarning = isWarning;
-		mErrorMessage = errorMessage;
-		mMessageId = messageId;
-		mSourceCodeLineNumber = sourceCodeLineNumber;
-		mSourceStart = sourceStart;
-		mSourceEnd = sourceEnd;
-		mFileName = fileName;
-		initialTimestamp = System.currentTimeMillis();
-		initialCommandNumber = EHEventRecorder.getInstance().getNumNotifiedCommands();
-		initialDataEventNumber = EHEventRecorder.getInstance().getNumDataEvents();
-		initialFinalizedDataEventNumber = EHEventRecorder.getInstance().getNumFinalizedDataEvents();
-//		workingContext = aWorkingContext;
-	}
-
+public class EHCompilationEvent extends EHAbstractCommand {
 	private String mErrorMessage;
 	private String mMessageId;
 	private String mSourceCodeLineNumber;
@@ -59,6 +34,69 @@ public class EHCompilationCommand extends EHAbstractCommand {
 	protected int initialDataEventNumber;
 	protected int initialFinalizedDataEventNumber;
 	protected boolean disappeared;
+	protected String problemText;
+	
+	// duplicating ints for now
+	protected int sourceStart; 
+	protected int sourceEnd;
+	protected int lineNumber;
+	protected int messageId;
+	
+
+
+
+	protected String problemLine;
+	public EHCompilationEvent() {
+
+	}
+	/*
+	 * Wonder why message  id has been converted to string or why the sourve strings etc
+	 * have been converted. I suppose for xml conversion.
+	 */
+	public EHCompilationEvent(boolean isWarning, String errorMessage,
+			String messageId, String sourceCodeLineNumber, String sourceStart,
+			String sourceEnd, String aProblemText, String aProblemLine, String fileName) {
+		mIsWarning = isWarning;
+		mErrorMessage = errorMessage;
+		mMessageId = messageId;
+		mSourceCodeLineNumber = sourceCodeLineNumber;
+		mSourceStart = sourceStart;
+		mSourceEnd = sourceEnd;
+		mFileName = fileName;
+		initialTimestamp = System.currentTimeMillis();
+		initialCommandNumber = EHEventRecorder.getInstance().getNumNotifiedCommands();
+		initialDataEventNumber = EHEventRecorder.getInstance().getNumDataEvents();
+		initialFinalizedDataEventNumber = EHEventRecorder.getInstance().getNumFinalizedDataEvents();
+		problemText = aProblemText;
+		problemLine = aProblemLine;
+		
+//		workingContext = aWorkingContext;
+	}
+	public EHCompilationEvent(boolean isWarning, String errorMessage,
+			int aMessageId, int aLineNumber, int aStart,
+			int anEnd, String aProblemText, String aProblemLine, String fileName) {
+		mIsWarning = isWarning;
+		mErrorMessage = errorMessage;
+		mMessageId = String.valueOf(aMessageId);
+		messageId = aMessageId;
+		mSourceCodeLineNumber = String.valueOf(aLineNumber);
+		mSourceStart = String.valueOf(aStart);
+		mSourceEnd = String.valueOf(anEnd);
+		sourceStart = aStart;
+		sourceEnd = anEnd;
+		lineNumber = aLineNumber;
+		mFileName = fileName;
+		initialTimestamp = System.currentTimeMillis();
+		initialCommandNumber = EHEventRecorder.getInstance().getNumNotifiedCommands();
+		initialDataEventNumber = EHEventRecorder.getInstance().getNumDataEvents();
+		initialFinalizedDataEventNumber = EHEventRecorder.getInstance().getNumFinalizedDataEvents();
+		problemText = aProblemText;
+		problemLine = aProblemLine;
+		
+//		workingContext = aWorkingContext;
+	}
+
+	
 	
 	protected static final int MIN_PHYSICAL_DURATION = 10000; // 10 seconds
 	protected static final int MIN_COMMAND_DURATION = 3; //
@@ -72,24 +110,40 @@ public class EHCompilationCommand extends EHAbstractCommand {
 		return mErrorMessage;
 	}
 
-	public String getMessageId() {
+	public String getStringMessageId() {
 		return mMessageId;
 	}
-
-	public String getSourceCodeLineNumber() {
-		return mSourceCodeLineNumber;
+	public int getMessageId() {
+		return messageId;
 	}
 
+	public String getStringSourceCodeLineNumber() {
+		return mSourceCodeLineNumber;
+	}
+	
+	public int getCodeLineNumber() {
+		return lineNumber;
+	}
+	
+	
 	public String getFileName() {
 		return mFileName;
 	}
 
-	public String getSourceStart() {
+	public String getStringSourceStart() {
 		return mSourceStart;
 	}
 	
-	public String getSourceEnd() {
+	public int getSourceStart() {
+		return sourceStart;
+	}
+	
+	public String getStringSourceEnd() {
 		return mSourceEnd;
+	}
+	
+	public int getSourceEnd() {
+		return sourceEnd;
 	}
 	
 	public boolean getIsWarning() {
@@ -262,15 +316,57 @@ public class EHCompilationCommand extends EHAbstractCommand {
 		// TODO Auto-generated method stub
 		return EHEventRecorder.MacroCommandCategoryID;
 	}
+//	anExistingCommand.getMessageId() == aNewCommand.getMessageId() && 
+//			anExistingCommand.equals(aNewCommand.getErrorMessage()) &&
+//			anExistingCommand.getFileName().equals(aNewCommand.getFileName()) &&
+//			anExistingCommand.getProblemText().equals(aNewCommand.getProblemText());
+	public static boolean overlaps (int aCandidatePos, int aStartPos, int anEndPos ) {
+		return aCandidatePos >= aStartPos && aCandidatePos <= anEndPos;
+	}
+	public boolean overlaps(EHCompilationEvent aNewCommand) {
+		return overlaps(this, aNewCommand);
+	}
 	
-	public boolean equals(EHCompilationCommand anOther) {
-		return 
-				getMessageId().equals(anOther.getMessageId()) &&
-				getErrorMessage().equals(anOther.getMessageId()) &&
-				getSourceStart().equals(anOther.getSourceStart());
+	public static boolean contains (int aCandidatePos, int aStartPos, int anEndPos ) {
+		return aCandidatePos >= aStartPos && aCandidatePos <= anEndPos;
+	}
+	/*
+	 * Overlaps commutes so I suppose do not have to check both ways
+	 */
+	public static boolean overlaps(EHCompilationEvent anExistingCommand, EHCompilationEvent aNewCommand) {
+		return anExistingCommand.getFileName().equals(aNewCommand.getFileName()) &&
+				overlaps(aNewCommand.getSourceStart(), anExistingCommand.getSourceStart(), anExistingCommand.getSourceEnd()) ||
+				overlaps(aNewCommand.getSourceEnd(), anExistingCommand.getSourceStart(), anExistingCommand.getSourceEnd());
 				
 	}
-
+	public boolean equals(EHCompilationEvent anOther) {
+		return 
+				getFileName().equals(anOther.getFileName()) &&
+				getStringMessageId().equals(anOther.getStringMessageId()) &&
+				getErrorMessage().equals(anOther.getStringMessageId()) &&
+				getStringSourceStart().equals(anOther.getStringSourceStart());
+				
+	}
+	public void merge (EHCompilationEvent aLaterCommand) {
+		sourceStart = aLaterCommand.sourceStart;
+		this.mErrorMessage = aLaterCommand.mErrorMessage;
+		this.messageId = aLaterCommand.messageId;
+		sourceEnd = aLaterCommand.sourceEnd;
+		setProblemLine(aLaterCommand.getProblemLine());
+		setProblemText(aLaterCommand.getProblemText());
+	}
+	public String getProblemText() {
+		return problemText;
+	}
+	public void setProblemText(String problemText) {
+		this.problemText = problemText;
+	}
+	public String getProblemLine() {
+		return problemLine;
+	}
+	public void setProblemLine(String problemLine) {
+		this.problemLine = problemLine;
+	}
 	@Override
 	public boolean combine(ICommand anotherCommand) {
 		// TODO Auto-generated method stub

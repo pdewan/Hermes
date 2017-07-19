@@ -3,7 +3,7 @@ package fluorite.recorders;
 import org.eclipse.ui.IEditorPart;
 
 import edu.cmu.scs.fluorite.commands.ICommand;
-import fluorite.commands.EHCompilationCommand;
+import fluorite.commands.EHCompilationEvent;
 import fluorite.commands.EHICommand;
 
 public class EHCompilationRecorder extends EHBaseRecorder  {

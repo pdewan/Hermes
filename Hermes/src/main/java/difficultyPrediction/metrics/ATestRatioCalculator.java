@@ -7,7 +7,7 @@ import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import analyzer.TimeandEventBasedPercentage;
-import fluorite.commands.EHCompilationCommand;
+import fluorite.commands.EHCompilationEvent;
 import fluorite.commands.EHEclipseCommand;
 import fluorite.commands.EHICommand;
 
@@ -59,7 +59,7 @@ public class ATestRatioCalculator implements RatioCalculator {
 
 		if(event.getCommandType().equals("CompilationCommand"))
 		{
-			EHCompilationCommand command = (EHCompilationCommand)event;
+			EHCompilationEvent command = (EHCompilationEvent)event;
 			//if the compilation is an error
 			if(! command.getIsWarning())
 			{

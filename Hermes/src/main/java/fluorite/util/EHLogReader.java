@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 
 import fluorite.commands.EHAbstractCommand;
 import fluorite.commands.EHAnnotateCommand;
-import fluorite.commands.EHCompilationCommand;
+import fluorite.commands.EHCompilationEvent;
 import fluorite.commands.EHEclipseCommand;
 import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
@@ -264,7 +264,7 @@ public class EHLogReader {
 
 				if (fullyQualifiedName
 						.equals("edu.cmu.scs.fluorite.commands.CompilationCommand")) {
-					EHCompilationCommand compliationCommand = new EHCompilationCommand();
+					EHCompilationEvent compliationCommand = new EHCompilationEvent();
 					compliationCommand.createFrom(element);
 					return compliationCommand;
 				} 

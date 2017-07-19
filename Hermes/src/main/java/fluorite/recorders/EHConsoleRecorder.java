@@ -7,7 +7,7 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleListener;
 import org.eclipse.ui.console.TextConsole;
 
-import fluorite.commands.EHExceptionCommand;
+import fluorite.commands.EHExceptionOutput;
 
 public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListener {
 
@@ -42,7 +42,7 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 
 						if (event.getText().toLowerCase().contains("exception"))
 						{
-							getRecorder().recordCommand(new EHExceptionCommand(event.getText()));
+							getRecorder().recordCommand(new EHExceptionOutput(event.getText()));
 						}
 					}
 				};

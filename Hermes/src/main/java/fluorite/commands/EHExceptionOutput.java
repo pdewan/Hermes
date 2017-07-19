@@ -11,25 +11,29 @@ import org.w3c.dom.NodeList;
 import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
 
-public class EHExceptionCommand extends EHAbstractCommand implements EHICommand {
+public class EHExceptionOutput extends EHAbstractCommand implements EHICommand {
 
-	public static final String XML_Exception_Tag = "exceptionString";
+	public static final String XML_Output_Tag = "outputString";
 	
-	public EHExceptionCommand()
+	public EHExceptionOutput()
 	{
 		
 	}
 	
-	public EHExceptionCommand(String exceptionText)
+	public EHExceptionOutput(String aText)
 	{
-		mExceptionText = exceptionText;
+		outputText = aText;
 	}
 	
-	private String mExceptionText;
+	protected String outputText;
 	@Override
 	public boolean execute(IEditorPart target) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public String getOutputText() {
+		return outputText;
 	}
 
 	@Override
@@ -50,8 +54,8 @@ public class EHExceptionCommand extends EHAbstractCommand implements EHICommand 
 	@Override
 	public Map<String, String> getDataMap() {
 		Map<String, String> dataMap = new HashMap<String, String>();
-		if (mExceptionText != null)
-			dataMap.put(XML_Exception_Tag, mExceptionText);
+		if (outputText != null)
+			dataMap.put(XML_Output_Tag, outputText);
 
 		return dataMap;
 	}
@@ -63,9 +67,9 @@ public class EHExceptionCommand extends EHAbstractCommand implements EHICommand 
 		
 		NodeList nodeList = null;
 
-		if ((nodeList = commandElement.getElementsByTagName(XML_Exception_Tag)).getLength() > 0) {
+		if ((nodeList = commandElement.getElementsByTagName(XML_Output_Tag)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
-			mExceptionText =textNode.getTextContent();
+			outputText =textNode.getTextContent();
 		}
 	}
 

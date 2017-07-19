@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import difficultyPrediction.featureExtraction.RatioFeatures;
-import fluorite.commands.EHCompilationCommand;
+import fluorite.commands.EHCompilationEvent;
 import fluorite.commands.EHEclipseCommand;
 import fluorite.commands.EHICommand;
 
@@ -31,7 +31,7 @@ public class APercentageCalculator implements RatioCalculator {
 		
 		if(event.getCommandType().equals("CompilationCommand"))
 		{
-			EHCompilationCommand command = (EHCompilationCommand)event;
+			EHCompilationEvent command = (EHCompilationEvent)event;
 			//if the compilation is an error
 			if(! command.getIsWarning())
 			{

@@ -10,7 +10,7 @@ import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
-import fluorite.commands.EHCompilationCommand;
+import fluorite.commands.EHCompilationEvent;
 import fluorite.commands.EHEclipseCommand;
 import fluorite.commands.EHICommand;
 
@@ -34,8 +34,8 @@ public class AGenericRatioCalculator implements RatioCalculator {
 						getCommandClassificationScheme().
 							getCommandCategoryMapping();
 		String aCommandString = aCommand.getCommandType();
-		if (aCommand instanceof EHCompilationCommand) {
-			EHCompilationCommand command = (EHCompilationCommand)aCommand;
+		if (aCommand instanceof EHCompilationEvent) {
+			EHCompilationEvent command = (EHCompilationEvent)aCommand;
 			if (!command.getIsWarning()) {
 				return aCommandCategories.getCommandCategory(CommandName.CompileError);
 			}
