@@ -194,6 +194,7 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 			return new EHContentAssistProposalsCommand(commandId);			
 //			AUTOGEN:::org.eclipse.jdt.debug.CompilationUnitEditor.BreakpointRulerActions/org.eclipse.jdt.debug.ui.actions.ManageBreakpointRulerAction
 		} else if (commandId.equals("AUTOGEN:::org.eclipse.jdt.debug.CompilationUnitEditor.BreakpointRulerActions/org.eclipse.jdt.debug.ui.actions.ManageBreakpointRulerAction")) {
+// does not give line number so better to use breakpoint command			
 			return new EHToggleBreakpointCommand(commandId);
 //			AUTOGEN:::org.eclipse.jdt.internal.ui.CompilationUnitEditor.ruler.actions/org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction
 		} else if (commandId.equals("AUTOGEN:::org.eclipse.jdt.internal.ui.CompilationUnitEditor.ruler.actions/org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction")) {

@@ -11,16 +11,16 @@ import org.w3c.dom.NodeList;
 import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
 
-public class EHExceptionOutput extends EHOutputProduced implements EHICommand {
+public class EHConsoleInput extends EHOutputProduced implements EHICommand {
 
 //	public static final String XML_Output_Tag = "outputString";
 //	
-	public EHExceptionOutput()
+	public EHConsoleInput()
 	{
 		
 	}
 	
-	public EHExceptionOutput(String aText)
+	public EHConsoleInput(String aText)
 	{
 		super(aText);
 //		outputText = aText;

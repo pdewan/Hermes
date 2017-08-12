@@ -85,14 +85,14 @@ public class FluoriteListener implements
 		
 	}
 	@Override
-	public void commandExecuted(long aTimestamp) {
+	public void commandExecuted(String aCommandName, long aTimestamp) {
 		lastCommandTimestamp = aTimestamp;
 		numActions++;
 		idleTimer.recordActivity();
 		
 	}
 	@Override
-	public void documentChanged(long aTimestamp) {
+	public void documentChanged(String aCommandName, long aTimestamp) {
 		lastCommandTimestamp = aTimestamp;
 		numDocChanges++;
 		numActions++;

@@ -16,6 +16,7 @@ import dayton.ellwanger.hermes.xmpp.ConnectStateListener;
 //import util.trace.hermes.connectionmanager.JSONObjectForwardedToConnectionManager;
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
 import dayton.ellwanger.hermes.xmpp.ConnectionState;
+import hermes.tags.Tags;
 import util.trace.hermes.consolelistener.ConsoleSentToConnectionManager;
 
 public class HermesConnectionManager implements ConnectStateListener, IDocumentListener, IConsoleListener {
@@ -59,7 +60,8 @@ public class HermesConnectionManager implements ConnectStateListener, IDocumentL
 				messageData.put("append", consoleString.replace('\r', ' '));
 				consoleString = "";
 				JSONArray tags = new JSONArray();
-				tags.put("APPEND");
+				tags.put(Tags.APPEND);
+//				tags.put("APPEND");
 				messageData.put("tags", tags);
 			} catch (Exception ex) {
 				ex.printStackTrace();

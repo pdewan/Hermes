@@ -191,6 +191,10 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 	protected Set<String> allJars = new HashSet<>(); // jars seen on this activation of eclipse
 	protected Set<String> addedJars = new HashSet<>(); //the ones that triggered reconcile
 	protected Set<String> deletedJars = new HashSet<>(); //the ones that triggered reconcile
+	
+	protected Map<String, List<String>> allImports = new HashMap<>(); 
+	protected Map<String, List<String>> addedImports = new HashMap<>(); //the ones that triggered reconcile
+	protected Map<String, List<String>> deletedImports = new HashMap<>(); //the ones that triggered recon
 
 	protected CompilationUnit lastFileADT = null;
 	protected IDocument lastFileDocument = null;
@@ -349,7 +353,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 	/*
 	 * Assuming that new json object will be received before reconsile is called
 	 * @see org.eclipse.jdt.core.compiler.CompilationParticipant#reconcile(org.eclipse.jdt.core.compiler.ReconcileContext)
-	 * This method is called essentially on each edit after the file name and text has been set
+	 * This method is called essentially on each edit after the file name and text has been set, and also it seems when a new file is opened
 	 */
 	@Override
 	public void reconcile(ReconcileContext context) {
@@ -385,6 +389,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 
 
 		lastFileADT = aDelta.getCompilationUnitAST();
+		List<String> anImports = lastFileADT.imports();
 		// System.out.println("AST/full source code:" + lastFileADT);
 		IProblem[] problems = null;
 

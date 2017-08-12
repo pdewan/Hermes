@@ -9,18 +9,79 @@ import org.w3c.dom.Element;
 
 import fluorite.model.EHEventRecorder;
 
-public class EHHitBreakpointCommand extends EHRunCommand implements EHICommand{
-
-	public EHHitBreakpointCommand() {
+public class EHProgramExecutionEvent extends edu.cmu.scs.fluorite.commands.RunCommand implements EHICommand{
+	int numEvents;
+	public EHProgramExecutionEvent() {
 		super();
 		
 	}
+	
 //	
-	public EHHitBreakpointCommand(boolean debug, boolean terminate, String projectName, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
-			boolean stepInto, boolean stepReturn) {
-		super(debug, terminate, projectName, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn);
+	public EHProgramExecutionEvent(boolean debug, boolean terminate, String projectName, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
+			boolean stepInto, boolean stepReturn, int aNumEvents) {
+		super(debug, terminate, projectName, exitValue);
+//		mDebug = debug;
+//		mTerminate = terminate;7
+//		mProjectName = projectName;
+		mHitBreakPoint = hitBreakPoint;
+		mStepEnd = stepEnd;
+		mStepInto = stepInto;
+		mStepReturn = stepReturn;
+		numEvents = aNumEvents;
 	}
-
+	public EHProgramExecutionEvent(boolean debug, boolean terminate, String projectName, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
+			boolean stepInto, boolean stepReturn) {
+		this(debug, terminate, projectName, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn, 0);
+	}
+//
+//	private boolean mDebug;
+//	private boolean mRun;
+//	private boolean mTerminate;
+//	private boolean mCreate;
+	protected boolean mHitBreakPoint;
+	protected boolean mStepEnd;
+	protected boolean mStepInto;
+	protected boolean mStepReturn;
+//	private String mProjectName;
+	
+//
+//	public boolean execute(IEditorPart target) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	public void dump() {
+//		// TODO Auto-generated method stub
+//
+//	}
+//
+//	public Map<String, String> getAttributesMap() {
+//		String kind;
+//		if(mTerminate)
+//			kind = "Terminate";
+//		if(mCreate)
+//			kind = "Create";
+//		if(mHitBreakPoint);
+//			kind = "HitBreakPoint";
+//		if(mStepEnd)
+//			kind = "StepEnd";
+//		if(mStepInto)
+//			kind = "StepInto";
+//		if(mStepReturn)
+//			kind = "StepReturn";
+//		
+//		Map<String, String> attrMap = new HashMap<String, String>();
+//		attrMap.put("type", mDebug ? "Debug" : "Run");
+//		attrMap.put("kind", kind);
+//		attrMap.put("projectName", mProjectName == null ? "(Unknown)"
+//				: mProjectName);
+//		return attrMap;
+//	}
+//
+//	public Map<String, String> getDataMap() {
+//		return null;
+//	}
+//
 	@Override
 	public void createFrom(Element commandElement) {
 		super.createFrom(commandElement);
@@ -98,7 +159,12 @@ public class EHHitBreakpointCommand extends EHRunCommand implements EHICommand{
 //		}
 	}
 	public String toString() {
-		return super.toString();
+		String retVal = numEvents <= 1? 
+				super.toString():
+				super.toString() + ":" + numEvents;
+		return retVal;
+		
+//		return numEvents > 1? super.toString():super.toString() + ":" + numEvents;
 	}
 //	public String getName() {
 //		return attr.getValue();
