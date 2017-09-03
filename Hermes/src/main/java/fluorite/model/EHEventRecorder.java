@@ -855,8 +855,10 @@ public class EHEventRecorder {
 		}
 	}
 	
-
-	public void recordCommand(final EHICommand newCommand) {
+/*
+ * Get a concurrent modification event
+ */
+	public synchronized void recordCommand(final EHICommand newCommand) {
 //		System.out.println("Recording command:" + newCommand);
 		ReceivedCommand.newCase(newCommand, mStartTimestamp, this);
 		numReceivedCommands ++;
