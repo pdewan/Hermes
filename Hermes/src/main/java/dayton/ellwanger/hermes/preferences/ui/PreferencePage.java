@@ -3,6 +3,9 @@ package dayton.ellwanger.hermes.preferences.ui;
 import java.io.File;
 import java.util.Scanner;
 
+import org.eclipse.equinox.security.storage.ISecurePreferences;
+import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
+import org.eclipse.equinox.security.storage.StorageException;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
@@ -74,12 +77,48 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	public void init(IWorkbench workbench) {
 		setDescription(DESCRIPTION);
 	}
+//	/*
+//	 * Andrew's code
+//	 */
+//	public static String readPreference(ISecurePreferences node, String name, String defaultValue) {
+//		try {
+//			Object pref = node.get(name, defaultValue);
+//			if(pref instanceof String) {
+//				return (String)pref;
+//			} else {
+//				return defaultValue;
+//			}
+//		} catch (StorageException e1) {
+//			e1.printStackTrace();
+//			return defaultValue;
+//		}
+//	}
+	
+	public static String getOnyen() {
+		// Andrew onyen code
+		ISecurePreferences root = SecurePreferencesFactory.getDefault();
+		final ISecurePreferences node = root.node("/com/unc");
+
+		// gets onyen or null
+		return Preferences.readPreference(node, "onyen", "");
+
+		//
+	}
 
 	@Override
-	protected void createFieldEditors() {	
+	protected void createFieldEditors() {
+		
+		String anOnyen =  getOnyen();
+//		System.out.println("Saved onyen:" + getOnyen());
+		
+		SecureStringFieldEditor aGoogleId = new SecureStringFieldEditor(Preferences.GOOGLEID, 
+				"GoogleId:", getFieldEditorParent());
+//		aGoogleId.setStringValue(anOnyen);
+//		aGoogleId.setEnabled(false, getFieldEditorParent());
 		FileFieldEditor preferenceFile = new FileFieldEditor("PreferenceFile", "Preference File: ", getFieldEditorParent());
 		SecureStringFieldEditor username = new SecureStringFieldEditor(Preferences.USERNAME, 
 				"Username:", getFieldEditorParent());
+		username.setEnabled(false, getFieldEditorParent());
 		PasswordFieldEditor password = new PasswordFieldEditor(Preferences.PASSWORD, 
 				"Password:", getFieldEditorParent());
 		SecureStringFieldEditor domain = new SecureStringFieldEditor(Preferences.DOMAIN, "Domain:", getFieldEditorParent());
@@ -94,6 +133,9 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		setPreferenceStore(EditorsUI.getPreferenceStore());
 		
 		addField(preferenceFile);
+		//PD
+		addField(aGoogleId);
+		//
 		addField(username);
 		addField(domain);
 		addField(password);

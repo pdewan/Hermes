@@ -12,6 +12,7 @@ public class Preferences {
 
 	protected static final String STORE_NODE = "hermes";
 	
+	public static final String GOOGLEID = "googleid";
 	public static final String USERNAME = "username";
 	public static final String DOMAIN = "domain";
 	public static final String PASSWORD = "password";
@@ -46,6 +47,22 @@ public class Preferences {
 	public void preferencesUpdated() {
 		for(PreferencesListener l : listeners) {
 			l.preferencesUpdated();
+		}
+	}
+	/*
+	 * Andrew's code
+	 */
+	public static String readPreference(ISecurePreferences node, String name, String defaultValue) {
+		try {
+			Object pref = node.get(name, defaultValue);
+			if(pref instanceof String) {
+				return (String)pref;
+			} else {
+				return defaultValue;
+			}
+		} catch (StorageException e1) {
+			e1.printStackTrace();
+			return defaultValue;
 		}
 	}
 	

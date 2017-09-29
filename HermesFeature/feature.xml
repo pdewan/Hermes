@@ -49,13 +49,6 @@
          unpack="false"/>
 
    <plugin
-         id="HelpButton"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="workspacelistener"
          download-size="0"
          install-size="0"
@@ -78,6 +71,13 @@
 
    <plugin
          id="ConsoleListener"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="HelpView"
          download-size="0"
          install-size="0"
          version="0.0.0"
