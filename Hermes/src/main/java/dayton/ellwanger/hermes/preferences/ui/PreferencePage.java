@@ -94,21 +94,23 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 //		}
 //	}
 	
-	public static String getOnyen() {
-		// Andrew onyen code
-		ISecurePreferences root = SecurePreferencesFactory.getDefault();
-		final ISecurePreferences node = root.node("/com/unc");
-
-		// gets onyen or null
-		return Preferences.readPreference(node, "onyen", "");
-
-		//
-	}
+//	public static String getOnyen() {
+//		// Andrew onyen code
+//		ISecurePreferences root = SecurePreferencesFactory.getDefault();
+//		final ISecurePreferences node = root.node("/com/unc");
+//
+//		// gets onyen or null
+//		return Preferences.readPreference(node, "onyen", "");
+//
+//		//
+//	}
+	
+	
 
 	@Override
 	protected void createFieldEditors() {
 		
-		String anOnyen =  getOnyen();
+//		String anOnyen =  getOnyen();
 //		System.out.println("Saved onyen:" + getOnyen());
 		
 		SecureStringFieldEditor aGoogleId = new SecureStringFieldEditor(Preferences.GOOGLEID, 
@@ -144,6 +146,16 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		addField(security);
 		addField(createAccount);
 		addField(autoLogin);
+		
+		if (Preferences.isUncSetup()) {
+			username.setEnabled(false, getFieldEditorParent());
+			host.setEnabled(false, getFieldEditorParent());
+			instructor.setEnabled(false, getFieldEditorParent());
+			security.setEnabled(false, getFieldEditorParent());
+			createAccount.setEnabled(false, getFieldEditorParent());			
+		}
+		
+		
 	}
 
 }

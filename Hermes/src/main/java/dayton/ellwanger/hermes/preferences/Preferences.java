@@ -22,6 +22,7 @@ public class Preferences {
 	public static final String CREATE = "create";
 	public static final String AUTOLOGIN = "autologin";
 	
+	
 	private static Preferences instance;
 	private List<PreferencesListener> listeners;
 	
@@ -65,13 +66,34 @@ public class Preferences {
 			return defaultValue;
 		}
 	}
+	/*
+	 * Using Andrew's code
+	 */
+	public static String getOnyen() {
+		// Andrew onyen code
+		ISecurePreferences root = SecurePreferencesFactory.getDefault();
+		final ISecurePreferences node = root.node("/com/unc");
+
+		// gets onyen or null
+		return Preferences.readPreference(node, "onyen", "");
+
+		//
+	}
+	
 	
 	public static String getPreference(String preferenceName) {
+		
 		ISecurePreferences prefs = SecurePreferencesFactory.getDefault();
 		if(prefs.nodeExists(Preferences.STORE_NODE)) {
 			ISecurePreferences node = prefs.node(Preferences.STORE_NODE);
 			try {
-				return node.get(preferenceName, "");
+				String aRetVal = node.get(preferenceName, "");
+				if  (USERNAME.equals(preferenceName) && aRetVal.equals("")) {
+					return getOnyen();
+					
+				}
+				return aRetVal;
+//				return node.get(preferenceName, "");
 			} catch (StorageException ex) {
 				ex.printStackTrace();
 			}
@@ -86,5 +108,20 @@ public class Preferences {
 			node.put(preferenceName, value, true);
 		} catch (StorageException ex) {}
 	}
+	
+	/*
+	 * Probably needs to be in some configuration file
+	 */
+	
+    protected static boolean uncSetup = true;
+	
+	public static boolean isUncSetup() {
+		return uncSetup;
+	}
+
+	public static void setUncSetup(boolean uncSetup) {
+		Preferences.uncSetup = uncSetup;
+	}
+
 	
 }
