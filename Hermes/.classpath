@@ -23,9 +23,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/swt-3.3.0-v3346.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xpp3-1.1.4c.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="lib/commons-configuration-1.9.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="lib/oeall22.jar"/>
 	<classpathentry kind="lib" path="lib/joda-time-2.2-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/joda-time-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/weka3_6.jar"/>
@@ -33,5 +31,7 @@
 	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.13.jar"/>
 	<classpathentry kind="lib" path="lib/edu.cmu.scs.fluorite_0.11.0.201504031625.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/commons-configuration-1.9.jar"/>
+	<classpathentry kind="lib" path="lib/oeall22.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

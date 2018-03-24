@@ -1,15 +1,15 @@
 package util.trace.recorder;
 
-import edu.cmu.scs.fluorite.commands.ICommand;
+import fluorite.commands.EHICommand;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 
 public class NonDocumentChangeCommandNotified extends ICommandInfo{
-	public NonDocumentChangeCommandNotified(String aMessage, ICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+	public NonDocumentChangeCommandNotified(String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
 		 super(aMessage, aCommand, aStartTimeStamp, aFinder);
 	}	
     
-    public static NonDocumentChangeCommandNotified newCase (String aMessage, ICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+    public static NonDocumentChangeCommandNotified newCase (String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
 
     	if (shouldInstantiate(NonDocumentChangeCommandNotified.class)) {
     	NonDocumentChangeCommandNotified retVal = new NonDocumentChangeCommandNotified(aMessage, aCommand, aStartTimeStamp, aFinder);
@@ -22,7 +22,7 @@ public class NonDocumentChangeCommandNotified extends ICommandInfo{
 
     	return null;
     }
-    public static NonDocumentChangeCommandNotified newCase (ICommand aCommand, long aStartTimestamp,  Object aFinder) {
+    public static NonDocumentChangeCommandNotified newCase (EHICommand aCommand, long aStartTimestamp,  Object aFinder) {
     	String aMessage = toString(aCommand, aStartTimestamp);
     	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
 

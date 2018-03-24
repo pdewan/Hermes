@@ -920,7 +920,7 @@ public class EHEventRecorder {
 				lastCommand != null
 				&& isCombineEnabled(newCommand, lastCommand, isDocChange)) {
 //			combined = lastCommand.combineWith(newCommand);
-			combined = EHAbstractCommand.combineWith((AbstractCommand) lastCommand, newCommand);
+			combined = EHAbstractCommand.combineWith((EHAbstractCommand) lastCommand, newCommand);
 			
 		}
 		} catch (Exception e) {

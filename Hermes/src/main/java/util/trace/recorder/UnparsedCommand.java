@@ -3,15 +3,16 @@ package util.trace.recorder;
 import org.w3c.dom.Element;
 
 import edu.cmu.scs.fluorite.commands.ICommand;
+import fluorite.commands.EHICommand;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 
 public class UnparsedCommand extends ICommandInfo{
-	public UnparsedCommand(String aMessage, ICommand aCommand,  String anElement,  Object aFinder) {
+	public UnparsedCommand(String aMessage, EHICommand aCommand,  String anElement,  Object aFinder) {
 		 super(aMessage, aCommand, 0, aFinder);
 	}	
     
-    public static UnparsedCommand newCase (String aMessage, ICommand aCommand, String anElement,  Object aFinder) {
+    public static UnparsedCommand newCase (String aMessage, EHICommand aCommand, String anElement,  Object aFinder) {
 
     	if (shouldInstantiate(UnparsedCommand.class)) {
     	UnparsedCommand retVal = new UnparsedCommand(aMessage, aCommand, anElement, aFinder);
@@ -24,7 +25,7 @@ public class UnparsedCommand extends ICommandInfo{
 
     	return null;
     }
-    public static UnparsedCommand newCase (ICommand aCommand, String anElement, Object aFinder) {
+    public static UnparsedCommand newCase (EHICommand aCommand, String anElement, Object aFinder) {
     	String aMessage = anElement + "<-" + aCommand;
     	return newCase(aMessage, aCommand,  anElement, aFinder);
 

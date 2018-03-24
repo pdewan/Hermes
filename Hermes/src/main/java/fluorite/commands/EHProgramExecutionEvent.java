@@ -9,7 +9,10 @@ import org.w3c.dom.Element;
 
 import fluorite.model.EHEventRecorder;
 
-public class EHProgramExecutionEvent extends edu.cmu.scs.fluorite.commands.RunCommand implements EHICommand{
+public class EHProgramExecutionEvent 
+	 extends EHAbstractCommand
+//	extends edu.cmu.scs.fluorite.commands.RunCommand 
+	implements EHICommand{
 	int numEvents;
 	public EHProgramExecutionEvent() {
 		super();
@@ -19,10 +22,11 @@ public class EHProgramExecutionEvent extends edu.cmu.scs.fluorite.commands.RunCo
 //	
 	public EHProgramExecutionEvent(boolean debug, boolean terminate, String projectName, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
 			boolean stepInto, boolean stepReturn, int aNumEvents) {
-		super(debug, terminate, projectName, exitValue);
-//		mDebug = debug;
-//		mTerminate = terminate;7
-//		mProjectName = projectName;
+//		super(debug, terminate, projectName, exitValue);
+		mDebug = debug;
+		mTerminate = terminate;
+		mProjectName = projectName;
+		// stuff added
 		mHitBreakPoint = hitBreakPoint;
 		mStepEnd = stepEnd;
 		mStepInto = stepInto;
@@ -33,55 +37,114 @@ public class EHProgramExecutionEvent extends edu.cmu.scs.fluorite.commands.RunCo
 			boolean stepInto, boolean stepReturn) {
 		this(debug, terminate, projectName, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn, 0);
 	}
-//
-//	private boolean mDebug;
-//	private boolean mRun;
-//	private boolean mTerminate;
-//	private boolean mCreate;
+
+	private boolean mDebug;
+	private boolean mRun;
+	private boolean mTerminate;
+	private boolean mCreate;
+	
+	private String mProjectName;
+	
+
+	public boolean execute(IEditorPart target) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void dump() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Map<String, String> getAttributesMap() {
+		String kind;
+		if(mTerminate)
+			kind = "Terminate";
+		if(mCreate)
+			kind = "Create";
+		if(mHitBreakPoint);
+			kind = "HitBreakPoint";
+		if(mStepEnd)
+			kind = "StepEnd";
+		if(mStepInto)
+			kind = "StepInto";
+		if(mStepReturn)
+			kind = "StepReturn";
+		
+		Map<String, String> attrMap = new HashMap<String, String>();
+		attrMap.put("type", mDebug ? "Debug" : "Run");
+		attrMap.put("kind", kind);
+		attrMap.put("projectName", mProjectName == null ? "(Unknown)"
+				: mProjectName);
+		return attrMap;
+	}
+
+	public Map<String, String> getDataMap() {
+		return null;
+	}
+
+	
+//	public String getName() {
+//		return attr.getValue();
+//	}
+
+	public String getCommandType() {
+		return "RunCommand";
+	}
+
+	public String getName() {
+		
+		String name = "";
+		String debugRun = "";
+		
+		if(mTerminate)
+			name = "Terminate";
+		if(mCreate)
+			name = "Create";
+		if(mDebug)
+			debugRun = "Debug";
+		if(mRun)
+			debugRun = "Run";
+		if(mHitBreakPoint);
+			name = "HitBreakPoint";
+		if(mStepEnd)
+			name = "StepEnd";
+		if(mStepInto)
+			name = "StepInto";
+		if(mStepReturn)
+			name = "StepReturn";
+		
+		
+		return name + debugRun + "Application";
+		
+		
+//		return (mTerminate ? "Terminate" : "Create") + " "
+//				+ (mDebug ? "Debug" : "Run") + " Application";
+	}
+
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getCategory() {
+		return EHEventRecorder.MacroCommandCategory;
+	}
+
+	public String getCategoryID() {
+		return EHEventRecorder.MacroCommandCategoryID;
+	}
+
+	public boolean combine(EHICommand anotherCommand) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	// stuff added
 	protected boolean mHitBreakPoint;
 	protected boolean mStepEnd;
 	protected boolean mStepInto;
 	protected boolean mStepReturn;
-//	private String mProjectName;
-	
-//
-//	public boolean execute(IEditorPart target) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	public void dump() {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	public Map<String, String> getAttributesMap() {
-//		String kind;
-//		if(mTerminate)
-//			kind = "Terminate";
-//		if(mCreate)
-//			kind = "Create";
-//		if(mHitBreakPoint);
-//			kind = "HitBreakPoint";
-//		if(mStepEnd)
-//			kind = "StepEnd";
-//		if(mStepInto)
-//			kind = "StepInto";
-//		if(mStepReturn)
-//			kind = "StepReturn";
-//		
-//		Map<String, String> attrMap = new HashMap<String, String>();
-//		attrMap.put("type", mDebug ? "Debug" : "Run");
-//		attrMap.put("kind", kind);
-//		attrMap.put("projectName", mProjectName == null ? "(Unknown)"
-//				: mProjectName);
-//		return attrMap;
-//	}
-//
-//	public Map<String, String> getDataMap() {
-//		return null;
-//	}
-//
 	@Override
 	public void createFrom(Element commandElement) {
 		super.createFrom(commandElement);
@@ -166,60 +229,5 @@ public class EHProgramExecutionEvent extends edu.cmu.scs.fluorite.commands.RunCo
 		
 //		return numEvents > 1? super.toString():super.toString() + ":" + numEvents;
 	}
-//	public String getName() {
-//		return attr.getValue();
-//	}
-
-//	public String getCommandType() {
-//		return "RunCommand";
-//	}
-//
-//	public String getName() {
-//		
-//		String name = "";
-//		String debugRun = "";
-//		
-//		if(mTerminate)
-//			name = "Terminate";
-//		if(mCreate)
-//			name = "Create";
-//		if(mDebug)
-//			debugRun = "Debug";
-//		if(mRun)
-//			debugRun = "Run";
-//		if(mHitBreakPoint);
-//			name = "HitBreakPoint";
-//		if(mStepEnd)
-//			name = "StepEnd";
-//		if(mStepInto)
-//			name = "StepInto";
-//		if(mStepReturn)
-//			name = "StepReturn";
-//		
-//		
-//		return name + debugRun + "Application";
-//		
-//		
-////		return (mTerminate ? "Terminate" : "Create") + " "
-////				+ (mDebug ? "Debug" : "Run") + " Application";
-//	}
-//
-//	public String getDescription() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	public String getCategory() {
-//		return EventRecorder.MacroCommandCategory;
-//	}
-//
-//	public String getCategoryID() {
-//		return EventRecorder.MacroCommandCategoryID;
-//	}
-//
-//	public boolean combine(EHICommand anotherCommand) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
 
 }

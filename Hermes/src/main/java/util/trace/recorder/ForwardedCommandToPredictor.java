@@ -1,15 +1,16 @@
 package util.trace.recorder;
 
 import edu.cmu.scs.fluorite.commands.ICommand;
+import fluorite.commands.EHICommand;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 
 public class ForwardedCommandToPredictor extends ICommandInfo{
-	public ForwardedCommandToPredictor(String aMessage, ICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+	public ForwardedCommandToPredictor(String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
 		 super(aMessage, aCommand, aStartTimeStamp, aFinder);
 	}	
     
-    public static ForwardedCommandToPredictor newCase (String aMessage, ICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+    public static ForwardedCommandToPredictor newCase (String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
 
     	if (shouldInstantiate(ForwardedCommandToPredictor.class)) {
     	ForwardedCommandToPredictor retVal = new ForwardedCommandToPredictor(aMessage, aCommand, aStartTimeStamp, aFinder);
@@ -22,7 +23,7 @@ public class ForwardedCommandToPredictor extends ICommandInfo{
 
     	return null;
     }
-    public static ForwardedCommandToPredictor newCase (ICommand aCommand, long aStartTimestamp,  Object aFinder) {
+    public static ForwardedCommandToPredictor newCase (EHICommand aCommand, long aStartTimestamp,  Object aFinder) {
     	String aMessage = toString(aCommand, aStartTimestamp);
     	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
 

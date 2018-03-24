@@ -201,7 +201,7 @@ public class EHDifficulyStatusCommand extends EHAbstractCommand {
 	}
 
 	@Override
-	public boolean combine(ICommand anotherCommand) {
+	public boolean combine(EHICommand anotherCommand) {
 		return false;
 	}
 

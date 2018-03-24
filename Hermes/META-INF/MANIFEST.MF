@@ -25,7 +25,6 @@ Export-Package: .,
  util.trace.hermes.helpbutton,
  util.trace.hermes.timetracker,
  util.trace.hermes.workspacelistener,
- util.trace.javac,
  util.trace.json,
  util.trace.messagebus.clients,
  util.trace.plugin

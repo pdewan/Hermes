@@ -111,7 +111,7 @@ public class EHPredictionCommand extends EHAbstractCommand{
 	}
 
 	@Override
-	public boolean combine(ICommand anotherCommand) {
+	public boolean combine(EHICommand anotherCommand) {
 		// TODO Auto-generated method stub
 		return false;
 	}

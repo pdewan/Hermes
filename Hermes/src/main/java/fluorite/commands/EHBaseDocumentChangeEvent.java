@@ -116,7 +116,7 @@ public abstract class EHBaseDocumentChangeEvent extends EHAbstractCommand {
 		return text;
 	}
 	@Override
-	public boolean combine(ICommand arg0) {
+	public boolean combine(EHICommand arg0) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -11,7 +11,9 @@ import fluorite.dialogs.AddAnnotationDialog;
 import fluorite.model.EHEventRecorder;
 
 public class EHAnnotateCommand 
-	extends AnnotateCommand implements EHICommand {
+extends EHAbstractCommand
+//	extends AnnotateCommand 
+	implements EHICommand {
 	
 	public EHAnnotateCommand() {
 	}

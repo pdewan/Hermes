@@ -1,15 +1,16 @@
 package util.trace.recorder;
 
 import edu.cmu.scs.fluorite.commands.ICommand;
+import fluorite.commands.EHICommand;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 
 public class CommandLoggingInitiated extends ICommandInfo{
-	public CommandLoggingInitiated(String aMessage, ICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+	public CommandLoggingInitiated(String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
 		 super(aMessage, aCommand, aStartTimeStamp, aFinder);
 	}	
     
-    public static CommandLoggingInitiated newCase (String aMessage, ICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+    public static CommandLoggingInitiated newCase (String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
 
     	if (shouldInstantiate(CommandLoggingInitiated.class)) {
     	CommandLoggingInitiated retVal = new CommandLoggingInitiated(aMessage, aCommand, aStartTimeStamp, aFinder);
@@ -22,7 +23,7 @@ public class CommandLoggingInitiated extends ICommandInfo{
 
     	return null;
     }
-    public static CommandLoggingInitiated newCase (ICommand aCommand, long aStartTimestamp,  Object aFinder) {
+    public static CommandLoggingInitiated newCase (EHICommand aCommand, long aStartTimestamp,  Object aFinder) {
     	String aMessage = toString(aCommand, aStartTimestamp);
     	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
 

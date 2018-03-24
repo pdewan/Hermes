@@ -234,7 +234,7 @@ public class EHReplace extends EHBaseDocumentChangeEvent {
 	}
 
 	@Override
-	public boolean combine(ICommand anotherCommand) {
+	public boolean combine(EHICommand anotherCommand) {
 		return false;
 	}
 
