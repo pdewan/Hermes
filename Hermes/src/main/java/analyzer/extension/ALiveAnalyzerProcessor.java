@@ -1,8 +1,7 @@
 package analyzer.extension;
 
-import difficultyPrediction.DifficultyPredictionSettings;
 import analyzer.AnalyzerFactory;
-import analyzer.ParticipantTimeLine;
+import difficultyPrediction.DifficultyPredictionSettings;
 
 public class ALiveAnalyzerProcessor extends AnAnalyzerProcessor implements LiveAnalyzerProcessor {
     public static final String LIVE_USER_NAME = "Live User";

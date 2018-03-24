@@ -6,14 +6,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import analyzer.extension.ArffFileGeneratorFactory;
 import difficultyPrediction.APredictionParameters;
-import difficultyPrediction.metrics.ATestRatioCalculator;
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVSaver;
 import weka.core.converters.Saver;
-import analyzer.extension.ArffFileGeneratorFactory;
 
 public class AllArffAnalysis {
 	//assuming the output csv and input all.arff is in same dir

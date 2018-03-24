@@ -3,22 +3,15 @@ package context.recording;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import org.eclipse.swt.widgets.Shell;
 
-import config.HelperConfigurationManagerFactory;
 import bus.uigen.attributes.AttributeNames;
-import bus.uigen.misc.OEMisc;
-import bus.uigen.models.AFileSetterModel;
-import bus.uigen.models.FileSetterModel;
+import config.HelperConfigurationManagerFactory;
 import util.annotations.LayoutName;
-import util.annotations.Row;
 import util.annotations.Visible;
 import util.misc.Common;
-import util.pipe.ConsoleModel;
-import util.remote.ProcessExecer;
 @LayoutName(AttributeNames.GRID_BAG_LAYOUT)
 public class ADisplayBoundsFileWriter extends AnAbstractDisplayBoundsOutputter implements  DisplayBoundsOutputter {
 	

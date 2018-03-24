@@ -5,13 +5,10 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.swt.widgets.Shell;
 
+import bus.uigen.attributes.AttributeNames;
 import config.HelperConfigurationManagerFactory;
 import util.annotations.LayoutName;
 import util.annotations.Visible;
-import util.pipe.ConsoleModel;
-import util.remote.ProcessExecer;
-import bus.uigen.attributes.AttributeNames;
-import bus.uigen.misc.OEMisc;
 
 @LayoutName(AttributeNames.GRID_BAG_LAYOUT)
 public class ADisplayBoundsPiper extends AnAbstractDisplayBoundsOutputter implements  DisplayBoundsOutputter, PropertyChangeListener {

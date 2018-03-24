@@ -2,7 +2,6 @@ package util.trace.difficultyPrediction.notification;
 
 import difficultyPrediction.PluginEventListener;
 import fluorite.commands.EHICommand;
-import util.trace.TraceableInfo;
 import util.trace.Tracer;
 import util.trace.recorder.ICommandInfo;
 

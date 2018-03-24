@@ -1,18 +1,16 @@
 package analyzer.ui;
 
+import analyzer.ATimeStampComputer;
+import analyzer.extension.AnalyzerProcessorFactory;
+import analyzer.ui.graphics.APlayAndRewindCounter;
+import analyzer.ui.graphics.ARatioFileReader;
+import analyzer.ui.graphics.RatioFileReader;
+import bus.uigen.ObjectEditor;
 import util.annotations.Column;
 import util.annotations.ComponentWidth;
 import util.annotations.Label;
 import util.annotations.Row;
 import util.annotations.Visible;
-import analyzer.ATimeStampComputer;
-import analyzer.ParticipantTimeLine;
-import analyzer.extension.AnalyzerProcessorFactory;
-import analyzer.extension.LiveAnalyzerProcessorFactory;
-import analyzer.ui.graphics.APlayAndRewindCounter;
-import analyzer.ui.graphics.ARatioFileReader;
-import analyzer.ui.graphics.RatioFileReader;
-import bus.uigen.ObjectEditor;
 
 public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter implements GeneralizedPlayAndRewindCounter {
 

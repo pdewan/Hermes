@@ -6,8 +6,6 @@ import java.util.logging.LogRecord;
 
 import org.eclipse.core.runtime.Platform;
 
-import edu.cmu.scs.fluorite.model.FluoriteXMLFormatter;
-import edu.cmu.scs.fluorite.util.Utilities;
 import fluorite.commands.EHICommand;
 import fluorite.util.EHUtilities;
 import util.trace.recorder.UnparsedCommand;
@@ -78,12 +76,12 @@ Formatter
 	@Override
 	public String getHead(Handler h) {
 		return "<Events startTimestamp=\"" + Long.toString(mStartTimestamp)
-				+ "\" logVersion=\"" + getLogVersion() + "\">" + Utilities.NewLine;
+				+ "\" logVersion=\"" + getLogVersion() + "\">" + EHUtilities.NewLine;
 	}
 
 	@Override
 	public String getTail(Handler h) {
-		return "</Events>" + Utilities.NewLine;
+		return "</Events>" + EHUtilities.NewLine;
 	}
 
 }

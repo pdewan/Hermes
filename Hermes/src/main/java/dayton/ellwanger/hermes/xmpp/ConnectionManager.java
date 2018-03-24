@@ -1,17 +1,20 @@
 package dayton.ellwanger.hermes.xmpp;
 
-import org.eclipse.ui.editors.text.EditorsUI;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
 
+import org.eclipse.ui.editors.text.EditorsUI;
 import org.jivesoftware.smack.AbstractXMPPConnection;
+import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException.XMPPErrorException;
-import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.filter.StanzaFilter;
 import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.packet.Message.Type;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.packet.XMPPError;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
@@ -25,17 +28,7 @@ import org.json.JSONObject;
 import dayton.ellwanger.hermes.ExtensionManager;
 import dayton.ellwanger.hermes.preferences.Preferences;
 import hermes.tags.Tags;
-//import util.trace.hermes.connectionmanager.ForwardedJSONObjectReceivedByConnectionManager;
-import util.trace.json.JSONObjectReceived;
-import util.trace.messagebus.clients.ReceivedJSONObjectForwardedToClientProcess;
-import util.trace.xmpp.XMPPPacketReceived;
 import util.trace.xmpp.XMPPPacketSent;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.regex.Pattern;
 
 
 public class ConnectionManager implements 

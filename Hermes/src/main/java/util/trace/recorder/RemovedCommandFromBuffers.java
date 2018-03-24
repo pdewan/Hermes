@@ -1,7 +1,5 @@
 package util.trace.recorder;
 
-import org.apache.commons.configuration.ConfigurationFactory.AdditionalConfigurationData;
-
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 

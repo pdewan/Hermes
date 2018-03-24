@@ -8,14 +8,11 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IPluginDescriptor;
-
 import config.HelperConfigurationManagerFactory;
 import dayton.ellwanger.hermes.HermesActivator;
-import weka.classifiers.Classifier;
-import weka.classifiers.trees.J48;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.DifficultyPredictionSettings;
+import weka.classifiers.Classifier;
 
 public class DecisionTreeModel implements PredictionManagerStrategy {
 	public PredictionManager predictionManager;

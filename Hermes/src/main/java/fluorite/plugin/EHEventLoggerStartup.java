@@ -1,30 +1,10 @@
 package fluorite.plugin;
 
-import java.lang.reflect.Field;
-
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.LocationEvent;
-import org.eclipse.swt.browser.LocationListener;
-import org.eclipse.ui.IPageListener;
-import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IStartup;
-import org.eclipse.ui.IWindowListener;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.browser.BrowserViewer;
-import org.eclipse.ui.internal.browser.WebBrowserEditor;
-import org.eclipse.ui.internal.browser.WebBrowserView;
 
 import util.trace.difficultyPrediction.DifficultyPredictionTraceUtility;
-import util.trace.hermes.helpbutton.HelpPluginTraceUtility;
-import util.trace.hermes.timetracker.TimeTrackerTraceUtility;
-import util.trace.hermes.workspacelistener.WorkspaceListenerTraceUtility;
 //import util.trace.messagebus.clients.MessageBusClientsTraceUtility;
 import util.trace.plugin.PluginEarlyStarted;
-import util.trace.workbench.PartActivated;
-import util.trace.workbench.PartOpened;
 
 public class EHEventLoggerStartup implements IStartup {
 	public void traceOtherPlugins() {

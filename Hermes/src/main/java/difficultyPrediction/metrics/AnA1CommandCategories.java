@@ -1,9 +1,5 @@
 package difficultyPrediction.metrics;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import bus.uigen.ObjectEditor;
 
 public class AnA1CommandCategories extends AnA0CommandCategories{

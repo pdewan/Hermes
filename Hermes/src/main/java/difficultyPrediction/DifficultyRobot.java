@@ -2,12 +2,8 @@ package difficultyPrediction;
 
 
 import java.sql.Date;
+import java.util.Calendar;
 
-import util.trace.Tracer;
-import util.trace.difficultyPrediction.NewCommand;
-import util.trace.difficultyPrediction.NewExtractedStatusInformation;
-import util.trace.difficultyPrediction.PredictionValueToStatus;
-import util.trace.difficultyPrediction.StatusAggregationStarted;
 import analyzer.AnAnalyzer;
 //import database.Status;
 import difficultyPrediction.eventAggregation.ADisjointDiscreteChunks;
@@ -18,26 +14,23 @@ import difficultyPrediction.featureExtraction.ARatioBasedFeatureExtractor;
 import difficultyPrediction.featureExtraction.ExtractRatiosBasedOnNumberOfEvents;
 import difficultyPrediction.featureExtraction.RatioBasedFeatureExtractor;
 import difficultyPrediction.featureExtraction.RatioFeatures;
-import difficultyPrediction.featureExtraction.RatioFeaturesListener;
 import difficultyPrediction.predictionManagement.APredictionManager;
 import difficultyPrediction.predictionManagement.APredictionManagerDetails;
 import difficultyPrediction.predictionManagement.DecisionTreeModel;
 import difficultyPrediction.predictionManagement.PredictionManager;
 import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
 import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
-import difficultyPrediction.statusManager.StatusListener;
 import difficultyPrediction.statusManager.StatusManager;
 import difficultyPrediction.statusManager.StatusManagerDetails;
 import fluorite.commands.EHICommand;
 import fluorite.commands.EHPredictionCommand;
 import fluorite.commands.EHPredictionCommand.PredictionType;
-
 import fluorite.model.EHEventRecorder;
-
-//import main.Server;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import util.trace.Tracer;
+import util.trace.difficultyPrediction.NewCommand;
+import util.trace.difficultyPrediction.NewExtractedStatusInformation;
+import util.trace.difficultyPrediction.PredictionValueToStatus;
+import util.trace.difficultyPrediction.StatusAggregationStarted;
 
 public class DifficultyRobot extends AMediatorRegistrar implements Mediator {	
 	//Server server;

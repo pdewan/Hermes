@@ -1,11 +1,8 @@
 package util.trace.difficultyPrediction.notification;
 
-import difficultyPrediction.PluginEventListener;
 import difficultyPrediction.statusManager.StatusListener;
-import edu.cmu.scs.fluorite.commands.ICommand;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
-import util.trace.recorder.ICommandInfo;
 
 public class NotifiedReplayedStatusToListener extends TraceableInfo{
 //	ICommand command;

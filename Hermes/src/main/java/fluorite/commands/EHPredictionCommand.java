@@ -7,7 +7,6 @@ import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.StatusConsts;
 

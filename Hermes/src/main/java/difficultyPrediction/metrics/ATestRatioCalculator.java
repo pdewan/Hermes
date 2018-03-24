@@ -3,10 +3,10 @@ package difficultyPrediction.metrics;
 import java.util.ArrayList;
 import java.util.List;
 
+import analyzer.TimeandEventBasedPercentage;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
-import analyzer.TimeandEventBasedPercentage;
 import fluorite.commands.EHCompilationEvent;
 import fluorite.commands.EHEclipseCommand;
 import fluorite.commands.EHICommand;

@@ -6,12 +6,11 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import util.misc.ThreadSupport;
 import bus.uigen.ObjectEditor;
-import bus.uigen.uiFrame;
 //import bus.uigen.hermes.HermesObjectEditorProxy;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
+import util.misc.ThreadSupport;
 
 public class LineGraphComposer {
 

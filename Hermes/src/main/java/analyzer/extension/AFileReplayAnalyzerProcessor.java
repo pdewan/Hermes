@@ -3,7 +3,6 @@ package analyzer.extension;
 import java.util.Date;
 
 import analyzer.RatioFilePlayerFactory;
-import analyzer.ui.graphics.DuriRatioFeaturesListener;
 import analyzer.ui.graphics.RatioFileComponents;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import fluorite.commands.EHICommand;

@@ -1,12 +1,10 @@
 package analyzer;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import analyzer.ui.graphics.ARatioFileReader;
-import analyzer.ui.graphics.DuriRatioFeaturesListener;
 import analyzer.ui.graphics.RatioFileComponents;
 import analyzer.ui.graphics.RatioFileReader;
 import difficultyPrediction.AMediatorRegistrar;

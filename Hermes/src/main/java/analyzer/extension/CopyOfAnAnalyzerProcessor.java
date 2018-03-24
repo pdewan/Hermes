@@ -13,14 +13,11 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.TimeZone;
 
-import util.misc.Common;
 import analyzer.AParticipantTimeLine;
 import analyzer.AWebLink;
 import analyzer.Analyzer;
 import analyzer.ParticipantTimeLine;
-import analyzer.RatioFilePlayerFactory;
 import analyzer.WebLink;
-import analyzer.ui.graphics.RatioFileReader;
 import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.DifficultyRobot;
 import difficultyPrediction.extension.APrintingDifficultyPredictionListener;
@@ -30,6 +27,7 @@ import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.EHPredictionCommand;
 import fluorite.model.EHEventRecorder;
+import util.misc.Common;
 
 public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionListener implements AnalyzerProcessor{
 	static Analyzer analyzer;

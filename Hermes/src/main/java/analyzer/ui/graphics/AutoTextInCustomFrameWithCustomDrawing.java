@@ -6,8 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import bus.uigen.ObjectEditor;
-import bus.uigen.uiFrame;
-//import bus.uigen.hermes.HermesObjectEditorProxy;
 
 public class AutoTextInCustomFrameWithCustomDrawing {
 

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import util.models.PropertyListenerRegisterer;
 import analyzer.extension.StuckInterval;
 import analyzer.extension.StuckPoint;
 //import bus.uigen.hermes.HermesFileSetterModelProxy;
@@ -13,6 +12,7 @@ import analyzer.extension.StuckPoint;
 import bus.uigen.models.FileSetterModel;
 import difficultyPrediction.DifficultyPredictionPluginEventProcessor;
 import fluorite.commands.EHICommand;
+import util.models.PropertyListenerRegisterer;
 
 public interface Analyzer 
 	extends PropertyListenerRegisterer

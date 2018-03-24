@@ -3,8 +3,6 @@ package difficultyPrediction;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import util.models.LabelBeanModel;
-import util.models.PropertyListenerRegisterer;
 import analyzer.AnalyzerListener;
 import analyzer.Resettable;
 //import bus.uigen.hermes.HermesLabelBeanModelProxy;
@@ -13,6 +11,8 @@ import difficultyPrediction.featureExtraction.BarrierListener;
 import difficultyPrediction.featureExtraction.RatioFeaturesListener;
 import difficultyPrediction.featureExtraction.WebLinkListener;
 import difficultyPrediction.statusManager.StatusListener;
+import util.models.LabelBeanModel;
+import util.models.PropertyListenerRegisterer;
 
 public interface MultiLevelAggregator extends
 	RatioFeaturesListener, WebLinkListener, StatusListener, 

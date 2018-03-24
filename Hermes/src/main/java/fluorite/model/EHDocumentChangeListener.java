@@ -1,6 +1,5 @@
 package fluorite.model;
 
-import edu.cmu.scs.fluorite.model.DocumentChangeListener;
 import fluorite.commands.EHBaseDocumentChangeEvent;
 import fluorite.commands.EHFileOpenCommand;
 

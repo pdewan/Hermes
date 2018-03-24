@@ -1,8 +1,6 @@
 package util.trace.difficultyPrediction.notification;
 
 import difficultyPrediction.PluginEventListener;
-import difficultyPrediction.featureExtraction.RatioFeatures;
-import difficultyPrediction.featureExtraction.RatioFeaturesListener;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 

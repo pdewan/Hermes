@@ -3,8 +3,6 @@ package util;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import fluorite.commands.EHICommand;
-
 public class AnAsyncExecutor implements RunnableExecutor {
 	public static final int NUM_PENDING_RUNNABLES = 20024;
 	BlockingQueue<Runnable> pendingRunnables = new LinkedBlockingQueue(

@@ -1,14 +1,19 @@
 package difficultyPrediction;
 
 
-import java.sql.Date;
+//import main.Server;
+import java.util.ArrayList;
+import java.util.List;
 
+import analyzer.WebLink;
+import difficultyPrediction.featureExtraction.BarrierListener;
+import difficultyPrediction.featureExtraction.RatioFeatures;
+import difficultyPrediction.featureExtraction.RatioFeaturesListener;
+import difficultyPrediction.featureExtraction.WebLinkListener;
+import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
+import difficultyPrediction.statusManager.StatusListener;
+import fluorite.commands.EHICommand;
 import util.GlobalRunnableExecutor;
-import util.trace.Tracer;
-import util.trace.difficultyPrediction.NewCommand;
-import util.trace.difficultyPrediction.NewExtractedStatusInformation;
-import util.trace.difficultyPrediction.PredictionValueToStatus;
-import util.trace.difficultyPrediction.StatusAggregationStarted;
 import util.trace.difficultyPrediction.notification.NotifiedManualStatusToListener;
 import util.trace.difficultyPrediction.notification.NotifiedRatiosToListener;
 import util.trace.difficultyPrediction.notification.NotifiedReplayedStatusToListener;
@@ -16,42 +21,6 @@ import util.trace.difficultyPrediction.notification.NotifiedStatusToListener;
 import util.trace.difficultyPrediction.notification.RegisteredCommandListener;
 import util.trace.difficultyPrediction.notification.RegisteredRatioListener;
 import util.trace.difficultyPrediction.notification.RegisteredStatusListener;
-import analyzer.AnAnalyzer;
-import analyzer.WebLink;
-//import database.Status;
-import difficultyPrediction.eventAggregation.ADisjointDiscreteChunks;
-import difficultyPrediction.eventAggregation.AnEventAggregator;
-import difficultyPrediction.eventAggregation.AnEventAggregatorDetails;
-import difficultyPrediction.eventAggregation.EventAggregator;
-import difficultyPrediction.featureExtraction.ARatioBasedFeatureExtractor;
-import difficultyPrediction.featureExtraction.BarrierListener;
-import difficultyPrediction.featureExtraction.ExtractRatiosBasedOnNumberOfEvents;
-import difficultyPrediction.featureExtraction.RatioBasedFeatureExtractor;
-import difficultyPrediction.featureExtraction.RatioFeatures;
-import difficultyPrediction.featureExtraction.RatioFeaturesListener;
-import difficultyPrediction.featureExtraction.WebLinkListener;
-import difficultyPrediction.predictionManagement.APredictionManager;
-import difficultyPrediction.predictionManagement.APredictionManagerDetails;
-import difficultyPrediction.predictionManagement.DecisionTreeModel;
-import difficultyPrediction.predictionManagement.PredictionManager;
-import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
-import difficultyPrediction.statusManager.StatusListener;
-import difficultyPrediction.statusManager.StatusManager;
-import difficultyPrediction.statusManager.StatusManagerDetails;
-
-
-
-
-import fluorite.commands.EHICommand;
-import fluorite.commands.EHPredictionCommand;
-import fluorite.commands.EHPredictionCommand.PredictionType;
-
-import fluorite.model.EHEventRecorder;
-
-//import main.Server;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class AMediatorRegistrar implements MediatorRegistrar {	
 	//Server server;

@@ -1,7 +1,5 @@
 package context.recording;
 
-import analyzer.ui.video.ALocalScreenRecorderAndPlayer;
-
 public class RecorderFactory {
 	static DisplayBoundsOutputter singleton;
 	public static void createSingleton() {

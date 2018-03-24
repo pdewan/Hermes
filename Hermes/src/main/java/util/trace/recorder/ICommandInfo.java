@@ -2,12 +2,8 @@ package util.trace.recorder;
 
 import java.util.Calendar;
 
-import org.apache.commons.configuration.ConfigurationFactory.AdditionalConfigurationData;
-
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.commands.EHICommand;
 import util.trace.TraceableInfo;
-import util.trace.Tracer;
 
 public class ICommandInfo extends TraceableInfo{
 	EHICommand command;

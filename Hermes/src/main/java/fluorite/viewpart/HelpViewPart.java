@@ -13,10 +13,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.part.ViewPart;
 
-import config.LiveModePredictionConfigurer;
 //import context.saros.SarosAccessorFactory;
 import analyzer.ui.APredictionController;
-import bus.uigen.ObjectEditor;
 import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHDifficulyStatusCommand.Status;
 import fluorite.dialogs.InsurmountableDialog;

@@ -1,8 +1,5 @@
 package difficultyPrediction.metrics;
 
-import fluorite.commands.EHEclipseCommand;
-import fluorite.commands.EHICommand;
-
 public class ACommandDescriptor {
 	String kind;	
 	String regex;

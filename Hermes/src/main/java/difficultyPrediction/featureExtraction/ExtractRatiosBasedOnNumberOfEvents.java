@@ -2,10 +2,8 @@ package difficultyPrediction.featureExtraction;
 
 import java.util.List;
 
-import analyzer.ATimeStampComputer;
 import analyzer.TimeStampComputerFactory;
 import difficultyPrediction.DifficultyPredictionSettings;
-import difficultyPrediction.metrics.AGenericRatioCalculator;
 import difficultyPrediction.metrics.RatioCalculator;
 import difficultyPrediction.metrics.RatioCalculatorSelector;
 import fluorite.commands.EHICommand;

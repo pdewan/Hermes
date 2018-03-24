@@ -3,15 +3,11 @@ package dayton.ellwanger.hermes.preferences.ui;
 import java.io.File;
 import java.util.Scanner;
 
-import org.eclipse.equinox.security.storage.ISecurePreferences;
-import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
-import org.eclipse.equinox.security.storage.StorageException;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
 import org.eclipse.ui.editors.text.EditorsUI;
 
 import dayton.ellwanger.hermes.preferences.Preferences;

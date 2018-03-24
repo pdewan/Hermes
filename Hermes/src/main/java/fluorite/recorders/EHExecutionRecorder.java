@@ -41,8 +41,8 @@ import fluorite.commands.EHToggleBreakpointCommand;
 import fluorite.commands.EHToggleCommentCommand;
 import fluorite.commands.EHTypeHierarchyCommand;
 import fluorite.commands.EHUndoCommand;
-import fluorite.util.EventLoggerConsole;
 import fluorite.util.EHUtilities;
+import fluorite.util.EventLoggerConsole;
 import util.trace.recorder.ExcludedCommand;
 
 public class EHExecutionRecorder extends EHBaseRecorder implements

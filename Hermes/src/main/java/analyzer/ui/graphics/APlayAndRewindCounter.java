@@ -4,10 +4,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import bus.uigen.ObjectEditor;
 import util.annotations.Column;
 import util.annotations.ComponentWidth;
 import util.annotations.Row;
-import bus.uigen.ObjectEditor;
 
 public class APlayAndRewindCounter implements PlayAndRewindCounter {
 

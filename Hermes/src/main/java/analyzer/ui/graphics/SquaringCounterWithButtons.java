@@ -3,12 +3,12 @@ package analyzer.ui.graphics;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import bus.uigen.ObjectEditor;
+//import bus.uigen.hermes.HermesPropertyListenerRegistererProxy;
 import util.annotations.Column;
 import util.annotations.ComponentWidth;
 import util.annotations.Row;
 import util.models.PropertyListenerRegisterer;
-import bus.uigen.ObjectEditor;
-//import bus.uigen.hermes.HermesPropertyListenerRegistererProxy;
 
 public class SquaringCounterWithButtons implements PropertyListenerRegisterer 
 {

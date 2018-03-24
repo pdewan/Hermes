@@ -1,15 +1,10 @@
 package difficultyPrediction;
 
-//import bus.uigen.hermes.HermesPropertyListenerRegistererProxy;
-import bus.uigen.models.FileSetterModel;
-import difficultyPrediction.metrics.CommandClassificationSchemeName;
+import java.beans.PropertyChangeListener;
+
 import difficultyPrediction.predictionManagement.ClassifierSpecification;
 import difficultyPrediction.predictionManagement.OversampleSpecification;
 import util.models.PropertyListenerRegisterer;
-
-import java.beans.PropertyChangeListener;
-
-import analyzer.Resettable;
 
 public interface ClassificationParameters 
 	extends PropertyListenerRegisterer 

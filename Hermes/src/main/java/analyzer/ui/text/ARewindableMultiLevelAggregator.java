@@ -5,9 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.annotations.Visible;
 import analyzer.WebLink;
-import analyzer.extension.AnAnalyzerProcessor;
 import analyzer.ui.GeneralizedPlayAndRewindCounter;
 import analyzer.ui.SessionPlayerFactory;
 import analyzer.ui.graphics.PlayAndRewindCounter;
@@ -15,8 +13,8 @@ import analyzer.ui.graphics.PlayAndRewindCounter;
 import bus.uigen.OEFrame;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import fluorite.commands.EHICommand;
-import fluorite.commands.EHPredictionCommand.PredictionType;
 import fluorite.model.StatusConsts;
+import util.annotations.Visible;
 
 public class ARewindableMultiLevelAggregator extends AMultiLevelAggregator implements PropertyChangeListener {
 	protected List<List<EHICommand>> allCommands = new ArrayList();

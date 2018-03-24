@@ -2,8 +2,6 @@ package dayton.ellwanger.hermes.xmpp;
 
 import java.util.regex.Pattern;
 
-import org.json.JSONArray;
-
 public class AMessageBusInternalRegistration implements MessageBusInternalRegistration{
 	protected Pattern tagsPattern;
 	protected TaggedJSONListener taggedJSONListener;

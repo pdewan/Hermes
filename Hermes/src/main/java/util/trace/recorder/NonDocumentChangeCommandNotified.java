@@ -1,7 +1,6 @@
 package util.trace.recorder;
 
 import fluorite.commands.EHICommand;
-import util.trace.TraceableInfo;
 import util.trace.Tracer;
 
 public class NonDocumentChangeCommandNotified extends ICommandInfo{

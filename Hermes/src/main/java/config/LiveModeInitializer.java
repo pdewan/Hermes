@@ -1,18 +1,12 @@
 package config;
 
-import context.recording.ADisplayBoundsFileWriter;
-import context.recording.ADisplayBoundsPiper;
-import context.recording.RecorderFactory;
-import analyzer.ui.video.LocalScreenPlayerFactory;
 //import dayton.ServerStatusUpdaterFactory;
 import difficultyPrediction.ATestPredictionParametersSetter;
 import difficultyPrediction.PredictionParametersSetterSelector;
 import difficultyPrediction.featureExtraction.ARatioFeaturesFactory;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
 import difficultyPrediction.metrics.AGenericRatioCalculatorFactory;
-import difficultyPrediction.metrics.ATestRatioCalculatorFactory;
 import difficultyPrediction.metrics.RatioCalculatorSelector;
-import difficultyPrediction.web.WebBrowserAccessor;
 import difficultyPrediction.web.WebBrowserAccessorFactory;
 
 public class LiveModeInitializer {

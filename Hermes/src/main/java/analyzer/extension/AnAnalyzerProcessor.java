@@ -1,8 +1,6 @@
 package analyzer.extension;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,20 +11,14 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.TimeZone;
 
-import bus.uigen.OEFrame;
-import bus.uigen.ObjectEditor;
-//import bus.uigen.hermes.HermesObjectEditorProxy;
-import util.misc.Common;
-import util.trace.difficultyPrediction.analyzer.AnalyzerPredictionStartNotification;
-import util.trace.difficultyPrediction.analyzer.AnalyzerPredictionStopNotification;
 import analyzer.AParticipantTimeLine;
 import analyzer.AWebLink;
 import analyzer.AnAnalyzer;
 import analyzer.Analyzer;
 import analyzer.ParticipantTimeLine;
-import analyzer.RatioFilePlayerFactory;
 import analyzer.WebLink;
-import analyzer.ui.graphics.RatioFileReader;
+import bus.uigen.OEFrame;
+import bus.uigen.ObjectEditor;
 import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.DifficultyRobot;
 import difficultyPrediction.extension.APrintingDifficultyPredictionListener;
@@ -37,6 +29,10 @@ import fluorite.commands.EHICommand;
 import fluorite.commands.EHPredictionCommand;
 import fluorite.commands.EHPredictionCommand.PredictionType;
 import fluorite.model.EHEventRecorder;
+//import bus.uigen.hermes.HermesObjectEditorProxy;
+import util.misc.Common;
+import util.trace.difficultyPrediction.analyzer.AnalyzerPredictionStartNotification;
+import util.trace.difficultyPrediction.analyzer.AnalyzerPredictionStopNotification;
 
 public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 		implements AnalyzerProcessor {

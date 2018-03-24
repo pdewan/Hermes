@@ -12,7 +12,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.keys.IBindingService;
 
-import fluorite.commands.EHAbstractCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.EHMouseWheelCommand;
 import fluorite.commands.EHMoveCaretCommand;

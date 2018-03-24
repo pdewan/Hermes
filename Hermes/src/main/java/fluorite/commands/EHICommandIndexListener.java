@@ -1,7 +1,7 @@
 package fluorite.commands;
 
-import edu.cmu.scs.fluorite.commands.ICommandIndexListener;
+//import edu.cmu.scs.fluorite.commands.ICommandIndexListener;
 
-public interface EHICommandIndexListener extends ICommandIndexListener{
-//	void commandIndexIncreased(int currentIndex);
+public interface EHICommandIndexListener {
+	void commandIndexIncreased(int currentIndex);
 }

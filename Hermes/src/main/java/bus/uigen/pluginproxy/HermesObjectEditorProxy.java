@@ -3,8 +3,6 @@ package bus.uigen.pluginproxy;
 import java.awt.Container;
 import java.beans.PropertyChangeSupport;
 
-import javax.swing.WindowConstants;
-
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
 import util.models.AListenableVector;

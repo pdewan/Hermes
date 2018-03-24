@@ -1,13 +1,13 @@
 package analyzer.ui.balloons;
 
-import util.annotations.Column;
-import util.annotations.ComponentWidth;
-import util.annotations.Row;
 import analyzer.Resettable;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
 //import bus.uigen.hermes.HermesObjectEditorProxy;
 import difficultyPrediction.ADifficultyPredictionRunnable;
+import util.annotations.Column;
+import util.annotations.ComponentWidth;
+import util.annotations.Row;
 
 public class ABalloonCreator implements Resettable{
 	static ABalloonCreator instance;

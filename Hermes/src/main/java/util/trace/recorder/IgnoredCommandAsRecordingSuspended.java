@@ -1,8 +1,6 @@
 package util.trace.recorder;
 
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.commands.EHICommand;
-import util.trace.TraceableInfo;
 import util.trace.Tracer;
 
 public class IgnoredCommandAsRecordingSuspended extends ICommandInfo{

@@ -1,8 +1,6 @@
 package difficultyPrediction;
 
-import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.predictionManagement.ClassifierSpecification;
-import difficultyPrediction.predictionManagement.OversampleSpecification;
 
 public class DifficultyPredictionSettings {
 	static String ratiosFileName;

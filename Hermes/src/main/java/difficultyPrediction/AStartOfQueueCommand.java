@@ -6,7 +6,6 @@ import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.commands.EHICommand;
 
 // why is this not subclass of abstract command

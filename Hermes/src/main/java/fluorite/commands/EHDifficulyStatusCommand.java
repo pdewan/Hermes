@@ -9,7 +9,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.model.EHEventRecorder;
 
 public class EHDifficulyStatusCommand extends EHAbstractCommand {

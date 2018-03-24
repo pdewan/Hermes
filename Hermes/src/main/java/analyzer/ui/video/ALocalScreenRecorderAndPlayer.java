@@ -4,22 +4,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Shell;
 
-import util.annotations.Row;
-import util.annotations.Visible;
-import util.pipe.ConsoleModel;
-import util.remote.ProcessExecer;
 import analyzer.ui.GeneralizedPlayAndRewindCounter;
 import analyzer.ui.SessionPlayerFactory;
 import analyzer.ui.graphics.PlayAndRewindCounter;
-import bus.uigen.OEFrame;
-import bus.uigen.ObjectEditor;
-import bus.uigen.misc.OEMisc;
 import context.recording.ADisplayBoundsPiper;
+import util.annotations.Row;
+import util.annotations.Visible;
 
 public class ALocalScreenRecorderAndPlayer extends ADisplayBoundsPiper implements LocalScreenRecorderAndPlayer{
 	

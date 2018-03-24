@@ -6,8 +6,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
-
 import util.trace.TraceableInfo;
 
 public class ActivitySessionEnded extends TraceableInfo {

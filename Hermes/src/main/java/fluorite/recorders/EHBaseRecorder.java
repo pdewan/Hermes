@@ -2,7 +2,6 @@ package fluorite.recorders;
 
 import org.eclipse.ui.IEditorPart;
 
-import edu.cmu.scs.fluorite.recorders.BaseRecorder;
 import fluorite.model.EHEventRecorder;
 /*
  * Cannot extend BaseRecorder as it refers to EHEventRecorder which cannot be made a subclass of

@@ -1,7 +1,5 @@
 package fluorite.recorders;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,11 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.impl.WeakHashtable;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElementDelta;
-import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -23,19 +18,14 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.compiler.CompilationParticipant;
 import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.compiler.ReconcileContext;
-import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.internal.core.JavaElementDelta;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
 import dayton.ellwanger.hermes.xmpp.TaggedJSONListener;
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.commands.EHBuildEndEvent;
 import fluorite.commands.EHBuildStartEvent;
 import fluorite.commands.EHCompilationEvent;
@@ -46,7 +36,6 @@ import fluorite.commands.EHShellCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EclipseEventListener;
 import hermes.tags.Tags;
-import util.misc.Common;
 
 
 public class EHCompilationParticipantRecorder extends CompilationParticipant  implements TaggedJSONListener, EclipseEventListener{

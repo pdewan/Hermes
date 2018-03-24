@@ -17,12 +17,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
 import difficultyPrediction.DifficultyPredictionSettings;
-import edu.cmu.scs.fluorite.commands.EclipseCommand;
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.plugin.EHActivator;
 import fluorite.preferences.Initializer;
 import fluorite.util.EventLoggerConsole;
-import analyzer.AnalyzerFactory;
 
 public class EHEclipseCommand 
 //	extends EclipseCommand 

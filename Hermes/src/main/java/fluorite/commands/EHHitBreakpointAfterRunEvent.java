@@ -1,14 +1,5 @@
 package fluorite.commands;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.ui.IEditorPart;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-
-import fluorite.model.EHEventRecorder;
-
 public class EHHitBreakpointAfterRunEvent extends EHProgramExecutionEvent implements EHICommand{
 	public EHHitBreakpointAfterRunEvent() {
 		super();

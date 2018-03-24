@@ -5,7 +5,6 @@ import java.util.Map;
 import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Element;
 
-import edu.cmu.scs.fluorite.commands.CutCommand;
 import fluorite.model.EHEventRecorder;
 
 public class EHCutCommand 

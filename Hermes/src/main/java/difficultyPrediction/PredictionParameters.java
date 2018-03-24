@@ -2,10 +2,10 @@ package difficultyPrediction;
 
 import java.beans.PropertyChangeListener;
 
-import util.models.PropertyListenerRegisterer;
 import analyzer.Resettable;
 //import bus.uigen.hermes.HermesPropertyListenerRegistererProxy;
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
+import util.models.PropertyListenerRegisterer;
 
 public interface PredictionParameters extends Resettable,
 PropertyListenerRegisterer

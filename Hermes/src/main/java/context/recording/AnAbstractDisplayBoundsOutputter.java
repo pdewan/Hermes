@@ -9,18 +9,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
-import config.HelperConfigurationManagerFactory;
-import util.annotations.Row;
-import util.annotations.Visible;
-import util.pipe.ConsoleModel;
-import util.remote.ProcessExecer;
-import analyzer.ui.video.LocalScreenPlayerFactory;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
 //import bus.uigen.hermes.HermesObjectEditorProxy;
 import bus.uigen.misc.OEMisc;
 import bus.uigen.models.AFileSetterModel;
 import bus.uigen.models.FileSetterModel;
+import util.annotations.Row;
+import util.annotations.Visible;
+import util.pipe.ConsoleModel;
+import util.remote.ProcessExecer;
 
 
 public abstract class AnAbstractDisplayBoundsOutputter implements  DisplayBoundsOutputter {

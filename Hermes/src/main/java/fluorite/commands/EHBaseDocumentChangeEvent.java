@@ -12,7 +12,6 @@ import org.eclipse.jface.text.IDocument;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.visitors.ExpressionCountVisitor;
 import fluorite.visitors.NodeCountVisitor;
 /*

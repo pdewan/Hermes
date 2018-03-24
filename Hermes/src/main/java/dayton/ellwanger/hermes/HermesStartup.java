@@ -5,17 +5,6 @@ import org.eclipse.ui.editors.text.EditorsUI;
 
 import dayton.ellwanger.hermes.preferences.Preferences;
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
-import util.trace.difficultyPrediction.DifficultyPredictionTraceUtility;
-import util.trace.difficultyPrediction.analyzer.AnalyzerTraceUtility;
-import util.trace.difficultyPrediction.notification.DifficultyNotificationTraceUtility;
-//import util.trace.hermes.helpbutton.HelpPluginTraceUtility;
-//import util.trace.hermes.timetracker.TimeTrackerTraceUtility;
-//import util.trace.hermes.workspacelistener.WorkspaceListenerTraceUtility;
-//import util.trace.messagebus.clients.MessageBusClientsTraceUtility;
-import util.trace.hermes.helpbutton.HelpPluginTraceUtility;
-import util.trace.hermes.timetracker.TimeTrackerTraceUtility;
-import util.trace.hermes.workspacelistener.WorkspaceListenerTraceUtility;
-import util.trace.messagebus.clients.MessageBusClientsTraceUtility;
 import util.trace.plugin.PluginEarlyStarted;
 import util.trace.recorder.FlouriteRecordingTraceUtility;
 

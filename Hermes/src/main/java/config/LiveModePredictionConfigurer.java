@@ -1,9 +1,6 @@
 package config;
 
-import util.misc.ThreadSupport;
-import analyzer.extension.ALiveAnalyzerProcessor;
 import analyzer.extension.AnalyzerProcessorFactory;
-import analyzer.extension.LiveAnalyzerProcessor;
 import analyzer.extension.LiveAnalyzerProcessorFactory;
 import analyzer.ui.APredictionController;
 import analyzer.ui.balloons.ABalloonCreator;

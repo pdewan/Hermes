@@ -1,9 +1,5 @@
 package difficultyPrediction.metrics;
 
-import analyzer.AnAnalyzer;
-import analyzer.AnAnalyzerParameters;
-import bus.uigen.ObjectEditor;
-import bus.uigen.attributes.AttributeNames;
 import bus.uigen.undo.ExecutableCommand;
 
 public class ACategorizedCommandAR implements ExecutableCommand{

@@ -1,17 +1,11 @@
 package analyzer;
 
-import util.annotations.Column;
-import util.annotations.ComponentHeight;
-import util.annotations.ComponentWidth;
-import util.annotations.Explanation;
-import util.annotations.Row;
-import util.models.DynamicEnum;
-
 import java.beans.PropertyChangeListener;
 
+import difficultyPrediction.PredictionParameters;
+import util.models.DynamicEnum;
 //import bus.uigen.hermes.HermesDynamicEnumProxy;
 import util.models.PropertyListenerRegisterer;
-import difficultyPrediction.PredictionParameters;
 
 public interface AnalyzerParameters 
 extends PropertyListenerRegisterer 

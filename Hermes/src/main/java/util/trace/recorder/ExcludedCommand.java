@@ -1,6 +1,5 @@
 package util.trace.recorder;
 
-import edu.cmu.scs.fluorite.commands.ICommand;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 

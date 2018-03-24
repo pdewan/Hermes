@@ -6,17 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
-import difficultyPrediction.predictionManagement.ClassifierSpecification;
 import analyzer.extension.ArffFileGeneratorFactory;
-import weka.classifiers.Classifier;
-import weka.classifiers.meta.AdaBoostM1;
-import weka.classifiers.meta.Bagging;
-import weka.classifiers.trees.DecisionStump;
-import weka.classifiers.trees.J48;
-import weka.core.Instance;
+import difficultyPrediction.predictionManagement.ClassifierSpecification;
 import weka.core.Instances;
 import weka.filters.Filter;
-import weka.filters.supervised.instance.Resample;
 import weka.filters.supervised.instance.SMOTE;
 
 //note that resample should not be tested with cross validation

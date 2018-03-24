@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import weka.classifiers.Classifier;
-import weka.classifiers.meta.Bagging;
 import weka.core.Instances;
 import weka.filters.Filter;
 

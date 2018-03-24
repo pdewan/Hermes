@@ -6,7 +6,6 @@ import java.util.Map;
 import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Element;
 
-import edu.cmu.scs.fluorite.commands.AnnotateCommand;
 import fluorite.dialogs.AddAnnotationDialog;
 import fluorite.model.EHEventRecorder;
 

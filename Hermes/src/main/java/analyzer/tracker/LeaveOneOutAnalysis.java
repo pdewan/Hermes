@@ -7,22 +7,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-import weka.classifiers.meta.AdaBoostM1;
-import weka.classifiers.meta.Bagging;
-import weka.classifiers.trees.DecisionStump;
-import weka.classifiers.trees.J48;
-import weka.core.Instance;
-import weka.core.Instances;
-import weka.filters.supervised.instance.Resample;
-import weka.filters.supervised.instance.SMOTE;
-import weka.filters.unsupervised.attribute.Remove;
 import analyzer.extension.ArffFileGeneratorFactory;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.DifficultyPredictionSettings;
-import difficultyPrediction.metrics.ATestRatioCalculator;
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
 import difficultyPrediction.predictionManagement.ClassifierSpecification;
 import difficultyPrediction.predictionManagement.OversampleSpecification;
+import weka.core.Instance;
+import weka.core.Instances;
+import weka.filters.supervised.instance.SMOTE;
+import weka.filters.unsupervised.attribute.Remove;
 
 /**For leave one out analysis
  * 

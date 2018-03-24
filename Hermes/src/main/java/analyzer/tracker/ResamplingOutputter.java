@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import weka.core.Instance;
-
 /**Resample output with random number generator and with replacement
  * 
  * @author wangk1

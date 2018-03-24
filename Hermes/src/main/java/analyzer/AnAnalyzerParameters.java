@@ -4,21 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-import config.PredictorConfigurer;
-import util.annotations.Column;
-import util.annotations.ComponentHeight;
-import util.annotations.ComponentWidth;
-import util.annotations.Explanation;
-import util.annotations.Label;
-import util.annotations.Row;
-import util.annotations.StructurePattern;
-import util.annotations.StructurePatternNames;
-import util.annotations.Visible;
-import util.misc.Common;
-import util.models.ADynamicEnum;
-import util.models.DynamicEnum;
-import analyzer.extension.AFileReplayAnalyzerProcessor;
-import analyzer.extension.AnalyzerProcessorFactory;
 import analyzer.ui.APredictionController;
 import bus.uigen.ObjectEditor;
 //import bus.uigsen..ADynamicEnum;
@@ -26,6 +11,17 @@ import bus.uigen.ObjectEditor;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.PredictionParameters;
+import util.annotations.Column;
+import util.annotations.ComponentHeight;
+import util.annotations.ComponentWidth;
+import util.annotations.Explanation;
+import util.annotations.Row;
+import util.annotations.StructurePattern;
+import util.annotations.StructurePatternNames;
+import util.annotations.Visible;
+import util.misc.Common;
+import util.models.ADynamicEnum;
+import util.models.DynamicEnum;
 @StructurePattern(StructurePatternNames.BEAN_PATTERN)
 // there should really be a has-a relationship between the two
 public class AnAnalyzerParameters implements AnalyzerParameters  {

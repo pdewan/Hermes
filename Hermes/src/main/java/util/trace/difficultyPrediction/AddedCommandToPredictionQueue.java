@@ -1,8 +1,6 @@
 package util.trace.difficultyPrediction;
 
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.commands.EHICommand;
-import util.trace.TraceableInfo;
 import util.trace.Tracer;
 import util.trace.recorder.ICommandInfo;
 

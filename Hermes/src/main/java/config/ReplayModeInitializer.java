@@ -5,7 +5,6 @@ import difficultyPrediction.PredictionParametersSetterSelector;
 import difficultyPrediction.featureExtraction.ARatioFeaturesFactory;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
 import difficultyPrediction.metrics.AGenericRatioCalculatorFactory;
-import difficultyPrediction.metrics.ATestRatioCalculatorFactory;
 import difficultyPrediction.metrics.RatioCalculatorSelector;
 
 public class ReplayModeInitializer {

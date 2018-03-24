@@ -1,10 +1,6 @@
 package difficultyPrediction.metrics;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import util.annotations.Position;
-import fluorite.commands.EHICommand;
 
 
 public class ACategorizedCommand implements CategorizedCommand {

@@ -3,8 +3,8 @@ package analyzer;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import difficultyPrediction.MediatorRegistrar;
 import analyzer.ui.graphics.RatioFileComponents;
+import difficultyPrediction.MediatorRegistrar;
 import fluorite.commands.EHICommand;
 
 public interface RatioFilePlayer extends MediatorRegistrar, PropertyChangeListener {

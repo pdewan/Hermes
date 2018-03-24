@@ -3,11 +3,6 @@ package difficultyPrediction.predictionManagement;
 import java.util.HashMap;
 import java.util.Map;
 
-import weka.classifiers.Classifier;
-import weka.classifiers.meta.AdaBoostM1;
-import weka.classifiers.meta.Bagging;
-import weka.classifiers.trees.DecisionStump;
-import weka.classifiers.trees.J48;
 import weka.filters.Filter;
 import weka.filters.supervised.instance.Resample;
 import weka.filters.supervised.instance.SMOTE;

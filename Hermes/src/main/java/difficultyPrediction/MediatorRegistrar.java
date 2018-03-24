@@ -1,18 +1,10 @@
 package difficultyPrediction;
 
-import difficultyPrediction.eventAggregation.AnEventAggregator;
-import difficultyPrediction.eventAggregation.AnEventAggregatorDetails;
-import difficultyPrediction.eventAggregation.EventAggregator;
 import difficultyPrediction.featureExtraction.BarrierListener;
-import difficultyPrediction.featureExtraction.RatioBasedFeatureExtractor;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesListener;
 import difficultyPrediction.featureExtraction.WebLinkListener;
-import difficultyPrediction.predictionManagement.APredictionManagerDetails;
-import difficultyPrediction.predictionManagement.PredictionManager;
 import difficultyPrediction.statusManager.StatusListener;
-import difficultyPrediction.statusManager.StatusManager;
-import difficultyPrediction.statusManager.StatusManagerDetails;
 import fluorite.commands.EHICommand;
 
 public interface MediatorRegistrar {

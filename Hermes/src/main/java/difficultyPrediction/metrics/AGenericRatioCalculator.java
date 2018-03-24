@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bus.uigen.visitors.IsEditedAdapterVisitor;
 import difficultyPrediction.APredictionParameters;
-import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
 import fluorite.commands.EHCompilationEvent;

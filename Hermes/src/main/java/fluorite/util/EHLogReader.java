@@ -24,11 +24,10 @@ import org.xml.sax.SAXException;
 import fluorite.commands.EHAbstractCommand;
 import fluorite.commands.EHAnnotateCommand;
 import fluorite.commands.EHCompilationEvent;
-import fluorite.commands.EHEclipseCommand;
 import fluorite.commands.EHDifficulyStatusCommand;
+import fluorite.commands.EHEclipseCommand;
 import fluorite.commands.EHICommand;
 import fluorite.model.EHEventRecorder;
-import fluorite.recorders.EHCompilationParticipantRecorder;
 import util.trace.recorder.ParsedCommand;
 /*
  * Cannot extend LogReader as it returns Events rather than Icommands 

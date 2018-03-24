@@ -3,7 +3,6 @@ package difficultyPrediction;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.PlatformUI;
 
@@ -13,9 +12,7 @@ import config.PredictorConfigurer;
 import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.EHPredictionCommand;
-import fluorite.model.EHEventRecorder;
 import fluorite.model.StatusConsts;
-import fluorite.viewpart.HelpViewPart;
 import util.trace.difficultyPrediction.AddedCommandToPredictionQueue;
 import util.trace.difficultyPrediction.CommandIgnoredBecauseQueueFull;
 import util.trace.difficultyPrediction.RemovedCommandFromPredictionQueue;

@@ -2,9 +2,9 @@ package analyzer.ui.graphics;
 
 import java.beans.PropertyChangeListener;
 
-import util.models.PropertyListenerRegisterer;
 import analyzer.Resettable;
 //import bus.uigen.hermes.HermesPropertyListenerRegistererProxy;
+import util.models.PropertyListenerRegisterer;
 
 public interface PlayAndRewindCounter extends PropertyListenerRegisterer,
 		PropertyChangeListener, Resettable {

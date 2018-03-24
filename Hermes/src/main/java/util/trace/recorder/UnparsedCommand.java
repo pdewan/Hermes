@@ -1,10 +1,6 @@
 package util.trace.recorder;
 
-import org.w3c.dom.Element;
-
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.commands.EHICommand;
-import util.trace.TraceableInfo;
 import util.trace.Tracer;
 
 public class UnparsedCommand extends ICommandInfo{

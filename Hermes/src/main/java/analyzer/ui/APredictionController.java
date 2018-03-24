@@ -3,15 +3,13 @@ package analyzer.ui;
 //import context.saros.SarosAccessorFactory;
 import javax.swing.WindowConstants;
 
-import context.recording.AnAbstractDisplayBoundsOutputter;
-import context.recording.RecorderFactory;
 import analyzer.ui.balloons.ABalloonCreator;
 import analyzer.ui.graphics.LineGraphComposer;
 import analyzer.ui.text.AMultiLevelAggregator;
-import analyzer.ui.video.ALocalScreenRecorderAndPlayer;
 import analyzer.ui.video.LocalScreenPlayerFactory;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
+import context.recording.RecorderFactory;
 //import bus.uigen.hermes.HermesObjectEditorProxy;
 import difficultyPrediction.APredictionParameters;
 

@@ -5,8 +5,6 @@ import util.trace.MessagePrefixKind;
 import util.trace.Traceable;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
-import util.trace.workbench.PartActivated;
-import util.trace.workbench.PartOpened;
 
 
 public class DifficultyNotificationTraceUtility {

@@ -1,8 +1,5 @@
 package util.trace.recorder;
 
-import org.apache.commons.configuration.ConfigurationFactory.AdditionalConfigurationData;
-
-import edu.cmu.scs.fluorite.commands.ICommand;
 import fluorite.commands.EHICommand;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;

@@ -4,8 +4,6 @@ import java.util.Date;
 
 import analyzer.extension.StuckInterval;
 import analyzer.extension.StuckPoint;
-import analyzer.ui.graphics.ARatioFileComponents;
-import analyzer.ui.graphics.RatioFileComponents;
 import fluorite.model.EHEventRecorder;
 
 public class ARatioFeatures implements RatioFeatures {

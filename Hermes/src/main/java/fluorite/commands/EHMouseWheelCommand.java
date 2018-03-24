@@ -7,7 +7,6 @@ import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
-import edu.cmu.scs.fluorite.commands.MouseWheelCommand;
 import fluorite.model.EHEventRecorder;
 
 public class EHMouseWheelCommand 

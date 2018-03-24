@@ -2,7 +2,6 @@ package analyzer.tracker;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.stream.IntStream;
 
 /**Outputs classification result analysis.<br>
  * 1. Confusion Matrix<br>

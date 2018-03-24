@@ -26,11 +26,6 @@ import java.util.Vector;
 
 import javax.swing.JFileChooser;
 
-import util.annotations.ComponentHeight;
-import util.annotations.ComponentWidth;
-import util.annotations.LayoutName;
-import util.annotations.Row;
-import util.annotations.Visible;
 import analyzer.extension.ACSVParser;
 import analyzer.extension.AStuckInterval;
 import analyzer.extension.AStuckPoint;
@@ -40,7 +35,6 @@ import analyzer.extension.CSVParser;
 import analyzer.extension.FileReplayAnalyzerProcessorFactory;
 import analyzer.extension.StuckInterval;
 import analyzer.extension.StuckPoint;
-import analyzer.ui.graphics.ARatioFileReader;
 import analyzer.ui.graphics.RatioFileReader;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
@@ -51,7 +45,6 @@ import bus.uigen.attributes.AttributeNames;
 import bus.uigen.models.AFileSetterModel;
 import bus.uigen.models.FileSetterModel;
 import config.FactorySingletonInitializer;
-import config.PredictorConfigurer;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
 import difficultyPrediction.DifficultyPredictionPluginEventProcessor;
 import difficultyPrediction.DifficultyPredictionSettings;
@@ -63,6 +56,9 @@ import fluorite.commands.EHDifficulyStatusCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.EHPredictionCommand;
 import fluorite.util.EHLogReader;
+import util.annotations.LayoutName;
+import util.annotations.Row;
+import util.annotations.Visible;
 
 @LayoutName(AttributeNames.GRID_BAG_LAYOUT)
 public class AnAnalyzer implements Analyzer {

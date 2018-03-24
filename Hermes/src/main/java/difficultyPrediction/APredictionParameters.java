@@ -3,8 +3,11 @@ package difficultyPrediction;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import javax.swing.JFileChooser;
-
+import bus.uigen.OEFrame;
+import bus.uigen.ObjectEditor;
+//import bus.uigen.hermes.HermesObjectEditorProxy;
+//import bus.uigen.models.AFileSetterModel;
+//import bus.uigen.models.FileSetterModel;
 import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.metrics.ACommandCategoryMapping;
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
@@ -15,11 +18,6 @@ import util.annotations.ComponentWidth;
 import util.annotations.Label;
 import util.annotations.Row;
 import util.annotations.Visible;
-import bus.uigen.OEFrame;
-import bus.uigen.ObjectEditor;
-//import bus.uigen.hermes.HermesObjectEditorProxy;
-//import bus.uigen.models.AFileSetterModel;
-//import bus.uigen.models.FileSetterModel;
 
 public class APredictionParameters implements PredictionParameters {
 	static PredictionParameters instance;
