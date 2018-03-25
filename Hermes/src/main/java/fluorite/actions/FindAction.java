@@ -3,7 +3,7 @@ package fluorite.actions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Display;
 
-import fluorite.commands.EHFindCommand;
+import fluorite.commands.FindCommand;
 
 public class FindAction extends Action {
 	public FindAction() {
@@ -11,7 +11,7 @@ public class FindAction extends Action {
 
 	@Override
 	public void run() {
-		EHFindCommand fc = new EHFindCommand();
+		FindCommand fc = new FindCommand();
 		fc.configureNew(Display.getDefault().getActiveShell());
 	}
 

@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import fluorite.commands.EHFindCommand;
+import fluorite.commands.FindCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.plugin.EHActivator;
 //import fluorite.plugin.Activator;
@@ -334,7 +334,7 @@ public class FindConfigureDialog extends Dialog {
 		msgBox.setMessage("" + count + " matches replaced");
 		msgBox.open();
 
-		EHFindCommand command = new EHFindCommand();
+		FindCommand command = new FindCommand();
 		command.setSelection("Replace All");
 		fillCommandParameters(command);
 		EHEventRecorder.getInstance().recordCommand(command);
@@ -345,7 +345,7 @@ public class FindConfigureDialog extends Dialog {
 		int offset = getOffset();
 		performFind(offset);
 
-		EHFindCommand command = new EHFindCommand();
+		FindCommand command = new FindCommand();
 		command.setSelection("Replace/Find");
 		command.setOffset(offset);
 		fillCommandParameters(command);
@@ -355,7 +355,7 @@ public class FindConfigureDialog extends Dialog {
 	private void replace() {
 		performReplace();
 
-		EHFindCommand command = new EHFindCommand();
+		FindCommand command = new FindCommand();
 		command.setSelection("Replace");
 		fillCommandParameters(command);
 		EHEventRecorder.getInstance().recordCommand(command);
@@ -371,7 +371,7 @@ public class FindConfigureDialog extends Dialog {
 		int offset = getOffset();
 		performFind(offset);
 
-		EHFindCommand command = new EHFindCommand();
+		FindCommand command = new FindCommand();
 		command.setSelection("Find");
 		command.setOffset(offset);
 		fillCommandParameters(command);
@@ -402,7 +402,7 @@ public class FindConfigureDialog extends Dialog {
 		return ret;
 	}
 
-	private void fillCommandParameters(EHFindCommand command) {
+	private void fillCommandParameters(FindCommand command) {
 		command.setSearchString(mSearchText.getText());
 		command.setReplaceString(mReplaceText.getText());
 		command.setSearchForward(mForward.getSelection());

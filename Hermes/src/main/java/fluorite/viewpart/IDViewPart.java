@@ -6,27 +6,27 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
-import fluorite.commands.EHAbstractCommand;
-import fluorite.commands.EHICommandIndexListener;
+import fluorite.commands.AbstractCommand;
+import fluorite.commands.ICommandIndexListener;
 
-public class IDViewPart extends ViewPart implements EHICommandIndexListener {
+public class IDViewPart extends ViewPart implements ICommandIndexListener {
 
 	private Label label;
 
 	@Override
 	public void createPartControl(Composite parent) {
 		this.label = new Label(parent, SWT.CENTER);
-		this.label.setText(Integer.toString(EHAbstractCommand
+		this.label.setText(Integer.toString(AbstractCommand
 				.getCurrentCommandID()));
 
-		EHAbstractCommand.addCommandIndexListener(this);
+		AbstractCommand.addCommandIndexListener(this);
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
 
-		EHAbstractCommand.removeCommandIndexListener(this);
+		AbstractCommand.removeCommandIndexListener(this);
 	}
 
 	@Override

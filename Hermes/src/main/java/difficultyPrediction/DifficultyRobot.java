@@ -23,8 +23,8 @@ import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
 import difficultyPrediction.statusManager.StatusManager;
 import difficultyPrediction.statusManager.StatusManagerDetails;
 import fluorite.commands.EHICommand;
-import fluorite.commands.EHPredictionCommand;
-import fluorite.commands.EHPredictionCommand.PredictionType;
+import fluorite.commands.PredictionCommand;
+import fluorite.commands.PredictionCommand.PredictionType;
 import fluorite.model.EHEventRecorder;
 import util.trace.Tracer;
 import util.trace.difficultyPrediction.NewCommand;
@@ -180,7 +180,7 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
         	 predictionType = PredictionType.HavingDifficulty;
          }
     
-         EHPredictionCommand predictionCommand = new EHPredictionCommand(predictionType);
+         PredictionCommand predictionCommand = new PredictionCommand(predictionType);
          EHEventRecorder.getInstance().recordCommand(predictionCommand);
     }
 

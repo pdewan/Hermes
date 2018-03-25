@@ -8,8 +8,8 @@ import java.util.Map;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
-import fluorite.commands.EHCompilationEvent;
-import fluorite.commands.EHEclipseCommand;
+import fluorite.commands.CompilationCommand;
+import fluorite.commands.EclipseCommand;
 import fluorite.commands.EHICommand;
 
 public class AGenericRatioCalculator implements RatioCalculator {
@@ -32,14 +32,14 @@ public class AGenericRatioCalculator implements RatioCalculator {
 						getCommandClassificationScheme().
 							getCommandCategoryMapping();
 		String aCommandString = aCommand.getCommandType();
-		if (aCommand instanceof EHCompilationEvent) {
-			EHCompilationEvent command = (EHCompilationEvent)aCommand;
+		if (aCommand instanceof CompilationCommand) {
+			CompilationCommand command = (CompilationCommand)aCommand;
 			if (!command.getIsWarning()) {
 				return aCommandCategories.getCommandCategory(CommandName.CompileError);
 			}
 		}
-		if (aCommand instanceof EHEclipseCommand) {
-			aCommandString = ((EHEclipseCommand) aCommand).getCommandID();
+		if (aCommand instanceof EclipseCommand) {
+			aCommandString = ((EclipseCommand) aCommand).getCommandID();
 			return aCommandCategories.searchCommandCategory(aCommandString);
 			
 		} else {

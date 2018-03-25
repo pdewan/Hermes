@@ -5,10 +5,10 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.ui.IEditorPart;
 
-import fluorite.commands.EHDelete;
+import fluorite.commands.Delete;
 import fluorite.commands.EHICommand;
-import fluorite.commands.EHInsert;
-import fluorite.commands.EHReplace;
+import fluorite.commands.Insert;
+import fluorite.commands.Replace;
 import fluorite.plugin.EHActivator;
 //import fluorite.plugin.Activator;
 import fluorite.preferences.Initializer;
@@ -74,11 +74,11 @@ public class EHDocumentRecorder extends EHBaseRecorder implements IDocumentListe
 
 				EHICommand command = null;
 				if (event.getText().length() > 0) {
-					command = new EHReplace(event.getOffset(), event.getLength(),
+					command = new Replace(event.getOffset(), event.getLength(),
 							startLine, endLine, event.getText().length(),
 							deletedText, insertedText, doc);
 				} else {
-					command = new EHDelete(event.getOffset(), event.getLength(),
+					command = new Delete(event.getOffset(), event.getLength(),
 							startLine, endLine, deletedText, doc);
 
 				}
@@ -109,7 +109,7 @@ public class EHDocumentRecorder extends EHBaseRecorder implements IDocumentListe
 					text = event.getText();
 				}
 
-				EHInsert command = new EHInsert(event.getOffset(), text, doc);
+				Insert command = new Insert(event.getOffset(), text, doc);
 
 				getRecorder().recordCommand(command);
 			} catch (Exception e) {

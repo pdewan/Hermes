@@ -10,7 +10,7 @@ import analyzer.ui.graphics.RatioFileReader;
 import difficultyPrediction.AMediatorRegistrar;
 import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
 import fluorite.commands.EHICommand;
-import fluorite.commands.EHPredictionCommand;
+import fluorite.commands.PredictionCommand;
 
 public class ARatioFileReplayer extends AMediatorRegistrar implements RatioFilePlayer  {
 //	List<List<ICommand>> nestedCommandsList;
@@ -115,7 +115,7 @@ public class ARatioFileReplayer extends AMediatorRegistrar implements RatioFileP
 			if (aComputedTimeStamp <= aTimeStamp) {
 				
 				System.out.println ("Firing command at index:" + anIndex);
-				if (nextCommand instanceof EHPredictionCommand) { //it seems we create a prediction command for each ratio command
+				if (nextCommand instanceof PredictionCommand) { //it seems we create a prediction command for each ratio command
 					System.out.println ("prediction command");
 				}
 				notifyNewCommand(flattenedCommandsList.get(anIndex));

@@ -8,7 +8,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 
-import fluorite.commands.EHFileOpenCommand;
+import fluorite.commands.FileOpenCommand;
 import fluorite.model.FileSnapshotManager;
 import fluorite.util.EHUtilities;
 import util.trace.workbench.PartActivated;
@@ -78,7 +78,7 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 			IEditorPart editor = (IEditorPart) part;
 			getRecorder().addListeners(editor);
 			
-			EHFileOpenCommand newFoc = new EHFileOpenCommand(editor);
+			FileOpenCommand newFoc = new FileOpenCommand(editor);
 			getRecorder().recordCommand(newFoc);
 			getRecorder().fireActiveFileChangedEvent(newFoc);
 		}

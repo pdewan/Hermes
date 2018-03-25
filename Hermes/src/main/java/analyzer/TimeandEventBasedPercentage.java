@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 
 import difficultyPrediction.metrics.APercentageCalculator;
 import difficultyPrediction.metrics.RatioCalculator;
-import fluorite.commands.EHEclipseCommand;
+import fluorite.commands.EclipseCommand;
 import fluorite.commands.EHICommand;
 
 public class TimeandEventBasedPercentage {
@@ -238,7 +238,7 @@ public class TimeandEventBasedPercentage {
 		}
 
 		if (event.getCommandType().equals("EclipseCommand")) {
-			EHEclipseCommand eclipseCommand = (EHEclipseCommand) event;
+			EclipseCommand eclipseCommand = (EclipseCommand) event;
 			if (eclipseCommand.getName().toLowerCase().contains("edit")) {
 				isEditEvent = true;
 			}
@@ -269,7 +269,7 @@ public class TimeandEventBasedPercentage {
 		}
 
 		if (event.getCommandType().equals("EclipseCommand")) {
-			EHEclipseCommand eclipseCommand = (EHEclipseCommand) event;
+			EclipseCommand eclipseCommand = (EclipseCommand) event;
 			if (eclipseCommand.getCommandID().toLowerCase().contains("edit")) {
 				isInsertionEvent = true;
 			}
@@ -286,7 +286,7 @@ public class TimeandEventBasedPercentage {
 		}
 
 		if (event.getCommandType().equals("EclipseCommand")) {
-			EHEclipseCommand eclipseCommand = (EHEclipseCommand) event;
+			EclipseCommand eclipseCommand = (EclipseCommand) event;
 			if (eclipseCommand.getCommandID().toLowerCase().contains("delete")) {
 				isDeletionEvent = true;
 			}

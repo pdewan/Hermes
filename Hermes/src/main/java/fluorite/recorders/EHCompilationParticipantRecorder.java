@@ -26,13 +26,13 @@ import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
 import dayton.ellwanger.hermes.xmpp.TaggedJSONListener;
-import fluorite.commands.EHBuildEndEvent;
-import fluorite.commands.EHBuildStartEvent;
-import fluorite.commands.EHCompilationEvent;
-import fluorite.commands.EHLibrariesAdded;
-import fluorite.commands.EHLibrariesRemoved;
-import fluorite.commands.EHPropertyDialogClosedCommand;
-import fluorite.commands.EHShellCommand;
+import fluorite.commands.BuildEndEvent;
+import fluorite.commands.BuildStartEvent;
+import fluorite.commands.CompilationCommand;
+import fluorite.commands.LibrariesAdded;
+import fluorite.commands.LibrariesRemoved;
+import fluorite.commands.PropertyDialogClosedCommand;
+import fluorite.commands.ShellCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EclipseEventListener;
 import hermes.tags.Tags;
@@ -43,10 +43,10 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 //	protected Set<IProblem> problemHistorySet;
 
 //	Map<IProblem, EHCompilationCommand> allProblems = new HashMap<>();
-	Set<EHCompilationEvent> allCommands = new HashSet();
+	Set<CompilationCommand> allCommands = new HashSet();
 //	Set<IProblem> pendingProblems = new HashSet<>();
-	Set<EHCompilationEvent> unrecordedCommands = new HashSet<>();
-	List<EHCompilationEvent> reconcileCommands = new ArrayList<>(); // changed on each reconcile event
+	Set<CompilationCommand> unrecordedCommands = new HashSet<>();
+	List<CompilationCommand> reconcileCommands = new ArrayList<>(); // changed on each reconcile event
 	private final int AST_LEVEL_THREE = 3;
 	private final int AST_LEVEL_FOUR = 4;
 	public static final int MAX_COMPILE_ERRORS = 15; // do not overwhelm the system for large workspaces
@@ -120,7 +120,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 //		getErrorMessage().equals(anOther.getMessageId()) &&
 //		getSourceStart().equals(anOther.getSourceStart());
 	}
-	public static boolean equalsOrOverlaps(EHCompilationEvent aCommand1, EHCompilationEvent aCommand2) {
+	public static boolean equalsOrOverlaps(CompilationCommand aCommand1, CompilationCommand aCommand2) {
 //		return equals(aCommand1, aCommand2) || overlaps(aCommand1, aCommand2);
 		return aCommand1.equals(aCommand2) || aCommand1.overlaps(aCommand2);
 
@@ -157,8 +157,8 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		}
 		return null;
 	}
-	public static EHCompilationEvent find(Collection<EHCompilationEvent> aCommands, EHCompilationEvent aCommand) {
-		for (EHCompilationEvent aCandidate:aCommands) {
+	public static CompilationCommand find(Collection<CompilationCommand> aCommands, CompilationCommand aCommand) {
+		for (CompilationCommand aCandidate:aCommands) {
 			if (aCandidate.equals(aCommand) || aCandidate.overlaps(aCommand))
 //			if (equals(aCandidate, aCommand))
 				return aCandidate;
@@ -166,7 +166,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		return null;
 	}
 	
-	public static EHCompilationEvent get(Map<IProblem, EHCompilationEvent> aMap, IProblem aProblem ) {
+	public static CompilationCommand get(Map<IProblem, CompilationCommand> aMap, IProblem aProblem ) {
 		for (IProblem aCandidate:aMap.keySet()) {
 			if (equals(aCandidate, aProblem))
 				return aMap.get(aCandidate);
@@ -281,7 +281,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		if (flushing)
 			return;
 		flushing = true;
-		for (EHCompilationEvent aCommand:unrecordedCommands) {
+		for (CompilationCommand aCommand:unrecordedCommands) {
 			if (aCommand != null) {
 				System.out.println("Recording command:" + aCommand);
 				compilationRecorder.record(aCommand);
@@ -358,7 +358,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		if (lastDeltaKind == DeltaKind.UNKNOWN) {
 			return;
 		}
-		if (lastDeltaKind == DeltaKind.NON_EDIT && lastCommandExecuted.equals(EHPropertyDialogClosedCommand.class.getSimpleName())) {
+		if (lastDeltaKind == DeltaKind.NON_EDIT && lastCommandExecuted.equals(PropertyDialogClosedCommand.class.getSimpleName())) {
 			setJars(context); // not sure what it can be besides class path change
 			maybeRecordJarCommands();
 			return;
@@ -406,7 +406,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 			}
 			break;
 		}
-		Set<EHCompilationEvent> aRemovedCommands = new HashSet();
+		Set<CompilationCommand> aRemovedCommands = new HashSet();
 
 		if (problems != null) {
 			if (problems.length > 0) {
@@ -429,7 +429,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 							continue;
 						}
 					}
-					EHCompilationEvent aPossiblyNewCommand = createCommand(problem);
+					CompilationCommand aPossiblyNewCommand = createCommand(problem);
 					reconcileCommands.add(aPossiblyNewCommand);
 				}
 			}
@@ -439,7 +439,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 				 * reconsole commands to see if it should be recorded or
 				 * disappeared
 				 */
-				for (EHCompilationEvent aPreviousCommand : allCommands) {
+				for (CompilationCommand aPreviousCommand : allCommands) {
 
 					// if (!aCurrentProblemSet.contains(aProblem)) {
 					/*
@@ -462,7 +462,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 				// for (IProblem aRemovedProblem:aRemovedProblems) {
 				// allProblems.remove(aRemovedProblem);
 				// }
-				for (EHCompilationEvent aRemovedCommand : aRemovedCommands) {
+				for (CompilationCommand aRemovedCommand : aRemovedCommands) {
 					allCommands.remove(aRemovedCommand);
 				}
 				/*
@@ -471,9 +471,9 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 				 * allcommands can this search be integrated with the previous
 				 * one?
 				 */
-				for (EHCompilationEvent aReconcileCommand : reconcileCommands) {
-					EHCompilationEvent anExistingCommand = find(allCommands, aReconcileCommand);
-					EHCompilationEvent anExistingOrNewCommand = anExistingCommand;
+				for (CompilationCommand aReconcileCommand : reconcileCommands) {
+					CompilationCommand anExistingCommand = find(allCommands, aReconcileCommand);
+					CompilationCommand anExistingOrNewCommand = anExistingCommand;
 					if (anExistingCommand == null) {
 						unrecordedCommands.add(aReconcileCommand);
 						allCommands.add(aReconcileCommand);
@@ -799,16 +799,16 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 //	}
 	protected void maybeRecordJarCommands () {
 		if (addedJars.size() > 0) {
-			EHLibrariesAdded anAddedCommand = new EHLibrariesAdded("", addedJars);
+			LibrariesAdded anAddedCommand = new LibrariesAdded("", addedJars);
 			compilationRecorder.record(anAddedCommand);
 		}
 		if (deletedJars.size() > 0) {
-			EHLibrariesRemoved aRemovedCommand = new EHLibrariesRemoved("", deletedJars);
+			LibrariesRemoved aRemovedCommand = new LibrariesRemoved("", deletedJars);
 			compilationRecorder.record(aRemovedCommand);
 		}		
 	}
 
-	protected EHCompilationEvent createCommand (IProblem problem)
+	protected CompilationCommand createCommand (IProblem problem)
 	{
 //		String aSource = getCurrentEditorContent() ;
 //		String aSource = lastFileContents.toString();
@@ -830,16 +830,16 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 //		System.out.println("Problem Id: " + problem.getID());
 		
 //		String aProblemText = lastFileContents.toString().substring(problem.getSourceStart(), problem.getSourceEnd());
-		EHCompilationEvent command = null;
+		CompilationCommand command = null;
 		String fileName = new String(problem.getOriginatingFileName());
 		if(problem.isError())
 		{
-			command = new EHCompilationEvent(false, problem.getMessage(), problem.getID(), problem.getSourceLineNumber(),
+			command = new CompilationCommand(false, problem.getMessage(), problem.getID(), problem.getSourceLineNumber(),
 					problem.getSourceStart(), problem.getSourceEnd(), aProblemText, aProblemLine, fileName);
 		}
 		else if(problem.isWarning())
 		{
-			command = new EHCompilationEvent(true, problem.getMessage(), problem.getID(), problem.getSourceLineNumber(),
+			command = new CompilationCommand(true, problem.getMessage(), problem.getID(), problem.getSourceLineNumber(),
 					problem.getSourceStart(), problem.getSourceEnd(), aProblemText, aProblemLine, fileName);
 		}
 //		{
@@ -867,7 +867,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 	@Override
 	public int aboutToBuild(IJavaProject project) 
 	{
-		EHBuildStartEvent command = new EHBuildStartEvent("");
+		BuildStartEvent command = new BuildStartEvent("");
 		compilationRecorder.record(command);
 		return CompilationParticipant.READY_FOR_BUILD;
 	}
@@ -877,7 +877,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 	@Override
 	public void buildFinished(IJavaProject project) 
 	{
-		EHBuildEndEvent command = new EHBuildEndEvent("");
+		BuildEndEvent command = new BuildEndEvent("");
 		compilationRecorder.record(command);
 		//upload files
 //		 ProjectUploader projectUploader = new ProjectUploader();
@@ -920,13 +920,13 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 	public void commandExecuted(String aCommandName, long aTimestamp) {
 		// lost focus seems to be executed before recocile is called,
 		// we will need a set of ignore commands perhaps
-		if (!aCommandName.equals(EHShellCommand.class.getSimpleName())) { 
+		if (!aCommandName.equals(ShellCommand.class.getSimpleName())) { 
 		lastCommandExecuted = aCommandName;
 		}
 		/*
 		 * return if this a compliation event
 		 */
-		if (aCommandName.equals(EHCompilationEvent.class.getSimpleName())) {
+		if (aCommandName.equals(CompilationCommand.class.getSimpleName())) {
 			return;
 		}
 		flushPendingCommands();

@@ -21,11 +21,11 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import fluorite.commands.EHAbstractCommand;
-import fluorite.commands.EHAnnotateCommand;
-import fluorite.commands.EHCompilationEvent;
-import fluorite.commands.EHDifficulyStatusCommand;
-import fluorite.commands.EHEclipseCommand;
+import fluorite.commands.AbstractCommand;
+import fluorite.commands.AnnotateCommand;
+import fluorite.commands.CompilationCommand;
+import fluorite.commands.DifficultyCommand;
+import fluorite.commands.EclipseCommand;
 import fluorite.commands.EHICommand;
 import fluorite.model.EHEventRecorder;
 import util.trace.recorder.ParsedCommand;
@@ -160,10 +160,10 @@ public class EHLogReader {
 
 		Element root = doc.getDocumentElement();
 
-		boolean prevState = EHAbstractCommand.getIncrementCommandID();
-		EHAbstractCommand.setIncrementCommandID(false);
+		boolean prevState = AbstractCommand.getIncrementCommandID();
+		AbstractCommand.setIncrementCommandID(false);
 		String startTimestamp = root.getAttribute("startTimestamp");
-		EHDifficulyStatusCommand startCommand = new EHDifficulyStatusCommand();
+		DifficultyCommand startCommand = new DifficultyCommand();
 		startCommand.setTimestamp2(Long.parseLong(startTimestamp));
 		
 		result.add(startCommand);
@@ -181,7 +181,7 @@ public class EHLogReader {
 			}
 		}
 
-		EHAbstractCommand.setIncrementCommandID(prevState);
+		AbstractCommand.setIncrementCommandID(prevState);
 
 		return result;
 	}
@@ -237,7 +237,7 @@ public class EHLogReader {
 			
 			if (fullyQualifiedName
 //					.equals("edu.cmu.scs.fluorite.commands.EclipseCommand"))
-				.equals(EHEclipseCommand.class.getName()))
+				.equals(EclipseCommand.class.getName()))
 
 			{
 				int i = 0;
@@ -251,7 +251,7 @@ public class EHLogReader {
 				
 				if (fullyQualifiedName
 //						.equals("edu.cmu.scs.fluorite.commands.EclipseCommand"))
-					.equals(EHEclipseCommand.class.getName()))
+					.equals(EclipseCommand.class.getName()))
 
 				{
 					int i = 0;
@@ -263,14 +263,14 @@ public class EHLogReader {
 
 				if (fullyQualifiedName
 						.equals("edu.cmu.scs.fluorite.commands.CompilationCommand")) {
-					EHCompilationEvent compliationCommand = new EHCompilationEvent();
+					CompilationCommand compliationCommand = new CompilationCommand();
 					compliationCommand.createFrom(element);
 					return compliationCommand;
 				} 
 				else if(fullyQualifiedName
 						.equals("edu.cmu.scs.fluorite.commands.DifficultyCommand"))
 					{
-					EHDifficulyStatusCommand difficultyCommand = new EHDifficulyStatusCommand();
+					DifficultyCommand difficultyCommand = new DifficultyCommand();
 					difficultyCommand.createFrom(element);
 					return difficultyCommand;
 					
@@ -284,12 +284,12 @@ public class EHLogReader {
 				e.printStackTrace();
 			}
 		} else if (isAnnotation(element)) {
-			EHAnnotateCommand annotateCommand = new EHAnnotateCommand();
+			AnnotateCommand annotateCommand = new AnnotateCommand();
 			annotateCommand.createFrom(element);
 
 			return annotateCommand;
 		} else if (isSurmountableDifficulty(element)) {
-			EHDifficulyStatusCommand surmountableDifficultyCommand = new EHDifficulyStatusCommand();
+			DifficultyCommand surmountableDifficultyCommand = new DifficultyCommand();
 			surmountableDifficultyCommand.createFrom(element);
 			return surmountableDifficultyCommand;
 		} else {

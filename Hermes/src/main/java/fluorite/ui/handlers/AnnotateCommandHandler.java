@@ -5,7 +5,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.swt.widgets.Display;
 
-import fluorite.commands.EHAnnotateCommand;
+import fluorite.commands.AnnotateCommand;
 import fluorite.dialogs.AddAnnotationDialog;
 import fluorite.model.EHEventRecorder;
 
@@ -19,7 +19,7 @@ public class AnnotateCommandHandler extends AbstractHandler {
 
 		EHEventRecorder.getInstance()
 				.recordCommand(
-						new EHAnnotateCommand(dialog.getReturnCode(), dialog
+						new AnnotateCommand(dialog.getReturnCode(), dialog
 								.getComment()));
 		return null;
 	}

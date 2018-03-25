@@ -1,14 +1,14 @@
 package util.trace.recorder;
 
-import fluorite.commands.EHBaseDocumentChangeEvent;
+import fluorite.commands.BaseDocumentChangeEvent;
 import util.trace.Tracer;
 
 public class DocumentChangeCommandNotified extends ICommandInfo{
-	public DocumentChangeCommandNotified(String aMessage, EHBaseDocumentChangeEvent aCommand, long aStartTimeStamp,  Object aFinder) {
+	public DocumentChangeCommandNotified(String aMessage, BaseDocumentChangeEvent aCommand, long aStartTimeStamp,  Object aFinder) {
 		 super(aMessage, aCommand, aStartTimeStamp, aFinder);
 	}	
     
-    public static DocumentChangeCommandNotified newCase (String aMessage, EHBaseDocumentChangeEvent aCommand, long aStartTimeStamp,  Object aFinder) {
+    public static DocumentChangeCommandNotified newCase (String aMessage, BaseDocumentChangeEvent aCommand, long aStartTimeStamp,  Object aFinder) {
 
     	if (shouldInstantiate(DocumentChangeCommandNotified.class)) {
     	DocumentChangeCommandNotified retVal = new DocumentChangeCommandNotified(aMessage, aCommand, aStartTimeStamp, aFinder);
@@ -21,7 +21,7 @@ public class DocumentChangeCommandNotified extends ICommandInfo{
 
     	return null;
     }
-    public static DocumentChangeCommandNotified newCase (EHBaseDocumentChangeEvent aCommand, long aStartTimestamp,  Object aFinder) {
+    public static DocumentChangeCommandNotified newCase (BaseDocumentChangeEvent aCommand, long aStartTimestamp,  Object aFinder) {
     	String aMessage = toString(aCommand, aStartTimestamp);
     	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
 

@@ -7,8 +7,8 @@ import analyzer.TimeandEventBasedPercentage;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
-import fluorite.commands.EHCompilationEvent;
-import fluorite.commands.EHEclipseCommand;
+import fluorite.commands.CompilationCommand;
+import fluorite.commands.EclipseCommand;
 import fluorite.commands.EHICommand;
 
 
@@ -59,7 +59,7 @@ public class ATestRatioCalculator implements RatioCalculator {
 
 		if(event.getCommandType().equals("CompilationCommand"))
 		{
-			EHCompilationEvent command = (EHCompilationEvent)event;
+			CompilationCommand command = (CompilationCommand)event;
 			//if the compilation is an error
 			if(! command.getIsWarning())
 			{
@@ -101,7 +101,7 @@ public class ATestRatioCalculator implements RatioCalculator {
 		}
 
 		if (event.getCommandType().equals("EclipseCommand")) {
-			EHEclipseCommand eclipseCommand = (EHEclipseCommand) event;
+			EclipseCommand eclipseCommand = (EclipseCommand) event;
 			if (eclipseCommand.getCommandID().toLowerCase().contains("edit")) {
 				isEditEvent = true;
 			}
@@ -128,7 +128,7 @@ public class ATestRatioCalculator implements RatioCalculator {
 	public boolean isNavigationEvent(EHICommand event) {
 		boolean isNavigationEvent = false;
 		if (event.getCommandType().equals("EclipseCommand")) {
-			EHEclipseCommand eclipseCommand = (EHEclipseCommand) event;
+			EclipseCommand eclipseCommand = (EclipseCommand) event;
 			if (eclipseCommand.getCommandID().toLowerCase().contains("view")) {
 				isNavigationEvent = true;
 			}

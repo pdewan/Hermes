@@ -40,9 +40,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 //import edu.cmu.scs.fluorite.util.Utilities;
-import fluorite.commands.EHEclipseCommand;
+import fluorite.commands.EclipseCommand;
 import fluorite.commands.EHICommand;
-import fluorite.commands.EHInsertStringCommand;
+import fluorite.commands.InsertStringCommand;
 import fluorite.model.EHEventRecorder;
 //import fluorite.plugin.Activator;
 import fluorite.plugin.EHActivator;
@@ -533,7 +533,7 @@ public class EHUtilities /*extends Utilities*/{
 	public static EHICommand getCommandForKeyEvent(Event event) {
 		final int key = (SWT.KEY_MASK & event.keyCode);
 		if ((key != 0 && !Character.isISOControl(event.character))) {
-			return new EHInsertStringCommand(new String(
+			return new InsertStringCommand(new String(
 					new char[] { event.character }));
 		}
 
@@ -543,106 +543,106 @@ public class EHUtilities /*extends Utilities*/{
 		switch (key) {
 		case SWT.BS:
 			if (isMod1)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.DELETE_WORD_PREVIOUS).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.DELETE_PREVIOUS)
+			return new EclipseCommand(getStyledTextCommand(ST.DELETE_PREVIOUS)
 					.getId());
 		case SWT.ARROW_DOWN:
 			if (!isMod1 && isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_LINE_DOWN).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.LINE_DOWN)
+			return new EclipseCommand(getStyledTextCommand(ST.LINE_DOWN)
 					.getId());
 		case SWT.ARROW_LEFT:
 			if (isMod1 && isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_WORD_PREVIOUS).getId());
 			else if (isMod1)
-				return new EHEclipseCommand(
+				return new EclipseCommand(
 						getStyledTextCommand(ST.WORD_PREVIOUS).getId());
 			else if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_COLUMN_PREVIOUS).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.COLUMN_PREVIOUS)
+			return new EclipseCommand(getStyledTextCommand(ST.COLUMN_PREVIOUS)
 					.getId());
 		case SWT.ARROW_RIGHT:
 			if (isMod1 && isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_WORD_NEXT).getId());
 			else if (isMod1)
-				return new EHEclipseCommand(getStyledTextCommand(ST.WORD_NEXT)
+				return new EclipseCommand(getStyledTextCommand(ST.WORD_NEXT)
 						.getId());
 			else if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_COLUMN_NEXT).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.COLUMN_NEXT)
+			return new EclipseCommand(getStyledTextCommand(ST.COLUMN_NEXT)
 					.getId());
 		case SWT.ARROW_UP:
 			if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_LINE_UP).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.LINE_UP).getId());
+			return new EclipseCommand(getStyledTextCommand(ST.LINE_UP).getId());
 		case SWT.HOME:
 			if (isMod1 && isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_TEXT_START).getId());
 			if (isMod1)
-				return new EHEclipseCommand(getStyledTextCommand(ST.TEXT_START)
+				return new EclipseCommand(getStyledTextCommand(ST.TEXT_START)
 						.getId());
 			if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_LINE_START).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.LINE_START)
+			return new EclipseCommand(getStyledTextCommand(ST.LINE_START)
 					.getId());
 		case SWT.END:
 			if (isMod1 && isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_TEXT_END).getId());
 			if (isMod1)
-				return new EHEclipseCommand(getStyledTextCommand(ST.TEXT_END)
+				return new EclipseCommand(getStyledTextCommand(ST.TEXT_END)
 						.getId());
 			if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_LINE_END).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.LINE_END).getId());
+			return new EclipseCommand(getStyledTextCommand(ST.LINE_END).getId());
 		case SWT.PAGE_DOWN:
 			if (isMod1 && isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_WINDOW_END).getId());
 			if (isMod1)
-				return new EHEclipseCommand(getStyledTextCommand(ST.WINDOW_END)
+				return new EclipseCommand(getStyledTextCommand(ST.WINDOW_END)
 						.getId());
 			if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_PAGE_DOWN).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.PAGE_DOWN)
+			return new EclipseCommand(getStyledTextCommand(ST.PAGE_DOWN)
 					.getId());
 		case SWT.PAGE_UP:
 			if (isMod1 && isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_WINDOW_START).getId());
 			if (isMod1)
-				return new EHEclipseCommand(getStyledTextCommand(ST.WINDOW_START)
+				return new EclipseCommand(getStyledTextCommand(ST.WINDOW_START)
 						.getId());
 			if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.SELECT_PAGE_UP).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.PAGE_UP).getId());
+			return new EclipseCommand(getStyledTextCommand(ST.PAGE_UP).getId());
 		case SWT.DEL:
 			if (isMod1)
-				return new EHEclipseCommand(getStyledTextCommand(
+				return new EclipseCommand(getStyledTextCommand(
 						ST.DELETE_WORD_NEXT).getId());
 			if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(ST.CUT).getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.DELETE_NEXT)
+				return new EclipseCommand(getStyledTextCommand(ST.CUT).getId());
+			return new EclipseCommand(getStyledTextCommand(ST.DELETE_NEXT)
 					.getId());
 		case SWT.INSERT:
 			if (isMod1)
-				return new EHEclipseCommand(getStyledTextCommand(ST.COPY).getId());
+				return new EclipseCommand(getStyledTextCommand(ST.COPY).getId());
 			if (isMod2)
-				return new EHEclipseCommand(getStyledTextCommand(ST.PASTE)
+				return new EclipseCommand(getStyledTextCommand(ST.PASTE)
 						.getId());
-			return new EHEclipseCommand(getStyledTextCommand(ST.TOGGLE_OVERWRITE)
+			return new EclipseCommand(getStyledTextCommand(ST.TOGGLE_OVERWRITE)
 					.getId());
 		}
 
@@ -656,14 +656,14 @@ public class EHUtilities /*extends Utilities*/{
 			// }
 			// catch (Exception e)
 			{
-				return new EHInsertStringCommand(new String(
+				return new InsertStringCommand(new String(
 						new char[] { (char) key }));
 			}
 
 		}
 
 		if (key == SWT.TAB) {
-			return new EHInsertStringCommand(
+			return new InsertStringCommand(
 					new String(new char[] { (char) key }));
 		}
 

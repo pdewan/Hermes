@@ -1,6 +1,6 @@
 package difficultyPrediction;
 
-import fluorite.commands.EHPredictionCommand;
+import fluorite.commands.PredictionCommand;
 
 public interface DifficultyPredictionPluginEventProcessor extends PluginEventListener{
 
@@ -27,7 +27,7 @@ public interface DifficultyPredictionPluginEventProcessor extends PluginEventLis
 //	public abstract void recordCommand(ICommand newCommand);
 
 	public abstract void changeStatusInHelpView(
-			EHPredictionCommand predictionCommand);
+			PredictionCommand predictionCommand);
 
 //	public abstract void start();
 //

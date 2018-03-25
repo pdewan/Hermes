@@ -52,9 +52,9 @@ import difficultyPrediction.Mediator;
 import difficultyPrediction.PredictionParametersSetterSelector;
 import difficultyPrediction.eventAggregation.EventAggregator;
 import difficultyPrediction.featureExtraction.RatioFeatures;
-import fluorite.commands.EHDifficulyStatusCommand;
+import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
-import fluorite.commands.EHPredictionCommand;
+import fluorite.commands.PredictionCommand;
 import fluorite.util.EHLogReader;
 import util.annotations.LayoutName;
 import util.annotations.Row;
@@ -1022,20 +1022,20 @@ public class AnAnalyzer implements Analyzer {
 	}
 
 	void maybeProcessPrediction(EHICommand newCommand) {
-		if (newCommand instanceof EHPredictionCommand) {
+		if (newCommand instanceof PredictionCommand) {
 			lastPrediction = AnAnalyzerProcessor
-					.toInt((EHPredictionCommand) newCommand);
+					.toInt((PredictionCommand) newCommand);
 			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
 			notifyNewCorrectStatus(lastPrediction);
 		}
 	}
 
 	void maybeProcessCorrection(EHICommand newCommand) {
-		if (newCommand instanceof EHDifficulyStatusCommand
+		if (newCommand instanceof DifficultyCommand
 		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
 		) {
 			lastCorrection = AnAnalyzerProcessor
-					.toInt((EHDifficulyStatusCommand) newCommand);
+					.toInt((DifficultyCommand) newCommand);
 			notifyNewCorrectStatus(lastCorrection);
 
 		}

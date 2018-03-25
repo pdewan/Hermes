@@ -7,7 +7,7 @@ import org.eclipse.jface.text.source.ISourceViewerExtension3;
 import org.eclipse.jface.text.source.ISourceViewerExtension4;
 import org.eclipse.ui.IEditorPart;
 
-import fluorite.commands.EHAssistCommand;
+import fluorite.commands.AssistCommand;
 import fluorite.util.EHUtilities;
 
 public class EHCompletionRecorder extends EHBaseRecorder implements
@@ -80,12 +80,12 @@ public class EHCompletionRecorder extends EHBaseRecorder implements
 			return;
 		}
 
-		EHAssistCommand.AssistType assistType = (event.assistant.getClass()
-				.getCanonicalName().indexOf("QuickAssist") != -1) ? EHAssistCommand.AssistType.QUICK_ASSIST
-				: EHAssistCommand.AssistType.CONTENT_ASSIST;
+		AssistCommand.AssistType assistType = (event.assistant.getClass()
+				.getCanonicalName().indexOf("QuickAssist") != -1) ? AssistCommand.AssistType.QUICK_ASSIST
+				: AssistCommand.AssistType.CONTENT_ASSIST;
 
 		getRecorder().recordCommand(
-				new EHAssistCommand(assistType, EHAssistCommand.StartEndType.START,
+				new AssistCommand(assistType, AssistCommand.StartEndType.START,
 						event.isAutoActivated, null));
 	}
 
@@ -96,12 +96,12 @@ public class EHCompletionRecorder extends EHBaseRecorder implements
 			return;
 		}
 
-		EHAssistCommand.AssistType assistType = (event.assistant.getClass()
-				.getCanonicalName().indexOf("QuickAssist") != -1) ? EHAssistCommand.AssistType.QUICK_ASSIST
-				: EHAssistCommand.AssistType.CONTENT_ASSIST;
+		AssistCommand.AssistType assistType = (event.assistant.getClass()
+				.getCanonicalName().indexOf("QuickAssist") != -1) ? AssistCommand.AssistType.QUICK_ASSIST
+				: AssistCommand.AssistType.CONTENT_ASSIST;
 
 		getRecorder().recordCommand(
-				new EHAssistCommand(assistType, EHAssistCommand.StartEndType.END,
+				new AssistCommand(assistType, AssistCommand.StartEndType.END,
 						false, null));
 	}
 

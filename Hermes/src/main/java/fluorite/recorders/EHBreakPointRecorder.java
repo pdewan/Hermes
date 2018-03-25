@@ -6,7 +6,7 @@ import org.eclipse.debug.core.IBreakpointListener;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.ui.IEditorPart;
 
-import fluorite.commands.EHBreakPointCommand;
+import fluorite.commands.BreakPointCommand;
 /*
  * Cannot find Flourite BreakPointRecorder
  */
@@ -32,7 +32,7 @@ implements IBreakpointListener{
 		{
 			IMarker marker = breakpoint.getMarker();
 			String lineNumber = marker.getAttribute(IMarker.LINE_NUMBER).toString();
-			getRecorder().recordCommand(new EHBreakPointCommand(lineNumber,true));
+			getRecorder().recordCommand(new BreakPointCommand(lineNumber,true));
 		
 		}
 		catch (Exception e)
@@ -47,7 +47,7 @@ implements IBreakpointListener{
 		{
 			IMarker marker = breakpoint.getMarker();
 			String lineNumber = marker.getAttribute(IMarker.LINE_NUMBER).toString();
-			getRecorder().recordCommand(new EHBreakPointCommand(lineNumber,false));
+			getRecorder().recordCommand(new BreakPointCommand(lineNumber,false));
 		}
 		catch (Exception e)
 		{

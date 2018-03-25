@@ -57,15 +57,15 @@ import org.w3c.dom.Element;
 import dayton.ellwanger.hermes.HermesActivator;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
 import fluorite.actions.FindAction;
-import fluorite.commands.EHAbstractCommand;
-import fluorite.commands.EHBaseDocumentChangeEvent;
-import fluorite.commands.EHDifficulyStatusCommand;
-import fluorite.commands.EHFileOpenCommand;
-import fluorite.commands.EHFindCommand;
+import fluorite.commands.AbstractCommand;
+import fluorite.commands.BaseDocumentChangeEvent;
+import fluorite.commands.DifficultyCommand;
+import fluorite.commands.FileOpenCommand;
+import fluorite.commands.FindCommand;
 import fluorite.commands.EHICommand;
-import fluorite.commands.EHMoveCaretCommand;
-import fluorite.commands.EHPredictionCommand;
-import fluorite.commands.EHSelectTextCommand;
+import fluorite.commands.MoveCaretCommand;
+import fluorite.commands.PredictionCommand;
+import fluorite.commands.SelectTextCommand;
 import fluorite.plugin.EHActivator;
 import fluorite.preferences.Initializer;
 import fluorite.recorders.EHBreakPointRecorder;
@@ -153,7 +153,7 @@ public class EHEventRecorder {
 	protected int numDataEvents;
 	protected int numFinalizedDataEvents;
 
-	private EHBaseDocumentChangeEvent mLastFiredDocumentChange;
+	private BaseDocumentChangeEvent mLastFiredDocumentChange;
 
 	private Timer mTimer;
 	private TimerTask mNormalTimerTask;
@@ -327,13 +327,13 @@ public class EHEventRecorder {
 		return mTimer;
 	}
 
-	public void fireActiveFileChangedEvent(EHFileOpenCommand foc) {
+	public void fireActiveFileChangedEvent(FileOpenCommand foc) {
 		for (Object listenerObj : mDocumentChangeListeners.getListeners()) {
 			((EHDocumentChangeListener) listenerObj).activeFileChanged(foc);
 		}
 	}
 
-	public void fireDocumentChangedEvent(EHBaseDocumentChangeEvent docChange) {
+	public void fireDocumentChangedEvent(BaseDocumentChangeEvent docChange) {
 		numDataEvents++;
 		for (Object listenerObj : mDocumentChangeListeners.getListeners()) {
 			((EHDocumentChangeListener) listenerObj).documentChanged(docChange);
@@ -367,8 +367,8 @@ public class EHEventRecorder {
 	
 	
 
-	public synchronized void fireDocumentChangeFinalizedEvent(EHBaseDocumentChangeEvent docChange) {
-		if (docChange instanceof EHFileOpenCommand) {
+	public synchronized void fireDocumentChangeFinalizedEvent(BaseDocumentChangeEvent docChange) {
+		if (docChange instanceof FileOpenCommand) {
 			return;
 		}
 		
@@ -419,9 +419,9 @@ public class EHEventRecorder {
 				mLastSelectionStart = styledText.getSelection().x;
 				mLastSelectionEnd = styledText.getSelection().y;
 				if (mLastSelectionStart != mLastSelectionEnd) {
-					recordCommand(new EHSelectTextCommand(mLastSelectionStart, mLastSelectionEnd, mLastCaretOffset));
+					recordCommand(new SelectTextCommand(mLastSelectionStart, mLastSelectionEnd, mLastCaretOffset));
 				} else {
-					recordCommand(new EHMoveCaretCommand(mLastCaretOffset, viewer.getSelectedRange().x));
+					recordCommand(new MoveCaretCommand(mLastCaretOffset, viewer.getSelectedRange().x));
 				}
 			}
 		});
@@ -774,7 +774,7 @@ public class EHEventRecorder {
 
 			// add find command representing whatever is currently selected
 			String selectionText = st.getSelectionText();
-			EHFindCommand findCommand = new EHFindCommand(selectionText);
+			FindCommand findCommand = new FindCommand(selectionText);
 			findCommand.setSearchForward(mIncrementalFindForward);
 			recordCommand(findCommand);
 			// System.out.println("Incremental find string: " + selectionText);
@@ -811,7 +811,7 @@ public class EHEventRecorder {
 	}
 
 	boolean isPredictionRelatedCommand(final EHICommand newCommand) {
-		return newCommand instanceof EHPredictionCommand || newCommand instanceof EHDifficulyStatusCommand;
+		return newCommand instanceof PredictionCommand || newCommand instanceof DifficultyCommand;
 	}
 	public int getNumNotifiedCommands() {
 		return numNotifiedCommands;
@@ -832,17 +832,17 @@ public class EHEventRecorder {
 	protected void notifyCommandAndDocChangeListeners(EHICommand newCommand, 
 			EHICommand lastCommand) {
 		numNotifiedCommands++;
-		if (newCommand instanceof EHBaseDocumentChangeEvent) {
-			if (!(newCommand instanceof EHFileOpenCommand)) {
-				fireDocumentChangedEvent((EHBaseDocumentChangeEvent)newCommand);
-				DocumentChangeCommandNotified.newCase((EHBaseDocumentChangeEvent)newCommand, mStartTimestamp, this);
+		if (newCommand instanceof BaseDocumentChangeEvent) {
+			if (!(newCommand instanceof FileOpenCommand)) {
+				fireDocumentChangedEvent((BaseDocumentChangeEvent)newCommand);
+				DocumentChangeCommandNotified.newCase((BaseDocumentChangeEvent)newCommand, mStartTimestamp, this);
 			}
 			
-			if (lastCommand instanceof EHBaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
-				fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent)lastCommand);
+			if (lastCommand instanceof BaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
+				fireDocumentChangeFinalizedEvent((BaseDocumentChangeEvent)lastCommand);
 				
 				DocumentChangeFinalizedEventNotified.newCase(
-						(EHBaseDocumentChangeEvent)lastCommand, mStartTimestamp, this);
+						(BaseDocumentChangeEvent)lastCommand, mStartTimestamp, this);
 			}
 		}
 		else {
@@ -895,12 +895,12 @@ public class EHEventRecorder {
 		// + "\ttimestamp: " + timestamp,
 		// EventLoggerConsole.Type_RecordingCommand);
 
-		final boolean isDocChange = (newCommand instanceof EHBaseDocumentChangeEvent);		
+		final boolean isDocChange = (newCommand instanceof BaseDocumentChangeEvent);		
 		final LinkedList<EHICommand> docOrNormalCommands = isDocChange ? 
 				mDocumentChangeCommands : 
 					mNormalCommands;
 		if (isDocChange) {
-			DocumentChangeCommandExecuted.newCase((EHBaseDocumentChangeEvent) newCommand, mStartTimestamp, this);
+			DocumentChangeCommandExecuted.newCase((BaseDocumentChangeEvent) newCommand, mStartTimestamp, this);
 		} else {
 			NonDocumentChangeCommandExecuted.newCase(newCommand, mStartTimestamp, this);
 		}
@@ -916,7 +916,7 @@ public class EHEventRecorder {
 				lastCommand != null
 				&& isCombineEnabled(newCommand, lastCommand, isDocChange)) {
 //			combined = lastCommand.combineWith(newCommand);
-			combined = EHAbstractCommand.combineWith((EHAbstractCommand) lastCommand, newCommand);
+			combined = AbstractCommand.combineWith((AbstractCommand) lastCommand, newCommand);
 			
 		}
 		} catch (Exception e) {
@@ -1023,7 +1023,7 @@ public class EHEventRecorder {
 						if (lastCommand != null && lastCommand != mLastFiredDocumentChange) {
 							Display.getDefault().asyncExec(new Runnable() {
 								public void run() {
-									fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent) lastCommand);
+									fireDocumentChangeFinalizedEvent((BaseDocumentChangeEvent) lastCommand);
 								}
 							});
 						}

@@ -13,9 +13,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.keys.IBindingService;
 
 import fluorite.commands.EHICommand;
-import fluorite.commands.EHMouseWheelCommand;
-import fluorite.commands.EHMoveCaretCommand;
-import fluorite.commands.EHSelectTextCommand;
+import fluorite.commands.MouseWheelCommand;
+import fluorite.commands.MoveCaretCommand;
+import fluorite.commands.SelectTextCommand;
 import fluorite.plugin.EHActivator;
 import fluorite.preferences.Initializer;
 import fluorite.util.EHUtilities;
@@ -116,14 +116,14 @@ public class EHStyledTextEventRecorder extends EHBaseRecorder implements Listene
 							.getLastSelectionStart() || styledText
 							.getSelection().y != getRecorder()
 							.getLastSelectionEnd())) {
-				EHICommand command = new EHSelectTextCommand(
+				EHICommand command = new SelectTextCommand(
 						styledText.getSelection().x,
 						styledText.getSelection().y,
 						styledText.getCaretOffset());
 				getRecorder().recordCommand(command);
 			} else if (getRecorder().getLastCaretOffset() != styledText
 					.getCaretOffset()) {
-				EHICommand command = new EHMoveCaretCommand(
+				EHICommand command = new MoveCaretCommand(
 						styledText.getCaretOffset(),
 						viewer.getSelectedRange().x);
 				getRecorder().recordCommand(command);
@@ -138,7 +138,7 @@ public class EHStyledTextEventRecorder extends EHBaseRecorder implements Listene
 				break;
 			}
 
-			getRecorder().recordCommand(new EHMouseWheelCommand(event.count));
+			getRecorder().recordCommand(new MouseWheelCommand(event.count));
 		}
 		}
 	}

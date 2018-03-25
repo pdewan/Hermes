@@ -10,10 +10,10 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleListener;
 import org.eclipse.ui.console.TextConsole;
 
-import fluorite.commands.EHConsoleInput;
-import fluorite.commands.EHConsoleOutput;
-import fluorite.commands.EHExceptionOutput;
-import fluorite.commands.EHProgramExecutionEvent;
+import fluorite.commands.ConsoleInput;
+import fluorite.commands.ConsoleOutput;
+import fluorite.commands.ExceptionOutput;
+import fluorite.commands.ProgramExecutionEvent;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EclipseEventListener;
 
@@ -109,7 +109,7 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 								lastInputLine.append(inputOrOutputUnit);
 								if (hasNewLine) { // or is new line?
 									inMiddleOfInputLine = false;
-									getRecorder().recordCommand(new EHConsoleInput(lastInputLine.toString()));
+									getRecorder().recordCommand(new ConsoleInput(lastInputLine.toString()));
 									currentConsoleContents.add(">" + lastInputLine.toString());	
 									consoleString.append(">" + lastInputLine.toString());
 									lastInputLine.setLength(0);
@@ -123,13 +123,13 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 						
 						if (event.getText().toLowerCase().contains("exception"))
 						{
-							getRecorder().recordCommand(new EHExceptionOutput(inputOrOutputUnit));
+							getRecorder().recordCommand(new ExceptionOutput(inputOrOutputUnit));
 							currentConsoleContents.add(inputOrOutputUnit);
 							consoleString.append(inputOrOutputUnit);
 							return;
 						}
 						// this is regular output
-						getRecorder().recordCommand(new EHConsoleOutput(inputOrOutputUnit));
+						getRecorder().recordCommand(new ConsoleOutput(inputOrOutputUnit));
 						currentConsoleContents.add(inputOrOutputUnit);
 						consoleString.append(inputOrOutputUnit);
 
@@ -184,7 +184,7 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 
 	@Override
 	public void commandExecuted(String aCommandName, long aTimestamp) {
-		if (aCommandName.equals(EHProgramExecutionEvent.class.getSimpleName())) {
+		if (aCommandName.equals(ProgramExecutionEvent.class.getSimpleName())) {
 			newRunCommand();
 		}
 		

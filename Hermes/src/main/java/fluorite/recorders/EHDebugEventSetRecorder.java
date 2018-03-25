@@ -9,18 +9,18 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.ui.IEditorPart;
 
-import fluorite.commands.EHDebugHitBreakpointBeforeDebugRunEvent;
-import fluorite.commands.EHDebugHitBreakpointEvent;
-import fluorite.commands.EHDebugRunEvent;
-import fluorite.commands.EHDebugTerminateEvent;
-import fluorite.commands.EHHitBreakpointAfterRunEvent;
-import fluorite.commands.EHHitBreakpointBeforeDebugRunEvent;
-import fluorite.commands.EHHitBreakpointBeforeRunEvent;
-import fluorite.commands.EHRunEvent;
-import fluorite.commands.EHStepEndEvent;
-import fluorite.commands.EHStepIntoEvent;
-import fluorite.commands.EHStepReturnEvent;
-import fluorite.commands.EHTerminateEvent;
+import fluorite.commands.DebugHitBreakpointBeforeDebugRunEvent;
+import fluorite.commands.DebugHitBreakpointEvent;
+import fluorite.commands.DebugRunEvent;
+import fluorite.commands.DebugTerminateEvent;
+import fluorite.commands.HitBreakpointAfterRunEvent;
+import fluorite.commands.HitBreakpointBeforeDebugRunEvent;
+import fluorite.commands.HitBreakpointBeforeRunEvent;
+import fluorite.commands.RunCommand;
+import fluorite.commands.StepEndEvent;
+import fluorite.commands.StepIntoEvent;
+import fluorite.commands.StepReturnEvent;
+import fluorite.commands.TerminateEvent;
 
 public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEventSetListener {
 
@@ -97,7 +97,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// new EHProgramExecutionCommand(false,
 					// terminate, projectName, 0, false, false,
 					// false, false));
-					new EHDebugHitBreakpointBeforeDebugRunEvent(false, false, aProjectName, 0, false, false, false, false, numStartDebugBreakPoints));
+					new DebugHitBreakpointBeforeDebugRunEvent(false, false, aProjectName, 0, false, false, false, false, numStartDebugBreakPoints));
 			numStartDebugBreakPoints = 0;
 		}
 		if (numPostRunBreakPoints > 0) {
@@ -105,7 +105,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// new EHProgramExecutionCommand(false,
 					// terminate, projectName, 0, false, false,
 					// false, false));
-					new EHHitBreakpointBeforeDebugRunEvent(false, false, aProjectName, 0, false, false, false, false, numPostRunBreakPoints));
+					new HitBreakpointBeforeDebugRunEvent(false, false, aProjectName, 0, false, false, false, false, numPostRunBreakPoints));
 			numPostRunBreakPoints = 0;
 		}
 		lastCreatedJDIThread = aDebugThread;
@@ -126,7 +126,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// new EHProgramExecutionCommand(false,
 					// terminate, projectName, 0, false, false,
 					// false, false));
-					new EHHitBreakpointBeforeRunEvent(false, false, aProjectName, 0, false, false, false, false, numStartBreakPoints));
+					new HitBreakpointBeforeRunEvent(false, false, aProjectName, 0, false, false, false, false, numStartBreakPoints));
 		}
 		numStartBreakPoints = 0; // set also in lastProcessTerminated, so we really do not need this
 		numRunProcesses = 1;
@@ -206,7 +206,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 							// new EHProgramExecutionCommand(false,
 							// terminate, projectName, 0, false, false,
 							// false, false));
-							new EHRunEvent(false, terminate, projectName, 0, false, false, false, false));
+							new RunCommand(false, terminate, projectName, 0, false, false, false, false));
 
 //				} else if (source instanceof IDebugTarget) {
 				} else  {
@@ -250,18 +250,18 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// this should happen before the terminate process event
 					if (numCreatedJDIThreads > 0) {
 						getRecorder().recordCommand(
-								new EHDebugRunEvent(true, terminate, null, 0, false, false, false, false, numCreatedJDIThreads ));
+								new DebugRunEvent(true, terminate, null, 0, false, false, false, false, numCreatedJDIThreads ));
 //						lastJDIThreadTerminated();
 					}
 					if (numPostRunBreakPoints > 0) {
 					getRecorder().recordCommand(
 							// new EHProgramExecutionEvent(false, false,
 							// projectName, 0, true, false, false, false));
-							new EHHitBreakpointAfterRunEvent(false, false, projectName, 0, true, false, false, false, numPostRunBreakPoints));// this
+							new HitBreakpointAfterRunEvent(false, false, projectName, 0, true, false, false, false, numPostRunBreakPoints));// this
 					}
 					if (numTerminatedJDIThreads > 0) {
 						getRecorder().recordCommand(
-								new EHDebugTerminateEvent(true, terminate, null, 0, false, false, false, false, numTerminatedJDIThreads ));
+								new DebugTerminateEvent(true, terminate, null, 0, false, false, false, false, numTerminatedJDIThreads ));
 					}
 					
 					lastJDIThreadTerminated();
@@ -270,7 +270,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 							// new EHProgramExecutionCommand(false,
 							// terminate, projectName, 0, false, false,
 							// false, false));
-							new EHTerminateEvent(false, terminate, projectName, 0, false, false, false, false)); // occurs after terminate run event
+							new TerminateEvent(false, terminate, projectName, 0, false, false, false, false)); // occurs after terminate run event
 					lastProcessTerminated();
 					
 
@@ -344,7 +344,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// new EHProgramExecutionEvent(false, false, null,0,
 					// true, false, false, false));
 					getRecorder().recordCommand(
-							new EHDebugHitBreakpointEvent(false, false, null, 0, true, false, false, false));
+							new DebugHitBreakpointEvent(false, false, null, 0, true, false, false, false));
 
 				}
 			} else if (event.getKind() == DebugEvent.STEP_END) {
@@ -352,14 +352,14 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 				// getRecorder().recordCommand(
 				// new EHProgramExecutionEvent(false, false, null, 0, false,
 				// true, false, false));
-				getRecorder().recordCommand(new EHStepEndEvent(false, false, null, 0, false, true, false, false));
+				getRecorder().recordCommand(new StepEndEvent(false, false, null, 0, false, true, false, false));
 
 			} else if (event.getKind() == DebugEvent.STEP_INTO) {
 				// only debug I guess
 				getRecorder().recordCommand(
 						// new EHProgramExecutionEvent(false, false, null,
 						// 0, false, false, true, false));
-						new EHStepIntoEvent(false, false, null, 0, false, false, true, false));
+						new StepIntoEvent(false, false, null, 0, false, false, true, false));
 
 			}
 
@@ -372,7 +372,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 				getRecorder().recordCommand(
 						// new EHProgramExecutionEvent(false, false, null,
 						// 0, false, false, false, true));
-						new EHStepReturnEvent(false, false, null, 0, false, false, false, true));
+						new StepReturnEvent(false, false, null, 0, false, false, false, true));
 
 			}
 
