@@ -293,20 +293,19 @@ public class AParticipantTimeLine implements ParticipantTimeLine {
 		for (int index = 0; index < timeStampList.size(); index++) {
 			long absoluteTime = timeStampList.get(index);
 			DateTime dateTime = new DateTime(absoluteTime);
-			String timeStampString = dateTime.toString("MM-dd-yyyy H:mm:ss");
-			aStringBuffer.append(timeStampString  + ", ");
-			aStringBuffer.append(editList.get(index)+", ");
-			aStringBuffer.append(insertionList.get(index) + ", ");
-			aStringBuffer.append(deletionList.get(index) + ", ");
-			aStringBuffer.append(debugList.get(index) + ", ");
-			aStringBuffer.append(navigationList.get(index) + ", ");
-			aStringBuffer.append(focusList.get(index) + ", ");
-			aStringBuffer.append(removeList.get(index) + ", ");
-			aStringBuffer.append(predictionList.get(index) + ", ");
-			aStringBuffer.append(predictionCorrections.get(index) + ", ");
-			aStringBuffer.append((stuckInterval.get(index)==null? ", ":stuckInterval.get(index).toText())+", ");
-			aStringBuffer.append((stuckPoint.get(index)==null? "":stuckPoint.get(index).toText())+", ");
-			aStringBuffer.append(webLinks.get(index) + "\n"); 			
+			String timeStampString = dateTime.toString("MM-dd-yyyy H:mm:ss"); 
+			aStringBuffer.append(timeStampString  + ", ");// Column A
+			aStringBuffer.append(editList.get(index)+", ");// Column B
+			aStringBuffer.append(insertionList.get(index) + ", ");// Column C
+			aStringBuffer.append(deletionList.get(index) + ", ");// Column D
+			aStringBuffer.append(debugList.get(index) + ", ");// Column E
+			aStringBuffer.append(navigationList.get(index) + ", ");// Column F
+			aStringBuffer.append(focusList.get(index) + ", ");// Column G
+			aStringBuffer.append(removeList.get(index) + ", ");// Column H
+			aStringBuffer.append(predictionList.get(index) + ", ");// Column I
+			aStringBuffer.append(predictionCorrections.get(index) + ", ");// Column J
+			aStringBuffer.append((stuckInterval.get(index)==null? ", ":stuckInterval.get(index).toText())+", ");// Column K, L (type, suromoutability)
+			aStringBuffer.append((stuckPoint.get(index)==null? "":stuckPoint.get(index).toText())+", ");// Column M
 			//test if null first			
 		}
 		return aStringBuffer;

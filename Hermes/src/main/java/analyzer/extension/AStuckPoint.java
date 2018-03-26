@@ -1,7 +1,10 @@
 package analyzer.extension;
 
 import java.util.Date;
-
+/**
+ * Keeps track of difficulty detection technique - ToolDetected, Solving on Own, Observed and Confirmed
+ *
+ */
 public class AStuckPoint implements StuckPoint{
 	@Override
 	public String toString() {

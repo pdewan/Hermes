@@ -16,7 +16,7 @@ import analyzer.AnalyzerFactory;
 import analyzer.RatioFilePlayerFactory;
 import analyzer.TimeStampComputerFactory;
 import analyzer.WebLink;
-import analyzer.extension.AnAnalyzerProcessor;
+import analyzer.extension.ARatioFileGenerator;
 import bus.uigen.OEFrame;
 //import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
@@ -57,7 +57,7 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	protected String aggregatedStatus = "";
 	protected String manualStatus = "";
 	protected String manualBarrier = "";
-	protected int correctStatusInt = AnAnalyzerProcessor.toInt(PredictionType.Indeterminate);
+	protected int correctStatusInt = ARatioFileGenerator.toInt(PredictionType.Indeterminate);
 	protected String correctStatus = 	AParticipantTimeLine.statusIntToString(correctStatusInt);
 
 
@@ -174,7 +174,7 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 				DifficultyCommand aDifficultyStatusCommand = (DifficultyCommand) newCommand;
 				TimeStampComputerFactory.getSingleton().computeTimestamp(newCommand); // so that start time can be reset
 			setManualStatus(toString((DifficultyCommand) newCommand)); // should this not be done always regardless of replay output files
-			setCorrectStatus(AnAnalyzerProcessor.toInt(aDifficultyStatusCommand.getStatus()));
+			setCorrectStatus(ARatioFileGenerator.toInt(aDifficultyStatusCommand.getStatus()));
 
 //			}
 

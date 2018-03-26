@@ -1,7 +1,7 @@
 package analyzer.ui;
 
 import analyzer.ATimeStampComputer;
-import analyzer.extension.AnalyzerProcessorFactory;
+import analyzer.extension.RatioFileGeneratorFactory;
 import analyzer.ui.graphics.APlayAndRewindCounter;
 import analyzer.ui.graphics.ARatioFileReader;
 import analyzer.ui.graphics.RatioFileReader;
@@ -86,7 +86,7 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 	}
 	int previousPredictedDifficulty;
 	public boolean prePreviousPredictedDifficulty() {
-		previousPredictedDifficulty = AnalyzerProcessorFactory.getSingleton().getParticipantTimeLine().getDifficultyPredictionBefore(getCurrentTime());
+		previousPredictedDifficulty = RatioFileGeneratorFactory.getSingleton().getParticipantTimeLine().getDifficultyPredictionBefore(getCurrentTime());
 		return previousPredictedDifficulty >= 0;
 	}
 	@Row(1)
@@ -100,7 +100,7 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 	}
 	int nextPredictedDifficulty;
 	public boolean preNextPredictedDifficulty() {
-		nextPredictedDifficulty = AnalyzerProcessorFactory.getSingleton().getParticipantTimeLine().getDifficultyPredictionAfter(getCurrentTime());
+		nextPredictedDifficulty = RatioFileGeneratorFactory.getSingleton().getParticipantTimeLine().getDifficultyPredictionAfter(getCurrentTime());
 		return nextPredictedDifficulty >= 0;
 	}
 	@Row(1)
@@ -120,7 +120,7 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 	
 	int previousDifficultyCorrection;
 	public boolean prePreviousDifficultyCorrection() {
-		previousDifficultyCorrection = AnalyzerProcessorFactory.getSingleton().
+		previousDifficultyCorrection = RatioFileGeneratorFactory.getSingleton().
 				getParticipantTimeLine().
 				getDifficultyCorrectionBefore(getCurrentTime());
 		return previousDifficultyCorrection >= 0;
@@ -138,7 +138,7 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 	}
 	int nextDifficultyCorrection;
 	public boolean preNextDifficultyCorrection() {
-		nextDifficultyCorrection = AnalyzerProcessorFactory.getSingleton().getParticipantTimeLine().getActualDifficultyAfter(getCurrentTime());
+		nextDifficultyCorrection = RatioFileGeneratorFactory.getSingleton().getParticipantTimeLine().getActualDifficultyAfter(getCurrentTime());
 		return nextDifficultyCorrection >= 0;
 	}
 	@Row(1)
@@ -156,7 +156,7 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 /////
 	int previousBarrier;
 	public boolean prePreviousBarrier() {
-		previousBarrier = AnalyzerProcessorFactory.getSingleton().
+		previousBarrier = RatioFileGeneratorFactory.getSingleton().
 				getParticipantTimeLine().
 				getBarrierBefore(getCurrentTime());
 		return previousBarrier >= 0;
@@ -174,7 +174,7 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 	}
 	int nextBarrier;
 	public boolean preNextBarrier() {
-		nextBarrier = AnalyzerProcessorFactory.getSingleton().getParticipantTimeLine().getBarrierAfter(getCurrentTime());
+		nextBarrier = RatioFileGeneratorFactory.getSingleton().getParticipantTimeLine().getBarrierAfter(getCurrentTime());
 		return nextBarrier >= 0;
 	}
 	@Row(2)
@@ -193,7 +193,7 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 ////	
 	int previousWebLinks;
 	public boolean prePreviousWebLinks() {
-		previousWebLinks = AnalyzerProcessorFactory.getSingleton().
+		previousWebLinks = RatioFileGeneratorFactory.getSingleton().
 				getParticipantTimeLine().
 				getWebLinksBefore(getCurrentTime());
 		return previousWebLinks >= 0;
@@ -213,7 +213,7 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 	int nextWebLinks;
 	@Override
 	public boolean preNextWebLinks() {
-		nextWebLinks = AnalyzerProcessorFactory.getSingleton().getParticipantTimeLine().getWebLinksAfter(getCurrentTime());
+		nextWebLinks = RatioFileGeneratorFactory.getSingleton().getParticipantTimeLine().getWebLinksAfter(getCurrentTime());
 		return nextWebLinks >= 0;
 	}
 	@Row(2)
@@ -269,15 +269,15 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 	@Override
 	@Visible(false)
 	public long getCurrentWallTime() {
-		if ( AnalyzerProcessorFactory.getSingleton().getParticipantTimeLine() == null)
+		if ( RatioFileGeneratorFactory.getSingleton().getParticipantTimeLine() == null)
 				return 0;
 		// we do not know in which order currentimes are updated in listeners of ratio file replayer
-		int aCurrentTime = Math.min(getCurrentTime(),  AnalyzerProcessorFactory.getSingleton().getParticipantTimeLine().
+		int aCurrentTime = Math.min(getCurrentTime(),  RatioFileGeneratorFactory.getSingleton().getParticipantTimeLine().
 			   	getTimeStampList().size( ) - 1);
 		if (aCurrentTime < 0)
 			return 0;
 		;
-		return AnalyzerProcessorFactory.getSingleton().getParticipantTimeLine().getTimeStampList().get(aCurrentTime);
+		return RatioFileGeneratorFactory.getSingleton().getParticipantTimeLine().getTimeStampList().get(aCurrentTime);
 	}
 	 
 	@Override

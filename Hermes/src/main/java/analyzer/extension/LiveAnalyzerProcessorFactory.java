@@ -4,7 +4,7 @@ public class LiveAnalyzerProcessorFactory {
 	static LiveAnalyzerProcessor singleton;
 	public static void createSingleton() {
 //		singleton = new AMultiLevelAggregator();
-		singleton = new ALiveAnalyzerProcessor();
+		singleton = new ALiveRatioFileGenerator();
 
 	}
 	

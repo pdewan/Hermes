@@ -4,7 +4,7 @@ import analyzer.AnalyzerListener;
 import analyzer.ParticipantTimeLine;
 import difficultyPrediction.DifficultyPredictionEventListener;
 
-public interface AnalyzerProcessor extends AnalyzerListener, DifficultyPredictionEventListener {
+public interface RatioFileGenerator extends AnalyzerListener, DifficultyPredictionEventListener {
 	ParticipantTimeLine getParticipantTimeLine();
 
 

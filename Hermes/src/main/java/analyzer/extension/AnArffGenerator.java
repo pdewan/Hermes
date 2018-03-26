@@ -25,12 +25,12 @@ import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
  * new predictions.
  * <p>
  * Instructions:<br>
- *
+ * Listens to the ratios sent from difficulty robot rather than Ratio File Generator
  * 
  * @author wangk1
  *
  */
-public class AnArffGenerator extends AnAnalyzerProcessor implements ArffGenerator{
+public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerator{
 	public static final String DEFAULT_ARFF_PATH="data/userStudy";
 
 	//name of relation to be printed as @relation tag

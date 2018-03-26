@@ -24,6 +24,10 @@ import util.models.ADynamicEnum;
 import util.models.DynamicEnum;
 @StructurePattern(StructurePatternNames.BEAN_PATTERN)
 // there should really be a has-a relationship between the two
+/**
+ * Component of AnAnalyzer that calls back AnAnalyzer. Created for UI purposes
+ *
+ */
 public class AnAnalyzerParameters implements AnalyzerParameters  {
 	PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static PredictionParameters instance;
@@ -139,6 +143,8 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 	@Column(0)
 //	@Row(2)
 //	@Column(2)
+	@Explanation("Should we generate a new ratio file, possibly overwriting the previous one")
+
 	public boolean isNewOutputFiles() {
 		
 		

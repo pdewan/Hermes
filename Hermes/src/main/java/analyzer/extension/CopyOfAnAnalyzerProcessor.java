@@ -29,9 +29,9 @@ import fluorite.commands.PredictionCommand;
 import fluorite.model.EHEventRecorder;
 import util.misc.Common;
 
-public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionListener implements AnalyzerProcessor{
+public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionListener implements RatioFileGenerator{
 	static Analyzer analyzer;
-	static AnalyzerProcessor analyzerProcessor;
+	static RatioFileGenerator analyzerProcessor;
 	protected Map<String, ParticipantTimeLine> participantToTimeLine = new HashMap();
 
 	String currentParticipant;

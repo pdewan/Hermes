@@ -2,11 +2,15 @@ package analyzer.extension;
 
 import analyzer.AnalyzerFactory;
 import difficultyPrediction.DifficultyPredictionSettings;
-
-public class ALiveAnalyzerProcessor extends AnAnalyzerProcessor implements LiveAnalyzerProcessor {
+/**
+ * Subclasses by RationFileReader so this is not really live, it has the option of being live
+ * @author dewan
+ *
+ */
+public class ALiveRatioFileGenerator extends ARatioFileGenerator implements LiveAnalyzerProcessor {
     public static final String LIVE_USER_NAME = "Live User";
     public static final String DUMMY_FOLDER_NAME = "Live Dummy Folder";
-    public ALiveAnalyzerProcessor() {
+    public ALiveRatioFileGenerator() {
     	if (DifficultyPredictionSettings.isReplayMode()) {
     		AnalyzerFactory.getSingleton().addAnalyzerListener(this);
     	} else {

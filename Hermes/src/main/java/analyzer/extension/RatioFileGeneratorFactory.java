@@ -1,10 +1,10 @@
 package analyzer.extension;
 
-public class RepredictingAnalyzerProcessorFactory {
+public class RatioFileGeneratorFactory {
 	static RatioFileGenerator singleton;
 	
 	public static void setSingleton(RatioFileGenerator singleton) {
-		RepredictingAnalyzerProcessorFactory.singleton = singleton;
+		RatioFileGeneratorFactory.singleton = singleton;
 	}
 
 	public static void createSingleton() {

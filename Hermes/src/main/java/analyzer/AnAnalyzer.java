@@ -29,8 +29,8 @@ import javax.swing.JFileChooser;
 import analyzer.extension.ACSVParser;
 import analyzer.extension.AStuckInterval;
 import analyzer.extension.AStuckPoint;
-import analyzer.extension.AnAnalyzerProcessor;
-import analyzer.extension.AnalyzerProcessorFactory;
+import analyzer.extension.ARatioFileGenerator;
+import analyzer.extension.RatioFileGeneratorFactory;
 import analyzer.extension.CSVParser;
 import analyzer.extension.FileReplayAnalyzerProcessorFactory;
 import analyzer.extension.StuckInterval;
@@ -61,6 +61,22 @@ import util.annotations.Row;
 import util.annotations.Visible;
 
 @LayoutName(AttributeNames.GRID_BAG_LAYOUT)
+/**
+ * Loads the experimental directory.
+ * reads specified command logs
+ * Combines all log files for an experiment into a nested command list.
+ * Replays a flattenned version of the log.
+ * Prints the replay
+ * Each command is sent to a difficulty processor so that new predictions can be made and visualized
+ * The difficulty pipe line will fire events
+ * Fires events for  replay of stored events also.
+ * The stored replay can be used to generate ratio files,
+ * Also replays ratio files that can be then visualized.
+ *
+ * 
+ * @author dewan
+ *
+ */
 public class AnAnalyzer implements Analyzer {
 	public static final String PARTICIPANT_DIRECTORY = "data/";
 	public static final String EXPERIMENTAL_DATA = "ExperimentalData/";
@@ -651,7 +667,7 @@ public class AnAnalyzer implements Analyzer {
 				&& DifficultyPredictionSettings.isReplayRatioFiles()) {
 			// System.out.println
 			// ("Need to read ratio file and replay logs");
-			AnalyzerProcessorFactory
+			RatioFileGeneratorFactory
 					.setSingleton(FileReplayAnalyzerProcessorFactory
 							.getSingleton());
 			notifyNewParticipant(aParticipantId, aParticipantFolder); // should
@@ -1023,7 +1039,7 @@ public class AnAnalyzer implements Analyzer {
 
 	void maybeProcessPrediction(EHICommand newCommand) {
 		if (newCommand instanceof PredictionCommand) {
-			lastPrediction = AnAnalyzerProcessor
+			lastPrediction = ARatioFileGenerator
 					.toInt((PredictionCommand) newCommand);
 			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
 			notifyNewCorrectStatus(lastPrediction);
@@ -1034,7 +1050,7 @@ public class AnAnalyzer implements Analyzer {
 		if (newCommand instanceof DifficultyCommand
 		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
 		) {
-			lastCorrection = AnAnalyzerProcessor
+			lastCorrection = ARatioFileGenerator
 					.toInt((DifficultyCommand) newCommand);
 			notifyNewCorrectStatus(lastCorrection);
 

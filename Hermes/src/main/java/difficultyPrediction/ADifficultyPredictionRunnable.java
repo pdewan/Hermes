@@ -6,7 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.PlatformUI;
 
-import analyzer.extension.AnAnalyzerProcessor;
+import analyzer.extension.ARatioFileGenerator;
 import config.PredictorConfigurer;
 //import dayton.ServerConnection;
 import fluorite.commands.DifficultyCommand;
@@ -100,7 +100,7 @@ public class ADifficultyPredictionRunnable implements
 					final String currentStatus = getStatus((PredictionCommand) newCommand);
 					// if (!currentStatus.equals(lastStatus)) {
 					if (DifficultyPredictionSettings.isReplayMode()) {
-						DifficultyRobot.getInstance().notifyNewReplayedStatus(AnAnalyzerProcessor.toInt(((PredictionCommand) newCommand).getPredictionType()));;
+						DifficultyRobot.getInstance().notifyNewReplayedStatus(ARatioFileGenerator.toInt(((PredictionCommand) newCommand).getPredictionType()));;
 						// try {
 						System.out.println("Prediction: "
 								+ ((PredictionCommand) newCommand)

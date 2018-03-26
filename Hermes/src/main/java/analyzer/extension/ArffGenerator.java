@@ -2,7 +2,7 @@ package analyzer.extension;
 
 
 /**Arff file generator*/
-public interface ArffGenerator extends AnalyzerProcessor{
+public interface ArffGenerator extends RatioFileGenerator{
 
 	
 	

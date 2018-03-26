@@ -33,11 +33,21 @@ import fluorite.model.EHEventRecorder;
 import util.misc.Common;
 import util.trace.difficultyPrediction.analyzer.AnalyzerPredictionStartNotification;
 import util.trace.difficultyPrediction.analyzer.AnalyzerPredictionStopNotification;
-
-public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
-		implements AnalyzerProcessor {
+/**
+ * 
+ * Serves two purposes: generates ratio files, also called output files.
+ * Shows how one can extend the functionality of analyzer by listening to its events
+ * Can listen to live events or stored events 
+ * Actually not sure it listens to stored events as it creates stored events.
+ * It does get web links and other information from ground truth.
+ * Have not figured out how web links are being written by the time line, but they do exist
+ * in the frozen output files
+ *
+ */
+public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
+		implements RatioFileGenerator {
 	Analyzer analyzer;
-	static AnalyzerProcessor analyzerProcessor;
+	static RatioFileGenerator analyzerProcessor;
 	protected Map<String, ParticipantTimeLine> participantToTimeLine = new HashMap();
 
 	String currentParticipant;
@@ -48,7 +58,7 @@ public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 	Integer lastCorrection = 0;
 	ParticipantTimeLine participantTimeLine;
 	
-	public AnAnalyzerProcessor(Analyzer a) {
+	public ARatioFileGenerator(Analyzer a) {
 		this.analyzer=a;
 		
 	}
@@ -56,7 +66,7 @@ public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 
 	private boolean isStuckPointFileGenerated;
 	
-	public AnAnalyzerProcessor() {
+	public ARatioFileGenerator() {
 //		RatioFilePlayerFactory.getSingleton().addPluginEventEventListener(this);
 //		RatioFilePlayerFactory.getSingleton().addRatioFeaturesListener(this);
 	}
@@ -119,6 +129,8 @@ public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 		System.out.println("e");
 
 	}
+	
+	// stuff below seems to be added by Kevin
 
 	// Add in the stuck interval and the stuck point data
 	public void addStuckData(ParticipantTimeLine l) {
@@ -457,7 +469,7 @@ public class AnAnalyzerProcessor extends APrintingDifficultyPredictionListener
 		 DifficultyPredictionSettings.setReplayMode(true);
 		//
 		 Analyzer analyzer = new AnAnalyzer();
-		 analyzerProcessor = new AnAnalyzerProcessor();
+		 analyzerProcessor = new ARatioFileGenerator();
 		 analyzer.addAnalyzerListener(analyzerProcessor);
 //		 HermesObjectEditorProxy.edit(analyzer);
 		 OEFrame frame = ObjectEditor.edit(analyzer);

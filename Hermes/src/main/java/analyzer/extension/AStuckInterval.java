@@ -1,7 +1,9 @@
 package analyzer.extension;
 
 import java.util.Date;
-
+/*
+ * Keeps track of barrier type and surmountability
+ */
 public class AStuckInterval implements StuckInterval{
 	@Override
 	public String toString() {

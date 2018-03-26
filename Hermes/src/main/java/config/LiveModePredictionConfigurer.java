@@ -1,6 +1,6 @@
 package config;
 
-import analyzer.extension.AnalyzerProcessorFactory;
+import analyzer.extension.RatioFileGeneratorFactory;
 import analyzer.extension.LiveAnalyzerProcessorFactory;
 import analyzer.ui.APredictionController;
 import analyzer.ui.balloons.ABalloonCreator;
@@ -14,7 +14,7 @@ public class LiveModePredictionConfigurer {
 	}
 	// can be called by analyzer
 	public static void visualizePrediction() {
-		AnalyzerProcessorFactory.setSingleton(LiveAnalyzerProcessorFactory.getSingleton());
+		RatioFileGeneratorFactory.setSingleton(LiveAnalyzerProcessorFactory.getSingleton());
 //		LiveAnalyzerProcessorFactory.getSingleton();
 		LineGraphFactory.createSingleton();
 		APredictionParameters.getInstance();
