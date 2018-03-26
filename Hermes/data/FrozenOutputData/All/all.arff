@@ -1,0 +1,11 @@
+@Relation programmer-weka.filters.supervised.instance.SMOTE-C0-K5-P100.0-S1-weka.filters.supervised.instance.SMOTE-C0-K5-P100.0-S1-weka.filters.supervised.instance.SMOTE-C0-K5-P100.0-S1-weka.filters.supervised.instance.SMOTE-C0-K5-P100.0-S1
+
+@Attribute editPercentage numeric
+@Attribute debugPercentage numeric
+@Attribute navigationPercentage numeric
+@Attribute focusPercentage numeric
+@Attribute removePercentage numeric
+@Attribute webLinkTimes numeric
+@Attribute stuck {YES,NO}
+
+%ParticipantAll
