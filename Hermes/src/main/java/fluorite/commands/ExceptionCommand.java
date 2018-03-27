@@ -3,16 +3,21 @@ package fluorite.commands;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExceptionOutput extends OutputProduced implements EHICommand {
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class ExceptionCommand extends OutputProduced implements EHICommand {
+	public static final String XML_Exception_Tag = "exceptionString";
 
 //	public static final String XML_Output_Tag = "outputString";
 //	
-	public ExceptionOutput()
+	public ExceptionCommand()
 	{
 		
 	}
 	
-	public ExceptionOutput(String aText)
+	public ExceptionCommand(String aText)
 	{
 		super(aText);
 //		outputText = aText;
@@ -35,6 +40,7 @@ public class ExceptionOutput extends OutputProduced implements EHICommand {
 //		
 //	}
 
+	//Commenting this out
 	@Override
 	public Map<String, String> getAttributesMap() {
 		// TODO Auto-generated method stub
@@ -43,6 +49,28 @@ public class ExceptionOutput extends OutputProduced implements EHICommand {
 		//attrMap.put("text", mExceptionText);
 		return attrMap;
 	}
+	@Override
+	public Map<String, String> getDataMap() {
+		Map<String, String> dataMap = new HashMap<String, String>();
+		if (outputText != null)
+			dataMap.put(XML_Exception_Tag, outputText);
+
+		return dataMap;
+	}
+	
+	
+	@Override
+	public void createFrom(Element commandElement) {
+		super.createFrom(commandElement);
+		
+		NodeList nodeList = null;
+
+		if ((nodeList = commandElement.getElementsByTagName(XML_Exception_Tag)).getLength() > 0) {
+			Node textNode = nodeList.item(0);
+			outputText =textNode.getTextContent();
+		}
+	}
+
 
 //	@Override
 //	public Map<String, String> getDataMap() {
@@ -69,7 +97,7 @@ public class ExceptionOutput extends OutputProduced implements EHICommand {
 	@Override
 	public String getCommandType() {
 		// TODO Auto-generated method stub
-		return "EHExceptionCommand";
+		return "ExceptionCommand";
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import org.eclipse.ui.console.TextConsole;
 
 import fluorite.commands.ConsoleInput;
 import fluorite.commands.ConsoleOutput;
-import fluorite.commands.ExceptionOutput;
+import fluorite.commands.ExceptionCommand;
 import fluorite.commands.ProgramExecutionEvent;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EclipseEventListener;
@@ -123,7 +123,7 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 						
 						if (event.getText().toLowerCase().contains("exception"))
 						{
-							getRecorder().recordCommand(new ExceptionOutput(inputOrOutputUnit));
+							getRecorder().recordCommand(new ExceptionCommand(inputOrOutputUnit));
 							currentConsoleContents.add(inputOrOutputUnit);
 							consoleString.append(inputOrOutputUnit);
 							return;
