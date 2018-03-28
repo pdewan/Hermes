@@ -10,5 +10,6 @@ public interface AnalyzerListener extends BrowseHistoryListener{
 	void finishParticipant(String anId, String aFolder);
 	void newCorrectStatus (int aStatus);
 	void newStoredCommand(EHICommand aNewCommand);
+	void newStoredInputCommand(EHICommand aNewCommand);
 
 }

@@ -465,6 +465,36 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	}
 
+	
+
+	@Override
+	public void finishParticipant(String anId, String aFolder) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	@Override
+	public ParticipantTimeLine getParticipantTimeLine() {
+		return participantTimeLine;
+	}
+
+	@Override
+	public void newCorrectStatus(int aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newStoredCommand(EHICommand aNewCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newStoredInputCommand(EHICommand aNewCommand) {
+		// TODO Auto-generated method stub
+		
+	}
 	public static void main(String[] args) {
 		 DifficultyPredictionSettings.setReplayMode(true);
 		//
@@ -498,29 +528,6 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 			e.printStackTrace();
 		}
 	*/
-	}
-
-	@Override
-	public void finishParticipant(String anId, String aFolder) {
-		// TODO Auto-generated method stub
-
-	}
-	
-	@Override
-	public ParticipantTimeLine getParticipantTimeLine() {
-		return participantTimeLine;
-	}
-
-	@Override
-	public void newCorrectStatus(int aStatus) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void newStoredCommand(EHICommand aNewCommand) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

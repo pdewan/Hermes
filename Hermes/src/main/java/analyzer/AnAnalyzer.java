@@ -780,9 +780,13 @@ public class AnAnalyzer implements Analyzer {
 			List<EHICommand> commands = nestedCommandsList.get(index);
 			for (int i = 0; i < commands.size(); i++) {
 				EHICommand aCommand = commands.get(i);
+				processStoredCommand(aCommand);
+
 				boolean isPrediction = maybeProcessPrediction(aCommand);
 				boolean isCorrection = maybeProcessCorrection(aCommand);
-				maybeProcessStoredCommand(aCommand);
+				if (!isPrediction && !isCorrection) {
+					processStoredInputCommand(aCommand);
+				}
 				if (!DifficultyPredictionSettings.isMakePredictions())
 					break;
 				// should we replay difficulty corrections since these were stored
@@ -955,6 +959,14 @@ public class AnAnalyzer implements Analyzer {
 		}
 		
 	}
+	
+	@Override
+	public void notifyNewStoredInputCommand(EHICommand aCommand) {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.newStoredInputCommand(aCommand);
+		}
+		
+	}
 
 	@Override
 	public void notifyNewParticipant(String anId, String aFolder) {
@@ -1067,9 +1079,12 @@ public class AnAnalyzer implements Analyzer {
 		return false;
 	}
 	
-	boolean maybeProcessStoredCommand(EHICommand aCommand) {
+	void processStoredCommand(EHICommand aCommand) {
 		notifyNewStoredCommand(aCommand);
-		return true;
+	}
+	
+	void processStoredInputCommand(EHICommand aCommand) {
+		notifyNewStoredInputCommand(aCommand);
 	}
 
 	boolean maybeProcessCorrection(EHICommand newCommand) {

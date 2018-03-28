@@ -80,6 +80,8 @@ public interface Analyzer
 
 	void notifyNewStoredCommand(EHICommand aCommand);
 
+	void notifyNewStoredInputCommand(EHICommand aCommand);
+
 
 //	boolean isNewRatioFiles();
 //

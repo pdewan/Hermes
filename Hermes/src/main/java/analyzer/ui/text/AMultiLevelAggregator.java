@@ -557,6 +557,13 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	}
 
 
+	@Override
+	public void newStoredInputCommand(EHICommand aNewCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	
 
 	
