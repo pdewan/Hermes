@@ -427,4 +427,10 @@ public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionList
 		
 	}
 
+	@Override
+	public void newStoredCommand(EHICommand aNewCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

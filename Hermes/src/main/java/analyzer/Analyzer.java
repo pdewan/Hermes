@@ -78,6 +78,8 @@ public interface Analyzer
 	void notifyNewCorrectStatus(int aStatus);
 	void addPropertyChangeListener(PropertyChangeListener aListener);
 
+	void notifyNewStoredCommand(EHICommand aCommand);
+
 
 //	boolean isNewRatioFiles();
 //

@@ -129,7 +129,7 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 	@Column(2)
 	@Explanation("Loads the logs of a specific participant or all based on the participant selection")
 	@ComponentWidth(150)
-	@ComponentHeight(35)
+	@ComponentHeight(25)
     public void replayLogs() {
 		if (analyzer != null)
 			analyzer.loadLogs(true);
@@ -140,15 +140,27 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 	 */
 	@Override
 	@Row(1)
-	@Column(0)
+	@Column(1)
 //	@Row(2)
 //	@Column(2)
-	@Explanation("Should we generate a new ratio file, possibly overwriting the previous one")
+	@Explanation("Generate a new ratio file, possibly overwriting the previous one")
 
+	
 	public boolean isNewOutputFiles() {
 		
 		
 		return DifficultyPredictionSettings.isNewRatioFiles();
+	}
+	@Override
+	@Row(1)
+	@Column(0)
+	@Explanation("Feed logs to the prediction pipe line")
+	public  boolean isMakePredictions() {
+		return DifficultyPredictionSettings.isMakePredictions();
+	}
+	@Override
+	public  void setMakePredictions(boolean makePredictions) {
+		DifficultyPredictionSettings.setMakePredictions(makePredictions);
 	}
 	
 	/* (non-Javadoc)
@@ -173,7 +185,7 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 	 */
 	@Override
 	@Row(1)
-	@Column(1)
+	@Column(2)
 //	@Row(2)
 //	@Column(3)
 	@Explanation("Replay ratio files rather than generating them from experimental data")
@@ -202,11 +214,12 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 	 * @see analyzer.AnalyzerParameters#isVisualizePrediction()
 	 */
 	
+	
 	protected boolean preVisualizePredictions() {
 		return !isVisualizePrediction();
 	}
 	@Row(1)
-	@Column(2)
+	@Column(3)
 	@Override
 	public void visualizePredictions() {
 //		PredictorConfigurer.visualizePrediction();

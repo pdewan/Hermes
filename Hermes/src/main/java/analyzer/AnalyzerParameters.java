@@ -55,6 +55,10 @@ extends PropertyListenerRegisterer
 	void visualizePredictions();
 	void addPropertyChangeListener(PropertyChangeListener aListener);
 
+	boolean isMakePredictions();
+
+	void setMakePredictions(boolean makePredictions);
+
 
 //	String getCurrentParticipant();
 //

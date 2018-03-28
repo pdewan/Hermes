@@ -9,11 +9,14 @@ public class DifficultyPredictionSettings {
 	static boolean newRatioFiles;
 	static boolean replayRatioFiles;
 	static ClassifierSpecification classifierSpecification;
+	static boolean makePredictions;
 //	static OversampleSpecification oversampleSpecification;
 //	static String arffFileName;
 
 	
-	//boolean that turns on/off ratio files creation
+
+
+		//boolean that turns on/off ratio files creation
 		static boolean createRatioFiles;
 
 	static int segmentLength = 50;
@@ -74,6 +77,12 @@ public class DifficultyPredictionSettings {
 	public static void setCreateRatioFile(boolean b) {
 		createRatioFiles=b;
 
+	}
+	public static boolean isMakePredictions() {
+		return makePredictions;
+	}
+	public static void setMakePredictions(boolean makePredictions) {
+		DifficultyPredictionSettings.makePredictions = makePredictions;
 	}
 //	public static String getARFFFileName() {
 //		if (arffFileName == null) {

@@ -517,4 +517,10 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		
 	}
 
+	@Override
+	public void newStoredCommand(EHICommand aNewCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
