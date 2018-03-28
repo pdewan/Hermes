@@ -144,8 +144,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		addField(autoLogin);
 		
 		if (Preferences.isUncSetup()) {
-			username.setEnabled(false, getFieldEditorParent());
-			host.setEnabled(false, getFieldEditorParent());
+//			username.setEnabled(false, getFieldEditorParent());
+//			host.setEnabled(false, getFieldEditorParent());
 			instructor.setEnabled(false, getFieldEditorParent());
 			security.setEnabled(false, getFieldEditorParent());
 			createAccount.setEnabled(false, getFieldEditorParent());			
