@@ -780,9 +780,16 @@ public class AnAnalyzer implements Analyzer {
 			List<EHICommand> commands = nestedCommandsList.get(index);
 			for (int i = 0; i < commands.size(); i++) {
 				EHICommand aCommand = commands.get(i);
-				maybeProcessPrediction(aCommand);
-				maybeProcessCorrection(aCommand);
-
+				boolean isPrediction = maybeProcessPrediction(aCommand);
+				boolean isCorrection = maybeProcessCorrection(aCommand);
+				maybeProcessStoredCommand(aCommand);
+				if (!DifficultyPredictionSettings.isMakePredictions())
+					break;
+				// should we replay difficulty corrections since these were stored
+				// and thus make sense only if diifculty predictions were wrong
+				// they are certainly correct status so perhaps not a bad idea
+				// the difficulty predictions certainly should not be replayed since
+				// we make new predictions
 				if ((aCommand.getTimestamp() == 0)
 						&& (aCommand.getTimestamp2() > 0)) { // this is
 																// always a
@@ -790,7 +797,9 @@ public class AnAnalyzer implements Analyzer {
 																// status
 																// command
 					startTimeStamp = commands.get(i).getTimestamp2();
+					if (!isPrediction) { // added this
 					difficultyEventProcessor.newCommand(aCommand);
+					}
 
 					notifyStartTimeStamp(startTimeStamp);
 
@@ -806,7 +815,9 @@ public class AnAnalyzer implements Analyzer {
 						// System.out.println("Put command:" +
 						// commands.get(i));
 						// difficultyEventProcessor.recordCommand(commands.get(i));
+						if (!isPrediction) {
 						difficultyEventProcessor.newCommand(aCommand);
+						}
 
 						// } catch (InterruptedException e) {
 					} catch (Exception e) {
@@ -936,6 +947,14 @@ public class AnAnalyzer implements Analyzer {
 			aListener.newCorrectStatus(aStatus);
 		}
 	}
+	
+	@Override
+	public void notifyNewStoredCommand(EHICommand aCommand) {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.newStoredCommand(aCommand);
+		}
+		
+	}
 
 	@Override
 	public void notifyNewParticipant(String anId, String aFolder) {
@@ -1037,24 +1056,46 @@ public class AnAnalyzer implements Analyzer {
 
 	}
 
-	void maybeProcessPrediction(EHICommand newCommand) {
+	boolean maybeProcessPrediction(EHICommand newCommand) {
 		if (newCommand instanceof PredictionCommand) {
 			lastPrediction = ARatioFileGenerator
 					.toInt((PredictionCommand) newCommand);
 //			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
 			notifyNewCorrectStatus(lastPrediction);
+			return true;
 		}
+		return false;
+	}
+	
+	boolean maybeProcessStoredCommand(EHICommand aCommand) {
+		notifyNewStoredCommand(aCommand);
+		return true;
 	}
 
-	void maybeProcessCorrection(EHICommand newCommand) {
+	boolean maybeProcessCorrection(EHICommand newCommand) {
 		if (newCommand instanceof DifficultyCommand
 		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
 		) {
 			lastCorrection = ARatioFileGenerator
 					.toInt((DifficultyCommand) newCommand);
 			notifyNewCorrectStatus(lastCorrection);
+			return true;
 
 		}
+		return false;
+	}
+	
+	boolean processStored(EHICommand newCommand) {
+		if (newCommand instanceof DifficultyCommand
+		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
+		) {
+			lastCorrection = ARatioFileGenerator
+					.toInt((DifficultyCommand) newCommand);
+			notifyNewCorrectStatus(lastCorrection);
+			return true;
+
+		}
+		return false;
 	}
 
 	@Override
