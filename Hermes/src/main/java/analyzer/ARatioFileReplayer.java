@@ -11,7 +11,12 @@ import difficultyPrediction.AMediatorRegistrar;
 import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
-
+/**
+ * 
+ * Plays ratios. Creates a ratio file reader that reads logs and fires events, to which
+ * this object listens
+ *
+ */
 public class ARatioFileReplayer extends AMediatorRegistrar implements RatioFilePlayer  {
 //	List<List<ICommand>> nestedCommandsList;
 	String ratioFileName;

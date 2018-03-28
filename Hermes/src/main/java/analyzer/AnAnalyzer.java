@@ -1041,7 +1041,7 @@ public class AnAnalyzer implements Analyzer {
 		if (newCommand instanceof PredictionCommand) {
 			lastPrediction = ARatioFileGenerator
 					.toInt((PredictionCommand) newCommand);
-			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
+//			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
 			notifyNewCorrectStatus(lastPrediction);
 		}
 	}

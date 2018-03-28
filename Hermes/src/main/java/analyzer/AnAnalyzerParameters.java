@@ -94,7 +94,7 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 	@Row(2)
 	@Column(0)
 	@Explanation("Load the names of the participants in the selected folder")
-	@ComponentWidth(100)
+	@ComponentWidth(150)
 	@ComponentHeight(25)
 	public void loadDirectory() {
 		if (analyzer != null)
@@ -113,8 +113,8 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 	 * @see analyzer.AnalyzerParameters#preLoadDirectory()
 	 */
 	@Override
-	@ComponentWidth(100)
-	@ComponentHeight(25)
+//	@ComponentWidth(100)
+//	@ComponentHeight(25)
 	public boolean preLoadDirectory() {
 		if (analyzer != null)
 		return analyzer.preLoadDirectory();
@@ -128,8 +128,8 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 	@Row(2)
 	@Column(2)
 	@Explanation("Loads the logs of a specific participant or all based on the participant selection")
-	@ComponentWidth(100)
-	@ComponentHeight(25)
+	@ComponentWidth(150)
+	@ComponentHeight(35)
     public void replayLogs() {
 		if (analyzer != null)
 			analyzer.loadLogs(true);
