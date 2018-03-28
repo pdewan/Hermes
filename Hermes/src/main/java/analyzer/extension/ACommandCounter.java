@@ -11,7 +11,9 @@ import difficultyPrediction.DifficultyPredictionSettings;
 import fluorite.commands.EHICommand;
 
 public class ACommandCounter implements AnalyzerListener{
-
+	int numPredictions;
+	int numCorrections;
+	int numCommands;
 	@Override
 	public void newBrowseLine(String aLine) {
 		
@@ -45,7 +47,7 @@ public class ACommandCounter implements AnalyzerListener{
 
 	@Override
 	public void newCorrectStatus(int aStatus) {
-		
+		numCorrections++;
 	}
 
 	@Override

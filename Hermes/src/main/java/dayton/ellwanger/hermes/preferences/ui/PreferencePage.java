@@ -116,7 +116,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		FileFieldEditor preferenceFile = new FileFieldEditor("PreferenceFile", "Preference File: ", getFieldEditorParent());
 		SecureStringFieldEditor username = new SecureStringFieldEditor(Preferences.USERNAME, 
 				"Username:", getFieldEditorParent());
-		username.setEnabled(false, getFieldEditorParent());
+//		username.setEnabled(false, getFieldEditorParent());
 		PasswordFieldEditor password = new PasswordFieldEditor(Preferences.PASSWORD, 
 				"Password:", getFieldEditorParent());
 		SecureStringFieldEditor domain = new SecureStringFieldEditor(Preferences.DOMAIN, "Domain:", getFieldEditorParent());
