@@ -492,7 +492,7 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 
 
 	@Override
-	public void startTimeStamp(long aStartTimeStamp) {
+	public void startTimestamp(long aStartTimeStamp) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -528,16 +528,16 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 //		setCorrectStatus(aStatus);
 		newAggregatedStatus(aStatus);
 	}
-	@Override
-	// from analyzer thread,not very nteresting, need it from runnable thread
-	public void newCorrectStatus(int aStatus) {
-//		System.out.println ("New Status:" + aStatus);
-//		correctStatusInt = aStatus;
-//		String oldStatusString = correctStatus;
-//		correctStatus = AParticipantTimeLine.statusIntToString(aStatus);
-//		propertyChangeSupport.firePropertyChange("CorrectStatus", oldStatusString, correctStatus);
-
-	}
+//	@Override
+//	// from analyzer thread,not very nteresting, need it from runnable thread
+//	public void newCorrectStatus(int aStatus) {
+////		System.out.println ("New Status:" + aStatus);
+////		correctStatusInt = aStatus;
+////		String oldStatusString = correctStatus;
+////		correctStatus = AParticipantTimeLine.statusIntToString(aStatus);
+////		propertyChangeSupport.firePropertyChange("CorrectStatus", oldStatusString, correctStatus);
+//
+//	}
 
 	@Override
 	public void finishedBrowserLines() {
@@ -566,14 +566,14 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 
 
 	@Override
-	public void newCorrectStatus(Status aStatus) {
+	public void newCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void newPrediction(PredictionType aPredictionType) {
+	public void newPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}

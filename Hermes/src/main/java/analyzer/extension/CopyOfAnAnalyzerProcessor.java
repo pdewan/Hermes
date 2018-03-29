@@ -361,7 +361,7 @@ public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionList
 		participantTimeLine.getWebLinks().add(null);
 		System.err.println("Extension**New Ratios:" + newVal + " at time:" + (new Date(currentTime)).toString());		
 	}
-	public void startTimeStamp(long aStartTimeStamp) {
+	public void startTimestamp(long aStartTimeStamp) {
 		System.out.println("start time stamp:" + aStartTimeStamp);	
 		EHEventRecorder.getInstance().setStartTimeStamp(aStartTimeStamp);
 
@@ -423,11 +423,11 @@ public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionList
 		return participantTimeLine;
 	}
 
-	@Override
-	public void newCorrectStatus(int aStatus) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void newCorrectStatus(int aStatus) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void newStoredCommand(EHICommand aNewCommand) {
@@ -442,13 +442,13 @@ public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionList
 	}
 
 	@Override
-	public void newCorrectStatus(Status aStatus) {
+	public void newCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void newPrediction(PredictionType aPredictionType) {
+	public void newPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}

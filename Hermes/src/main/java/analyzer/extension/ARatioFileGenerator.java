@@ -443,7 +443,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		
 	}
 
-	public void startTimeStamp(long aStartTimeStamp) {
+	public void startTimestamp(long aStartTimeStamp) {
 		//System.out.println("start time stamp:" + aStartTimeStamp);
 		EHEventRecorder.getInstance().setStartTimeStamp(aStartTimeStamp);
 
@@ -479,11 +479,11 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		return participantTimeLine;
 	}
 
-	@Override
-	public void newCorrectStatus(int aStatus) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void newCorrectStatus(int aStatus) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void newStoredCommand(EHICommand aNewCommand) {
@@ -532,13 +532,13 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	}
 
 	@Override
-	public void newCorrectStatus(Status aStatus) {
+	public void newCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void newPrediction(PredictionType aPredictionType) {
+	public void newPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}

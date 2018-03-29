@@ -949,24 +949,23 @@ public class AnAnalyzer implements Analyzer {
 		listeners.remove(aListener);
 	}
 
+//	@Override
+//	public void notifyNewCorrectStatus(int aStatus) {
+//		for (AnalyzerListener aListener : listeners) {
+//			aListener.newCorrectStatus(aStatus);
+//		}
+//	}
 	@Override
-	public void notifyNewCorrectStatus(int aStatus) {
+	public void notifyNewPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.newCorrectStatus(aStatus);
-		}
-	}
-	@Override
-	public void notifyNewPrediction(PredictionType aPredictionType) {
-		for (AnalyzerListener aListener : listeners) {
-			aListener.newPrediction(aPredictionType);
-
+			aListener.newPrediction(aPredictionType, aStartRelativeTime, aDuration);
 		}
 	}
 	
 	@Override
-	public void notifyNewCorrectStatus(Status aStatus) {
+	public void notifyNewCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.newCorrectStatus(aStatus);
+			aListener.newCorrectStatus(aStatus, aStartRelativeTime, aDuration);
 		}
 	}
 	
@@ -999,11 +998,13 @@ public class AnAnalyzer implements Analyzer {
 			aListener.finishParticipant(anId, aFolder);
 		}
 	}
-
+	/**
+	 * This will be called once for each file in the nested command list
+	 */
 	@Override
 	public void notifyStartTimeStamp(long aStartTimeStamp) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.startTimeStamp(aStartTimeStamp);
+			aListener.startTimestamp(aStartTimeStamp);
 		}
 	}
 
@@ -1085,14 +1086,33 @@ public class AnAnalyzer implements Analyzer {
 //		ObjectEditor.edit(AnAnalyzer.getInstance(), 500, 335);
 
 	}
+	public static String convertSecondsToHMmSs(long seconds) {
+	    long s = seconds % 60;
+	    long m = (seconds / 60) % 60;
+	    long h = (seconds / (60 * 60)) % 24;
+	    return String.format("%d:%02d:%02d", h,m,s);
+	}
+	public static String convertMillSecondsToHMmSs(long aMilliSeconds) {
+	    return convertSecondsToHMmSs(aMilliSeconds/1000);
+	}
+	public static long  duration(EHICommand aCommand) {
+		return duration (aCommand.getTimestamp(), aCommand.getTimestamp2());
+	}
+	
+    public static long  duration(long aTimestamp1, long aTimestamp2) {
+    	return aTimestamp2 == 0?0:aTimestamp2 - aTimestamp1;
+	}
+
 
 	boolean maybeProcessPrediction(EHICommand newCommand) {
 		if (newCommand instanceof PredictionCommand) {
+			PredictionCommand aPredictionCommand = (PredictionCommand) newCommand;
+			
 			lastPrediction = ARatioFileGenerator
-					.toInt((PredictionCommand) newCommand);
+					.toInt(aPredictionCommand);
 //			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
 //			notifyNewCorrectStatus(lastPrediction);
-			notifyNewPrediction(((PredictionCommand) newCommand).getPredictionType());
+			notifyNewPrediction(aPredictionCommand.getPredictionType(), newCommand.getTimestamp(), duration(newCommand));
 			return true;
 		}
 		return false;
@@ -1121,26 +1141,26 @@ public class AnAnalyzer implements Analyzer {
 			}
 			lastCorrection = ARatioFileGenerator
 					.toInt(aDifficultyCommand);
-			notifyNewCorrectStatus(lastCorrection);			
-			notifyNewCorrectStatus(aDifficultyCommand.getStatus());
+//			notifyNewCorrectStatus(lastCorrection);			
+			notifyNewCorrectStatus(aDifficultyCommand.getStatus(), newCommand.getTimestamp(), duration(newCommand));
 			return true;
 
 		}
 		return false;
 	}
 	
-	boolean processStored(EHICommand newCommand) {
-		if (newCommand instanceof DifficultyCommand
-		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
-		) {
-			lastCorrection = ARatioFileGenerator
-					.toInt((DifficultyCommand) newCommand);
-			notifyNewCorrectStatus(lastCorrection);
-			return true;
-
-		}
-		return false;
-	}
+//	boolean processStored(EHICommand newCommand) {
+//		if (newCommand instanceof DifficultyCommand
+//		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
+//		) {
+//			lastCorrection = ARatioFileGenerator
+//					.toInt((DifficultyCommand) newCommand);
+//			notifyNewCorrectStatus(lastCorrection);
+//			return true;
+//
+//		}
+//		return false;
+//	}
 
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener arg0) {

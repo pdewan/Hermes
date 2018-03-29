@@ -30,6 +30,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	int numInputCommandsAfterFirstPrediction; // minus first segment
 	int numInputCommandsBeforeFirstPrediction;// plus first segment
 	int numEvents;
+	long startTimestamp;
+	long experimentStartTimestamp;
+	long lastTimestamp;
 //	boolean madePrediction;
 	
 	protected void initStatistics() {
@@ -47,6 +50,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		numInputCommands = 0;	
 		numInputCommandsAfterFirstPrediction = 0;
 		numInputCommandsBeforeFirstPrediction = 0;
+		experimentStartTimestamp = 0;
+		lastTimestamp = 0;
+		
 	}
 	
 	protected boolean isMadePediction() {
@@ -69,6 +75,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		System.out.println("Num Difficulty Statuses:" + numDifficultyStatuses);
 		System.out.println("Num Surmountable Statuses:" + numSurmountableStatuses);
 		System.out.println("Num Insurmountable Statuses:" + numInsurmountableStatuses);
+		System.out.println("Experiment start: " + new Date(experimentStartTimestamp));
+		System.out.println("Experiment end: " + new Date (lastTimestamp));
+		System.out.println("Experiment duration: " + AnAnalyzer.convertMillSecondsToHMmSs(lastTimestamp - experimentStartTimestamp));
+		
 		
 	}
 	
@@ -94,7 +104,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	}
 
 	@Override
-	public void startTimeStamp(long aStartTimeStamp) {
+	public void startTimestamp(long aStartTimeStamp) {
+		if (experimentStartTimestamp == 0 && aStartTimeStamp != 0) {
+			experimentStartTimestamp = aStartTimeStamp;
+			System.out.println("Experiment Start");
+		}
+		startTimestamp = aStartTimeStamp;
 		Date aDate = new Date(aStartTimeStamp);
 		System.out.println("Start time:" + aDate );
 		
@@ -105,25 +120,29 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		printStatistics();		
 		
 	}
-
-	@Override
-	public void newCorrectStatus(int aStatus) {
-//		numCorrections++;
-//		switch (aStatus) {
-//		case	AParticipantTimeLine.SURMOUNTABLE_INT:
-//				numDifficultyStatuses++;
-//				break;
-//		case AParticipantTimeLine.INSURMOUNTABLE_INT:
-//			numDifficultyStatuses++;
-//			break;
-//		case AParticipantTimeLine.PROGRESS_INT:
-//			numProgressPredictions++;
-//			break;
-//		}
-//		
+	
+	protected Date dateFromRelativeTime (long aRelativeTime) {
+		return new Date(startTimestamp + aRelativeTime);
 	}
+
+//	@Override
+//	public void newCorrectStatus(int aStatus) {
+////		numCorrections++;
+////		switch (aStatus) {
+////		case	AParticipantTimeLine.SURMOUNTABLE_INT:
+////				numDifficultyStatuses++;
+////				break;
+////		case AParticipantTimeLine.INSURMOUNTABLE_INT:
+////			numDifficultyStatuses++;
+////			break;
+////		case AParticipantTimeLine.PROGRESS_INT:
+////			numProgressPredictions++;
+////			break;
+////		}
+////		
+//	}
 	@Override
-	public void newCorrectStatus(Status aStatus) {
+	public void newCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
 		numStatuses++;
 		if (aStatus == null) {
 			numNullStatuses++;
@@ -133,17 +152,20 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		case Surmountable:
 			numSurmountableStatuses++;
 			numDifficultyStatuses++;
+			System.out.println("Surmountable time:" + dateFromRelativeTime(aStartRelativeTime));
 			break;
 		case Insurmountable:
 			numInsurmountableStatuses++;
 			numDifficultyStatuses++;
+			System.out.println("Insurmountable time:" + dateFromRelativeTime(aStartRelativeTime));
+
 		case Making_Progress:
 			numProgressStatuses++;
 		}		
 	}
 
 	@Override
-	public void newPrediction(PredictionType aPredictionType) {
+	public void newPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
 		numStoredPredictions++;
 		switch (aPredictionType) {
 		case MakingProgress: 
@@ -151,6 +173,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			break;
 		case HavingDifficulty:
 			numStoredDifficultyPredictions++;
+			System.out.println("Difficulty prediction time:" + dateFromRelativeTime(aStartRelativeTime));
+
 			break;	
 		case Indeterminate:
 			numStoredIndeterminatePredictions++;
@@ -161,6 +185,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	@Override
 	public void newStoredCommand(EHICommand aNewCommand) {
 		numEvents++;
+		lastTimestamp = startTimestamp + aNewCommand.getTimestamp() + AnAnalyzer.duration(aNewCommand);
 	}
 
 	@Override
@@ -182,6 +207,6 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			 analyzer.getAnalyzerParameters().getParticipants().setValue("16");
 			 analyzer.addAnalyzerListener(analyzerListener);
 			 analyzer.getAnalyzerParameters().replayLogs();
-			 OEFrame frame = ObjectEditor.edit(analyzer);
+//			 OEFrame frame = ObjectEditor.edit(analyzer);
 	}
 }

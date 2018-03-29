@@ -77,16 +77,16 @@ public interface Analyzer
 	
 	public String getOutputDirectory();
 
-	void notifyNewCorrectStatus(int aStatus);
+//	void notifyNewCorrectStatus(int aStatus);
 	void addPropertyChangeListener(PropertyChangeListener aListener);
 
 	void notifyNewStoredCommand(EHICommand aCommand);
 
 	void notifyNewStoredInputCommand(EHICommand aCommand);
 
-	void notifyNewCorrectStatus(Status aStatus);
+	void notifyNewCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration);
 
-	void notifyNewPrediction(PredictionType aPredictionType);
+	void notifyNewPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration);
 
 
 //	boolean isNewRatioFiles();

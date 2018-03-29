@@ -14,7 +14,7 @@ public class APrintingDifficultyPredictionListener implements DifficultyPredicti
 	public void commandProcessingStarted() {
 		System.out.println("Extension**Difficulty Prediction Started");		
 	}
-	public void startTimeStamp(long aStartTimeStamp) {
+	public void startTimestamp(long aStartTimeStamp) {
 		System.out.println("Extension**Difficulty Prediction Started");		
 
 	}
