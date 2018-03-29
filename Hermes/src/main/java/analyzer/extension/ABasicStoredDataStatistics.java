@@ -13,13 +13,13 @@ import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
 
-public class ACommandCounter implements AnalyzerListener{
-	int numPredictions;
-	int numDifficultyPredictions;
-	int numIndeterminatePredictions;
+public class ABasicStoredDataStatistics implements AnalyzerListener{
+	int numStoredPredictions;
+	int numStoredDifficultyPredictions;
+	int numStoredIndeterminatePredictions;
 
-	int numProgressPredictions;
-	int numNoPredictions;
+	int numStoredProgressPredictions;
+	int numNoStoredPredictions;
 	int numStatuses;
 	int numDifficultyStatuses;
 	int numSurmountableStatuses;
@@ -28,15 +28,16 @@ public class ACommandCounter implements AnalyzerListener{
 	int numProgressStatuses;
 	int numInputCommands;
 	int numInputCommandsAfterFirstPrediction; // minus first segment
+	int numInputCommandsBeforeFirstPrediction;// plus first segment
 	int numEvents;
 //	boolean madePrediction;
 	
 	protected void initStatistics() {
 		numEvents = 0;
-		numPredictions = 0;
-		numDifficultyPredictions = 0;
-		numProgressPredictions = 0;
-		numIndeterminatePredictions = 0;
+		numStoredPredictions = 0;
+		numStoredDifficultyPredictions = 0;
+		numStoredProgressPredictions = 0;
+		numStoredIndeterminatePredictions = 0;
 		numStatuses = 0;
 		numDifficultyStatuses = 0;
 		numProgressStatuses = 0;
@@ -45,20 +46,25 @@ public class ACommandCounter implements AnalyzerListener{
 		numNullStatuses = 0;
 		numInputCommands = 0;	
 		numInputCommandsAfterFirstPrediction = 0;
+		numInputCommandsBeforeFirstPrediction = 0;
 	}
 	
 	protected boolean isMadePediction() {
-		return numProgressPredictions > 0 || numDifficultyPredictions > 0;
+		return numStoredProgressPredictions > 0 || numStoredDifficultyPredictions > 0;
 	}
 	
 	protected void printStatistics() {
 		System.out.println("Num Commands:" + numInputCommands);
 		System.out.println("Num Commands After First Prediction:" + numInputCommandsAfterFirstPrediction);
-		System.out.println("Num Commands Before First Prediction:" + (numInputCommands - numInputCommandsAfterFirstPrediction));
-		System.out.println("Num Predictions:" + numPredictions);
-		System.out.println("Num Progress Predictions:" + numProgressPredictions);
-		System.out.println("Num Difficulty Predictions:" + numDifficultyPredictions);
-		System.out.println("Num Indeterminate Predictions:" + (numPredictions - (numDifficultyPredictions + numProgressPredictions)));
+		System.out.println("Num Commands Before First Prediction:" + numInputCommandsBeforeFirstPrediction);
+		System.out.println("Num Stored Predictions:" + numStoredPredictions);
+		System.out.println("Num Stored Progress Predictions:" + numStoredProgressPredictions);
+		System.out.println("Num Stored Difficulty Predictions:" + numStoredDifficultyPredictions);
+		System.out.println("Num Stored Indeterminate Predictions:" + numStoredIndeterminatePredictions);
+		System.out.println("Commands per stored indeterminate prediction:" + ((double) numInputCommandsBeforeFirstPrediction)/numStoredIndeterminatePredictions );
+		System.out.println("Commands per stored non indeterninate prediction:" + ((double) numInputCommandsAfterFirstPrediction)/(numStoredDifficultyPredictions + numStoredProgressPredictions) );
+		System.out.println("Commands per stored  prediction:" + ((double) numInputCommands)/(numStoredPredictions) );
+
 		System.out.println("Num Statuses:" + numStatuses);
 		System.out.println("Num Difficulty Statuses:" + numDifficultyStatuses);
 		System.out.println("Num Surmountable Statuses:" + numSurmountableStatuses);
@@ -136,17 +142,16 @@ public class ACommandCounter implements AnalyzerListener{
 
 	@Override
 	public void newPrediction(PredictionType aPredictionType) {
-		numPredictions++;
+		numStoredPredictions++;
 		switch (aPredictionType) {
 		case MakingProgress: 
-			numPredictions++;
-			numProgressPredictions++;
+			numStoredProgressPredictions++;
 			break;
 		case HavingDifficulty:
-			numPredictions++;
-			numDifficultyPredictions++;
+			numStoredDifficultyPredictions++;
 			break;	
 		case Indeterminate:
+			numStoredIndeterminatePredictions++;
 			break;
 		}
 	}
@@ -161,6 +166,8 @@ public class ACommandCounter implements AnalyzerListener{
 		numInputCommands++;
 		if (isMadePediction()) {
 			numInputCommandsAfterFirstPrediction++;
+		} else {
+			numInputCommandsBeforeFirstPrediction++;
 		}
 		
 	}
@@ -168,7 +175,7 @@ public class ACommandCounter implements AnalyzerListener{
 		 DifficultyPredictionSettings.setReplayMode(true);
 			//
 			 Analyzer analyzer = new AnAnalyzer();
-			 AnalyzerListener analyzerListener = new ACommandCounter();
+			 AnalyzerListener analyzerListener = new ABasicStoredDataStatistics();
 			 analyzer.addAnalyzerListener(analyzerListener);
 			 OEFrame frame = ObjectEditor.edit(analyzer);
 	}
