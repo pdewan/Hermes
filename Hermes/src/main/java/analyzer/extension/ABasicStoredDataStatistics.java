@@ -95,6 +95,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 
 	@Override
 	public void startTimeStamp(long aStartTimeStamp) {
+		Date aDate = new Date(aStartTimeStamp);
+		System.out.println("Start time:" + aDate );
 		
 	}
 
@@ -176,7 +178,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			//
 			 Analyzer analyzer = new AnAnalyzer();
 			 AnalyzerListener analyzerListener = new ABasicStoredDataStatistics();
+			 analyzer.loadDirectory();
+			 analyzer.getAnalyzerParameters().getParticipants().setValue("16");
 			 analyzer.addAnalyzerListener(analyzerListener);
+			 analyzer.getAnalyzerParameters().replayLogs();
 			 OEFrame frame = ObjectEditor.edit(analyzer);
 	}
 }

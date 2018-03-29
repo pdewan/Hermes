@@ -98,17 +98,17 @@ public class AnAnalyzer implements Analyzer {
 	public static final int SEGMENT_LENGTH = 50;
 	public static final String ALL_PARTICIPANTS = "All";
 	public static final String IGNORE_KEYWORD = "IGNORE";
-	static final Hashtable<String, String> participants = new Hashtable<String, String>();
+	 final Hashtable<String, String> participants = new Hashtable<String, String>();
 
 	// do not make public, we only need to fill these maps once, must uphold
 	// that they are unmodifiable via getter methods
-	private static Map<String, Queue<StuckPoint>> stuckPoint = new HashMap<>();
-	private static Map<String, Queue<StuckInterval>> stuckInterval = new HashMap<>();
+	private  Map<String, Queue<StuckPoint>> stuckPoint = new HashMap<>();
+	private  Map<String, Queue<StuckInterval>> stuckInterval = new HashMap<>();
 
-	static boolean stuckFileLoaded = false;
-	static RatioFileReader ratioFileReader;
+	 boolean stuckFileLoaded = false;
+	 RatioFileReader ratioFileReader;
 
-	static long startTimeStamp;
+	 long startTimeStamp;
 	List<List<EHICommand>> nestedCommandsList;
 
 	FileSetterModel participantsFolder, outputFolder, experimentalData;
@@ -362,14 +362,14 @@ public class AnAnalyzer implements Analyzer {
 				p.setBarrierType(split[2]);
 				p.setSurmountability(split[3]);
 
-				if (AnAnalyzer.stuckInterval.get(id) == null) {
-					AnAnalyzer.stuckInterval.put(id,
+				if (stuckInterval.get(id) == null) {
+					stuckInterval.put(id,
 							new PriorityQueue<StuckInterval>());
 
 				}
 
 				// get the priority queue and add the new stuck interval
-				AnAnalyzer.stuckInterval.get(id).add((StuckInterval) p);
+				stuckInterval.get(id).add((StuckInterval) p);
 
 			}
 
@@ -789,8 +789,9 @@ public class AnAnalyzer implements Analyzer {
 				if (!isPrediction && !isCorrection) {
 					processStoredInputCommand(aCommand);
 				}
-				if (!DifficultyPredictionSettings.isMakePredictions())
+				if (!DifficultyPredictionSettings.isMakePredictions()) {
 					continue;
+				}
 				// should we replay difficulty corrections since these were stored
 				// and thus make sense only if diifculty predictions were wrong
 				// they are certainly correct status so perhaps not a bad idea
@@ -802,12 +803,13 @@ public class AnAnalyzer implements Analyzer {
 																// difficulty
 																// status
 																// command
-					startTimeStamp = commands.get(i).getTimestamp2();
+//					startTimeStamp = commands.get(i).getTimestamp2();
+//					notifyStartTimeStamp(startTimeStamp);
 					if (!isPrediction) { // added this
-					difficultyEventProcessor.newCommand(aCommand);
+					difficultyEventProcessor.newCommand(aCommand); // why play this 
 					}
 
-					notifyStartTimeStamp(startTimeStamp);
+//					notifyStartTimeStamp(startTimeStamp);
 
 				} else {
 					eventAggregator.setStartTimeStamp(startTimeStamp); // not
@@ -1108,10 +1110,19 @@ public class AnAnalyzer implements Analyzer {
 		if (newCommand instanceof DifficultyCommand
 		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
 		) {
+			DifficultyCommand aDifficultyCommand = (DifficultyCommand) newCommand;
+			Status aStatus = ((DifficultyCommand) newCommand).getStatus();		
+			if (aStatus == null) {
+				if (newCommand.getTimestamp() == 0 && newCommand.getTimestamp2() > 0) {
+					startTimeStamp = newCommand.getTimestamp2();
+					notifyStartTimeStamp(startTimeStamp);
+				}
+				return false;
+			}
 			lastCorrection = ARatioFileGenerator
-					.toInt((DifficultyCommand) newCommand);
-			notifyNewCorrectStatus(lastCorrection);
-			notifyNewCorrectStatus(((DifficultyCommand) newCommand).getStatus());
+					.toInt(aDifficultyCommand);
+			notifyNewCorrectStatus(lastCorrection);			
+			notifyNewCorrectStatus(aDifficultyCommand.getStatus());
 			return true;
 
 		}
