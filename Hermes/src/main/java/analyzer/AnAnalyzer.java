@@ -55,6 +55,8 @@ import difficultyPrediction.featureExtraction.RatioFeatures;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
+import fluorite.commands.PredictionType;
+import fluorite.commands.Status;
 import fluorite.util.EHLogReader;
 import util.annotations.LayoutName;
 import util.annotations.Row;
@@ -788,7 +790,7 @@ public class AnAnalyzer implements Analyzer {
 					processStoredInputCommand(aCommand);
 				}
 				if (!DifficultyPredictionSettings.isMakePredictions())
-					break;
+					continue;
 				// should we replay difficulty corrections since these were stored
 				// and thus make sense only if diifculty predictions were wrong
 				// they are certainly correct status so perhaps not a bad idea
@@ -951,6 +953,20 @@ public class AnAnalyzer implements Analyzer {
 			aListener.newCorrectStatus(aStatus);
 		}
 	}
+	@Override
+	public void notifyNewPrediction(PredictionType aPredictionType) {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.newPrediction(aPredictionType);
+
+		}
+	}
+	
+	@Override
+	public void notifyNewCorrectStatus(Status aStatus) {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.newCorrectStatus(aStatus);
+		}
+	}
 	
 	@Override
 	public void notifyNewStoredCommand(EHICommand aCommand) {
@@ -1073,7 +1089,8 @@ public class AnAnalyzer implements Analyzer {
 			lastPrediction = ARatioFileGenerator
 					.toInt((PredictionCommand) newCommand);
 //			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
-			notifyNewCorrectStatus(lastPrediction);
+//			notifyNewCorrectStatus(lastPrediction);
+			notifyNewPrediction(((PredictionCommand) newCommand).getPredictionType());
 			return true;
 		}
 		return false;
@@ -1094,6 +1111,7 @@ public class AnAnalyzer implements Analyzer {
 			lastCorrection = ARatioFileGenerator
 					.toInt((DifficultyCommand) newCommand);
 			notifyNewCorrectStatus(lastCorrection);
+			notifyNewCorrectStatus(((DifficultyCommand) newCommand).getStatus());
 			return true;
 
 		}

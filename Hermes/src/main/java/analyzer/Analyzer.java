@@ -12,6 +12,8 @@ import analyzer.extension.StuckPoint;
 import bus.uigen.models.FileSetterModel;
 import difficultyPrediction.DifficultyPredictionPluginEventProcessor;
 import fluorite.commands.EHICommand;
+import fluorite.commands.PredictionType;
+import fluorite.commands.Status;
 import util.models.PropertyListenerRegisterer;
 
 public interface Analyzer 
@@ -81,6 +83,10 @@ public interface Analyzer
 	void notifyNewStoredCommand(EHICommand aCommand);
 
 	void notifyNewStoredInputCommand(EHICommand aCommand);
+
+	void notifyNewCorrectStatus(Status aStatus);
+
+	void notifyNewPrediction(PredictionType aPredictionType);
 
 
 //	boolean isNewRatioFiles();

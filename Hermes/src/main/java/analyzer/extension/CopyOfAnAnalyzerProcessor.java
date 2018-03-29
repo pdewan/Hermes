@@ -26,6 +26,8 @@ import difficultyPrediction.featureExtraction.RatioFeatures;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
+import fluorite.commands.PredictionType;
+import fluorite.commands.Status;
 import fluorite.model.EHEventRecorder;
 import util.misc.Common;
 
@@ -435,6 +437,18 @@ public class CopyOfAnAnalyzerProcessor extends APrintingDifficultyPredictionList
 
 	@Override
 	public void newStoredInputCommand(EHICommand aNewCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newCorrectStatus(Status aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newPrediction(PredictionType aPredictionType) {
 		// TODO Auto-generated method stub
 		
 	}

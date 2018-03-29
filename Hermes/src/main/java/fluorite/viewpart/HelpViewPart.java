@@ -16,7 +16,7 @@ import org.eclipse.ui.part.ViewPart;
 //import context.saros.SarosAccessorFactory;
 import analyzer.ui.APredictionController;
 import fluorite.commands.DifficultyCommand;
-import fluorite.commands.DifficultyCommand.Status;
+import fluorite.commands.Status;
 import fluorite.dialogs.InsurmountableDialog;
 import fluorite.dialogs.SurmountableDialog;
 import fluorite.model.EHEventRecorder;

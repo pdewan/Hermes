@@ -12,11 +12,6 @@ import fluorite.model.StatusConsts;
 
 public class PredictionCommand extends AbstractCommand{
 	
-	public enum PredictionType
-	{
-		MakingProgress, Indeterminate, HavingDifficulty
-	}
-	
 	public PredictionCommand(PredictionType predictionType)
 	{
 		mPredictionType = predictionType;

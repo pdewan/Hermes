@@ -27,7 +27,8 @@ import difficultyPrediction.featureExtraction.RatioFeatures;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
-import fluorite.commands.PredictionCommand.PredictionType;
+import fluorite.commands.PredictionType;
+import fluorite.commands.Status;
 import fluorite.model.EHEventRecorder;
 //import bus.uigen.hermes.HermesObjectEditorProxy;
 import util.misc.Common;
@@ -303,7 +304,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		}
 		
 	}
-	public static int toInt(DifficultyCommand.Status aStatus) {
+	public static int toInt(Status aStatus) {
 		if (aStatus == null) {
 			return ParticipantTimeLine.INDTERMINATE_INT;
 		}
@@ -528,6 +529,18 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 			e.printStackTrace();
 		}
 	*/
+	}
+
+	@Override
+	public void newCorrectStatus(Status aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newPrediction(PredictionType aPredictionType) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -24,7 +24,7 @@ import difficultyPrediction.statusManager.StatusManager;
 import difficultyPrediction.statusManager.StatusManagerDetails;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
-import fluorite.commands.PredictionCommand.PredictionType;
+import fluorite.commands.PredictionType;
 import fluorite.model.EHEventRecorder;
 import util.trace.Tracer;
 import util.trace.difficultyPrediction.NewCommand;

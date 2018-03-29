@@ -34,7 +34,8 @@ import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
-import fluorite.commands.PredictionCommand.PredictionType;
+import fluorite.commands.PredictionType;
+import fluorite.commands.Status;
 import fluorite.model.StatusConsts;
 import util.annotations.Column;
 import util.annotations.ComponentHeight;
@@ -559,6 +560,20 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 
 	@Override
 	public void newStoredInputCommand(EHICommand aNewCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void newCorrectStatus(Status aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void newPrediction(PredictionType aPredictionType) {
 		// TODO Auto-generated method stub
 		
 	}

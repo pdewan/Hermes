@@ -1,6 +1,8 @@
 package analyzer;
 
 import fluorite.commands.EHICommand;
+import fluorite.commands.PredictionType;
+import fluorite.commands.Status;
 
 public interface AnalyzerListener extends BrowseHistoryListener{
 	void newParticipant(String anId, String aFolder);
@@ -11,5 +13,7 @@ public interface AnalyzerListener extends BrowseHistoryListener{
 	void newCorrectStatus (int aStatus);
 	void newStoredCommand(EHICommand aNewCommand);
 	void newStoredInputCommand(EHICommand aNewCommand);
+	void newCorrectStatus (Status aStatus);
+	void newPrediction(PredictionType aPredictionType);
 
 }

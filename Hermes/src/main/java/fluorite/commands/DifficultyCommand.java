@@ -12,12 +12,6 @@ import org.w3c.dom.NodeList;
 import fluorite.model.EHEventRecorder;
 
 public class DifficultyCommand extends AbstractCommand {
-	// this should be a separate class
-	public enum Status
-	{
-		Making_Progress,Surmountable, Insurmountable
-	}
-	
 	private Status mUserStatus;
 	private String mTryingToDo;
 	private String mCausedDifficulty;
