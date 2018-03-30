@@ -11,6 +11,7 @@ import bus.uigen.ObjectEditor;
 import difficultyPrediction.DifficultyPredictionSettings;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionType;
+import fluorite.commands.ShellCommand;
 import fluorite.commands.Status;
 import fluorite.commands.WebVisitCommand;
 
@@ -34,6 +35,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	long startTimestamp;
 	long experimentStartTimestamp;
 	long lastTimestamp;
+	EHICommand lastNonWebCommand;
+	EHICommand lastCommand;
+	protected boolean firstCommandAfterStart = true;
 	
 	long maxTimeBetweenCommands;
 //	boolean madePrediction;
@@ -55,6 +59,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		numInputCommandsBeforeFirstPrediction = 0;
 		experimentStartTimestamp = 0;
 		maxTimeBetweenCommands = 0;
+		lastNonWebCommand =null;
+		lastCommand = null;
+
+		
 		
 	}
 	
@@ -159,6 +167,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 //	}
 	@Override
 	public void newCorrectStatus(Status aStatus, long aStartAbsoluteTime, long aDuration) {
+		Date aDate = new Date(aStartAbsoluteTime);
 		numStatuses++;
 		if (aStatus == null) {
 			numNullStatuses++;
@@ -168,12 +177,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		case Surmountable:
 			numSurmountableStatuses++;
 			numDifficultyStatuses++;
-			System.out.println("Surmountable time:" + dateFromAbsoluteTime(aStartAbsoluteTime));
+			System.out.println(aDate + " Surmountable");
 			break;
 		case Insurmountable:
 			numInsurmountableStatuses++;
 			numDifficultyStatuses++;
-			System.out.println("Insurmountable time:" + dateFromAbsoluteTime(aStartAbsoluteTime));
+			System.out.println(aDate + "Insurmountable");
 
 		case Making_Progress:
 			numProgressStatuses++;
@@ -189,8 +198,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			break;
 		case HavingDifficulty:
 			numStoredDifficultyPredictions++;
-			System.out.println("Difficulty prediction time:" + dateFromAbsoluteTime(aStartAbsoluteTime));
-
+			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Difficulty prediction time:");
 			break;	
 		case Indeterminate:
 			numStoredIndeterminatePredictions++;
@@ -198,23 +206,42 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		}
 	}
 	
-	protected void computeMaxTimeBetweenCommands(EHICommand aCommand) {
-		long aTimeSinceLastCommand = startTimestamp + aCommand.getTimestamp() - lastTimestamp;
+	protected void computeMaxTimeBetweenCommands(long aStartAbsoluteTime, EHICommand aCommand) {
+		long aTimeSinceLastCommand = aStartAbsoluteTime - lastTimestamp;
 		maxTimeBetweenCommands = Math.max(aTimeSinceLastCommand, maxTimeBetweenCommands);
 		if (maxTimeBetweenCommands == aTimeSinceLastCommand ) {
-			System.out.println("New max time:" + maxTimeBetweenCommands);
+			Date aDate = new Date(aStartAbsoluteTime);
+			System.out.println(aDate + " New max time:" + maxTimeBetweenCommands + " new command" + aCommand);
+			System.out.println(dateFromAbsoluteTime(lastTimestamp) + " Previous command:" + lastNonWebCommand);
+//			System.out.println("New Command:"+  aCommand);
 		}
 		
 	}
-
+	protected void computeAndPrintInputCommandStatistics(EHICommand aNewCommand, long aStartAbsoluteTime, long aDuration) {
+		numEvents++;
+		computeMaxTimeBetweenCommands(aStartAbsoluteTime, aNewCommand);
+		lastTimestamp = aStartAbsoluteTime + aDuration;
+		if (lastCommand instanceof WebVisitCommand) {
+			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Returning from web visit:" + aNewCommand);
+		} 
+		lastNonWebCommand = aNewCommand;
+		lastCommand = aNewCommand;
+		
+		if (isMadePediction()) {
+			numInputCommandsAfterFirstPrediction++;
+		} else {
+			numInputCommandsBeforeFirstPrediction++;
+		}
+		if (aNewCommand instanceof ShellCommand) {
+			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " " + aNewCommand);
+		}
+	}
 	@Override
 	public void newStoredCommand(EHICommand aNewCommand, long aStartAbsoluteTime, long aDuration) {
 		if (aNewCommand.getTimestamp() == 0) {
 			return;
 		}
-		numEvents++;
-		computeMaxTimeBetweenCommands(aNewCommand);
-		lastTimestamp = aStartAbsoluteTime + aDuration;
+//		computeInputCommandStatistics(aNewCommand, aStartAbsoluteTime, aDuration);
 	}
 
 	@Override
@@ -225,6 +252,21 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		} else {
 			numInputCommandsBeforeFirstPrediction++;
 		}
+		
+		computeAndPrintInputCommandStatistics(aNewCommand, aStartAbsoluteTime, aDuration);
+
+	}
+	
+
+	@Override
+	public void newWebVisit(WebVisitCommand aWebVisitCommand, long aStartAbsoluteTime, long aDuration) {
+		Date aDate = new Date(aStartAbsoluteTime);
+
+		if (!(lastCommand instanceof WebVisitCommand)) {
+			System.out.println(aDate + "Last non web command before web visit:" + lastCommand );
+		}
+		lastCommand = aWebVisitCommand;
+		System.out.println(aDate + " " + "WebVisit->" + aWebVisitCommand.getSearchString() + ":" + aWebVisitCommand.getUrl());
 		
 	}
 	public static void main (String[] args) {
@@ -237,12 +279,5 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			 analyzer.addAnalyzerListener(analyzerListener);
 			 analyzer.getAnalyzerParameters().replayLogs();
 //			 OEFrame frame = ObjectEditor.edit(analyzer);
-	}
-
-	@Override
-	public void newWebVisit(WebVisitCommand aWebVisitCommand, long aStartAbsoluteTime, long aDuration) {
-		Date aDate = new Date(aStartAbsoluteTime);
-		System.out.println("WebVisit->" + aDate + ":" + aWebVisitCommand.getSearchString() + ":" + aWebVisitCommand.getUrl());
-		
 	}
 }

@@ -11,6 +11,11 @@ import fluorite.model.EHEventRecorder;
 
 public class ShellCommand extends AbstractCommand{
 
+	private static final String ECLIPSE_MAXIMIZED = "ECLIPSE_MAXIMIZED";
+	private static final String ECLIPSE_LOST_FOCUS = "ECLIPSE_LOST_FOCUS";
+	private static final String ECLIPSE_CLOSED = "ECLIPSE_CLOSED";
+	private static final String ECLIPSE_GAINED_FOCUS = "ECLIPSE_GAINED_FOCUS";
+
 	public ShellCommand() {
 		
 	}
@@ -49,13 +54,13 @@ public class ShellCommand extends AbstractCommand{
 		String name = "";
 		
 		if(mActivated == true)
-			name = "ECLIPSE_GAINED_FOCUS";
+			name = ECLIPSE_GAINED_FOCUS;
 		if(mClosed == true)
-			name = "ECLIPSE_CLOSED";
+			name = ECLIPSE_CLOSED;
 		if(mDeactivated == true)
-			name = "ECLIPSE_LOST_FOCUS";
+			name = ECLIPSE_LOST_FOCUS;
 		if(mDeiconified == true)
-			name = "ECLIPSE_MAXIMIZED";
+			name = ECLIPSE_MAXIMIZED;
 		if(mIconified == true)
 			name = "ECLIPSE_MINIMIZED";
 		
@@ -75,19 +80,36 @@ public class ShellCommand extends AbstractCommand{
 
 		return "ShellCommand";
 	}
-
+    public boolean isFocusGain() {
+    	return getName().equals(ECLIPSE_GAINED_FOCUS);
+    }
+    public boolean isFocusLost() {
+    	return ECLIPSE_LOST_FOCUS.equals(getName());
+    }
+    public static boolean isFocusGain(EHICommand aCommand) {
+    	if (aCommand instanceof ShellCommand) {
+    		return ((ShellCommand) aCommand).isFocusGain();
+    	}
+    	return false;
+    }
+    public static boolean isFocusLost(EHICommand aCommand) {
+    	if (aCommand instanceof ShellCommand) {
+    		return ((ShellCommand) aCommand).isFocusLost();
+    	}
+    	return false;
+    }
 	@Override
 	public String getName() {
 		String name = "";
 		
 		if(mActivated == true)
-			name = "ECLIPSE_GAINED_FOCUS";
+			name = ECLIPSE_GAINED_FOCUS;
 		if(mClosed == true)
-			name = "ECLIPSE_CLOSED";
+			name = ECLIPSE_CLOSED;
 		if(mDeactivated == true)
-			name = "ECLIPSE_LOST_FOCUS";
+			name = ECLIPSE_LOST_FOCUS;
 		if(mDeiconified == true)
-			name = "ECLIPSE_MAXIMIZED";
+			name = ECLIPSE_MAXIMIZED;
 		if(mIconified == true)
 			name = "ECLIPSE_MINIMIZED";
 		
@@ -101,7 +123,7 @@ public class ShellCommand extends AbstractCommand{
 		Attr attr = null;
 		
 		if ((attr = commandElement.getAttributeNode("type")) != null) {
-			if (attr.getValue().equals("ECLIPSE_GAINED_FOCUS"))
+			if (attr.getValue().equals(ECLIPSE_GAINED_FOCUS))
 			{
 				mActivated = true;
 				mClosed = false;
@@ -110,7 +132,7 @@ public class ShellCommand extends AbstractCommand{
 				mIconified = false;
 			}
 			
-			if (attr.getValue().equals("ECLIPSE_CLOSED"))
+			if (attr.getValue().equals(ECLIPSE_CLOSED))
 			{
 				mActivated = false;
 				mClosed = true;
@@ -119,7 +141,7 @@ public class ShellCommand extends AbstractCommand{
 				mIconified = false;
 			}
 			
-			if (attr.getValue().equals("ECLIPSE_LOST_FOCUS"))
+			if (attr.getValue().equals(ECLIPSE_LOST_FOCUS))
 			{
 				mActivated = false;
 				mClosed = false;
@@ -128,7 +150,7 @@ public class ShellCommand extends AbstractCommand{
 				mIconified = false;
 			}
 			
-			if (attr.getValue().equals("ECLIPSE_MAXIMIZED"))
+			if (attr.getValue().equals(ECLIPSE_MAXIMIZED))
 			{
 				mActivated = false;
 				mClosed = false;
