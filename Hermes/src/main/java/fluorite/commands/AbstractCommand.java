@@ -20,7 +20,7 @@ import fluorite.preferences.Initializer;
 import fluorite.util.EHUtilities;
 
 public abstract class AbstractCommand implements
-		fluorite.commands.EHICommand {
+		fluorite.commands.EHICommand, Comparable<EHICommand> {
 
 	private static boolean incrementCommandID = true;
 	private static int currentCommandID = -1;
@@ -282,5 +282,9 @@ public abstract class AbstractCommand implements
 	}
 	public boolean combine(EHICommand arg0) {
 		return false;
+	}
+	public int compareTo(EHICommand o){
+		return (int) (getTimestamp() - o.getTimestamp());
+		
 	}
 }

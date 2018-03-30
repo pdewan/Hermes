@@ -36,6 +36,7 @@ import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
+import fluorite.commands.WebVisitCommand;
 import fluorite.model.StatusConsts;
 import util.annotations.Column;
 import util.annotations.ComponentHeight;
@@ -551,19 +552,8 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	}
 
 
-	@Override
-	public void newStoredCommand(EHICommand aNewCommand) {
-		// TODO Auto-generated method stub
-		
-	}
 
-
-	@Override
-	public void newStoredInputCommand(EHICommand aNewCommand) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 
 	@Override
 	public void newCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
@@ -574,6 +564,27 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 
 	@Override
 	public void newPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void newStoredCommand(EHICommand aNewCommand, long aStartRelativeTime, long aDuration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void newStoredInputCommand(EHICommand aNewCommand, long aStartRelativeTime, long aDuration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void newWebVisit(WebVisitCommand aWebVisitCommand, long aStartAbsoluteTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -14,6 +14,7 @@ import difficultyPrediction.DifficultyPredictionPluginEventProcessor;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
+import fluorite.commands.WebVisitCommand;
 import util.models.PropertyListenerRegisterer;
 
 public interface Analyzer 
@@ -80,13 +81,15 @@ public interface Analyzer
 //	void notifyNewCorrectStatus(int aStatus);
 	void addPropertyChangeListener(PropertyChangeListener aListener);
 
-	void notifyNewStoredCommand(EHICommand aCommand);
+	void notifyNewStoredCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration);
 
-	void notifyNewStoredInputCommand(EHICommand aCommand);
+	void notifyNewStoredInputCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration);
 
-	void notifyNewCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration);
+	void notifyNewCorrectStatus(Status aStatus, long aStartAbsoluteTime, long aDuration);
 
-	void notifyNewPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration);
+	void notifyNewPrediction(PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration);
+
+	void notifyWebVisit(WebVisitCommand aCommand, long aStartAbsoluteTime, long aDuration);
 
 
 //	boolean isNewRatioFiles();

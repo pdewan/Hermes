@@ -29,6 +29,7 @@ import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
+import fluorite.commands.WebVisitCommand;
 import fluorite.model.EHEventRecorder;
 //import bus.uigen.hermes.HermesObjectEditorProxy;
 import util.misc.Common;
@@ -485,17 +486,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 //		
 //	}
 
-	@Override
-	public void newStoredCommand(EHICommand aNewCommand) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void newStoredInputCommand(EHICommand aNewCommand) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	public static void main(String[] args) {
 		 DifficultyPredictionSettings.setReplayMode(true);
 		//
@@ -539,6 +530,24 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	@Override
 	public void newPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newStoredCommand(EHICommand aNewCommand, long aStartRelativeTime, long aDuration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newStoredInputCommand(EHICommand aNewCommand, long aStartRelativeTime, long aDuration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newWebVisit(WebVisitCommand aWebVisitCommand, long aStartAbsoluteTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}

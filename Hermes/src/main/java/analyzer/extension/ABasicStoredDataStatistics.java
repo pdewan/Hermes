@@ -12,6 +12,7 @@ import difficultyPrediction.DifficultyPredictionSettings;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
+import fluorite.commands.WebVisitCommand;
 
 public class ABasicStoredDataStatistics implements AnalyzerListener{
 	int numStoredPredictions;
@@ -98,6 +99,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 
 	@Override
 	public void newBrowseEntries(Date aDate, String aSearchString, String aURL) {
+		System.out.println(aDate + " Search string: " + aSearchString + " URL " + aURL);
 		
 	}
 
@@ -122,6 +124,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		startTimestamp = aStartTimeStamp;
 		Date aDate = new Date(aStartTimeStamp);
 		System.out.println("Start time:" + aDate );
+		long aTimeFromDate = aDate.getTime();
+		if (startTimestamp != aTimeFromDate) {
+			System.out.println("Conversion error");
+		}
 		
 	}
 
@@ -131,8 +137,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		
 	}
 	
-	protected Date dateFromRelativeTime (long aRelativeTime) {
-		return new Date(startTimestamp + aRelativeTime);
+	protected Date dateFromAbsoluteTime (long aAbsoluteTime) {
+		return new Date(aAbsoluteTime);
 	}
 
 //	@Override
@@ -152,7 +158,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 ////		
 //	}
 	@Override
-	public void newCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
+	public void newCorrectStatus(Status aStatus, long aStartAbsoluteTime, long aDuration) {
 		numStatuses++;
 		if (aStatus == null) {
 			numNullStatuses++;
@@ -162,12 +168,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		case Surmountable:
 			numSurmountableStatuses++;
 			numDifficultyStatuses++;
-			System.out.println("Surmountable time:" + dateFromRelativeTime(aStartRelativeTime));
+			System.out.println("Surmountable time:" + dateFromAbsoluteTime(aStartAbsoluteTime));
 			break;
 		case Insurmountable:
 			numInsurmountableStatuses++;
 			numDifficultyStatuses++;
-			System.out.println("Insurmountable time:" + dateFromRelativeTime(aStartRelativeTime));
+			System.out.println("Insurmountable time:" + dateFromAbsoluteTime(aStartAbsoluteTime));
 
 		case Making_Progress:
 			numProgressStatuses++;
@@ -175,7 +181,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	}
 
 	@Override
-	public void newPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
+	public void newPrediction(PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration) {
 		numStoredPredictions++;
 		switch (aPredictionType) {
 		case MakingProgress: 
@@ -183,7 +189,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			break;
 		case HavingDifficulty:
 			numStoredDifficultyPredictions++;
-			System.out.println("Difficulty prediction time:" + dateFromRelativeTime(aStartRelativeTime));
+			System.out.println("Difficulty prediction time:" + dateFromAbsoluteTime(aStartAbsoluteTime));
 
 			break;	
 		case Indeterminate:
@@ -202,17 +208,17 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	}
 
 	@Override
-	public void newStoredCommand(EHICommand aNewCommand) {
+	public void newStoredCommand(EHICommand aNewCommand, long aStartAbsoluteTime, long aDuration) {
 		if (aNewCommand.getTimestamp() == 0) {
 			return;
 		}
 		numEvents++;
 		computeMaxTimeBetweenCommands(aNewCommand);
-		lastTimestamp = startTimestamp + aNewCommand.getTimestamp() + AnAnalyzer.duration(aNewCommand);
+		lastTimestamp = aStartAbsoluteTime + aDuration;
 	}
 
 	@Override
-	public void newStoredInputCommand(EHICommand aNewCommand) {
+	public void newStoredInputCommand(EHICommand aNewCommand, long aStartAbsoluteTime, long aDuration) {
 		numInputCommands++;
 		if (isMadePediction()) {
 			numInputCommandsAfterFirstPrediction++;
@@ -231,5 +237,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			 analyzer.addAnalyzerListener(analyzerListener);
 			 analyzer.getAnalyzerParameters().replayLogs();
 //			 OEFrame frame = ObjectEditor.edit(analyzer);
+	}
+
+	@Override
+	public void newWebVisit(WebVisitCommand aWebVisitCommand, long aStartAbsoluteTime, long aDuration) {
+		Date aDate = new Date(aStartAbsoluteTime);
+		System.out.println("WebVisit->" + aDate + ":" + aWebVisitCommand.getSearchString() + ":" + aWebVisitCommand.getUrl());
+		
 	}
 }

@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -57,6 +58,7 @@ import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
+import fluorite.commands.WebVisitCommand;
 import fluorite.util.EHLogReader;
 import util.annotations.LayoutName;
 import util.annotations.Row;
@@ -104,6 +106,8 @@ public class AnAnalyzer implements Analyzer {
 	// that they are unmodifiable via getter methods
 	private  Map<String, Queue<StuckPoint>> stuckPoint = new HashMap<>();
 	private  Map<String, Queue<StuckInterval>> stuckInterval = new HashMap<>();
+	
+	protected List<WebVisitCommand> webVisits = new LinkedList<>();
 
 	 boolean stuckFileLoaded = false;
 	 RatioFileReader ratioFileReader;
@@ -128,6 +132,7 @@ public class AnAnalyzer implements Analyzer {
 	int lastPrediction;
 	int lastCorrection;
 	Mediator mediator;
+	protected long lastStartTimestamp;
 
 	EventAggregator eventAggregator;
 
@@ -567,6 +572,40 @@ public class AnAnalyzer implements Analyzer {
 		notifyFinishedBrowserLines();
 
 	}
+	public void storeBrowserHistoryOfFolder(String aFolderName) {
+		String fullName = aFolderName;
+		File folder = new File(fullName);
+		if (!folder.exists()) {
+			System.out.println("folder does not exist:" + fullName);
+			return;
+		}
+		if (!folder.isDirectory()) {
+			System.out.println("folder not a directory:" + fullName);
+			return;
+		}
+		List<String> participantFiles = MainConsoleUI.getFilesForFolder(folder);
+		System.out.println("Particpant " + aFolderName + " has "
+				+ participantFiles.size() + " file(s)");
+		// System.out.println();
+		webVisits = new LinkedList<WebVisitCommand>();
+
+		for (int i = 0; i < participantFiles.size(); i++) {
+			String aFileName = fullName + participantFiles.get(i);
+			if (!aFileName.endsWith(".txt"))
+				continue;
+
+			// List<ICommand> commands = reader.readAll(participantDirectory
+			// + participantFiles.get(i));
+			System.out.println("Reading " + aFileName);
+			storeBrowserHistoryOfFile(aFileName);
+			//
+
+			// listOfListOFcommands.add(commands);
+		}
+		Collections.sort(webVisits);
+
+	}
+
 
 	public void processBrowserHistoryOfFile(String aFileName) {
 		try {
@@ -579,6 +618,26 @@ public class AnAnalyzer implements Analyzer {
 			while ((line = br.readLine()) != null) {
 				// System.out.println(line);
 				notifyNewBrowseLine(line);
+			}
+
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+	}
+	public void storeBrowserHistoryOfFile(String aFileName) {
+		try {
+			FileInputStream fis = new FileInputStream(aFileName);
+
+			// Construct BufferedReader from InputStreamReader
+			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				// System.out.println(line);
+				webVisits.add(0, toWebVisitCommand(line));
 			}
 
 			br.close();
@@ -701,6 +760,9 @@ public class AnAnalyzer implements Analyzer {
 							+ PredictionParametersSetterSelector.getSingleton()
 									.getSegmentLength()));
 			notifyNewParticipant(aParticipantId, aParticipantFolder);
+			storeBrowserHistoryOfFolder(participantsFolder.getText()
+						+ EXPERIMENTAL_DATA + aParticipantFolder + "/"
+						+ BROWSER_FOLDER);
 			playNestedCommandList();
 
 //			startTimeStamp = 0;
@@ -782,12 +844,17 @@ public class AnAnalyzer implements Analyzer {
 			List<EHICommand> commands = nestedCommandsList.get(index);
 			for (int i = 0; i < commands.size(); i++) {
 				EHICommand aCommand = commands.get(i);
-				processStoredCommand(aCommand);
+				long aCommandTime = aCommand.getTimestamp() + startTimeStamp;
+				long aDuration = duration(aCommand);
+				maybeFireWebVisitBefore(aCommandTime);
+				
+				processStoredCommand(aCommand, aCommandTime, aDuration);
 
-				boolean isPrediction = maybeProcessPrediction(aCommand);
-				boolean isCorrection = maybeProcessCorrection(aCommand);
+				boolean isPrediction = maybeProcessPrediction(aCommand, aCommandTime, aDuration);
+				boolean isCorrection = maybeProcessCorrection(aCommand, aCommandTime, aDuration); //this sets the start time stamp
+
 				if (!isPrediction && !isCorrection) {
-					processStoredInputCommand(aCommand);
+					processStoredInputCommand(aCommand, aCommandTime, aDuration);
 				}
 				if (!DifficultyPredictionSettings.isMakePredictions()) {
 					continue;
@@ -956,31 +1023,39 @@ public class AnAnalyzer implements Analyzer {
 //		}
 //	}
 	@Override
-	public void notifyNewPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
+	public void notifyNewPrediction(PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.newPrediction(aPredictionType, aStartRelativeTime, aDuration);
+			aListener.newPrediction(aPredictionType, aStartAbsoluteTime, aDuration);
+		}
+	}
+	
+	
+	
+	@Override
+	public void notifyNewCorrectStatus(Status aStatus, long aStartAbsoluteTime, long aDuration) {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.newCorrectStatus(aStatus, aStartAbsoluteTime, aDuration);
 		}
 	}
 	
 	@Override
-	public void notifyNewCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
+	public void notifyWebVisit(WebVisitCommand aCommand,long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.newCorrectStatus(aStatus, aStartRelativeTime, aDuration);
-		}
+			aListener.newWebVisit(aCommand, aStartAbsoluteTime, aDuration);
+		}		
 	}
 	
 	@Override
-	public void notifyNewStoredCommand(EHICommand aCommand) {
+	public void notifyNewStoredCommand(EHICommand aCommand,long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.newStoredCommand(aCommand);
-		}
-		
+			aListener.newStoredCommand(aCommand, aStartAbsoluteTime, aDuration);
+		}		
 	}
 	
 	@Override
-	public void notifyNewStoredInputCommand(EHICommand aCommand) {
+	public void notifyNewStoredInputCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.newStoredInputCommand(aCommand);
+			aListener.newStoredInputCommand(aCommand, aStartAbsoluteTime, aDuration);
 		}
 		
 	}
@@ -1003,6 +1078,7 @@ public class AnAnalyzer implements Analyzer {
 	 */
 	@Override
 	public void notifyStartTimeStamp(long aStartTimeStamp) {
+		lastStartTimestamp = aStartTimeStamp;
 		for (AnalyzerListener aListener : listeners) {
 			aListener.startTimestamp(aStartTimeStamp);
 		}
@@ -1019,6 +1095,37 @@ public class AnAnalyzer implements Analyzer {
 			aListener.newBrowseEntries(aDate, parts[1], parts[2]);
 		}
 	}
+	
+protected void fireWebVisitsBefore(long anAbsoluteTimeBefore) {
+	while (maybeFireWebVisitBefore(anAbsoluteTimeBefore));
+	
+}
+protected boolean maybeFireWebVisitBefore(long anAbsoluteTimeBefore) {
+	if (webVisits.isEmpty())
+		return false;
+	WebVisitCommand aCommand= webVisits.get(0);
+	if (aCommand.getTimestamp()< anAbsoluteTimeBefore) {
+		notifyWebVisit(aCommand, aCommand.getTimestamp(), duration(aCommand));
+		webVisits.remove(0);
+		return true;
+	} else {
+		return false;
+	}
+}
+protected WebVisitCommand toWebVisitCommand(String aLine) {
+	
+	String[] parts = aLine.split("\t");
+	String[] dateParts = parts[0].split(" ");
+	String dateString = dateParts[0] + " " + dateParts[1];
+	Date aDate = new Date(dateString);
+	long aTimestamp = aDate.getTime();
+	WebVisitCommand aWebVisitCommand = new WebVisitCommand(parts[1], parts[2]);
+//	aWebVisitCommand.setTimestamp2(aTimestamp); //absolute tiem
+	aWebVisitCommand.setTimestamp(aTimestamp); // absolute Time
+
+	return aWebVisitCommand;
+}
+
 
 	public void notifyFinishedBrowserLines() {
 		for (AnalyzerListener aListener : listeners) {
@@ -1104,7 +1211,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 
 
-	boolean maybeProcessPrediction(EHICommand newCommand) {
+	boolean maybeProcessPrediction(EHICommand newCommand, long aStartAbsoluteTime, long aDuration) {
 		if (newCommand instanceof PredictionCommand) {
 			PredictionCommand aPredictionCommand = (PredictionCommand) newCommand;
 			
@@ -1112,21 +1219,21 @@ public class AnAnalyzer implements Analyzer {
 					.toInt(aPredictionCommand);
 //			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
 //			notifyNewCorrectStatus(lastPrediction);
-			notifyNewPrediction(aPredictionCommand.getPredictionType(), newCommand.getTimestamp(), duration(newCommand));
+			notifyNewPrediction(aPredictionCommand.getPredictionType(), aStartAbsoluteTime, aDuration);
 			return true;
 		}
 		return false;
 	}
 	
-	void processStoredCommand(EHICommand aCommand) {
-		notifyNewStoredCommand(aCommand);
+	void processStoredCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration) {
+		notifyNewStoredCommand(aCommand, aStartAbsoluteTime, aDuration);
 	}
 	
-	void processStoredInputCommand(EHICommand aCommand) {
-		notifyNewStoredInputCommand(aCommand);
+	void processStoredInputCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration) {
+		notifyNewStoredInputCommand(aCommand, aStartAbsoluteTime, aDuration);
 	}
 
-	boolean maybeProcessCorrection(EHICommand newCommand) {
+	boolean maybeProcessCorrection(EHICommand newCommand, long aStartAbsoluteTime, long aDuration) {
 		if (newCommand instanceof DifficultyCommand
 		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
 		) {
@@ -1142,7 +1249,7 @@ public class AnAnalyzer implements Analyzer {
 			lastCorrection = ARatioFileGenerator
 					.toInt(aDifficultyCommand);
 //			notifyNewCorrectStatus(lastCorrection);			
-			notifyNewCorrectStatus(aDifficultyCommand.getStatus(), newCommand.getTimestamp(), duration(newCommand));
+			notifyNewCorrectStatus(aDifficultyCommand.getStatus(), aStartAbsoluteTime, aDuration);
 			return true;
 
 		}

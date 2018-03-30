@@ -116,6 +116,9 @@ public class EHEventRecorder {
 	public static final String DocumentChangeCategoryID = "eventlogger.category.documentChange";
 	public static final String DifficultyCategory = "Difficulty";
 	public static final String DifficultyCategoryID = "eventerlogger.category.Difficulty";
+	
+	public static final String WebCategory = "Web";
+	public static final String WebCategoryID = "eventerlogger.category.Web";
 
 	public static final String XML_Macro_Tag = "Events";
 	public static final String XML_ID_Tag = "__id";
