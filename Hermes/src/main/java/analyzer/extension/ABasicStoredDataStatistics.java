@@ -77,8 +77,13 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		System.out.println("Num Insurmountable Statuses:" + numInsurmountableStatuses);
 		System.out.println("Experiment start: " + new Date(experimentStartTimestamp));
 		System.out.println("Experiment end: " + new Date (lastTimestamp));
-		System.out.println("Experiment duration: " + AnAnalyzer.convertMillSecondsToHMmSs(lastTimestamp - experimentStartTimestamp));
-		
+		long anExperimentTime = lastTimestamp - experimentStartTimestamp;
+		System.out.println("Experiment duration: " + AnAnalyzer.convertMillSecondsToHMmSs(anExperimentTime));
+		long aTimeBetweenPredictions = Math.round(((double) anExperimentTime)/numStoredPredictions);
+		System.out.println("Time between predictions: " + AnAnalyzer.convertMillSecondsToHMmSs(aTimeBetweenPredictions) );
+		long aTimeBetweenCommands = Math.round(((double) anExperimentTime)/numInputCommands);
+		System.out.println("Time between commands: " + AnAnalyzer.convertMillSecondsToHMmSs(aTimeBetweenPredictions) );
+
 		
 	}
 	

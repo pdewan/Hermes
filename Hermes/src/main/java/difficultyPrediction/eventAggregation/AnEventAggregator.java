@@ -24,7 +24,7 @@ public class AnEventAggregator implements EventAggregator {
 		this.mediator = mediator;
 	}
 	
-	Mediator mediator;
+	protected Mediator mediator;
 	 EventAggregationStrategy eventAggregationStrategy;
 	
 	
