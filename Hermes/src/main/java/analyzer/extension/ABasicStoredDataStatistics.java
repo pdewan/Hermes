@@ -33,6 +33,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	long startTimestamp;
 	long experimentStartTimestamp;
 	long lastTimestamp;
+	
+	long maxTimeBetweenCommands;
 //	boolean madePrediction;
 	
 	protected void initStatistics() {
@@ -51,7 +53,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		numInputCommandsAfterFirstPrediction = 0;
 		numInputCommandsBeforeFirstPrediction = 0;
 		experimentStartTimestamp = 0;
-		lastTimestamp = 0;
+		maxTimeBetweenCommands = 0;
 		
 	}
 	
@@ -82,7 +84,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		long aTimeBetweenPredictions = Math.round(((double) anExperimentTime)/numStoredPredictions);
 		System.out.println("Time between predictions: " + AnAnalyzer.convertMillSecondsToHMmSs(aTimeBetweenPredictions) );
 		long aTimeBetweenCommands = Math.round(((double) anExperimentTime)/numInputCommands);
-		System.out.println("Time between commands: " + AnAnalyzer.convertMillSecondsToHMmSs(aTimeBetweenPredictions) );
+		System.out.println("Milliseconds between commands: " + aTimeBetweenCommands );
+		System.out.println("Max time between commands: " + maxTimeBetweenCommands);
 
 		
 	}
@@ -114,6 +117,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			experimentStartTimestamp = aStartTimeStamp;
 			System.out.println("Experiment Start");
 		}
+		lastTimestamp = aStartTimeStamp;
+
 		startTimestamp = aStartTimeStamp;
 		Date aDate = new Date(aStartTimeStamp);
 		System.out.println("Start time:" + aDate );
@@ -186,10 +191,23 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			break;
 		}
 	}
+	
+	protected void computeMaxTimeBetweenCommands(EHICommand aCommand) {
+		long aTimeSinceLastCommand = startTimestamp + aCommand.getTimestamp() - lastTimestamp;
+		maxTimeBetweenCommands = Math.max(aTimeSinceLastCommand, maxTimeBetweenCommands);
+		if (maxTimeBetweenCommands == aTimeSinceLastCommand ) {
+			System.out.println("New max time:" + maxTimeBetweenCommands);
+		}
+		
+	}
 
 	@Override
 	public void newStoredCommand(EHICommand aNewCommand) {
+		if (aNewCommand.getTimestamp() == 0) {
+			return;
+		}
 		numEvents++;
+		computeMaxTimeBetweenCommands(aNewCommand);
 		lastTimestamp = startTimestamp + aNewCommand.getTimestamp() + AnAnalyzer.duration(aNewCommand);
 	}
 
