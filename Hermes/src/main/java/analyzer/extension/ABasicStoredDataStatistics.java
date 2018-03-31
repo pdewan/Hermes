@@ -9,7 +9,9 @@ import analyzer.AnalyzerListener;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
 import difficultyPrediction.DifficultyPredictionSettings;
+import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
+import fluorite.commands.PredictionCommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.ShellCommand;
 import fluorite.commands.Status;
@@ -38,6 +40,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	EHICommand lastNonWebCommand;
 	EHICommand lastCommand;
 	protected boolean firstCommandAfterStart = true;
+	protected int numWebVisits;
+	protected int numLostFocus;
+	protected int numGainedFocus;
 	
 	long maxTimeBetweenCommands;
 //	boolean madePrediction;
@@ -61,6 +66,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		maxTimeBetweenCommands = 0;
 		lastNonWebCommand =null;
 		lastCommand = null;
+		numWebVisits = 0;
+		numLostFocus = 0;
+		numGainedFocus = 0;
 
 		
 		
@@ -76,7 +84,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		System.out.println("Num Commands Before First Prediction:" + numInputCommandsBeforeFirstPrediction);
 		System.out.println("Num Stored Predictions:" + numStoredPredictions);
 		System.out.println("Num Stored Progress Predictions:" + numStoredProgressPredictions);
-		System.out.println("Num Stored Difficulty Predictions:" + numStoredDifficultyPredictions);
+//		System.out.println("Num Stored Difficulty Predictions:" + numStoredDifficultyPredictions);
 		System.out.println("Num Stored Indeterminate Predictions:" + numStoredIndeterminatePredictions);
 		System.out.println("Commands per stored indeterminate prediction:" + ((double) numInputCommandsBeforeFirstPrediction)/numStoredIndeterminatePredictions );
 		System.out.println("Commands per stored non indeterninate prediction:" + ((double) numInputCommandsAfterFirstPrediction)/(numStoredDifficultyPredictions + numStoredProgressPredictions) );
@@ -84,8 +92,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 
 		System.out.println("Num Statuses:" + numStatuses);
 		System.out.println("Num Difficulty Statuses:" + numDifficultyStatuses);
-		System.out.println("Num Surmountable Statuses:" + numSurmountableStatuses);
-		System.out.println("Num Insurmountable Statuses:" + numInsurmountableStatuses);
+//		System.out.println("Num Surmountable Statuses:" + numSurmountableStatuses);
+//		System.out.println("Num Insurmountable Statuses:" + numInsurmountableStatuses);
+//		System.out.println("Num Progress Statuses:" + numProgressStatuses);
+
 		System.out.println("Experiment start: " + new Date(experimentStartTimestamp));
 		System.out.println("Experiment end: " + new Date (lastTimestamp));
 		long anExperimentTime = lastTimestamp - experimentStartTimestamp;
@@ -95,8 +105,14 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		long aTimeBetweenCommands = Math.round(((double) anExperimentTime)/numInputCommands);
 		System.out.println("Milliseconds between commands: " + aTimeBetweenCommands );
 		System.out.println("Max time between commands: " + maxTimeBetweenCommands);
+		System.out.println("Number of lost focus:" + numLostFocus);
+		System.out.println("Number of gained focus:" + numGainedFocus);
+		System.out.println("Number of web visits:" + numWebVisits);	
+		System.out.println("Num Surmountable Statuses:" + numSurmountableStatuses);
+		System.out.println("Num Insurmountable Statuses:" + numInsurmountableStatuses);
+		System.out.println("Num Progress Statuses:" + numProgressStatuses);
+		System.out.println("Num Stored Difficulty Predictions:" + numStoredDifficultyPredictions);
 
-		
 	}
 	
 	
@@ -107,7 +123,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 
 	@Override
 	public void newBrowseEntries(Date aDate, String aSearchString, String aURL) {
-		System.out.println(aDate + " Search string: " + aSearchString + " URL " + aURL);
+//		System.out.println(aDate + " Search string: " + aSearchString + " URL " + aURL);
 		
 	}
 
@@ -166,7 +182,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 ////		
 //	}
 	@Override
-	public void newCorrectStatus(Status aStatus, long aStartAbsoluteTime, long aDuration) {
+	public void newCorrectStatus(DifficultyCommand newCommand, Status aStatus, long aStartAbsoluteTime, long aDuration) {
 		Date aDate = new Date(aStartAbsoluteTime);
 		numStatuses++;
 		if (aStatus == null) {
@@ -177,20 +193,21 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		case Surmountable:
 			numSurmountableStatuses++;
 			numDifficultyStatuses++;
-			System.out.println(aDate + " Surmountable");
+			System.out.println(aDate + " Surmountable " + newCommand);
 			break;
 		case Insurmountable:
 			numInsurmountableStatuses++;
 			numDifficultyStatuses++;
-			System.out.println(aDate + "Insurmountable");
+			System.out.println(aDate + "Insurmountable " + newCommand);
 
 		case Making_Progress:
+			System.out.println(aDate + "Progress  " + newCommand);
 			numProgressStatuses++;
 		}		
 	}
 
 	@Override
-	public void newPrediction(PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration) {
+	public void newPrediction(PredictionCommand newParam, PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration) {
 		numStoredPredictions++;
 		switch (aPredictionType) {
 		case MakingProgress: 
@@ -198,7 +215,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			break;
 		case HavingDifficulty:
 			numStoredDifficultyPredictions++;
-			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Difficulty prediction time:");
+			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Difficulty prediction");
 			break;	
 		case Indeterminate:
 			numStoredIndeterminatePredictions++;
@@ -233,7 +250,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			numInputCommandsBeforeFirstPrediction++;
 		}
 		if (aNewCommand instanceof ShellCommand) {
-			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " " + aNewCommand);
+//			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " " + aNewCommand);
+			if (ShellCommand.isFocusGain(aNewCommand)) {
+				numGainedFocus++;
+			} else if (ShellCommand.isFocusLost(aNewCommand)) {
+				numLostFocus++;
+			}
 		}
 	}
 	@Override
@@ -260,14 +282,20 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 
 	@Override
 	public void newWebVisit(WebVisitCommand aWebVisitCommand, long aStartAbsoluteTime, long aDuration) {
+		numWebVisits++;
 		Date aDate = new Date(aStartAbsoluteTime);
 
-		if (!(lastCommand instanceof WebVisitCommand)) {
-			System.out.println(aDate + "Last non web command before web visit:" + lastCommand );
-		}
+//		if (!(lastCommand instanceof WebVisitCommand)) {
+//			System.out.println(aDate + "Last non web command before web visit:" + lastCommand );
+//		}
 		lastCommand = aWebVisitCommand;
-		System.out.println(aDate + " " + "WebVisit->" + aWebVisitCommand.getSearchString() + ":" + aWebVisitCommand.getUrl());
-		
+//		System.out.println(aDate + " " + "WebVisit->" + aWebVisitCommand.getSearchString() + ":" + aWebVisitCommand.getUrl());
+		String aSearchString = aWebVisitCommand.getSearchString();
+		if (aSearchString.startsWith("http:")) {
+			return;
+		}				
+		System.out.println(aDate + " " + "SearchedWebVisit->" + aWebVisitCommand.getSearchString() + ":" + aWebVisitCommand.getUrl());
+
 	}
 	public static void main (String[] args) {
 		 DifficultyPredictionSettings.setReplayMode(true);

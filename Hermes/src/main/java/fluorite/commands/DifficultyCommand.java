@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 import fluorite.model.EHEventRecorder;
 
 public class DifficultyCommand extends AbstractCommand {
-	private Status mUserStatus;
+	private Status mUserStatus = Status.Initialization; // initialized to make sure toString does not return null
 	private String mTryingToDo;
 	private String mCausedDifficulty;
 	private String mOtherCausedDifficulty;
@@ -142,7 +142,7 @@ public class DifficultyCommand extends AbstractCommand {
 	@Override
 	public Map<String, String> getAttributesMap() {
 		Map<String, String> attrMap = new HashMap<String, String>();
-		attrMap.put("type", mUserStatus.toString());
+		attrMap.put("type", mUserStatus.toString()); // required attribute so make it non null
 		return attrMap;
 	}
 
@@ -200,6 +200,9 @@ public class DifficultyCommand extends AbstractCommand {
 
 	public Status getStatus() {
 		return mUserStatus;
+	}
+	public String toString() {
+		return super.toString() + "Attributes:" + getAttributesMap() + " Data " + getDataMap();
 	}
 
 }

@@ -523,13 +523,13 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	}
 
 	@Override
-	public void newCorrectStatus(Status aStatus, long aStartRelativeTime, long aDuration) {
+	public void newCorrectStatus(DifficultyCommand newCommand, Status aStatus, long aStartRelativeTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void newPrediction(PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
+	public void newPrediction(PredictionCommand newParam, PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
 		// TODO Auto-generated method stub
 		
 	}

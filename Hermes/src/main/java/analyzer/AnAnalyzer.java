@@ -107,7 +107,8 @@ public class AnAnalyzer implements Analyzer {
 	private  Map<String, Queue<StuckPoint>> stuckPoint = new HashMap<>();
 	private  Map<String, Queue<StuckInterval>> stuckInterval = new HashMap<>();
 	
-	protected List<WebVisitCommand> webVisits = new LinkedList<>();
+	protected List<WebVisitCommand> sortedWebVisitQueue = new LinkedList<>();
+	protected List<String> webVisitsInFile = new ArrayList();
 
 	 boolean stuckFileLoaded = false;
 	 RatioFileReader ratioFileReader;
@@ -587,7 +588,9 @@ public class AnAnalyzer implements Analyzer {
 		System.out.println("Particpant " + aFolderName + " has "
 				+ participantFiles.size() + " file(s)");
 		// System.out.println();
-		webVisits = new LinkedList<WebVisitCommand>();
+		sortedWebVisitQueue.clear();
+		webVisitsInFile.clear();
+		
 
 		for (int i = 0; i < participantFiles.size(); i++) {
 			String aFileName = fullName + participantFiles.get(i);
@@ -602,7 +605,7 @@ public class AnAnalyzer implements Analyzer {
 
 			// listOfListOFcommands.add(commands);
 		}
-		Collections.sort(webVisits);
+		Collections.sort(sortedWebVisitQueue);
 
 	}
 
@@ -637,7 +640,9 @@ public class AnAnalyzer implements Analyzer {
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				// System.out.println(line);
-				webVisits.add(0, toWebVisitCommand(line));
+				WebVisitCommand aWebVisitCommand = toWebVisitCommand(line);
+				sortedWebVisitQueue.add(0, aWebVisitCommand);
+				webVisitsInFile.add(line);
 			}
 
 			br.close();
@@ -765,73 +770,22 @@ public class AnAnalyzer implements Analyzer {
 						+ BROWSER_FOLDER);
 			playNestedCommandList();
 
-//			startTimeStamp = 0;
-//			for (int index = 0; index < nestedCommandsList.size(); index++) {
-//				List<ICommand> commands = nestedCommandsList.get(index);
-//				for (int i = 0; i < commands.size(); i++) {
-//					ICommand aCommand = commands.get(i);
-//					maybeProcessPrediction(aCommand);
-//					maybeProcessCorrection(aCommand);
-//
-//					if ((aCommand.getTimestamp() == 0)
-//							&& (aCommand.getTimestamp2() > 0)) { // this is
-//																	// always a
-//																	// difficulty
-//																	// status
-//																	// command
-//						startTimeStamp = commands.get(i).getTimestamp2();
-//						difficultyEventProcessor.newCommand(aCommand);
-//
-//						notifyStartTimeStamp(startTimeStamp);
-//
-//					} else {
-//						eventAggregator.setStartTimeStamp(startTimeStamp); // not
-//																			// sure
-//																			// this
-//																			// is
-//																			// ever
-//																			// useful
-//						try {
-//							// pendingPredictionCommands.put(commands.get(i));
-//							// System.out.println("Put command:" +
-//							// commands.get(i));
-//							// difficultyEventProcessor.recordCommand(commands.get(i));
-//							difficultyEventProcessor.newCommand(aCommand);
-//
-//							// } catch (InterruptedException e) {
-//						} catch (Exception e) {
-//
-//							e.printStackTrace();
-//						}
-//
-//						// eventAggregator.getEventAggregationStrategy().performAggregation(commands.get(i),
-//						// eventAggregator);
-//
-//					}
-//
-//				}
-				// }
+
 
 				difficultyEventProcessor.commandProcessingStopped();
 				waitForParticipantLogsToBeProcessed();
 
-				// pendingPredictionCommands.add(new AnEndOfQueueCommand());
-				// try {
-				// // difficultyPredictionThread.join();
-				// difficultyEventProcessor.getDifficultyPredictionThread().join();
-				// } catch (InterruptedException e) {
-				//
-				// e.printStackTrace();
-				// }
+				
 				//maybe do this before notifying events so we can use the info in prediction
-				processBrowserHistoryOfFolder(participantsFolder.getText()
-						+ EXPERIMENTAL_DATA + aParticipantFolder + "/"
-						+ BROWSER_FOLDER);
+				// getting rid of call as we have already read the lines
+//				processBrowserHistoryOfFolder(participantsFolder.getText()
+//						+ EXPERIMENTAL_DATA + aParticipantFolder + "/"
+//						+ BROWSER_FOLDER);
+				
+				notifyAllWebVisitsInFile();
 
 				notifyFinishParticipant(aParticipantId, aParticipantFolder);
-				// for (ICommand aCommand: commandsList) {
-				//
-				// }
+				
 				
 //			}
 		}
@@ -1023,18 +977,18 @@ public class AnAnalyzer implements Analyzer {
 //		}
 //	}
 	@Override
-	public void notifyNewPrediction(PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration) {
+	public void notifyNewPrediction(PredictionCommand aPredictionCommand, PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.newPrediction(aPredictionType, aStartAbsoluteTime, aDuration);
+			aListener.newPrediction(aPredictionCommand, aPredictionType, aStartAbsoluteTime, aDuration);
 		}
 	}
 	
 	
 	
 	@Override
-	public void notifyNewCorrectStatus(Status aStatus, long aStartAbsoluteTime, long aDuration) {
+	public void notifyNewCorrectStatus(DifficultyCommand difficultyCommand, Status aStatus, long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
-			aListener.newCorrectStatus(aStatus, aStartAbsoluteTime, aDuration);
+			aListener.newCorrectStatus(difficultyCommand, aStatus, aStartAbsoluteTime, aDuration);
 		}
 	}
 	
@@ -1096,17 +1050,33 @@ public class AnAnalyzer implements Analyzer {
 		}
 	}
 	
+	/*
+	 * Just for compatibility with old scheme in which all lines are fired at the end
+	 */
+	public void notifyAllWebVisitsInFile() {
+		for (String aLine:webVisitsInFile) {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.newBrowseLine(aLine);
+			String[] parts = aLine.split("\t");
+			String[] dateParts = parts[0].split(" ");
+			String dateString = dateParts[0] + " " + dateParts[1];
+			Date aDate = new Date(dateString);
+			aListener.newBrowseEntries(aDate, parts[1], parts[2]);
+		}
+		}
+	}
+	
 protected void fireWebVisitsBefore(long anAbsoluteTimeBefore) {
 	while (maybeFireWebVisitBefore(anAbsoluteTimeBefore));
 	
 }
 protected boolean maybeFireWebVisitBefore(long anAbsoluteTimeBefore) {
-	if (webVisits.isEmpty())
+	if (sortedWebVisitQueue.isEmpty())
 		return false;
-	WebVisitCommand aCommand= webVisits.get(0);
+	WebVisitCommand aCommand= sortedWebVisitQueue.get(0);
 	if (aCommand.getTimestamp()< anAbsoluteTimeBefore) {
 		notifyWebVisit(aCommand, aCommand.getTimestamp(), duration(aCommand));
-		webVisits.remove(0);
+		sortedWebVisitQueue.remove(0);
 		return true;
 	} else {
 		return false;
@@ -1219,7 +1189,7 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 					.toInt(aPredictionCommand);
 //			System.out.println("Prediction command at time stamp:" + newCommand + " " + newCommand.getTimestamp());
 //			notifyNewCorrectStatus(lastPrediction);
-			notifyNewPrediction(aPredictionCommand.getPredictionType(), aStartAbsoluteTime, aDuration);
+			notifyNewPrediction(aPredictionCommand, aPredictionCommand.getPredictionType(), aStartAbsoluteTime, aDuration);
 			return true;
 		}
 		return false;
@@ -1239,7 +1209,7 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 		) {
 			DifficultyCommand aDifficultyCommand = (DifficultyCommand) newCommand;
 			Status aStatus = ((DifficultyCommand) newCommand).getStatus();		
-			if (aStatus == null) {
+			if (aStatus == Status.Initialization) {
 				if (newCommand.getTimestamp() == 0 && newCommand.getTimestamp2() > 0) {
 					startTimeStamp = newCommand.getTimestamp2();
 					notifyStartTimeStamp(startTimeStamp);
@@ -1249,25 +1219,14 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 			lastCorrection = ARatioFileGenerator
 					.toInt(aDifficultyCommand);
 //			notifyNewCorrectStatus(lastCorrection);			
-			notifyNewCorrectStatus(aDifficultyCommand.getStatus(), aStartAbsoluteTime, aDuration);
+			notifyNewCorrectStatus(aDifficultyCommand, aDifficultyCommand.getStatus(), aStartAbsoluteTime, aDuration);
 			return true;
 
 		}
 		return false;
 	}
 	
-//	boolean processStored(EHICommand newCommand) {
-//		if (newCommand instanceof DifficultyCommand
-//		// && ((DifficulyStatusCommand) newCommand).getStatus() != null
-//		) {
-//			lastCorrection = ARatioFileGenerator
-//					.toInt((DifficultyCommand) newCommand);
-//			notifyNewCorrectStatus(lastCorrection);
-//			return true;
-//
-//		}
-//		return false;
-//	}
+
 
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener arg0) {

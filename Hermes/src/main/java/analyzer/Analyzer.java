@@ -11,7 +11,9 @@ import analyzer.extension.StuckPoint;
 //import bus.uigen.hermes.HermesPropertyListenerRegistererProxy;
 import bus.uigen.models.FileSetterModel;
 import difficultyPrediction.DifficultyPredictionPluginEventProcessor;
+import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
+import fluorite.commands.PredictionCommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
 import fluorite.commands.WebVisitCommand;
@@ -85,9 +87,9 @@ public interface Analyzer
 
 	void notifyNewStoredInputCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration);
 
-	void notifyNewCorrectStatus(Status aStatus, long aStartAbsoluteTime, long aDuration);
+	void notifyNewCorrectStatus(DifficultyCommand difficultyCommand, Status aStatus, long aStartAbsoluteTime, long aDuration);
 
-	void notifyNewPrediction(PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration);
+	void notifyNewPrediction(PredictionCommand aPredictionCommand, PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration);
 
 	void notifyWebVisit(WebVisitCommand aCommand, long aStartAbsoluteTime, long aDuration);
 
