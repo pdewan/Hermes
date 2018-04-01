@@ -11,6 +11,8 @@ public interface AnalyzerListener extends BrowseHistoryListener{
 	void newParticipant(String anId, String aFolder);
 //	void newFeatures(RatioFeatures aFeatures);
 	public void startTimestamp(long aStartTimeStamp);
+	public void experimentStartTimestamp(long aStartTimeStamp);
+
 	
 	void finishParticipant(String anId, String aFolder);
 //	void newCorrectStatus (int aStatus);

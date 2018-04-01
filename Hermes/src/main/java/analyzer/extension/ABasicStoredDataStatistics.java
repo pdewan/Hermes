@@ -1,6 +1,7 @@
 package analyzer.extension;
 
 import java.util.Date;
+import java.util.List;
 
 import analyzer.AParticipantTimeLine;
 import analyzer.AnAnalyzer;
@@ -43,6 +44,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 	protected int numWebVisits;
 	protected int numLostFocus;
 	protected int numGainedFocus;
+	protected int numWebEpisodes;
+	protected long timeOnWebVisits;
 	
 	long maxTimeBetweenCommands;
 //	boolean madePrediction;
@@ -69,8 +72,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		numWebVisits = 0;
 		numLostFocus = 0;
 		numGainedFocus = 0;
-
-		
+		numWebEpisodes = 0;
+		timeOnWebVisits = 0;
 		
 	}
 	
@@ -100,14 +103,32 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		System.out.println("Experiment end: " + new Date (lastTimestamp));
 		long anExperimentTime = lastTimestamp - experimentStartTimestamp;
 		System.out.println("Experiment duration: " + AnAnalyzer.convertMillSecondsToHMmSs(anExperimentTime));
+		System.out.println("Web visit duration: " + AnAnalyzer.convertMillSecondsToHMmSs(timeOnWebVisits));
+		double aWebVisitFraction = ((double)timeOnWebVisits)/anExperimentTime;
+		
+		System.out.println("Web visit fraction: " + aWebVisitFraction);
+
 		long aTimeBetweenPredictions = Math.round(((double) anExperimentTime)/numStoredPredictions);
 		System.out.println("Time between predictions: " + AnAnalyzer.convertMillSecondsToHMmSs(aTimeBetweenPredictions) );
 		long aTimeBetweenCommands = Math.round(((double) anExperimentTime)/numInputCommands);
 		System.out.println("Milliseconds between commands: " + aTimeBetweenCommands );
 		System.out.println("Max time between commands: " + maxTimeBetweenCommands);
 		System.out.println("Number of lost focus:" + numLostFocus);
-		System.out.println("Number of gained focus:" + numGainedFocus);
+//		System.out.println("Number of gained focus:" + numGainedFocus);
 		System.out.println("Number of web visits:" + numWebVisits);	
+		System.out.println("Number of web episodes:" + numWebEpisodes);
+		double aWebEpisodeLength = ((double) numWebVisits)/numWebEpisodes;
+		System.out.println("Number of web visits per episode:" + aWebEpisodeLength);
+		
+		double aTimeBetweenWebVisits = ((double) anExperimentTime)/numWebVisits;		
+		System.out.println("Time between web visits:" + aTimeBetweenWebVisits);
+		
+		double aTimeBetweenWebEpisodes = ((double) anExperimentTime)/numWebEpisodes;		
+		System.out.println("Time between web episodes:" + aTimeBetweenWebEpisodes);
+		
+		
+		double aNumWebVisitsPerFocusChange = ((double) numWebVisits)/numGainedFocus;
+		System.out.println("Number of web visits per focus:" + aNumWebVisitsPerFocusChange);
 		System.out.println("Num Surmountable Statuses:" + numSurmountableStatuses);
 		System.out.println("Num Insurmountable Statuses:" + numInsurmountableStatuses);
 		System.out.println("Num Progress Statuses:" + numProgressStatuses);
@@ -199,6 +220,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 			numInsurmountableStatuses++;
 			numDifficultyStatuses++;
 			System.out.println(aDate + "Insurmountable " + newCommand);
+			break;
 
 		case Making_Progress:
 			System.out.println(aDate + "Progress  " + newCommand);
@@ -239,7 +261,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		computeMaxTimeBetweenCommands(aStartAbsoluteTime, aNewCommand);
 		lastTimestamp = aStartAbsoluteTime + aDuration;
 		if (lastCommand instanceof WebVisitCommand) {
-			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Returning from web visit:" + aNewCommand);
+//			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Returning from web visit:" + aNewCommand);
 		} 
 		lastNonWebCommand = aNewCommand;
 		lastCommand = aNewCommand;
@@ -285,9 +307,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		numWebVisits++;
 		Date aDate = new Date(aStartAbsoluteTime);
 
-//		if (!(lastCommand instanceof WebVisitCommand)) {
+		if (!(lastCommand instanceof WebVisitCommand)) {
+			numWebEpisodes++;
 //			System.out.println(aDate + "Last non web command before web visit:" + lastCommand );
-//		}
+		}
 		lastCommand = aWebVisitCommand;
 //		System.out.println(aDate + " " + "WebVisit->" + aWebVisitCommand.getSearchString() + ":" + aWebVisitCommand.getUrl());
 		String aSearchString = aWebVisitCommand.getSearchString();
@@ -297,13 +320,29 @@ public class ABasicStoredDataStatistics implements AnalyzerListener{
 		System.out.println(aDate + " " + "SearchedWebVisit->" + aWebVisitCommand.getSearchString() + ":" + aWebVisitCommand.getUrl());
 
 	}
+	
+
+	@Override
+	public void newBrowserCommands(List<WebVisitCommand> aCommands) {
+		timeOnWebVisits = 0;
+		for (WebVisitCommand aCommand:aCommands) {
+			timeOnWebVisits += AnAnalyzer.duration(aCommand);
+			
+		}
+	}
+
+	@Override
+	public void experimentStartTimestamp(long aStartTimeStamp) {
+		// TODO Auto-generated method stub
+		
+	}
 	public static void main (String[] args) {
 		 DifficultyPredictionSettings.setReplayMode(true);
 			//
 			 Analyzer analyzer = new AnAnalyzer();
 			 AnalyzerListener analyzerListener = new ABasicStoredDataStatistics();
 			 analyzer.loadDirectory();
-			 analyzer.getAnalyzerParameters().getParticipants().setValue("16");
+			 analyzer.getAnalyzerParameters().getParticipants().setValue("33");
 			 analyzer.addAnalyzerListener(analyzerListener);
 			 analyzer.getAnalyzerParameters().replayLogs();
 //			 OEFrame frame = ObjectEditor.edit(analyzer);

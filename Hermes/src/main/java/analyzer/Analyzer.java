@@ -93,6 +93,8 @@ public interface Analyzer
 
 	void notifyWebVisit(WebVisitCommand aCommand, long aStartAbsoluteTime, long aDuration);
 
+	void notifyExperinentStartTimeStamp(long aStartTimeStamp);
+
 
 //	boolean isNewRatioFiles();
 //

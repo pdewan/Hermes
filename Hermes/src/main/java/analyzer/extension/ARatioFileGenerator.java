@@ -552,4 +552,16 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		
 	}
 
+	@Override
+	public void newBrowserCommands(List<WebVisitCommand> aCommands) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void experimentStartTimestamp(long aStartTimeStamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -108,12 +108,16 @@ public class AnAnalyzer implements Analyzer {
 	private  Map<String, Queue<StuckInterval>> stuckInterval = new HashMap<>();
 	
 	protected List<WebVisitCommand> sortedWebVisitQueue = new LinkedList<>();
+	protected List<WebVisitCommand> sortedWebVisitCommands = new ArrayList();
+	protected WebVisitCommand lastWebVisitCommandWithoutDuration;
+
 	protected List<String> webVisitsInFile = new ArrayList();
 
 	 boolean stuckFileLoaded = false;
 	 RatioFileReader ratioFileReader;
 
-	 long startTimeStamp;
+	 long startTimestamp;
+	 long experimentStartTimestamp;
 	List<List<EHICommand>> nestedCommandsList;
 
 	FileSetterModel participantsFolder, outputFolder, experimentalData;
@@ -133,7 +137,7 @@ public class AnAnalyzer implements Analyzer {
 	int lastPrediction;
 	int lastCorrection;
 	Mediator mediator;
-	protected long lastStartTimestamp;
+//	protected long lastStartTimestamp;
 
 	EventAggregator eventAggregator;
 
@@ -589,7 +593,9 @@ public class AnAnalyzer implements Analyzer {
 				+ participantFiles.size() + " file(s)");
 		// System.out.println();
 		sortedWebVisitQueue.clear();
+		sortedWebVisitCommands.clear();
 		webVisitsInFile.clear();
+		lastWebVisitCommandWithoutDuration = null;
 		
 
 		for (int i = 0; i < participantFiles.size(); i++) {
@@ -644,6 +650,7 @@ public class AnAnalyzer implements Analyzer {
 				sortedWebVisitQueue.add(0, aWebVisitCommand);
 				webVisitsInFile.add(line);
 			}
+			sortedWebVisitCommands.addAll (sortedWebVisitQueue); // making shallow copy
 
 			br.close();
 		} catch (Exception e) {
@@ -783,6 +790,7 @@ public class AnAnalyzer implements Analyzer {
 //						+ BROWSER_FOLDER);
 				
 				notifyAllWebVisitsInFile();
+				notifyAllWebCommandsInFile();
 
 				notifyFinishParticipant(aParticipantId, aParticipantFolder);
 				
@@ -793,14 +801,15 @@ public class AnAnalyzer implements Analyzer {
 	}
 	
 	protected void playNestedCommandList() {
-		startTimeStamp = 0;
+		startTimestamp = 0;
+		experimentStartTimestamp = 0;
 		for (int index = 0; index < nestedCommandsList.size(); index++) {
 			List<EHICommand> commands = nestedCommandsList.get(index);
 			for (int i = 0; i < commands.size(); i++) {
 				EHICommand aCommand = commands.get(i);
-				long aCommandTime = aCommand.getTimestamp() + startTimeStamp;
+				long aCommandTime = aCommand.getTimestamp() + startTimestamp;
 				long aDuration = duration(aCommand);
-				maybeFireWebVisitBefore(aCommandTime);
+				while (maybeFireWebVisitBefore(aCommandTime));
 				
 				processStoredCommand(aCommand, aCommandTime, aDuration);
 
@@ -833,7 +842,7 @@ public class AnAnalyzer implements Analyzer {
 //					notifyStartTimeStamp(startTimeStamp);
 
 				} else {
-					eventAggregator.setStartTimeStamp(startTimeStamp); // not
+					eventAggregator.setStartTimeStamp(startTimestamp); // not
 																		// sure
 																		// this
 																		// is
@@ -1032,9 +1041,16 @@ public class AnAnalyzer implements Analyzer {
 	 */
 	@Override
 	public void notifyStartTimeStamp(long aStartTimeStamp) {
-		lastStartTimestamp = aStartTimeStamp;
+//		lastStartTimestamp = aStartTimeStamp;
 		for (AnalyzerListener aListener : listeners) {
 			aListener.startTimestamp(aStartTimeStamp);
+		}
+	}
+	@Override
+	public void notifyExperinentStartTimeStamp(long aStartTimeStamp) {
+//		lastStartTimestamp = aStartTimeStamp;
+		for (AnalyzerListener aListener : listeners) {
+			aListener.experimentStartTimestamp(aStartTimeStamp);
 		}
 	}
 
@@ -1066,6 +1082,14 @@ public class AnAnalyzer implements Analyzer {
 		}
 	}
 	
+	
+	public void notifyAllWebCommandsInFile() {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.newBrowserCommands(sortedWebVisitCommands);
+		}
+		
+	}
+	
 protected void fireWebVisitsBefore(long anAbsoluteTimeBefore) {
 	while (maybeFireWebVisitBefore(anAbsoluteTimeBefore));
 	
@@ -1074,8 +1098,17 @@ protected boolean maybeFireWebVisitBefore(long anAbsoluteTimeBefore) {
 	if (sortedWebVisitQueue.isEmpty())
 		return false;
 	WebVisitCommand aCommand= sortedWebVisitQueue.get(0);
-	if (aCommand.getTimestamp()< anAbsoluteTimeBefore) {
-		notifyWebVisit(aCommand, aCommand.getTimestamp(), duration(aCommand));
+	long aTimestamp = aCommand.getTimestamp();
+	if (aTimestamp < experimentStartTimestamp) { // spurious command 
+		sortedWebVisitQueue.remove(0);
+		sortedWebVisitCommands.remove(aCommand);
+		System.err.println(new Date(aTimestamp) + "ignoring command before experiment start time"); 
+		return false;
+	}
+	if (aTimestamp< anAbsoluteTimeBefore) {
+		maybeFillDurationOfLastWebVisit(aTimestamp);
+		notifyWebVisit(aCommand, aTimestamp, duration(aCommand));
+		lastWebVisitCommandWithoutDuration = aCommand;
 		sortedWebVisitQueue.remove(0);
 		return true;
 	} else {
@@ -1091,7 +1124,8 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 	long aTimestamp = aDate.getTime();
 	WebVisitCommand aWebVisitCommand = new WebVisitCommand(parts[1], parts[2]);
 //	aWebVisitCommand.setTimestamp2(aTimestamp); //absolute tiem
-	aWebVisitCommand.setTimestamp(aTimestamp); // absolute Time
+	aWebVisitCommand.setTimestamp(aTimestamp); // absolute Time, should we make it relative?
+//	lastWebVisitCommandWithoutDuration = aWebVisitCommand;
 
 	return aWebVisitCommand;
 }
@@ -1177,6 +1211,9 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 	}
 	
     public static long  duration(long aTimestamp1, long aTimestamp2) {
+    	if (aTimestamp2 < aTimestamp1 && aTimestamp2 != 0) {
+    		throw new RuntimeException();
+    	}
     	return aTimestamp2 == 0?0:aTimestamp2 - aTimestamp1;
 	}
 
@@ -1195,11 +1232,20 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 		return false;
 	}
 	
+	void maybeFillDurationOfLastWebVisit(long aStartTimeOfNextCommmand) {
+		if (lastWebVisitCommandWithoutDuration != null) {
+			lastWebVisitCommandWithoutDuration.setTimestamp2(aStartTimeOfNextCommmand); // filling absolute time and not duration but next time stamp
+			lastWebVisitCommandWithoutDuration =null;
+		}
+	}
+	
 	void processStoredCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration) {
+		
 		notifyNewStoredCommand(aCommand, aStartAbsoluteTime, aDuration);
 	}
 	
 	void processStoredInputCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration) {
+		maybeFillDurationOfLastWebVisit(aStartAbsoluteTime);
 		notifyNewStoredInputCommand(aCommand, aStartAbsoluteTime, aDuration);
 	}
 
@@ -1211,8 +1257,13 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 			Status aStatus = ((DifficultyCommand) newCommand).getStatus();		
 			if (aStatus == Status.Initialization) {
 				if (newCommand.getTimestamp() == 0 && newCommand.getTimestamp2() > 0) {
-					startTimeStamp = newCommand.getTimestamp2();
-					notifyStartTimeStamp(startTimeStamp);
+					
+					startTimestamp = newCommand.getTimestamp2();
+					notifyStartTimeStamp(startTimestamp);
+					if (experimentStartTimestamp == 0) {
+						experimentStartTimestamp = startTimestamp;
+						notifyExperinentStartTimeStamp(experimentStartTimestamp);
+					}
 				}
 				return false;
 			}
