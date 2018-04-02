@@ -107,7 +107,7 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 			 Analyzer analyzer = new AnAnalyzer();
 			 AnalyzerListener analyzerListener = new AWebAccessDifficultyCorrelator();
 			 analyzer.loadDirectory();
-			 analyzer.getAnalyzerParameters().setNewOutputFiles(true);
+//			 analyzer.getAnalyzerParameters().setNewOutputFiles(true);
 			 analyzer.getAnalyzerParameters().getParticipants().setValue("All");
 			 analyzer.addAnalyzerListener(analyzerListener);
 			 analyzer.getAnalyzerParameters().replayLogs();
