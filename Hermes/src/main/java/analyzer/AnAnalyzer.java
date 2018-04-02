@@ -1047,7 +1047,7 @@ public class AnAnalyzer implements Analyzer {
 		}
 	}
 	@Override
-	public void notifyExperinentStartTimeStamp(long aStartTimeStamp) {
+	public void notifyExperimentStartTimeStamp(long aStartTimeStamp) {
 //		lastStartTimestamp = aStartTimeStamp;
 		for (AnalyzerListener aListener : listeners) {
 			aListener.experimentStartTimestamp(aStartTimeStamp);
@@ -1262,7 +1262,7 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 					notifyStartTimeStamp(startTimestamp);
 					if (experimentStartTimestamp == 0) {
 						experimentStartTimestamp = startTimestamp;
-						notifyExperinentStartTimeStamp(experimentStartTimestamp);
+						notifyExperimentStartTimeStamp(experimentStartTimestamp);
 					}
 				}
 				return false;
