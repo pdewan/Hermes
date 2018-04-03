@@ -14,7 +14,6 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 	public static final String WEB_ACCESS_FIlE_NAME = "allWebAccesses.csv";
 	protected String outputFileName;
 	protected File outputFile;
-	protected boolean writeFile;
 	
 	public AWebAccessDifficultyCorrelator() {
 		
@@ -25,9 +24,11 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 	}
 	public void newParticipant(String anId, String aFolder) {
 		super.newParticipant(anId, aFolder);
-		if (DifficultyPredictionSettings.isNewRatioFiles() && AnAnalyzer.ALL_PARTICIPANTS.equals(anId)) {
+		if (isWriteFile() && AnAnalyzer.ALL_PARTICIPANTS.equals(anId)) {
+
+//		if (DifficultyPredictionSettings.isNewRatioFiles() && AnAnalyzer.ALL_PARTICIPANTS.equals(anId)) {
 			outputFileName = computeOutputFileName();
-			writeFile = true;
+//			writeFile = true;
 			outputFile = new File(outputFileName);
 			if (!outputFile.exists()) {
 				try {
@@ -46,7 +47,7 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 	}
 	
 	protected void maybeWriteHeader() {
-		if (!writeFile) {
+		if (outputFile == null) {
 			return;
 		}
 		try {
@@ -60,10 +61,10 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
 	}
 	public static final String HEADER = 
-			"Id,Duration MS, Dureation, Web Accesses,Web Access Per Focus,Web Episodes Per Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties";
+			"Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties";
 	@Override
-	protected void maybeWriteStatistics(String anId, String aFolder) {
-		if (!writeFile) {
+	protected void maybeWriteParticipantStatistics(String anId, String aFolder) {
+		if (outputFile == null) {
 			return;
 		}
 		String aRow = 
@@ -89,6 +90,30 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 		
 		
 	}
+	
+	protected void maybeWriteAggregateStatistics() {
+		String aRow = 
+				"average" + "," +
+				totalExperimentTime/numParticipants+ "," +
+				AnAnalyzer.convertMillSecondsToHMmSs(Math.round(totalExperimentTime/numParticipants))+ "," +
+				totalWebVisits/numParticipants + "," +
+				totalWebEpisodes/numParticipants + "," +
+				totalFocuses/numParticipants + "," +
+//				round2DecimalPlaces(numWebVisitsPerFocusChange) + "," +
+//				round2DecimalPlaces(numWebEpisodesPerFocusChange) + "," +
+				numInsurmountableStatuses + "," +
+				numSurmountableStatuses + "," +
+				numStoredDifficultyPredictions + "," +
+				-numProgressCorrections + "," +
+				totalDifficulties/numParticipants;
+		try {
+			Common.appendText(outputFile, aRow);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	protected void printStatistics() {		
 
@@ -105,9 +130,10 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 		 DifficultyPredictionSettings.setReplayMode(true);
 			//
 			 Analyzer analyzer = new AnAnalyzer();
-			 AnalyzerListener analyzerListener = new AWebAccessDifficultyCorrelator();
+			 AWebAccessDifficultyCorrelator analyzerListener = new AWebAccessDifficultyCorrelator();
 			 analyzer.loadDirectory();
 //			 analyzer.getAnalyzerParameters().setNewOutputFiles(true);
+			 analyzerListener.setWriteFile(true);
 			 analyzer.getAnalyzerParameters().getParticipants().setValue("All");
 			 analyzer.addAnalyzerListener(analyzerListener);
 			 analyzer.getAnalyzerParameters().replayLogs();

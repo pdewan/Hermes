@@ -1,7 +1,10 @@
 package analyzer.extension;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import analyzer.AParticipantTimeLine;
 import analyzer.AnAnalyzer;
@@ -51,9 +54,20 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	protected int numProgressCorrections;
 
 	long maxTimeBetweenCommands;
+	protected boolean writeFile;
+	protected int numParticipants;
+	
+	
+	
+	protected Set<String> ignoreParticipants = new HashSet<String>(Arrays.asList(
+			new String[]{"33"}));
+
 	// boolean madePrediction;
 
+	
+
 	protected void initStatistics() {
+		numParticipants++;
 		numEvents = 0;
 		numStoredPredictions = 0;
 		numStoredDifficultyPredictions = 0;
@@ -169,6 +183,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	double timeBetweenWebVisits;
 	double numWebVisitsPerFocusChange;
 	double numWebEpisodesPerFocusChange;
+	
+	protected double totalExperimentTime;
+	protected long totalWebEpisodes;
+	protected long totalFocuses;
+	protected long totalWebVisits;
+	protected long totalDifficulties;
 
 	protected void computeDerivedStatistics() {
 
@@ -191,7 +211,11 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		numDifficulties = numDifficultyStatuses + numStoredDifficultyPredictions - numProgressCorrections; // assuming
 																					// none
 																					// is
-																					// corrected
+		totalExperimentTime += experimentTime;																			// corrected
+		totalDifficulties += numDifficulties;
+		totalWebVisits += numWebVisits;
+		totalWebEpisodes += numWebEpisodes;
+		totalFocuses += numGainedFocus;
 
 	}
 
@@ -206,15 +230,22 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		// " + aURL);
 
 	}
+	protected void maybeWriteAggregateStatistics() {
+		
+	}
 
 	@Override
 	public void finishedBrowserLines() {
+		maybeWriteAggregateStatistics();
 
 	}
 
 	@Override
 	public void newParticipant(String anId, String aFolder) {
+		if (aFolder == null || ignoreParticipants.contains(anId))
+			return;
 		initStatistics();
+		
 	}
 
 	@Override
@@ -235,15 +266,18 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 
 	}
 
-	protected void maybeWriteStatistics(String anId, String aFolder) {
+	protected void maybeWriteParticipantStatistics(String anId, String aFolder) {
 
 	}
 
 	@Override
 	public void finishParticipant(String anId, String aFolder) {
+		if (aFolder == null || ignoreParticipants.contains(anId))
+			return;
+			;
 		computeDerivedStatistics();
 		printStatistics();
-		maybeWriteStatistics(anId, aFolder);
+		maybeWriteParticipantStatistics(anId, aFolder);
 	}
 
 	protected Date dateFromAbsoluteTime(long aAbsoluteTime) {
@@ -417,6 +451,13 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		// TODO Auto-generated method stub
 
 	}
+	public boolean isWriteFile() {
+		return writeFile;
+	}
+
+	public void setWriteFile(boolean writeFile) {
+		this.writeFile = writeFile;
+	}
 
 	public static void main(String[] args) {
 		DifficultyPredictionSettings.setReplayMode(true);
@@ -428,5 +469,17 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		analyzer.addAnalyzerListener(analyzerListener);
 		analyzer.getAnalyzerParameters().replayLogs();
 		// OEFrame frame = ObjectEditor.edit(analyzer);
+	}
+
+	@Override
+	public void replayFinished() {
+		maybeWriteAggregateStatistics();
+		
+	}
+
+	@Override
+	public void replayStarted() {
+		// TODO Auto-generated method stub
+		
 	}
 }

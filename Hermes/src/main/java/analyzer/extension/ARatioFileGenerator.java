@@ -564,4 +564,16 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		
 	}
 
+	@Override
+	public void replayFinished() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void replayStarted() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

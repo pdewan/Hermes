@@ -17,12 +17,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -140,6 +142,9 @@ public class AnAnalyzer implements Analyzer {
 //	protected long lastStartTimestamp;
 
 	EventAggregator eventAggregator;
+	protected Set<String> ignoreParticipants = new HashSet<String>(Arrays.asList(
+			new String[]{"33"}));
+
 
 	// random comment to make sure things can commit
 	public AnAnalyzer() {
@@ -482,6 +487,7 @@ public class AnAnalyzer implements Analyzer {
 			// keep this for AnArffGenerator
 			this.outputSubdirectory = outPath + participantId;
 			notifyNewParticipant(ALL_PARTICIPANTS, null);
+			notifyReplayStarted();
 			// all if first on the list
 
 			for (String aParticipantId : participantIds) {
@@ -489,6 +495,8 @@ public class AnAnalyzer implements Analyzer {
 				// + EXPERIMENTAL_DATA +
 				// AnAnalyzer.participants.get(aParticipantId) + "/" +
 				// ECLIPSE_FOLDER,false);
+				if (ignoreParticipants.contains(aParticipantId)) 
+					continue;
 				this.outputSubdirectory = outPath + aParticipantId + "/";
 				// should there be a notifyNewParticipant here also
 				processParticipant(aParticipantId, this.outputSubdirectory,
@@ -500,6 +508,7 @@ public class AnAnalyzer implements Analyzer {
 			}
 
 			notifyFinishParticipant(ALL_PARTICIPANTS, null);
+			notifyReplayFinished();
 
 		} else {
 			// String aParticipanttFolder = participants.get(participantId);
@@ -1021,6 +1030,20 @@ public class AnAnalyzer implements Analyzer {
 			aListener.newStoredInputCommand(aCommand, aStartAbsoluteTime, aDuration);
 		}
 		
+	}
+	
+	@Override
+	public void notifyReplayStarted() {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.replayStarted();
+		}
+	}
+	
+	@Override
+	public void notifyReplayFinished() {
+		for (AnalyzerListener aListener : listeners) {
+			aListener.replayFinished();
+		}
 	}
 
 	@Override

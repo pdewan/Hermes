@@ -95,6 +95,10 @@ public interface Analyzer
 
 	void notifyExperimentStartTimeStamp(long aStartTimeStamp);
 
+	void notifyReplayStarted();
+
+	void notifyReplayFinished();
+
 
 //	boolean isNewRatioFiles();
 //

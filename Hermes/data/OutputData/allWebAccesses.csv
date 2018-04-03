@@ -1,4 +1,4 @@
-Id,Duration MS, Dureation, Web Accesses,Web Access Per Focus,Web Episodes Per Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties
+Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties
 16,8270068,2:17:50,74,17,142,1,4,2,0,7
 17,3195186,0:53:15,14,4,72,0,2,0,0,2
 18,10214170,2:50:14,49,10,80,3,0,0,0,3
@@ -15,5 +15,4 @@ Id,Duration MS, Dureation, Web Accesses,Web Access Per Focus,Web Episodes Per Fo
 30,6407115,1:46:47,50,11,127,0,1,0,0,1
 31,3177283,0:52:57,24,6,73,0,1,1,0,2
 32,2220756,0:37:00,15,1,24,0,1,0,0,1
-33,9240816,2:34:00,0,0,114,0,0,0,0,0
-All,9240816,2:34:00,0,0,114,0,0,0,0,0
+average,7758594.9375,2:09:18,51,13,130,0,1,0,0,3
