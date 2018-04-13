@@ -34,7 +34,8 @@ Export-Package: .,
  util.trace.hermes.workspacelistener,
  util.trace.json,
  util.trace.messagebus.clients,
- util.trace.plugin
+ util.trace.plugin,
+ util.trace.recorder
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.json,
