@@ -54,6 +54,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	protected int numLostFocus;
 	protected int numGainedFocus;
 	protected int numWebEpisodes;
+	protected int numWebEpisodesBeforeSurmountableDifficulties;
+	protected int numWebEpisodesBeforeInsurmountableDifficulties;
 	protected long timeOnWebVisits;
 	protected boolean lastPredictionWasDifficulty;
 	protected int numProgressCorrections;
@@ -96,10 +98,14 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		lastNonWebCommand = null;
 		lastCommand = null;
 		numWebVisits = 0;
+		numWebVisitsBeforeInsurmuntableDifficulties = 0;
+		numWebVisitsBeforeSurmountableDificulties = 0;
 		numWebVisitsSinceLastPrediction = 0;
 		numLostFocus = 0;
 		numGainedFocus = 0;
 		numWebEpisodes = 0;
+		numWebEpisodesBeforeSurmountableDifficulties = 0;
+		numWebEpisodesBeforeInsurmountableDifficulties = 0;
 		numWebEpisodesSinceLastPrediction = 0;
 		timeOnWebVisits = 0;
 		lastPredictionWasDifficulty = false;
@@ -329,6 +335,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			if (numWebVisitsSinceLastPrediction > 0) {
 				numSurmountableStatusesWithWebEpisodes++;
 			}
+			numWebEpisodesBeforeSurmountableDifficulties += numWebEpisodesBeforeSurmountableDifficulties;
+			numWebVisitsBeforeSurmountableDificulties += numWebVisitsBeforeSurmountableDificulties;
 			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
 			break;
 		case Insurmountable:
@@ -336,6 +344,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			if (numWebVisitsSinceLastPrediction > 0) {
 				numInsurmountableStatusesWithWebEpisodes++;
 			}
+			numWebEpisodesBeforeInsurmountableDifficulties += numWebEpisodesBeforeInsurmountableDifficulties;
+			numWebVisitsBeforeInsurmuntableDifficulties += numWebVisitsBeforeInsurmuntableDifficulties;
 //			numDifficultyStatuses++;
 			System.out.println(aDate + "Insurmountable " + newCommand);
 			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
