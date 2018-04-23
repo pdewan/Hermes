@@ -31,7 +31,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	int numStatuses;
 	int numDifficultyStatuses;
 	int numSurmountableStatuses;
+	int numSurmountableStatusesWithWebEpisodes;
 	int numInsurmountableStatuses;
+	int numInsurmountableStatusesWithWebEpisodes;
+	int numCorrectPredictions;
 	protected int numDifficulties;
 	int numNullStatuses;
 	int numProgressStatuses;
@@ -46,6 +49,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	EHICommand lastCommand;
 	protected boolean firstCommandAfterStart = true;
 	protected int numWebVisits;
+	protected int numWebVisitsBeforeSurmountableDificulties;
+	protected int numWebVisitsBeforeInsurmuntableDifficulties;
 	protected int numLostFocus;
 	protected int numGainedFocus;
 	protected int numWebEpisodes;
@@ -56,6 +61,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	long maxTimeBetweenCommands;
 	protected boolean writeFile;
 	protected int numParticipants;
+	protected int numWebVisitsSinceLastPrediction;
+	protected int numWebEpisodesSinceLastPrediction;
 	
 	
 	
@@ -77,7 +84,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		numDifficultyStatuses = 0;
 		numProgressStatuses = 0;
 		numSurmountableStatuses = 0;
+		numSurmountableStatusesWithWebEpisodes = 0;
 		numInsurmountableStatuses = 0;
+		numInsurmountableStatusesWithWebEpisodes = 0;
 		numNullStatuses = 0;
 		numInputCommands = 0;
 		numInputCommandsAfterFirstPrediction = 0;
@@ -87,9 +96,11 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		lastNonWebCommand = null;
 		lastCommand = null;
 		numWebVisits = 0;
+		numWebVisitsSinceLastPrediction = 0;
 		numLostFocus = 0;
 		numGainedFocus = 0;
 		numWebEpisodes = 0;
+		numWebEpisodesSinceLastPrediction = 0;
 		timeOnWebVisits = 0;
 		lastPredictionWasDifficulty = false;
 		numProgressCorrections = 0;
@@ -208,6 +219,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		numWebVisitsPerFocusChange = ((double) numWebVisits) / numGainedFocus;
 		numWebEpisodesPerFocusChange = ((double) numWebEpisodes) / numGainedFocus;
 		numDifficultyStatuses = numSurmountableStatuses + numInsurmountableStatuses;
+		numCorrectPredictions = numStoredDifficultyPredictions - numProgressCorrections;
 		numDifficulties = numDifficultyStatuses + numStoredDifficultyPredictions - numProgressCorrections; // assuming
 																					// none
 																					// is
@@ -314,11 +326,20 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			numSurmountableStatuses++;
 //			numDifficultyStatuses++;
 			System.out.println(aDate + " Surmountable " + newCommand);
+			if (numWebVisitsSinceLastPrediction > 0) {
+				numSurmountableStatusesWithWebEpisodes++;
+			}
+			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
 			break;
 		case Insurmountable:
 			numInsurmountableStatuses++;
+			if (numWebVisitsSinceLastPrediction > 0) {
+				numInsurmountableStatusesWithWebEpisodes++;
+			}
 //			numDifficultyStatuses++;
 			System.out.println(aDate + "Insurmountable " + newCommand);
+			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
+
 			break;
 
 		case Making_Progress:
@@ -334,6 +355,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	@Override
 	public void newPrediction(PredictionCommand newParam, PredictionType aPredictionType, long aStartAbsoluteTime,
 			long aDuration) {
+		Date aDate = dateFromAbsoluteTime(aStartAbsoluteTime);
 		numStoredPredictions++;
 		switch (aPredictionType) {
 		case MakingProgress:
@@ -350,6 +372,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			lastPredictionWasDifficulty = false;
 			break;
 		}
+		numWebVisitsSinceLastPrediction = 0;
+		numWebEpisodesSinceLastPrediction = 0;
 	}
 
 	protected void computeMaxTimeBetweenCommands(long aStartAbsoluteTime, EHICommand aCommand) {
@@ -417,10 +441,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	@Override
 	public void newWebVisit(WebVisitCommand aWebVisitCommand, long aStartAbsoluteTime, long aDuration) {
 		numWebVisits++;
+		numWebVisitsSinceLastPrediction++;
 		Date aDate = new Date(aStartAbsoluteTime);
 
 		if (!(lastCommand instanceof WebVisitCommand)) {
 			numWebEpisodes++;
+			numWebEpisodesSinceLastPrediction++;
 			// System.out.println(aDate + "Last non web command before web
 			// visit:" + lastCommand );
 		}
