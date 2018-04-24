@@ -24,6 +24,9 @@ import fluorite.commands.WebVisitCommand;
 public class ABasicStoredDataStatistics implements AnalyzerListener {
 	int numStoredPredictions;
 	int numStoredDifficultyPredictions;
+	protected int totalStoredDifficultyPredictions;
+	protected int totalStoredProgressPredictions;
+	
 	int numStoredIndeterminatePredictions;
 
 	int numStoredProgressPredictions;
@@ -31,13 +34,16 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	int numStatuses;
 	int numDifficultyStatuses;
 	int numSurmountableStatuses;
+	int totalSurmountableStatuses;
 	int numSurmountableStatusesWithWebEpisodes;
 	int numInsurmountableStatuses;
+	int totalInsurmountableStatuses;
 	int numInsurmountableStatusesWithWebEpisodes;
 	int numCorrectPredictions;
+	protected int totalCorrectPredictions;
 	protected int numDifficulties;
 	int numNullStatuses;
-	int numProgressStatuses;
+	protected int numProgressStatuses;
 	int numInputCommands;
 	int numInputCommandsAfterFirstPrediction; // minus first segment
 	int numInputCommandsBeforeFirstPrediction;// plus first segment
@@ -51,6 +57,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	protected int numWebVisits;
 	protected int numWebVisitsBeforeSurmountableDificulties;
 	protected int numWebVisitsBeforeInsurmuntableDifficulties;
+	protected int numWebVisitsBeforeProgressInference;
+	protected int numWebVisitsBeforeDifficultyInferences;
 	protected int numLostFocus;
 	protected int numGainedFocus;
 	protected int numWebEpisodes;
@@ -59,12 +67,23 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	protected long timeOnWebVisits;
 	protected boolean lastPredictionWasDifficulty;
 	protected int numProgressCorrections;
+	protected double totalProgressCorrections;
 
 	long maxTimeBetweenCommands;
 	protected boolean writeFile;
 	protected int numParticipants;
 	protected int numWebVisitsSinceLastPrediction;
 	protected int numWebEpisodesSinceLastPrediction;
+	protected int numSurmountableWithoutWebAccesses;
+	protected int numInsurmountableWithoutWebAccesses;
+	
+	protected int totalSurmountableWithoutWebAccesses;
+	protected int totalInsurmountableWithoutWebAccesses;
+	
+//	protected double numWebAccessesInSurmountable;
+//	protected double numWebAccessesInInsurmountable;
+	protected double numWebAccessesInInferredSurmountable;
+	protected double numWebAccessesInProgress;
 	
 	
 	
@@ -100,6 +119,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		numWebVisits = 0;
 		numWebVisitsBeforeInsurmuntableDifficulties = 0;
 		numWebVisitsBeforeSurmountableDificulties = 0;
+		numWebVisitsBeforeProgressInference = 0;
+		numWebVisitsBeforeDifficultyInferences = 0;
 		numWebVisitsSinceLastPrediction = 0;
 		numLostFocus = 0;
 		numGainedFocus = 0;
@@ -107,6 +128,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		numWebEpisodesBeforeSurmountableDifficulties = 0;
 		numWebEpisodesBeforeInsurmountableDifficulties = 0;
 		numWebEpisodesSinceLastPrediction = 0;
+		numInsurmountableWithoutWebAccesses = 0;
+		numSurmountableWithoutWebAccesses = 0;
+		
 		timeOnWebVisits = 0;
 		lastPredictionWasDifficulty = false;
 		numProgressCorrections = 0;
@@ -202,11 +226,19 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	double numWebEpisodesPerFocusChange;
 	
 	protected double totalExperimentTime;
-	protected long totalWebEpisodes;
-	protected long totalFocuses;
-	protected long totalWebVisits;
-	protected long totalDifficulties;
-
+	protected double totalWebEpisodes;
+	protected double totalFocuses;
+	protected double totalWebVisits;
+	protected double totalDifficulties;
+	protected double averageWebVisitsSurmountable;
+	protected double averageWebVisitsInsurmountable;
+	protected double averageWebVisitsInferredProgress;
+	protected double averageWebVisitsInferredDifficulty;
+	
+	protected double totalWebVisitsSurmountable;
+	protected double totalWebVisitsInsurmountable;
+	protected double totalWebVisitsInferredProgress;
+	protected double totalWebVisitsInferredDifficulty;
 	protected void computeDerivedStatistics() {
 
 		experimentTime = lastTimestamp - experimentStartTimestamp;
@@ -226,9 +258,32 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		numWebEpisodesPerFocusChange = ((double) numWebEpisodes) / numGainedFocus;
 		numDifficultyStatuses = numSurmountableStatuses + numInsurmountableStatuses;
 		numCorrectPredictions = numStoredDifficultyPredictions - numProgressCorrections;
+		totalCorrectPredictions += numCorrectPredictions;
+		
+		totalProgressCorrections += numProgressCorrections;
 		numDifficulties = numDifficultyStatuses + numStoredDifficultyPredictions - numProgressCorrections; // assuming
 																					// none
 																					// is
+		averageWebVisitsSurmountable = ((double) numWebVisitsBeforeSurmountableDificulties)/numSurmountableStatuses;
+		averageWebVisitsInsurmountable = ((double) numWebVisitsBeforeInsurmuntableDifficulties)/numInsurmountableStatuses;
+		averageWebVisitsInferredProgress = ((double) numWebVisitsBeforeProgressInference)/numStoredProgressPredictions;
+		averageWebVisitsInferredDifficulty = ((double) numWebVisitsBeforeDifficultyInferences)/numStoredDifficultyPredictions;
+		
+		totalWebVisitsSurmountable += numWebVisitsBeforeSurmountableDificulties;
+		totalWebVisitsInsurmountable += numWebVisitsBeforeInsurmuntableDifficulties;
+		totalWebVisitsInferredProgress += numWebVisitsBeforeProgressInference;
+		totalWebVisitsInferredDifficulty += numWebVisitsBeforeDifficultyInferences;
+		
+		totalStoredDifficultyPredictions += numStoredDifficultyPredictions;
+		totalStoredProgressPredictions += numStoredProgressPredictions;
+		
+		totalSurmountableStatuses += numSurmountableStatuses;
+		totalInsurmountableStatuses += numInsurmountableStatuses;
+		
+		totalSurmountableWithoutWebAccesses += numSurmountableWithoutWebAccesses;
+		totalWebVisitsInsurmountable += numInsurmountableWithoutWebAccesses;		
+		
+		
 		totalExperimentTime += experimentTime;																			// corrected
 		totalDifficulties += numDifficulties;
 		totalWebVisits += numWebVisits;
@@ -334,18 +389,25 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			System.out.println(aDate + " Surmountable " + newCommand);
 			if (numWebVisitsSinceLastPrediction > 0) {
 				numSurmountableStatusesWithWebEpisodes++;
+			} else {
+				numSurmountableWithoutWebAccesses++;
 			}
 			numWebEpisodesBeforeSurmountableDifficulties += numWebEpisodesBeforeSurmountableDifficulties;
-			numWebVisitsBeforeSurmountableDificulties += numWebVisitsBeforeSurmountableDificulties;
+			if (numWebVisitsSinceLastPrediction > 0) // for debugging			
+			numWebVisitsBeforeSurmountableDificulties += numWebVisitsSinceLastPrediction;
 			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
 			break;
 		case Insurmountable:
 			numInsurmountableStatuses++;
 			if (numWebVisitsSinceLastPrediction > 0) {
 				numInsurmountableStatusesWithWebEpisodes++;
+			} else {
+				numInsurmountableWithoutWebAccesses++;
 			}
-			numWebEpisodesBeforeInsurmountableDifficulties += numWebEpisodesBeforeInsurmountableDifficulties;
-			numWebVisitsBeforeInsurmuntableDifficulties += numWebVisitsBeforeInsurmuntableDifficulties;
+			if (numWebVisitsSinceLastPrediction > 0) // for debugging
+			numWebEpisodesBeforeInsurmountableDifficulties += numWebEpisodesSinceLastPrediction;
+			if (numWebVisitsSinceLastPrediction > 0) // for debugging
+			numWebVisitsBeforeInsurmuntableDifficulties += numWebVisitsSinceLastPrediction;
 //			numDifficultyStatuses++;
 			System.out.println(aDate + "Insurmountable " + newCommand);
 			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
@@ -355,6 +417,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		case Making_Progress:
 			System.out.println(aDate + "Progress  " + newCommand);
 			numProgressStatuses++;
+			if (numWebVisitsSinceLastPrediction > 0) // for debugging
+				numWebVisitsBeforeProgressInference += numWebVisitsSinceLastPrediction;
 			if (lastPredictionWasDifficulty) {
 				numProgressCorrections++;
 			}
@@ -371,11 +435,15 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		case MakingProgress:
 			numStoredProgressPredictions++;
 			lastPredictionWasDifficulty = false;
+			if (numWebVisitsSinceLastPrediction > 0) // for debugging	
+			numWebVisitsBeforeProgressInference += numWebVisitsSinceLastPrediction;
 			break;
 		case HavingDifficulty:
 			numStoredDifficultyPredictions++;
 			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Difficulty prediction");
 			lastPredictionWasDifficulty = true;
+			if (numWebVisitsSinceLastPrediction > 0) // for debugging
+			numWebVisitsBeforeDifficultyInferences += numWebVisitsSinceLastPrediction;
 			break;
 		case Indeterminate:
 			numStoredIndeterminatePredictions++;
@@ -501,7 +569,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		Analyzer analyzer = new AnAnalyzer();
 		AnalyzerListener analyzerListener = new ABasicStoredDataStatistics();
 		analyzer.loadDirectory();
-		analyzer.getAnalyzerParameters().getParticipants().setValue("16");
+		analyzer.getAnalyzerParameters().getParticipants().setValue("17");
 		analyzer.addAnalyzerListener(analyzerListener);
 		analyzer.getAnalyzerParameters().replayLogs();
 		// OEFrame frame = ObjectEditor.edit(analyzer);
