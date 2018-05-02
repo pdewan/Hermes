@@ -155,6 +155,9 @@ public class EclipseCommand
 		if (mCommandId.isEmpty()) {
 			return "";
 		}
+		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+			return mCommandId;
+		}
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
 		if (cs == null) {
