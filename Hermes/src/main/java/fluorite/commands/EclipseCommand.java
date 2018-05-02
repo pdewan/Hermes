@@ -272,6 +272,9 @@ public class EclipseCommand
 		if (getCommandID().isEmpty())
 			return "";
 //		return super.getCategoryID();
+		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+			return mCommandId;
+		}
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
 		if (cs == null) {
