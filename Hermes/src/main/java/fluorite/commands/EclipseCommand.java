@@ -17,6 +17,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
 import difficultyPrediction.DifficultyPredictionSettings;
+import edu.cmu.scs.fluorite.model.EventRecorder;
+import fluorite.model.EHEventRecorder;
 import fluorite.plugin.EHActivator;
 import fluorite.preferences.Initializer;
 import fluorite.util.EventLoggerConsole;
@@ -153,6 +155,9 @@ public class EclipseCommand
 		if (mCommandId.isEmpty()) {
 			return "";
 		}
+		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+			return mCommandId;
+		}
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
 		if (cs == null) {
@@ -267,6 +272,9 @@ public class EclipseCommand
 		if (getCommandID().isEmpty())
 			return "";
 //		return super.getCategoryID();
+		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+			return mCommandId;
+		}
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
 		if (cs == null) {
@@ -292,6 +300,10 @@ public class EclipseCommand
 		if (mCommandId.isEmpty()) {
 			return "";
 		}
+		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+			return mCommandId;
+		}
+		
 //		return super.getCategory();
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
@@ -318,6 +330,9 @@ public class EclipseCommand
 		return getCommandID();
 	if (getCommandID().isEmpty()) {
 		return getCommandID();
+	}
+	if (!EHEventRecorder.getInstance().isPlugInMode()) {
+		return mCommandId;
 	}
 //	return super.getName();
 	
