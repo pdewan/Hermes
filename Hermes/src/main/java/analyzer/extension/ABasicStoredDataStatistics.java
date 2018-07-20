@@ -23,6 +23,7 @@ import fluorite.commands.WebVisitCommand;
 
 public class ABasicStoredDataStatistics implements AnalyzerListener {
 	int numStoredPredictions;
+	double totalStoredPredictions;
 	int numStoredDifficultyPredictions;
 	protected double totalStoredDifficultyPredictions;
 	protected double totalStoredProgressPredictions;
@@ -347,6 +348,8 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		totalSurmountableWithoutWebAccesses += numSurmountableWithoutWebAccesses;
 		totalInsurmountableWithoutWebAccesses += numInsurmountableWithoutWebAccesses;
 		
+		totalStoredPredictions += numStoredPredictions;
+		
 		totalStoredIndeterminatePredictions += numStoredIndeterminatePredictions;
 		
 		totalInsurmountableInIndeterminatePeriod += numInsurmountableInIndeterminatePeriod;
@@ -378,13 +381,18 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		// " + aURL);
 
 	}
-	protected void maybeWriteAggregateStatistics() {
+	protected void maybeWriteAverageStatistics() {
+		
+	}
+	protected void maybeWriteTotalStatistics() {
 		
 	}
 
+
 	@Override
-	public void finishedBrowserLines() {
-		maybeWriteAggregateStatistics();
+	public void finishedBrowserLines() {		
+		maybeWriteAverageStatistics();
+		maybeWriteTotalStatistics();
 
 	}
 
@@ -683,7 +691,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 
 	@Override
 	public void replayFinished() {
-		maybeWriteAggregateStatistics();
+		maybeWriteAverageStatistics();
 		
 	}
 
