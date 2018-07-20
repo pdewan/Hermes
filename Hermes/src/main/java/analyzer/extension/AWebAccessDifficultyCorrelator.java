@@ -61,7 +61,7 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
 	}
 	public static final String HEADER = 
-			"Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties, InsurmNoWebAccess, SurmNoWebAccess, WebAcessInsurm, WebAccessSurm, WebAccessProgress, WebAccessDiff";
+			"Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties, InsurmNoWebAccess, SurmNoWebAccess, WebAcessInsurm, WebAccessSurm, WebAccessProgress, WebAccessDiff, NumProgresses, ProgressIndeterminate, SurmountableIndeterminate, InsurmountableIndeterminate";
 	@Override
 	protected void maybeWriteParticipantStatistics(String anId, String aFolder) {
 		if (outputFile == null) {
@@ -79,7 +79,7 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 				numInsurmountableStatuses + "," +
 				numSurmountableStatuses + "," +
 				numStoredDifficultyPredictions + "," +
-				numProgressCorrections + "," +
+				numCorrectionsToProgress + "," +
 				numDifficulties + "," +
 				numInsurmountableWithoutWebAccesses + "," +
 				numSurmountableWithoutWebAccesses + "," +
@@ -119,7 +119,12 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 				round2DecimalPlaces(totalWebVisitsInsurmountable/totalInsurmountableStatuses) + "," +
 				round2DecimalPlaces(totalWebVisitsSurmountable/totalSurmountableStatuses) + "," +
 				round2DecimalPlaces(totalWebVisitsInferredProgress/totalStoredProgressPredictions) + "," +
-				round2DecimalPlaces(totalWebVisitsInferredDifficulty/totalStoredDifficultyPredictions);
+				round2DecimalPlaces(totalWebVisitsInferredDifficulty/totalStoredDifficultyPredictions) +
+				round2DecimalPlaces(totalProgresses/numParticipants) +
+				round2DecimalPlaces(totalIndeterminates/numParticipants) +
+				round2DecimalPlaces(totalProgressInIndeterminatePeriod/numParticipants) +
+				round2DecimalPlaces(totalSurmountableInIndeterminatePeriod/numParticipants)
+				;
 		try {
 			Common.appendText(outputFile, aRow);
 		} catch (IOException e) {
@@ -148,7 +153,9 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 			 analyzer.loadDirectory();
 //			 analyzer.getAnalyzerParameters().setNewOutputFiles(true);
 			 analyzerListener.setWriteFile(true);
+//			 analyzerListener.setWriteFile(false);
 			 analyzer.getAnalyzerParameters().getParticipants().setValue("All");
+//			 analyzer.getAnalyzerParameters().getParticipants().setValue("16");
 			 analyzer.addAnalyzerListener(analyzerListener);
 			 analyzer.getAnalyzerParameters().replayLogs();
 //			 OEFrame frame = ObjectEditor.edit(analyzer);
