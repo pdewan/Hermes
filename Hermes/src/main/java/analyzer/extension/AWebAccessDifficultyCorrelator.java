@@ -61,7 +61,7 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
 	}
 	public static final String HEADER = 
-			"Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties, InsurmNoWebAccess, SurmNoWebAccess, WebAcessInsurm, WebAccessSurm, WebAccessProgress, WebAccessDiff, NumProgresses, ProgressIndeterminate, SurmountableIndeterminate, InsurmountableIndeterminate, Predictions";
+			"Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties, InsurmNoWebAccess, SurmNoWebAccess, WebAcessInsurm, WebAccessSurm, WebAccessProgress, WebAccessDiff, NumProgresses, ProgressIndeterminate, SurmountableIndeterminate, InsurmountableIndeterminate, Predictions, DifficultiesWithWebEpisode";
 	@Override
 	protected void maybeWriteParticipantStatistics(String anId, String aFolder) {
 		if (outputFile == null) {
@@ -92,7 +92,8 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 				numProgressInIndeterminatePeriod + "," +
 				numSurmountableInIndeterminatePeriod + "," +
 				numInsurmountableInIndeterminatePeriod + "," +
-				numStoredPredictions;
+				numStoredPredictions + "," +
+				numDifficultiesWithWebEpisodes;
 		try {
 			Common.appendText(outputFile, aRow);
 		} catch (IOException e) {
@@ -131,7 +132,8 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 				round2DecimalPlaces(totalProgressInIndeterminatePeriod/numParticipants) +  "," +
 				round2DecimalPlaces(totalSurmountableInIndeterminatePeriod/numParticipants)  + "," +
 				round2DecimalPlaces(totalInsurmountableInIndeterminatePeriod/numParticipants) + "," +
-				round2DecimalPlaces(totalStoredPredictions/numParticipants);
+				round2DecimalPlaces(totalStoredPredictions/numParticipants) + "," +
+				round2DecimalPlaces(totalDifficultiesWithWebEpisodes/numParticipants);
 		try {
 			Common.appendText(outputFile, aRow);
 		} catch (IOException e) {
@@ -169,7 +171,9 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 				round2DecimalPlaces(totalProgressInIndeterminatePeriod) +  "," +
 				round2DecimalPlaces(totalSurmountableInIndeterminatePeriod)  + "," +
 				round2DecimalPlaces(totalInsurmountableInIndeterminatePeriod) + "," +
-				round2DecimalPlaces(totalStoredPredictions);
+				round2DecimalPlaces(totalStoredPredictions) + "," +
+				round2DecimalPlaces(totalDifficultiesWithWebEpisodes);
+;
 		try {
 			Common.appendText(outputFile, aRow);
 		} catch (IOException e) {

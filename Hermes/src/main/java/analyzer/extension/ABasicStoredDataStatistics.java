@@ -37,10 +37,19 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	int numDifficultyStatuses;
 	int numSurmountableStatuses;
 	double totalSurmountableStatuses;
+	int numStoredDifficultiesWithWebEpisodes;
+	double totalStoredDifficultiesWithWebEpisodes;
+	double numDifficultiesWithWebEpisodes;
+	double totalDifficultiesWithWebEpisodes;
+	int numCorrectionsToProgressWithWebEpisodes;
+	double totalCorectionsToProgressWithWebEpisodes;
+	int numDifficultyConfirmationsWithWebEpisodes;
 	int numSurmountableStatusesWithWebEpisodes;
+	double totalSurmountableStatusesWithWebEpisodes;
 	int numInsurmountableStatuses;
 	double totalInsurmountableStatuses;
 	int numInsurmountableStatusesWithWebEpisodes;
+	double totalInsurmountableStatusesWithWebEpisodes;
 	int numCorrectPredictions;
 	protected double totalCorrectPredictions;
 	protected int numDifficulties;
@@ -135,6 +144,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		numSurmountableStatusesWithWebEpisodes = 0;
 		numInsurmountableStatuses = 0;
 		numInsurmountableStatusesWithWebEpisodes = 0;
+		numStoredDifficultiesWithWebEpisodes = 0;
+		numCorrectionsToProgressWithWebEpisodes = 0;
+		numDifficultyConfirmationsWithWebEpisodes = 0;
 		numNullStatuses = 0;
 		numInputCommands = 0;
 		numInputCommandsAfterFirstPrediction = 0;
@@ -314,6 +326,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 						numStoredDifficultyPredictions 
 						- numCorrectionsToProgress
 						- numDifficultyConfirmations; 
+		numDifficultiesWithWebEpisodes =
+				numSurmountableStatusesWithWebEpisodes +
+				numInsurmountableStatusesWithWebEpisodes +
+				numStoredDifficultiesWithWebEpisodes 
+				- numCorrectionsToProgressWithWebEpisodes 
+				- numDifficultyConfirmationsWithWebEpisodes;
 		numProgresses = numProgressStatuses
 						+ numStoredProgressPredictions
 						- numCorrectionsToDifficulty
@@ -367,6 +385,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		totalWebVisits += numWebVisits;
 		totalWebEpisodes += numWebEpisodes;
 		totalFocuses += numGainedFocus;
+		
+		totalInsurmountableStatusesWithWebEpisodes += numInsurmountableStatusesWithWebEpisodes;
+		totalSurmountableStatusesWithWebEpisodes += numSurmountableStatusesWithWebEpisodes;
+		totalStoredDifficultiesWithWebEpisodes += numStoredDifficultiesWithWebEpisodes++;
+		totalCorectionsToProgressWithWebEpisodes += numCorrectionsToProgressWithWebEpisodes;
+		totalDifficultiesWithWebEpisodes += numDifficultiesWithWebEpisodes;
 
 	}
 
@@ -481,6 +505,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
 			if (lastPredictionWasDifficulty) {
 				numDifficultyConfirmations++;
+				if (numWebVisitsSinceLastPrediction > 0) {
+					numDifficultyConfirmationsWithWebEpisodes++;
+				}
 			} 
 			
 			else if (lastPredictionWasIndeterminate) {
@@ -508,6 +535,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
 			if (lastPredictionWasDifficulty) {
 				numDifficultyConfirmations++;
+				if (numWebVisitsSinceLastPrediction > 0) {
+					numDifficultyConfirmationsWithWebEpisodes++;
+				}
 			} else if  (lastPredictionWasIndeterminate) {
 				numInsurmountableInIndeterminatePeriod++;
 			} else {			
@@ -524,6 +554,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 				numWebVisitsBeforeProgressInference += numWebVisitsSinceLastPrediction;
 			if (lastPredictionWasDifficulty) {
 				numCorrectionsToProgress++;
+				if (numWebVisitsSinceLastPrediction > 0) {
+					numCorrectionsToProgressWithWebEpisodes--; 
+				}
 			} else if (lastPredictionWasIndeterminate) {
 				numProgressInIndeterminatePeriod++;
 			} else {
@@ -550,6 +583,9 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			numWebVisitsBeforeProgressInference += numWebVisitsSinceLastPrediction;
 			break;
 		case HavingDifficulty:
+			if (numWebVisitsSinceLastPrediction > 0) {
+				numStoredDifficultiesWithWebEpisodes++; // assuming this is not cancelled
+			} 
 			lastPredictionWasIndeterminate = false;
 			numStoredDifficultyPredictions++;
 			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Difficulty prediction");
@@ -692,6 +728,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	@Override
 	public void replayFinished() {
 		maybeWriteAverageStatistics();
+		maybeWriteTotalStatistics();
 		
 	}
 
