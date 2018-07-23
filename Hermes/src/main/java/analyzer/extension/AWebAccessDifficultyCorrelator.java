@@ -19,9 +19,9 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 		
 	}
 	
-	public static double round2DecimalPlaces(double aNum) {
-		return Math.round(100.0 * aNum)/100.0;
-	}
+//	public static double round2DecimalPlaces(double aNum) {
+//		return Math.round(100.0 * aNum)/100.0;
+//	}
 	public void newParticipant(String anId, String aFolder) {
 		super.newParticipant(anId, aFolder);
 		if (isWriteFile() && AnAnalyzer.ALL_PARTICIPANTS.equals(anId)) {
@@ -61,7 +61,7 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
 	}
 	public static final String HEADER = 
-			"Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties, InsurmNoWebAccess, SurmNoWebAccess, WebAcessInsurm, WebAccessSurm, WebAccessProgress, WebAccessDiff, NumProgresses, ProgressIndeterminate, SurmountableIndeterminate, InsurmountableIndeterminate, Predictions, DifficultiesWithWebEpisode";
+			"Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties, DifficultiesNoWebAccess, InsurmNoWebAccess, SurmNoWebAccess, WebAcessInsurm, WebAccessSurm, WebAccessProgress, WebAccessDiff, NumProgresses, NumImdterminates, ProgressIndeterminate, SurmountableIndeterminate, InsurmountableIndeterminate, Predictions, DifficultiesWithWebEpisodes,SurmountableWithWebEpisodes, InsumountableWithWebEpisodes, PredictedWithWebEpisodes, WebAccessDifficulty, WebAccessProgress, NormalWithWebEpisodes";
 	@Override
 	protected void maybeWriteParticipantStatistics(String anId, String aFolder) {
 		if (outputFile == null) {
@@ -79,21 +79,38 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 				numInsurmountableStatuses + "," +
 				numSurmountableStatuses + "," +
 				numStoredDifficultyPredictions + "," +
-				numCorrectionsToProgress + "," +
+				numCorrectionsOfDifficulty + "," +
 				numDifficulties + "," +
+				numDifficultiesNoWebAccess + "," +
 				numInsurmountableWithoutWebAccesses + "," +
 				numSurmountableWithoutWebAccesses + "," +
+				
 				round2DecimalPlaces(averageWebVisitsInsurmountable) + "," +
 				round2DecimalPlaces(averageWebVisitsSurmountable) + "," +
 				round2DecimalPlaces(averageWebVisitsInferredProgress) + "," +
 				round2DecimalPlaces(averageWebVisitsInferredDifficulty) + "," +
+//
+//				numWebVisitsBeforeInsurmuntableDifficulties + "," +
+//				numWebVisitsBeforeSurmountableDificulties+ "," +
+//				numWebVisitsBeforeProgressInference + "," +
+//				numWebVisitsBeforeDifficultyInferences + "," +
+
 				numProgresses +  "," +
 				numIndeterminates  +  "," +
 				numProgressInIndeterminatePeriod + "," +
 				numSurmountableInIndeterminatePeriod + "," +
 				numInsurmountableInIndeterminatePeriod + "," +
 				numStoredPredictions + "," +
-				numDifficultiesWithWebEpisodes;
+				numDifficultiesWithWebEpisodes + "," +
+				numSurmountableStatusesWithWebEpisodes + "," +
+				numInsurmountableStatusesWithWebEpisodes + "," +
+				numPredictedDifficultiesWithWebEpisodes + "," +
+//				numWebVisitsBeforeDifficulties + "," +
+				round2DecimalPlaces(averageWebVisitsBeforeDifficulties) + "," +
+//				numWebVisitsBeforeProgress;
+				round2DecimalPlaces(averageWebVisitsBeforeProgress) + "," +
+				numProgressWithWebEpisodes;
+
 		try {
 			Common.appendText(outputFile, aRow);
 		} catch (IOException e) {
@@ -121,6 +138,8 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 //				totalDifficulties/numParticipants + "," +
 //				-numProgressCorrections + "," +
 				round2DecimalPlaces(totalDifficulties/numParticipants) + "," +
+				round2DecimalPlaces(totalDifficultiesNoWebAccess/totalDifficulties) + "," +
+
 				round2DecimalPlaces(totalInsurmountableWithoutWebAccesses/totalInsurmountableStatuses) + "," +
 				round2DecimalPlaces(totalSurmountableWithoutWebAccesses/totalSurmountableStatuses) + "," +
 				round2DecimalPlaces(totalWebVisitsInsurmountable/totalInsurmountableStatuses) + "," +
@@ -133,7 +152,13 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 				round2DecimalPlaces(totalSurmountableInIndeterminatePeriod/numParticipants)  + "," +
 				round2DecimalPlaces(totalInsurmountableInIndeterminatePeriod/numParticipants) + "," +
 				round2DecimalPlaces(totalStoredPredictions/numParticipants) + "," +
-				round2DecimalPlaces(totalDifficultiesWithWebEpisodes/numParticipants);
+				round2DecimalPlaces(totalDifficultiesWithWebEpisodes/numParticipants) + "," +
+				round2DecimalPlaces(totalSurmountableStatusesWithWebEpisodes/numParticipants) + "," +
+				round2DecimalPlaces(totalInsurmountableStatusesWithWebEpisodes/numParticipants) + "," +
+				round2DecimalPlaces(totalPredictedDifficultiesWithWebEpisodes/numParticipants) + "," +
+				round2DecimalPlaces(totalWebVisitsBeforeDifficulties/totalDifficulties) + "," +
+				round2DecimalPlaces(totalWebVisitsBeforeProgress/totalProgresses) + "," +
+				round2DecimalPlaces(totalProgressWithWebEpisodes/numParticipants);
 		try {
 			Common.appendText(outputFile, aRow);
 		} catch (IOException e) {
@@ -160,6 +185,8 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 //				totalDifficulties + "," +
 //				-numProgressCorrections + "," +
 				round2DecimalPlaces(totalDifficulties) + "," +
+				round2DecimalPlaces(totalDifficultiesNoWebAccess/totalDifficulties) + "," +
+
 				round2DecimalPlaces(totalInsurmountableWithoutWebAccesses/totalInsurmountableStatuses) + "," +
 				round2DecimalPlaces(totalSurmountableWithoutWebAccesses/totalSurmountableStatuses) + "," +
 				round2DecimalPlaces(totalWebVisitsInsurmountable/totalInsurmountableStatuses) + "," +
@@ -172,8 +199,13 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 				round2DecimalPlaces(totalSurmountableInIndeterminatePeriod)  + "," +
 				round2DecimalPlaces(totalInsurmountableInIndeterminatePeriod) + "," +
 				round2DecimalPlaces(totalStoredPredictions) + "," +
-				round2DecimalPlaces(totalDifficultiesWithWebEpisodes);
-;
+				round2DecimalPlaces(totalDifficultiesWithWebEpisodes) + "," +
+				round2DecimalPlaces(totalSurmountableStatusesWithWebEpisodes) + "," +
+				round2DecimalPlaces(totalInsurmountableStatusesWithWebEpisodes) + "," +
+				round2DecimalPlaces(totalPredictedDifficultiesWithWebEpisodes) + "," +
+				totalWebVisitsBeforeDifficulties + "," +
+				totalWebVisitsBeforeProgress + "," +
+				totalProgressWithWebEpisodes;
 		try {
 			Common.appendText(outputFile, aRow);
 		} catch (IOException e) {
