@@ -539,6 +539,12 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	//// }
 	////
 	// }
+	protected void newCorrectDifficultyStatus(DifficultyCommand newCommand, Date aDate, boolean surmountable, boolean confirm) {
+		System.out.println("Date:" + aDate + " Surmountable?:" + surmountable + " confirm previus prediction?" + confirm);
+	}
+	protected void newDifficultyCorrection(DifficultyCommand newCommand, Date aDate) {
+		System.out.println("Date:" + aDate + " correcting previous difficulty prediction");
+	}
 	@Override
 	public void newCorrectStatus(DifficultyCommand newCommand, Status aStatus, long aStartAbsoluteTime,
 			long aDuration) {
@@ -563,6 +569,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			numWebVisitsBeforeSurmountableDificulties += numWebVisitsSinceLastPrediction;
 			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
 			if (lastPredictionWasDifficulty) {
+				newCorrectDifficultyStatus(newCommand, aDate, true, true);
 				numDifficultyConfirmations++;
 				if (numWebVisitsSinceLastPrediction > 0) {
 					numDifficultyConfirmationsWithWebEpisodes++;
@@ -573,11 +580,13 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			
 			else if (lastPredictionWasIndeterminate) {
 				numSurmountableInIndeterminatePeriod++;
+				newCorrectDifficultyStatus(newCommand, aDate, true, false);
 			}
 			
 			else  {
 				numCorrectionsOfProgress++;
 				numWebVisitsBeforeFalseProgressInferences += numWebVisitsSinceLastPrediction; 
+				newCorrectDifficultyStatus(newCommand, aDate, true, false);
 
 			}
 			
@@ -597,14 +606,17 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			System.out.println(aDate + "Insurmountable " + newCommand);
 			System.out.println("numWebVisitsSinceLastPrediction " + numWebVisitsSinceLastPrediction);
 			if (lastPredictionWasDifficulty) {
+				newCorrectDifficultyStatus(newCommand, aDate, false, true);
 				numDifficultyConfirmations++;
 				if (numWebVisitsSinceLastPrediction > 0) {
 					numDifficultyConfirmationsWithWebEpisodes++;
 				}
 				numWebVisitsBeforeDuplicateDifficultyInferences += numWebVisitsSinceLastPrediction;
 			} else if  (lastPredictionWasIndeterminate) {
+				newCorrectDifficultyStatus(newCommand, aDate, false, false);
 				numInsurmountableInIndeterminatePeriod++;
-			} else {			
+			} else {
+				newCorrectDifficultyStatus(newCommand, aDate, false, false);
 				numCorrectionsOfProgress++;
 				numWebVisitsBeforeFalseProgressInferences += numWebVisitsSinceLastPrediction; 
 			}
@@ -618,6 +630,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			if (numWebVisitsSinceLastPrediction > 0) // for debugging
 				numWebVisitsBeforeProgressInference += numWebVisitsSinceLastPrediction;
 			if (lastPredictionWasDifficulty) {
+				newDifficultyCorrection(newCommand, aDate);
 				numCorrectionsOfDifficulty++;
 				numWebVisitsBeforeFalseDifficultyInferences += numWebVisitsSinceLastPrediction;
 				if (numWebVisitsSinceLastPrediction > 0) {
@@ -632,6 +645,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			
 	
 		}
+	}
+	
+	protected void newDifficultyPrediction(PredictionCommand newParam, Date aDate) {
+		System.out.println("Difficulty predicted at " + aDate);
 	}
 
 	@Override
@@ -658,6 +675,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 			lastPredictionWasIndeterminate = false;
 			numStoredDifficultyPredictions++;
 			System.out.println(dateFromAbsoluteTime(aStartAbsoluteTime) + " Difficulty prediction");
+			newDifficultyPrediction(newParam, aDate);
 			lastPredictionWasDifficulty = true;
 			if (numWebVisitsSinceLastPrediction > 0) // for debugging
 			numWebVisitsBeforeDifficultyInferences += numWebVisitsSinceLastPrediction;
