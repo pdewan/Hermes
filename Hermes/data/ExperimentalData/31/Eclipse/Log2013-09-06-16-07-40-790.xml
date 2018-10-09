@@ -66,7 +66,7 @@ public class Calc {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\jacob_bartel\User_Study\src\calc\Calc.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\31\User_Study\src\calc\Calc.java]]></filePath>
   </Command>
   <Command __id="13" _type="MoveCaretCommand" caretOffset="597" docOffset="597" timestamp="197544" />
   <Command __id="14" _type="ShellCommand" timestamp="204513" type="ECLIPSE_LOST_FOCUS" />
@@ -108,7 +108,7 @@ public class CarAnimator {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\jacob_bartel\User_Study\src\car\CarAnimator.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\31\User_Study\src\car\CarAnimator.java]]></filePath>
   </Command>
   <Command __id="33" _type="CompilationCommand" timestamp="657429" type="Error">
     <errorMessage><![CDATA[The type java.lang.Object cannot be resolved. It is indirectly referenced from required .class files]]></errorMessage>
@@ -420,7 +420,7 @@ public class CarAnimator {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\jacob_bartel\User Study - Car Animation\src\src\car\CarAnimator.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\31\User Study - Car Animation\src\src\car\CarAnimator.java]]></filePath>
   </Command>
   <Command __id="163" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="724615" />
   <Command __id="164" _type="MoveCaretCommand" caretOffset="48" docOffset="48" timestamp="725600" />
@@ -4502,7 +4502,7 @@ public class CarAnimator extends JPanel {
 	}
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\jacob_bartel\User Study - Car Animation\src\src\car\CarAnimator.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\31\User Study - Car Animation\src\src\car\CarAnimator.java]]></filePath>
   </Command>
   <Command __id="1266" _type="MoveCaretCommand" caretOffset="544" docOffset="544" timestamp="1307280" />
   <Command __id="1267" _type="MoveCaretCommand" caretOffset="417" docOffset="417" timestamp="1309483" />

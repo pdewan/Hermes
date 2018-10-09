@@ -252,7 +252,7 @@ Using the Swing/AWT Toolkit and any Java programming resources:
 - Allow the user to scale down the car/bus 2X, each time they press the ‘s’ key
 - Draw a transparent square (not a rectangle) with yellow borders. The car/bus should be inside the square.
 - Do not allow the car/bus to go outside of the square (when moving and resizing the vehicle).]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Aaron_Brown\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\23\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="255" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1810051" />
   <Command __id="256" _type="ShellCommand" timestamp="1909925" type="ECLIPSE_LOST_FOCUS" />
@@ -274,7 +274,7 @@ public class Car {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Aaron_Brown\User_Study\src\us\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\23\User_Study\src\us\Car.java]]></filePath>
   </Command>
   <Command __id="269" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="2018862" />
   <Command __id="270" _type="ShellCommand" timestamp="2022706" type="ECLIPSE_LOST_FOCUS" />
@@ -289,7 +289,7 @@ public class Car {
   <Command __id="275" _type="ShellCommand" timestamp="2052440" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="276" _type="ShellCommand" timestamp="2470219" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="277" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1229" docExpressionCount="0" docLength="1229" projectName="User_Study" timestamp="2472906">
-    <filePath><![CDATA[C:\Projects\Aaron_Brown\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\23\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="278" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="2473250" />
   <Command __id="279" _type="ShellCommand" timestamp="2484656" type="ECLIPSE_LOST_FOCUS" />
@@ -301,7 +301,7 @@ public class Car {
   <Command __id="285" _type="ShellCommand" timestamp="2902622" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="286" _type="ShellCommand" timestamp="2919013" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="287" _type="FileOpenCommand" docASTNodeCount="6" docActiveCodeLength="41" docExpressionCount="2" docLength="41" projectName="User_Study" timestamp="2939919">
-    <filePath><![CDATA[C:\Projects\Aaron_Brown\User_Study\src\us\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\23\User_Study\src\us\Car.java]]></filePath>
   </Command>
   <Command __id="288" _type="MoveCaretCommand" caretOffset="36" docOffset="36" timestamp="2940294" />
   <DocumentChange __id="289" _type="Insert" docASTNodeCount="6" docActiveCodeLength="44" docExpressionCount="2" docLength="44" length="3" offset="36" timestamp="2952622">

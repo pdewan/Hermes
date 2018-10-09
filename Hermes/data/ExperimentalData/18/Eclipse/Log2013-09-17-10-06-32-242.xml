@@ -278,11 +278,11 @@ Using the Swing/AWT Toolkit and any Java programming resources:
 
 - Draw a transparent square (not a rectangle) with yellow borders. The car/two-story bus should be inside the square.
 - Do not allow the car/two-story bus to go outside of the square (when moving and resizing the vehicle).]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="350" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="3992797" />
   <Command __id="351" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1302" docExpressionCount="0" docLength="1302" projectName="User_Study" timestamp="4017344">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\Tasks]]></filePath>
   </Command>
   <DocumentChange __id="352" _type="Insert" docASTNodeCount="1" docActiveCodeLength="1318" docExpressionCount="0" docLength="1318" length="16" offset="0" repeat="8" timestamp="4017672" timestamp2="4018063">
     <text><![CDATA[
@@ -343,7 +343,7 @@ public class test {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\test.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\test.java]]></filePath>
   </Command>
   <Command __id="404" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="4405482" />
   <Command __id="405" _type="ShellCommand" timestamp="4410545" type="ECLIPSE_LOST_FOCUS" />
@@ -1389,11 +1389,11 @@ import javax.swing.JPanel;
   <Command __id="730" _type="ShellCommand" timestamp="4744668" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="731" _type="ShellCommand" timestamp="5110009" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="732" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1302" docExpressionCount="0" docLength="1302" projectName="User_Study" timestamp="5115009">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="733" _type="MoveCaretCommand" caretOffset="733" docOffset="733" timestamp="5115462" />
   <Command __id="734" _type="FileOpenCommand" docASTNodeCount="35" docActiveCodeLength="173" docExpressionCount="20" docLength="173" projectName="User_Study" timestamp="5147415">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\test.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\test.java]]></filePath>
   </Command>
   <Command __id="735" _type="MoveCaretCommand" caretOffset="164" docOffset="164" timestamp="5147665" />
   <Command __id="736" _type="ShellCommand" timestamp="5184180" type="ECLIPSE_LOST_FOCUS" />
@@ -1430,7 +1430,7 @@ public class Model {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Model.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Model.java]]></filePath>
   </Command>
   <Command __id="744" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="5931910" />
   <Command __id="745" _type="MoveCaretCommand" caretOffset="24" docOffset="24" timestamp="5933926" />
@@ -1678,7 +1678,7 @@ public class Wheel {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Wheel.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Wheel.java]]></filePath>
   </Command>
   <Command __id="818" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="6001050" />
   <Command __id="819" _type="MoveCaretCommand" caretOffset="24" docOffset="24" timestamp="6004535" />
@@ -5716,7 +5716,7 @@ public class Wheel {
   <Command __id="1847" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="6229971" />
   <Command __id="1848" _type="MoveCaretCommand" caretOffset="152" docOffset="152" timestamp="6230111" />
   <Command __id="1849" _type="FileOpenCommand" docASTNodeCount="17" docActiveCodeLength="61" docExpressionCount="6" docLength="61" projectName="User_Study" timestamp="6231533">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="1850" _type="MoveCaretCommand" caretOffset="56" docOffset="56" timestamp="6232564" />
   <DocumentChange __id="1851" _type="Insert" docASTNodeCount="17" docActiveCodeLength="68" docExpressionCount="6" docLength="68" length="7" offset="56" repeat="3" timestamp="6235596" timestamp2="6237017">
@@ -8758,7 +8758,7 @@ public class Wheel {
   <Command __id="2682" _type="MoveCaretCommand" caretOffset="224" docOffset="224" timestamp="6366032" />
   <Command __id="2683" _type="MoveCaretCommand" caretOffset="228" docOffset="228" timestamp="6366767" />
   <Command __id="2684" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1302" docExpressionCount="0" docLength="1302" projectName="User_Study" timestamp="6406485">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="2685" _type="MoveCaretCommand" caretOffset="733" docOffset="733" timestamp="6406704" />
   <Command __id="2686" _type="MoveCaretCommand" caretOffset="895" docOffset="895" timestamp="6415391" />
@@ -8767,7 +8767,7 @@ public class Wheel {
   <Command __id="2689" _type="MoveCaretCommand" caretOffset="1077" docOffset="1077" timestamp="6426110" />
   <Command __id="2690" _type="MoveCaretCommand" caretOffset="488" docOffset="488" timestamp="6427688" />
   <Command __id="2691" _type="FileOpenCommand" docASTNodeCount="35" docActiveCodeLength="173" docExpressionCount="20" docLength="173" projectName="User_Study" timestamp="6428876">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\test.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\test.java]]></filePath>
   </Command>
   <Command __id="2692" _type="MoveCaretCommand" caretOffset="164" docOffset="164" timestamp="6429235" />
   <Command __id="2693" _type="CompilationCommand" timestamp="6429516" type="Warning">
@@ -8795,7 +8795,7 @@ public class Wheel {
     <sourceCodeLineNumber><![CDATA[5]]></sourceCodeLineNumber>
   </Command>
   <Command __id="2696" _type="FileOpenCommand" docASTNodeCount="55" docActiveCodeLength="237" docExpressionCount="25" docLength="237" projectName="User_Study" timestamp="6429704">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="2697" _type="MoveCaretCommand" caretOffset="228" docOffset="228" timestamp="6429860" />
   <DocumentChange __id="2698" _type="Insert" docASTNodeCount="59" docActiveCodeLength="241" docExpressionCount="28" docLength="241" length="4" offset="228" repeat="4" timestamp="6471125" timestamp2="6471485">
@@ -13438,11 +13438,11 @@ public class Wheel {
     <data><![CDATA[]]></data>
   </Command>
   <Command __id="4208" _type="FileOpenCommand" docASTNodeCount="75" docActiveCodeLength="332" docExpressionCount="32" docLength="332" projectName="User_Study" timestamp="7140527">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Wheel.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Wheel.java]]></filePath>
   </Command>
   <Command __id="4209" _type="MoveCaretCommand" caretOffset="152" docOffset="152" timestamp="7140652" />
   <Command __id="4210" _type="FileOpenCommand" docASTNodeCount="155" docActiveCodeLength="673" docExpressionCount="92" docLength="673" projectName="User_Study" timestamp="7145059">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="4211" _type="MoveCaretCommand" caretOffset="664" docOffset="664" timestamp="7145184" />
   <Command __id="4212" _type="MoveCaretCommand" caretOffset="287" docOffset="287" timestamp="7209949" />
@@ -13762,7 +13762,7 @@ public class Wheel {
     <sourceCodeLineNumber><![CDATA[28]]></sourceCodeLineNumber>
   </Command>
   <Command __id="4354" _type="FileOpenCommand" docASTNodeCount="75" docActiveCodeLength="332" docExpressionCount="32" docLength="332" projectName="User_Study" timestamp="7304948">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Wheel.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Wheel.java]]></filePath>
   </Command>
   <Command __id="4355" _type="MoveCaretCommand" caretOffset="152" docOffset="152" timestamp="7305120" />
   <Command __id="4356" _type="MoveCaretCommand" caretOffset="330" docOffset="330" timestamp="7307604" />
@@ -14513,7 +14513,7 @@ public class Wheel {
   </Command>
   <Command __id="4672" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="7361229" />
   <Command __id="4673" _type="FileOpenCommand" docASTNodeCount="170" docActiveCodeLength="727" docExpressionCount="104" docLength="727" projectName="User_Study" timestamp="7362307">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="4674" _type="MoveCaretCommand" caretOffset="716" docOffset="716" timestamp="7362792" />
   <DocumentChange __id="4675" _type="Insert" docASTNodeCount="170" docActiveCodeLength="729" docExpressionCount="104" docLength="729" length="2" offset="716" repeat="2" timestamp="7364573" timestamp2="7365229">
@@ -18491,7 +18491,7 @@ public class Wheel {
   <Command __id="5959" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="7753898" />
   <Command __id="5960" _type="MoveCaretCommand" caretOffset="1369" docOffset="1369" timestamp="7754445" />
   <Command __id="5961" _type="FileOpenCommand" docASTNodeCount="35" docActiveCodeLength="173" docExpressionCount="20" docLength="173" projectName="User_Study" timestamp="7767023">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\test.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\test.java]]></filePath>
   </Command>
   <Command __id="5962" _type="MoveCaretCommand" caretOffset="164" docOffset="164" timestamp="7767476" />
   <Command __id="5963" _type="CompilationCommand" timestamp="7767711" type="Warning">
@@ -19275,7 +19275,7 @@ public class Wheel {
   <Command __id="6198" _type="ShellCommand" timestamp="8215270" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="6199" _type="ShellCommand" timestamp="8215411" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="6200" _type="FileOpenCommand" docASTNodeCount="332" docActiveCodeLength="1458" docExpressionCount="231" docLength="1458" projectName="User_Study" timestamp="8217630">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="6201" _type="MoveCaretCommand" caretOffset="1369" docOffset="1369" timestamp="8218083" />
   <Command __id="6202" _type="MoveCaretCommand" caretOffset="19" docOffset="19" timestamp="8221208" />
@@ -19295,7 +19295,7 @@ public class Wheel {
   <Command __id="6207" _type="ShellCommand" timestamp="8331598" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="6208" _type="MoveCaretCommand" caretOffset="547" docOffset="547" timestamp="8332629" />
   <Command __id="6209" _type="FileOpenCommand" docASTNodeCount="85" docActiveCodeLength="439" docExpressionCount="54" docLength="439" projectName="User_Study" timestamp="8334926">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\test.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\test.java]]></filePath>
   </Command>
   <Command __id="6210" _type="MoveCaretCommand" caretOffset="121" docOffset="121" timestamp="8335113" />
   <Command __id="6211" _type="SelectTextCommand" caretOffset="102" end="102" start="98" timestamp="8337270" />
@@ -21256,20 +21256,20 @@ public class Wheel {
     <sourceCodeLineNumber><![CDATA[23]]></sourceCodeLineNumber>
   </Command>
   <Command __id="6651" _type="FileOpenCommand" docASTNodeCount="338" docActiveCodeLength="1486" docExpressionCount="236" docLength="1486" projectName="User_Study" timestamp="8568549">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="6652" _type="MoveCaretCommand" caretOffset="547" docOffset="547" timestamp="8568799" />
   <Command __id="6653" _type="MoveCaretCommand" caretOffset="1481" docOffset="1481" timestamp="8571331" />
   <Command __id="6654" _type="FileOpenCommand" docASTNodeCount="117" docActiveCodeLength="565" docExpressionCount="72" docLength="565" projectName="User_Study" timestamp="8580846">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\View.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\View.java]]></filePath>
   </Command>
   <Command __id="6655" _type="MoveCaretCommand" caretOffset="483" docOffset="539" timestamp="8581065" />
   <Command __id="6656" _type="FileOpenCommand" docASTNodeCount="338" docActiveCodeLength="1486" docExpressionCount="236" docLength="1486" projectName="User_Study" timestamp="8583346">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="6657" _type="MoveCaretCommand" caretOffset="1481" docOffset="1481" timestamp="8583549" />
   <Command __id="6658" _type="FileOpenCommand" docASTNodeCount="117" docActiveCodeLength="565" docExpressionCount="72" docLength="565" projectName="User_Study" timestamp="8584940">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\View.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\View.java]]></filePath>
   </Command>
   <Command __id="6659" _type="MoveCaretCommand" caretOffset="483" docOffset="539" timestamp="8585143" />
   <DocumentChange __id="6660" _type="Insert" docASTNodeCount="117" docActiveCodeLength="566" docExpressionCount="73" docLength="566" length="1" offset="539" timestamp="8585799">
@@ -22286,11 +22286,11 @@ public class Wheel {
   <Command __id="6951" _type="ShellCommand" timestamp="8713955" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="6952" _type="ShellCommand" timestamp="8716220" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="6953" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1302" docExpressionCount="0" docLength="1302" projectName="User_Study" timestamp="8716564">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="6954" _type="MoveCaretCommand" caretOffset="488" docOffset="488" timestamp="8716845" />
   <Command __id="6955" _type="FileOpenCommand" docASTNodeCount="171" docActiveCodeLength="770" docExpressionCount="125" docLength="770" projectName="User_Study" timestamp="8719392">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\View.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\View.java]]></filePath>
   </Command>
   <Command __id="6956" _type="MoveCaretCommand" caretOffset="702" docOffset="758" timestamp="8719673" />
   <Command __id="6957" _type="ShellCommand" timestamp="8721798" type="ECLIPSE_LOST_FOCUS" />
@@ -23051,19 +23051,19 @@ impr]]></text>
   <Command __id="7228" _type="RunCommand" kind="HitBreakPoint" projectName="User_Study" timestamp="8955266" type="Run" />
   <Command __id="7229" _type="RunCommand" kind="StepEnd" projectName="(Unknown)" timestamp="8955266" type="Run" />
   <Command __id="7230" _type="FileOpenCommand" docASTNodeCount="338" docActiveCodeLength="1486" docExpressionCount="236" docLength="1486" projectName="User_Study" timestamp="8963266">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="7231" _type="MoveCaretCommand" caretOffset="1481" docOffset="1481" timestamp="8963469" />
   <Command __id="7232" _type="FileOpenCommand" docASTNodeCount="191" docActiveCodeLength="855" docExpressionCount="142" docLength="855" projectName="User_Study" timestamp="8977750">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\View.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\View.java]]></filePath>
   </Command>
   <Command __id="7233" _type="MoveCaretCommand" caretOffset="843" docOffset="843" timestamp="8977891" />
   <Command __id="7234" _type="FileOpenCommand" docASTNodeCount="338" docActiveCodeLength="1486" docExpressionCount="236" docLength="1486" projectName="User_Study" timestamp="8982078">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Car.java]]></filePath>
   </Command>
   <Command __id="7235" _type="MoveCaretCommand" caretOffset="1481" docOffset="1481" timestamp="8982203" />
   <Command __id="7236" _type="FileOpenCommand" docASTNodeCount="191" docActiveCodeLength="855" docExpressionCount="142" docLength="855" projectName="User_Study" timestamp="8983687">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\View.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\View.java]]></filePath>
   </Command>
   <Command __id="7237" _type="MoveCaretCommand" caretOffset="843" docOffset="843" timestamp="8983891" />
   <Command __id="7238" _type="SelectTextCommand" caretOffset="301" end="301" start="298" timestamp="8985969" />
@@ -23648,7 +23648,7 @@ public class Controller {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Controller.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Controller.java]]></filePath>
   </Command>
   <Command __id="7496" _type="ShellCommand" timestamp="9213858" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="7497" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="9215530" />
@@ -24596,7 +24596,7 @@ public class Controller {
     <data><![CDATA[]]></data>
   </Command>
   <Command __id="7908" _type="FileOpenCommand" docASTNodeCount="199" docActiveCodeLength="903" docExpressionCount="145" docLength="903" projectName="User_Study" timestamp="9458419">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\View.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\View.java]]></filePath>
   </Command>
   <Command __id="7909" _type="MoveCaretCommand" caretOffset="545" docOffset="545" timestamp="9458591" />
   <Command __id="7910" _type="CompilationCommand" timestamp="9459091" type="Warning">
@@ -24870,7 +24870,7 @@ public class Controller {
     <sourceCodeLineNumber><![CDATA[6]]></sourceCodeLineNumber>
   </Command>
   <Command __id="7960" _type="FileOpenCommand" docASTNodeCount="25" docActiveCodeLength="114" docExpressionCount="8" docLength="114" projectName="User_Study" timestamp="9486684">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\Controller.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\Controller.java]]></filePath>
   </Command>
   <Command __id="7961" _type="MoveCaretCommand" caretOffset="105" docOffset="105" timestamp="9487059" />
   <DocumentChange __id="7962" _type="Insert" docASTNodeCount="29" docActiveCodeLength="129" docExpressionCount="11" docLength="129" length="15" offset="105" repeat="15" timestamp="9490809" timestamp2="9495481">
@@ -24978,7 +24978,7 @@ public class Controller {
     <sourceCodeLineNumber><![CDATA[8]]></sourceCodeLineNumber>
   </Command>
   <Command __id="8005" _type="FileOpenCommand" docASTNodeCount="188" docActiveCodeLength="853" docExpressionCount="139" docLength="853" projectName="User_Study" timestamp="9497856">
-    <filePath><![CDATA[C:\Projects\Derek_Gu\User_Study\src\View.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\18\User_Study\src\View.java]]></filePath>
   </Command>
   <Command __id="8006" _type="MoveCaretCommand" caretOffset="353" docOffset="353" timestamp="9498090" />
   <Command __id="8007" _type="CompilationCommand" timestamp="9498793" type="Warning">

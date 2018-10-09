@@ -306,12 +306,12 @@ Using the Swing/AWT Toolkit and any Java programming resources:
 
 - Draw a transparent square (not a rectangle) with yellow borders. The car/two-story bus should be inside the square.
 - Do not allow the car/two-story bus to go outside of the square (when moving and resizing the vehicle).]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Hannah_Kerner\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\26\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="340" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1652909" />
   <Command __id="341" _type="MoveCaretCommand" caretOffset="276" docOffset="276" timestamp="1653972" />
   <Command __id="342" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1297" docExpressionCount="0" docLength="1297" projectName="User_Study" timestamp="1671800">
-    <filePath><![CDATA[C:\Projects\Hannah_Kerner\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\26\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="343" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1672190" />
   <Command __id="344" _type="ShellCommand" timestamp="1687393" type="ECLIPSE_LOST_FOCUS" />
@@ -319,7 +319,7 @@ Using the Swing/AWT Toolkit and any Java programming resources:
   <Command __id="346" _type="ShellCommand" timestamp="1784376" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="347" _type="ShellCommand" timestamp="1793517" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="348" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1297" docExpressionCount="0" docLength="1297" projectName="User_Study" timestamp="1795532">
-    <filePath><![CDATA[C:\Projects\Hannah_Kerner\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\26\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="349" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1797048" />
   <Command __id="350" _type="SelectTextCommand" caretOffset="251" end="253" start="251" timestamp="1803642" />
@@ -337,7 +337,7 @@ public class RedCarBlackWheels {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Hannah_Kerner\User_Study\src\tasks\RedCarBlackWheels.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\26\User_Study\src\tasks\RedCarBlackWheels.java]]></filePath>
   </Command>
   <Command __id="359" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1860094" />
   <Command __id="360" _type="ShellCommand" timestamp="1862110" type="ECLIPSE_LOST_FOCUS" />
@@ -389,11 +389,11 @@ public class RedCarBlackWheels {
   </Command>
   <Command __id="453" _type="EclipseCommand" commandID="org.eclipse.ui.file.save" timestamp="1886281" />
   <Command __id="454" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1297" docExpressionCount="0" docLength="1297" projectName="User_Study" timestamp="1887563">
-    <filePath><![CDATA[C:\Projects\Hannah_Kerner\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\26\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="455" _type="MoveCaretCommand" caretOffset="339" docOffset="339" timestamp="1888250" />
   <Command __id="456" _type="FileOpenCommand" docASTNodeCount="16" docActiveCodeLength="112" docExpressionCount="5" docLength="112" projectName="User_Study" timestamp="1894797">
-    <filePath><![CDATA[C:\Projects\Hannah_Kerner\User_Study\src\tasks\RedCarBlackWheels.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\26\User_Study\src\tasks\RedCarBlackWheels.java]]></filePath>
   </Command>
   <Command __id="457" _type="MoveCaretCommand" caretOffset="101" docOffset="101" timestamp="1895594" />
   <Command __id="458" _type="MoveCaretCommand" caretOffset="16" docOffset="16" timestamp="1897500" />

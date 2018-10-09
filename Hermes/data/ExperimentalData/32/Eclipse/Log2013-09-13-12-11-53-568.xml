@@ -313,7 +313,7 @@ right) by 10 pixel decrements/increments.
 - Draw a transparent square (not a rectangle) with yellow borders. The car/two-story bus should be inside 
 the square.
 - Do not allow the car/two-story bus to go outside of the square (when moving and resizing the vehicle).]]></snapshot>
-    <filePath><![CDATA[C:\Projects\JimJimgMa\User_Study\tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\32\User_Study\tasks]]></filePath>
   </Command>
   <Command __id="197" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1630317" />
   <Command __id="198" _type="MoveCaretCommand" caretOffset="341" docOffset="341" timestamp="1630707" />
@@ -346,7 +346,7 @@ public class MyTestFrame {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\JimJimgMa\User_Study\src\MyTestFrame.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\32\User_Study\src\MyTestFrame.java]]></filePath>
   </Command>
   <Command __id="210" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="2160693" />
   <DocumentChange __id="211" _type="Insert" docASTNodeCount="15" docActiveCodeLength="97" docExpressionCount="4" docLength="131" length="7" offset="0" repeat="7" timestamp="2163162" timestamp2="2165568">

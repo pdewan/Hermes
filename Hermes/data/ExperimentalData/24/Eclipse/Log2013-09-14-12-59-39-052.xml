@@ -168,7 +168,7 @@ Using the Swing/AWT Toolkit and any Java programming resources:
 - Allow the user to scale down the car/bus 2X, each time they press the ‘s’ key
 - Draw a transparent square (not a rectangle) with yellow borders. The car/bus should be inside the square.
 - Do not allow the car/bus to go outside of the square (when moving and resizing the vehicle).]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Ervin_Wu\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\24\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="103" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="900932" />
   <Command __id="104" _type="ShellCommand" timestamp="916744" type="ECLIPSE_LOST_FOCUS" />
@@ -183,7 +183,7 @@ Using the Swing/AWT Toolkit and any Java programming resources:
   <Command __id="113" _type="ShellCommand" timestamp="1484569" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="114" _type="ShellCommand" timestamp="1493116" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="115" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1228" docExpressionCount="0" docLength="1228" projectName="User_Study" timestamp="1493787">
-    <filePath><![CDATA[C:\Projects\Ervin_Wu\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\24\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="116" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1494537" />
   <Command __id="117" _type="SelectTextCommand" caretOffset="317" end="317" start="278" timestamp="1501350" />
@@ -196,7 +196,7 @@ public class car {
 
 }
 ]]></snapshot>
-    <filePath><![CDATA[C:\Projects\Ervin_Wu\User_Study\src\car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\24\User_Study\src\car.java]]></filePath>
   </Command>
   <Command __id="122" _type="MoveCaretCommand" caretOffset="0" docOffset="0" timestamp="1532022" />
   <Command __id="123" _type="MoveCaretCommand" caretOffset="25" docOffset="25" timestamp="1533287" />
@@ -2801,13 +2801,13 @@ public class Rect1 extends Applet {
   <Command __id="727" _type="ShellCommand" timestamp="1901910" type="ECLIPSE_LOST_FOCUS" />
   <Command __id="728" _type="ShellCommand" timestamp="1942722" type="ECLIPSE_GAINED_FOCUS" />
   <Command __id="729" _type="FileOpenCommand" docASTNodeCount="1" docActiveCodeLength="1228" docExpressionCount="0" docLength="1228" projectName="User_Study" timestamp="1946581">
-    <filePath><![CDATA[C:\Projects\Ervin_Wu\User_Study\Tasks]]></filePath>
+    <filePath><![CDATA[C:\Projects\24\User_Study\Tasks]]></filePath>
   </Command>
   <Command __id="730" _type="MoveCaretCommand" caretOffset="483" docOffset="483" timestamp="1946941" />
   <Command __id="731" _type="MoveCaretCommand" caretOffset="338" docOffset="338" timestamp="1953941" />
   <Command __id="732" _type="SelectTextCommand" caretOffset="331" end="331" start="272" timestamp="1955253" />
   <Command __id="733" _type="FileOpenCommand" docASTNodeCount="56" docActiveCodeLength="284" docExpressionCount="31" docLength="284" projectName="User_Study" timestamp="1957456">
-    <filePath><![CDATA[C:\Projects\Ervin_Wu\User_Study\src\car.java]]></filePath>
+    <filePath><![CDATA[C:\Projects\24\User_Study\src\car.java]]></filePath>
   </Command>
   <Command __id="734" _type="MoveCaretCommand" caretOffset="204" docOffset="204" timestamp="1957784" />
   <Command __id="735" _type="MoveCaretCommand" caretOffset="203" docOffset="203" timestamp="1958347" />
