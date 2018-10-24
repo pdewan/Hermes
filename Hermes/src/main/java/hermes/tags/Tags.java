@@ -18,7 +18,7 @@ public interface Tags {
 	 public static String HELP_MESSAGE = "HELP_MESSAGE"; 
 	 public static String EDITOR_CONTENTS = "EDITOR_CONTENTS"; 
 	 public static String DOCUMENT_CHANGE = "DOCUMENT_CHANGE"; 
-	
+	 public static String DIFFICULTY_PREDICTION = "DIFFICULTY_PREDICTION";
 
 	 
 	 

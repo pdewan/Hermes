@@ -5,7 +5,7 @@ import util.trace.difficultyPrediction.NewExtractedFeatures;
 
 public class ARatioBasedFeatureExtractor implements RatioBasedFeatureExtractor {
 	
-	Mediator mediator;
+	protected Mediator mediator;
 	
 	public ARatioBasedFeatureExtractor(Mediator mediator) {
 		this.mediator = mediator;

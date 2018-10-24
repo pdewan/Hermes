@@ -50,7 +50,8 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 		try {
 			//platform:/plugin/
 			InputStream inputStream;
-			if (DifficultyPredictionSettings.isReplayMode()) {
+//			if (DifficultyPredictionSettings.isReplayMode()) {
+			if (DifficultyPredictionSettings.isReplayMode() || HermesActivator.getDefault() == null){
 				inputStream = new FileInputStream( wekaDataFileLocation());
 			} else {
 //				Activator anActivator = fluorite.plugin.Activator.getDefault();

@@ -50,6 +50,7 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 	}
 
 	public void partActivated(IWorkbenchPart part) {
+		
 		PartActivated.newCase(part, this);
 		if (!activeParts.contains(part))
 			activeParts.add(part);
@@ -62,6 +63,10 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 			}
 
 			if (getRecorder().getEditor() != null) {
+//				EHUtilities.getSourceViewerExtension4(getRecorder().getEditor()).
+//				getContentAssistantFacade().addCompletionListener(ContentAssistListener.getInstance());
+//				EHUtilities.getSourceViewerExtension3(getRecorder().getEditor()).
+//				getQuickAssistAssistant().addCompletionListener(ContentAssistListener.getInstance());
 				String filePath = EHUtilities.getFilePathFromEditor(getRecorder()
 						.getEditor());
 				IDocument currentDoc = EHUtilities.getDocument(getRecorder()
@@ -76,6 +81,8 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 			}
 
 			IEditorPart editor = (IEditorPart) part;
+			EHUtilities.getSourceViewerExtension4(editor).
+			getContentAssistantFacade().addCompletionListener(ContentAssistListener.getInstance());
 			getRecorder().addListeners(editor);
 			
 			FileOpenCommand newFoc = new FileOpenCommand(editor);

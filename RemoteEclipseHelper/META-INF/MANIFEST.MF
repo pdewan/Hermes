@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RemoteEclipseHelper
+Bundle-SymbolicName: RemoteEclipseHelper;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: dayton.ellwanger.Hermes;bundle-version="1.0.0",
+ org.json
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.eclipse.ui,
+ util.trace.hermes.timetracker

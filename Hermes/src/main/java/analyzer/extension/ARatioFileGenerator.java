@@ -15,6 +15,7 @@ import analyzer.AParticipantTimeLine;
 import analyzer.AWebLink;
 import analyzer.AnAnalyzer;
 import analyzer.Analyzer;
+import analyzer.AnalyzerFactories;
 import analyzer.ParticipantTimeLine;
 import analyzer.WebLink;
 import bus.uigen.OEFrame;
@@ -72,11 +73,14 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 //		RatioFilePlayerFactory.getSingleton().addPluginEventEventListener(this);
 //		RatioFilePlayerFactory.getSingleton().addRatioFeaturesListener(this);
 	}
+	
+	
 
 	@Override
 	public void newParticipant(String anId, String aFolder) {
 		System.out.println("Extension**New Participant:" + anId);
-		participantTimeLine = new AParticipantTimeLine();
+//		participantTimeLine = new AParticipantTimeLine();
+		participantTimeLine = AnalyzerFactories.createParticipantTimeLine();
 		participantToTimeLine.put(anId, participantTimeLine);
 
 		currentParticipant = anId;

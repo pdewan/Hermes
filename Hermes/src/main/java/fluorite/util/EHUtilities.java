@@ -12,7 +12,14 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IFindReplaceTarget;
@@ -20,6 +27,8 @@ import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension3;
 import org.eclipse.jface.text.source.ISourceViewerExtension4;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
@@ -29,11 +38,13 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartService;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
+import org.eclipse.ui.ide.IDE;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -66,6 +77,56 @@ public class EHUtilities /*extends Utilities*/{
 		mEditCategories.add(EHEventRecorder.MacroCommandCategoryID);
 		mEditCategories.add("eclipse.ui.category.navigate");
 		mEditCategories.add(FillInPrefix);
+	}
+	public static IProject getCurrentProject() {
+	    IProject project = null;
+	    IWorkbenchWindow window = PlatformUI.getWorkbench()
+	            .getActiveWorkbenchWindow();
+	    if (window != null) {
+	        ISelection iselection = window.getSelectionService().getSelection();
+	        IStructuredSelection selection = (IStructuredSelection) iselection;
+	        if (selection == null) {
+	            return null;
+	        }
+
+	        Object firstElement = selection.getFirstElement();
+	        if (firstElement instanceof IResource) {
+	            project = ((IResource) firstElement).getProject();
+	        } else if (firstElement instanceof PackageFragmentRoot) {
+	            IJavaProject jProject = ((PackageFragmentRoot) firstElement)
+	                    .getJavaProject();
+	            project = jProject.getProject();
+	        } else if (firstElement instanceof IJavaElement) {
+	            IJavaProject jProject = ((IJavaElement) firstElement)
+	                    .getJavaProject();
+	            project = jProject.getProject();
+	        }
+	    }
+	    return project;
+	}
+	public static IFile getIFile(IProject aProject, String aFileName) {
+		return aProject.getFile(aFileName);
+	}
+	
+	public static void openEditor(IFile file) {
+		try {
+		IWorkbenchPage page = getIPage();
+//		HashMap map = new HashMap();
+//		   map.put(IMarker.LINE_NUMBER, new Integer(5));
+//		   map.put(IWorkbenchPage.EDITOR_ID_ATTR, 
+//		      "org.eclipse.ui.DefaultTextEditor");
+//		   IMarker marker = file.createMarker(IMarker.TEXT);
+//		   marker.setAttributes(map);
+//		   page.openEditor(marker); //2.1 API
+		   IDE.openEditor(page, file); //3.0 API
+//		   marker.delete();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static IWorkbenchPage getIPage() {
+		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 	}
 
 	public static IEditorPart getActiveEditor() {
