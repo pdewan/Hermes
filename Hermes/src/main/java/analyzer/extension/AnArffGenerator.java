@@ -13,6 +13,7 @@ import java.util.Map;
 import analyzer.AParticipantTimeLine;
 import analyzer.AnAnalyzer;
 import analyzer.Analyzer;
+import analyzer.AnalyzerFactories;
 import analyzer.ParticipantTimeLine;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
@@ -92,7 +93,8 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 		
 		super.currentParticipant=anId;
 		
-		participantTimeLine = new AParticipantTimeLine();
+//		participantTimeLine = new AParticipantTimeLine();
+		participantTimeLine = AnalyzerFactories.createParticipantTimeLine();
 		participantToTimeLine.put(anId, participantTimeLine );
 
 		//set the right path for writing
