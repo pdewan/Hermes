@@ -203,6 +203,8 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 			break;
 		}
 //		notifyRecordCommand(newCommand);
+		// adding this here as we have removed notify from Mediator
+		DifficultyRobot.getInstance().notifyNewCommand(newCommand);
 	}
 	/* (non-Javadoc)
 	 * @see difficultyPrediction.DifficultyPredictionPluginEventProcessor#changeStatusInHelpView(edu.cmu.scs.fluorite.commands.PredictionCommand)

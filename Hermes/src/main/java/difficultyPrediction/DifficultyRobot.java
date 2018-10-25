@@ -73,7 +73,9 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 	@Override
 	public void processEvent(EHICommand e) {
 		NewCommand.newCase(this);
-		notifyNewCommand(e);
+		// removing it as ADifficultyPredictionRunnable and ADifficultyPredictionPluginEdventProcessor call it
+		// with more information - the prediction commands also
+//		notifyNewCommand(e);
 //		Tracer.info(this, "difficultyRobot.processEvent");
 
 //			eventAggregator.eventAggregationStrategy.performAggregation(e, eventAggregator);
