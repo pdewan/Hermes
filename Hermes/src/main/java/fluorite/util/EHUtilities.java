@@ -44,6 +44,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -78,7 +79,10 @@ public class EHUtilities /*extends Utilities*/{
 	public static String NewLine = System.getProperty("line.separator");
 
 	private static Set<String> mEditCategories;
+	
+	static Display myDisplay;
 
+	
 	static {
 		mEditCategories = new HashSet<String>();
 		mEditCategories.add("org.eclipse.ui.category.edit");
@@ -115,8 +119,9 @@ public class EHUtilities /*extends Utilities*/{
 	    }
 	    return project;
 	}
-	public static void refreshFile (String aProjectName, String aFileName) {
-		
+	public static void refreshFile (IProject aProject, String aFileName) {
+		IFile aFile = aProject.getFile(aFileName);
+		refreshResource(aFile);		
 	}
 	public static void addResource (IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
@@ -139,6 +144,14 @@ public class EHUtilities /*extends Utilities*/{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public static IProject getProject(String aProjectName) {
+		IProgressMonitor progressMonitor = new NullProgressMonitor();
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+
+
+		return root.getProject(aProjectName);
+		
 	}
 	public static IProject createProjectFromLocation (String aProjectName, String aLocation) {
 		IProgressMonitor progressMonitor = new NullProgressMonitor();
@@ -191,8 +204,34 @@ public class EHUtilities /*extends Utilities*/{
 	public static IFile getIFile(IProject aProject, String aFileName) {
 		return aProject.getFile(aFileName);
 	}
+//	public static IEditorPart openEditor(IProject aProject, String aFileName) {
+//		IFile aFile = aProject.getFile(aFileName);
+//		return openEditor(aFile);
+//	}
+	public static void  openEditorInUIThread(IProject aProject, String aFileName) {
+		IFile aFile = aProject.getFile(aFileName);
+		 openEditorInUIThread(aFile);
+	}
+	public static void  openEditor(String aProjectName, String aFileName) {
+		IProject aProject = getProject(aProjectName);
+		IFile aFile = aProject.getFile(aFileName);
+		 openEditorInUIThread(aFile);
+	}
+	public static void openEditorInUIThread(IFile file) {
+		if (getMyDisplay() == null) {
+			return;
+		}
+		getMyDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				openEditor(file);
+			}
+		});
+	}
+
 	
-	public static void openEditor(IFile file) {
+	public static IEditorPart openEditor(IFile file) {
+		
 		try {
 		IWorkbenchPage page = getIPage();
 //		HashMap map = new HashMap();
@@ -202,10 +241,11 @@ public class EHUtilities /*extends Utilities*/{
 //		   IMarker marker = file.createMarker(IMarker.TEXT);
 //		   marker.setAttributes(map);
 //		   page.openEditor(marker); //2.1 API
-		   IDE.openEditor(page, file); //3.0 API
+		   return IDE.openEditor(page, file); //3.0 API
 //		   marker.delete();
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 	}
 	
@@ -814,5 +854,11 @@ public class EHUtilities /*extends Utilities*/{
 
 		// skip if this doesn't seem to correspond to anything we understand
 		return null;
+	}
+	public static Display getMyDisplay() {
+		return myDisplay;
+	}
+	public static void setMyDisplay(Display myDisplay) {
+		EHUtilities.myDisplay = myDisplay;
 	}
 }
