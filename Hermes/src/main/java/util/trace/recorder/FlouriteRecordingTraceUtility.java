@@ -24,7 +24,7 @@ public class FlouriteRecordingTraceUtility {
 //		Tracer.setKeywordPrintStatus(ExcludedCommand.class, true);
 //		Tracer.setKeywordPrintStatus(ForwardedCommandToPredictor.class, true);
 //		Tracer.setKeywordPrintStatus(IgnoredCommandAsRecordingSuspended.class, true);
-//		Tracer.setKeywordPrintStatus(CommandLoggingInitiated.class, true);
+		Tracer.setKeywordPrintStatus(CommandLoggingInitiated.class, true);
 //		Tracer.setKeywordPrintStatus(LogHandlerBound.class, true);
 //		Tracer.setKeywordPrintStatus(LogFileCreated.class, true);
 //		Tracer.setKeywordPrintStatus(PendingCommandsLogBegin.class, true);

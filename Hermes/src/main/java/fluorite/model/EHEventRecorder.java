@@ -973,7 +973,7 @@ public class EHEventRecorder {
 				docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst()) {
 			final EHICommand firstCmd = docOrNormalCommands.getFirst();
 			CommandLoggingInitiated.newCase(firstCmd,mStartTimestamp, this);
-			System.out.println("***Logging command" + firstCmd);
+//			System.out.println("***Logging command" + firstCmd);
 			LOGGER.log(Level.FINE, null, firstCmd);
 			// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
 			// what should be sent to prediction, not individual commands");

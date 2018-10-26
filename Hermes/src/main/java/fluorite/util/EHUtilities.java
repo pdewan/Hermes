@@ -1,5 +1,7 @@
 package fluorite.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -13,10 +15,19 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.core.PackageFragmentRoot;
@@ -103,6 +114,72 @@ public class EHUtilities /*extends Utilities*/{
 	        }
 	    }
 	    return project;
+	}
+	public static void addResource (IProject aProject, String aFileName) {
+		IFile aFile = aProject.getFile(aFileName);
+		if (!aFile.exists()) {
+			byte[] bytes = "File contents".getBytes();
+		    InputStream source = new ByteArrayInputStream(bytes);
+		    try {
+				aFile.create(source, IResource.NONE, null);
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	public static void refreshResource(IResource aResource) {
+		try {
+			aResource.refreshLocal(IResource.DEPTH_ZERO, null);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void createProjectFromLocation (String aProjectName, String aLocation) {
+		IProgressMonitor progressMonitor = new NullProgressMonitor();
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+
+
+		IProject project = root.getProject(aProjectName);
+		    IWorkspace w = ResourcesPlugin.getWorkspace();
+		    IProjectDescription desc=w.newProjectDescription(project.getName()); 
+		    String projectLocation= aLocation;
+		    IPath path1=new Path(projectLocation+"/"+aProjectName);
+		    desc.setLocation(path1); 
+		    try {
+				project.create(desc, progressMonitor);
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		    try {
+				project.open(progressMonitor);
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+	public static void createProjectFromFolder (String aProjectName, String aFolderName) {
+//		IProgressMonitor progressMonitor = new NullProgressMonitor();
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+
+
+		IProject project = root.getProject(aProjectName);
+		IFolder aFolder = project.getFolder(aFolderName);
+		try {
+		if (!project.exists()) {
+			project.create(null);
+		}
+		if (!project.isOpen()) project.open(null);
+		if (!aFolder.exists()) {
+			aFolder.create(IResource.NONE, true, null);
+		}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		    
 	}
 	public static IFile getIFile(IProject aProject, String aFileName) {
 		return aProject.getFile(aFileName);
