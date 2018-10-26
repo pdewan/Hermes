@@ -13,6 +13,7 @@ import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
 import fluorite.model.StatusConsts;
+import replayer.ALogReplayer;
 import util.trace.difficultyPrediction.AddedCommandToPredictionQueue;
 import util.trace.difficultyPrediction.CommandIgnoredBecauseQueueFull;
 import util.trace.difficultyPrediction.RemovedCommandFromPredictionQueue;
@@ -48,6 +49,7 @@ public class ADifficultyPredictionRunnable implements
 	public void run() {
 		PredictorConfigurer.configure(); // comment this out if do not want the
 											// OE UI
+		ALogReplayer.createUI();
 		while (true) {
 			try {
 				newCommand = pendingCommands.take();
