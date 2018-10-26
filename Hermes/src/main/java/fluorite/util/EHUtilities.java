@@ -115,6 +115,9 @@ public class EHUtilities /*extends Utilities*/{
 	    }
 	    return project;
 	}
+	public static void refreshFile (String aProjectName, String aFileName) {
+		
+	}
 	public static void addResource (IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
 		if (!aFile.exists()) {
@@ -137,7 +140,7 @@ public class EHUtilities /*extends Utilities*/{
 			e.printStackTrace();
 		}
 	}
-	public static void createProjectFromLocation (String aProjectName, String aLocation) {
+	public static IProject createProjectFromLocation (String aProjectName, String aLocation) {
 		IProgressMonitor progressMonitor = new NullProgressMonitor();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
@@ -146,7 +149,8 @@ public class EHUtilities /*extends Utilities*/{
 		    IWorkspace w = ResourcesPlugin.getWorkspace();
 		    IProjectDescription desc=w.newProjectDescription(project.getName()); 
 		    String projectLocation= aLocation;
-		    IPath path1=new Path(projectLocation+"/"+aProjectName);
+//		    IPath path1=new Path(projectLocation+"/"+aProjectName);
+		    IPath path1=new Path(projectLocation);
 		    desc.setLocation(path1); 
 		    try {
 				project.create(desc, progressMonitor);
@@ -159,9 +163,11 @@ public class EHUtilities /*extends Utilities*/{
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return null;
 			}
+		    return project;
 	}
-	public static void createProjectFromFolder (String aProjectName, String aFolderName) {
+	public IProject createProjectFromFolder (String aProjectName, String aFolderName) {
 //		IProgressMonitor progressMonitor = new NullProgressMonitor();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
@@ -179,6 +185,7 @@ public class EHUtilities /*extends Utilities*/{
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+		return project;
 		    
 	}
 	public static IFile getIFile(IProject aProject, String aFileName) {
