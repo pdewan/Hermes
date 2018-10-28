@@ -7,6 +7,8 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
 
 import fluorite.commands.FileOpenCommand;
 import fluorite.model.FileSnapshotManager;
@@ -52,6 +54,16 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 	public void partActivated(IWorkbenchPart part) {
 		
 		PartActivated.newCase(part, this);
+		try {
+			EHUtilities.setCommandService(
+			
+			PlatformUI
+            .getWorkbench().getActiveWorkbenchWindow()
+            .getService(ICommandService.class));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (!activeParts.contains(part))
 			activeParts.add(part);
 		for (IPartListener aListener:partListeners) {
@@ -81,6 +93,7 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 			}
 
 			IEditorPart editor = (IEditorPart) part;
+			EHUtilities.setCurrentEditorPart(editor);
 			EHUtilities.getSourceViewerExtension4(editor).
 			getContentAssistantFacade().addCompletionListener(ContentAssistListener.getInstance());
 			getRecorder().addListeners(editor);

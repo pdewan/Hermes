@@ -94,7 +94,10 @@ public class EHUtilities /*extends Utilities*/{
 	private static Set<String> mEditCategories;
 	
 	static Display myDisplay;
+	static ICommandService myService;
+	static IEditorPart currentEditorPart;
 
+	
 	
 	static {
 		mEditCategories = new HashSet<String>();
@@ -132,6 +135,8 @@ public class EHUtilities /*extends Utilities*/{
 	    }
 	    return project;
 	}
+
+	
 	public static void refreshFile (IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
 		refreshResource(aFile);	
@@ -198,8 +203,10 @@ public class EHUtilities /*extends Utilities*/{
 //	};		
 	
 	public static final String SRC = "src";
-	public static final String CONTAINER = "org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8";
-	public static void setClassPath(IProject project, String aLocation) {
+	public static final String CONTAINER_PREFIX = "org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType";
+
+//	public static final String CONTAINER_PREFIX = "org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8";
+	public static void setClassPath(IProject project, String aJavaVersion) {
 		try {
             IJavaProject javaProject = (IJavaProject)project.getNature(JavaCore.NATURE_ID);
             IClasspathEntry[] rawClasspath = javaProject.getRawClasspath();
@@ -208,7 +215,7 @@ public class EHUtilities /*extends Utilities*/{
             }
             
             IClasspathEntry aSourceEntry = JavaCore.newSourceEntry(new Path(project.getFullPath()+ "/" + SRC));
-            IClasspathEntry aContainerEntry = JavaCore.newContainerEntry(new Path(CONTAINER));
+            IClasspathEntry aContainerEntry = JavaCore.newContainerEntry(new Path(CONTAINER_PREFIX + "/" + aJavaVersion));
             IClasspathEntry[] classPathEntries = new IClasspathEntry[] {
             		aSourceEntry,
             		aContainerEntry
@@ -237,7 +244,7 @@ public class EHUtilities /*extends Utilities*/{
         }
 		
 	}
-	public static IProject createProjectFromLocation (String aProjectName, String aLocation) {
+	public static IProject createProjectFromLocation (String aProjectName, String aLocation, String aJavaVersion) {
 		IProgressMonitor progressMonitor = new NullProgressMonitor();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
@@ -287,7 +294,7 @@ public class EHUtilities /*extends Utilities*/{
 		    if (!project.isOpen()) {
 		    try {
 				project.open(progressMonitor);
-				setClassPath(project, aLocation);
+				setClassPath(project, aJavaVersion);
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -335,10 +342,10 @@ public class EHUtilities /*extends Utilities*/{
 	}
 	public static void openEditorInUIThread(IFile aFile) {
 		
-		if (getMyDisplay() == null) {
+		if (getDisplay() == null) {
 			return;
 		}
-		getMyDisplay().asyncExec(new Runnable() {
+		getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
 				openAndRegisterEditor(aFile);
@@ -359,6 +366,7 @@ public class EHUtilities /*extends Utilities*/{
 //		   marker.setAttributes(map);
 //		   page.openEditor(marker); //2.1 API
 			IEditorPart retVal = IDE.openEditor(page, file); //3.0 API
+			page.activate(retVal);
 			if (retVal instanceof ITextEditor) {
 				fileToEditor.put(file, (ITextEditor) retVal);	
 			}
@@ -977,10 +985,23 @@ public class EHUtilities /*extends Utilities*/{
 		// skip if this doesn't seem to correspond to anything we understand
 		return null;
 	}
-	public static Display getMyDisplay() {
+	public static Display getDisplay() {
 		return myDisplay;
 	}
-	public static void setMyDisplay(Display myDisplay) {
+	public static void setDisplay(Display myDisplay) {
 		EHUtilities.myDisplay = myDisplay;
+	}
+	public static ICommandService getCommandService() {
+		return myService;
+	}
+	public static void setCommandService(ICommandService myService) {
+		EHUtilities.myService = myService;
+	}
+	public static IEditorPart getCurrentEditorPart() {
+		return currentEditorPart;
+	}
+
+	public static void setCurrentEditorPart(IEditorPart currentEditorPart) {
+		EHUtilities.currentEditorPart = currentEditorPart;
 	}
 }

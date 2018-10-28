@@ -4,26 +4,71 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.IExecutionListener;
+import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchCommandConstants;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
 import fluorite.util.EHUtilities;
+import util.annotations.Visible;
 import util.misc.Common;
 
-public class ALogReplayer {
+public class ALogReplayer implements IExecutionListener {
 	
 	IProject lastProject;
 	IEditorPart lastEditor;
 	public static final String TEST_PROJECT_NAME = "DummyProj";
 	public static final String TEST_PROJECT_LOCATION = "D:/TestReplay/DummyProject";
 	public static final String TEST_FILE = "src/HelloWorld.java";
+	String[] commands = new String[] {
+			IWorkbenchCommandConstants.EDIT_COPY,
+			IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST,
+			IWorkbenchCommandConstants.FILE_RENAME
 
+			
+
+	};
 	
+	String javaVersion = "JavaSE-1.8";
+
+	public void listenToCommands() { 
+		ICommandService commandService = EHUtilities.getCommandService();
+		if (commandService == null) {
+			System.out.println("No command service");
+		}
+		try {
+			for (String aCommandName: commands) {				
+			
+//		Command aCommand = commandService.getCommand("com.foo.the.command").executeWithChecks(new ExecutionEvent());
+				Command aCommand = commandService.getCommand(aCommandName);
+				aCommand.addExecutionListener(this);
+			}
+		
+
+		}
+		catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
 	
-	protected void createOrGetProject(String aProjectName, String aLocation) {
-		lastProject = EHUtilities.createProjectFromLocation(aProjectName, aLocation);
+	@Visible(false)
+	public String getJavaVersion() {
+		return javaVersion;
+	}
+	public void setJavaVersion(String javaVersion) {
+		this.javaVersion = javaVersion;
+	}
+	public void createOrGetProject(String aProjectName, String aLocation) {
+		lastProject = EHUtilities.createProjectFromLocation(aProjectName, aLocation, javaVersion);
 //		EHUtilities.createProjectFromFolder(aProjectName, aLocation);
 
 	}
@@ -114,6 +159,31 @@ public class ALogReplayer {
 	}
 	public static void main (String[] args) {
 		createUI();
+	}
+	@Visible(false)
+	@Override
+	public void notHandled(String commandId, NotHandledException exception) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Visible(false)
+	@Override
+	public void postExecuteFailure(String commandId, ExecutionException exception) {
+		System.out.println("Post execution failure:" + commandId);
+
+		
+	}
+	@Visible(false)
+	@Override
+	public void postExecuteSuccess(String commandId, Object returnValue) {
+		System.out.println("Post execution success:" + returnValue);
+		
+	}
+	@Visible(false)
+	@Override
+	public void preExecute(String commandId, ExecutionEvent event) {
+		System.out.println("Pre execution success:" + event);
+		
 	}
 
 }
