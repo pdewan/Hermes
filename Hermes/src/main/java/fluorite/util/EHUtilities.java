@@ -2,8 +2,13 @@ package fluorite.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -14,6 +19,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
@@ -28,8 +34,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IDocument;
@@ -57,6 +65,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,8 +82,12 @@ import fluorite.plugin.EHActivator;
  * This is are not being referred to, instead the Flourite Utilites class is referenced
  */
 public class EHUtilities /*extends Utilities*/{
+	protected static Map <IFile, ITextEditor> fileToEditor = new HashMap<>();
 	private static Map<Integer, Command> mFillInCommands = new HashMap<Integer, Command>();
 	public static final String FillInPrefix = "eventLogger.styledTextCommand";
+	public static final String JavaBuilder = "org.eclipse.jdt.core.javabuilder";
+	public static final String[] JAVA_NATURE = {"org.eclipse.jdt.core.javanature"};
+	
 
 	public static String NewLine = System.getProperty("line.separator");
 
@@ -121,7 +134,14 @@ public class EHUtilities /*extends Utilities*/{
 	}
 	public static void refreshFile (IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
-		refreshResource(aFile);		
+		refreshResource(aFile);	
+//		getMyDisplay().asyncExec(new Runnable() {
+//			@Override
+//			public void run() {
+//				refreshResource(aFile);	
+//			}
+//		});
+//		refreshResource(aFile);		
 	}
 	public static void addResource (IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
@@ -153,31 +173,127 @@ public class EHUtilities /*extends Utilities*/{
 		return root.getProject(aProjectName);
 		
 	}
+	public static void setJavaBuilderName (IProjectDescription desc) {
+		try {
+	    ICommand[] buildSpec = desc.getBuildSpec();
+	    ICommand command = desc.newCommand();
+	    command.setBuilderName( "org.eclipse.jdt.core.javabuilder" );
+//	    Collection<ICommand> aCommands = new ArrayList<>( Arrays.asList( buildSpec ) );
+	    Collection<ICommand> aCommands = new ArrayList();
+	    aCommands.add(command);
+	    desc.setBuildSpec(aCommands.toArray(new ICommand[ aCommands.size()] ));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public static void setJavaNature (IProjectDescription desc) {
+	    desc.setNatureIds(JAVA_NATURE);
+	 
+
+	}
+//	public static final IClasspathEntry[] CLASS_PATH_ENTRIES = new IClasspathEntry[]{
+//			JavaCore.newSourceEntry(new Path("src")),
+//			JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"))
+//	};		
+	
+	public static final String SRC = "src";
+	public static final String CONTAINER = "org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8";
+	public static void setClassPath(IProject project, String aLocation) {
+		try {
+            IJavaProject javaProject = (IJavaProject)project.getNature(JavaCore.NATURE_ID);
+            IClasspathEntry[] rawClasspath = javaProject.getRawClasspath();
+            if (rawClasspath != null && rawClasspath.length > 1) {
+            	return;
+            }
+            
+            IClasspathEntry aSourceEntry = JavaCore.newSourceEntry(new Path(project.getFullPath()+ "/" + SRC));
+            IClasspathEntry aContainerEntry = JavaCore.newContainerEntry(new Path(CONTAINER));
+            IClasspathEntry[] classPathEntries = new IClasspathEntry[] {
+            		aSourceEntry,
+            		aContainerEntry
+            };
+            javaProject.setRawClasspath(classPathEntries, new NullProgressMonitor());
+
+            
+                        
+//            List list = new LinkedList(java.util.Arrays.asList(rawClasspath));
+//            for(String path:jarPathList){
+//                String jarPath = path.toString();
+//                boolean isAlreadyAdded=false;
+//                for(IClasspathEntry cpe:rawClasspath){
+//                    isAlreadyAdded=cpe.getPath().toOSString().equals(jarPath);
+//                    if (isAlreadyAdded) break;
+//                }
+//                if (!isAlreadyAdded){
+//                    IClasspathEntry jarEntry = JavaCore.newLibraryEntry(new Path(jarPath),null,null);
+//                    list.add(jarEntry);
+//                }
+//            }
+//            IClasspathEntry[] newClasspath = (IClasspathEntry[])list.toArray(new IClasspathEntry[0]);
+//            javaProject.setRawClasspath(newClasspath,null);
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+		
+	}
 	public static IProject createProjectFromLocation (String aProjectName, String aLocation) {
 		IProgressMonitor progressMonitor = new NullProgressMonitor();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
 
 		IProject project = root.getProject(aProjectName);
+		  if (!project.exists()) {
+		
 		    IWorkspace w = ResourcesPlugin.getWorkspace();
 		    IProjectDescription desc=w.newProjectDescription(project.getName()); 
+		    
 		    String projectLocation= aLocation;
 //		    IPath path1=new Path(projectLocation+"/"+aProjectName);
 		    IPath path1=new Path(projectLocation);
-		    desc.setLocation(path1); 
+		    desc.setLocation(path1);
+		    setJavaNature(desc);
+		    setJavaBuilderName(desc);
+		    
+//		    ICommand[] buildSpec = desc.getBuildSpec();
+//		    ICommand command = desc.newCommand();
+//		    command.setBuilderName( "org.eclipse.jdt.core.javabuilder" );
+////		    Collection<ICommand> list = new ArrayList<>( Arrays.asList( buildSpec ) );
+//		    Collection<ICommand> aCommands = new ArrayList();
+//		    aCommands.add(command);
+//		    desc.setBuildSpec(aCommands.toArray(new ICommand[ aCommands.size()] ));
+		    
+		    
+//		    desc.setNatureIds(JAVA_NATURE);
+		    
+//		    aCommands.add( command );
+//		    desc.setBuildSpec( aCommands.toArray( new ICommand[ aCommands.size() ] ) );
+//		    String[] natures = desc.getNatureIds();
+//		    Collection<String> strings = new ArrayList<>( Arrays.asList( natures ) );
+//		    strings.add("org.eclipse.jdt.core.javanature");
+//		    desc.setNatureIds(natures);
+
+		    
+		 
+		  
 		    try {
 				project.create(desc, progressMonitor);
+//				setClassPath(project, aLocation);
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
+		    }
+		    if (!project.isOpen()) {
 		    try {
 				project.open(progressMonitor);
+				setClassPath(project, aLocation);
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			}
+		    }
 		    return project;
 	}
 	public IProject createProjectFromFolder (String aProjectName, String aFolderName) {
@@ -217,20 +333,21 @@ public class EHUtilities /*extends Utilities*/{
 		IFile aFile = aProject.getFile(aFileName);
 		 openEditorInUIThread(aFile);
 	}
-	public static void openEditorInUIThread(IFile file) {
+	public static void openEditorInUIThread(IFile aFile) {
+		
 		if (getMyDisplay() == null) {
 			return;
 		}
 		getMyDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				openEditor(file);
+				openAndRegisterEditor(aFile);
 			}
 		});
 	}
 
 	
-	public static IEditorPart openEditor(IFile file) {
+	public static IEditorPart openAndRegisterEditor(IFile file) {
 		
 		try {
 		IWorkbenchPage page = getIPage();
@@ -241,7 +358,12 @@ public class EHUtilities /*extends Utilities*/{
 //		   IMarker marker = file.createMarker(IMarker.TEXT);
 //		   marker.setAttributes(map);
 //		   page.openEditor(marker); //2.1 API
-		   return IDE.openEditor(page, file); //3.0 API
+			IEditorPart retVal = IDE.openEditor(page, file); //3.0 API
+			if (retVal instanceof ITextEditor) {
+				fileToEditor.put(file, (ITextEditor) retVal);	
+			}
+			
+			return retVal;
 //		   marker.delete();
 		} catch (Exception e) {
 			e.printStackTrace();
