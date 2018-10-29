@@ -766,6 +766,7 @@ public class AnAnalyzer implements Analyzer {
 
 			// nestedCommandsList =
 			// convertXMLLogToObjects(aFullParticipantDataFolderName);
+			TimeStampComputerFactory.getSingleton().reset(); // this is called by setRpelayedData
 			DifficultyPredictionSettings.setRatiosFileName(aFullRatiosFileName);
 			//moving this up in the constructor so we do not configure many times
 			difficultyEventProcessor = new ADifficultyPredictionPluginEventProcessor();

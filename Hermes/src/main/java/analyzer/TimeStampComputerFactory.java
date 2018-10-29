@@ -8,5 +8,8 @@ public class TimeStampComputerFactory {
 		}
 		return singleton;
 	}
+	public static void setSingleton(TimeStampComputer singleton) {
+		TimeStampComputerFactory.singleton = singleton;
+	}
 
 }
