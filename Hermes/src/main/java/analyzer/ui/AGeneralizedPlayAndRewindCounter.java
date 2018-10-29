@@ -1,6 +1,6 @@
 package analyzer.ui;
 
-import analyzer.ATimeStampComputer;
+import analyzer.AResettingTimeStampComputer;
 import analyzer.extension.RatioFileGeneratorFactory;
 import analyzer.ui.graphics.APlayAndRewindCounter;
 import analyzer.ui.graphics.ARatioFileReader;
@@ -289,14 +289,14 @@ public class AGeneralizedPlayAndRewindCounter extends APlayAndRewindCounter impl
 		long aCurrentTime = getCurrentWallTime();
 		if (aCurrentTime == 0)
 			return "";
-		return ATimeStampComputer.toDateString(aCurrentTime);
+		return AResettingTimeStampComputer.toDateString(aCurrentTime);
 	}
 	String currentFormattedWallTime = "";
 	 void setCurrentFormattedWallTime() {
 		 String oldValue = currentFormattedWallTime;
 		 long aCurrentTime = getCurrentWallTime();
 		 currentFormattedWallTime =  aCurrentTime == 0?
-			"":	 ATimeStampComputer.toDateString(aCurrentTime);
+			"":	 AResettingTimeStampComputer.toDateString(aCurrentTime);
 	
 		propertyChangeSupport
 				.firePropertyChange("currentFormattedWallTime", oldValue, currentFormattedWallTime);

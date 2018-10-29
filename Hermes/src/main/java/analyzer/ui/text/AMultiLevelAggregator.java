@@ -11,7 +11,7 @@ import javax.swing.WindowConstants;
 
 import analyzer.AParticipantTimeLine;
 import analyzer.ARatioFileReplayer;
-import analyzer.ATimeStampComputer;
+import analyzer.AResettingTimeStampComputer;
 import analyzer.AnalyzerFactory;
 import analyzer.RatioFilePlayerFactory;
 import analyzer.TimeStampComputerFactory;
@@ -340,7 +340,7 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	protected  String toClassifiedString (EHICommand aCommand) {
 		String featureName = ratioCalculator.getFeatureName(aCommand);
 		return 
-				featureName + " " + ATimeStampComputer.toDateString(TimeStampComputerFactory.getSingleton().computeTimestamp(aCommand)) + 
+				featureName + " " + AResettingTimeStampComputer.toDateString(TimeStampComputerFactory.getSingleton().computeTimestamp(aCommand)) + 
 				" (" + aCommand + " )";
 	}
 	@Row(4)

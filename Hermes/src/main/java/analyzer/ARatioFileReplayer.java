@@ -102,13 +102,13 @@ public class ARatioFileReplayer extends AMediatorRegistrar implements RatioFileP
 	void fireCommands(long aTimeStamp) {
 		
 
-		String aTimeStampString = ATimeStampComputer.toDateString(aTimeStamp);
+		String aTimeStampString = AResettingTimeStampComputer.toDateString(aTimeStamp);
 		System.out.println("ratio time stamp" + aTimeStampString + " segment number:" + segmentNumber);
 		segmentNumber++;
 		for (int anIndex = nextStartCommandIndex; anIndex < flattenedCommandsList.size(); anIndex++) {
 			EHICommand nextCommand = flattenedCommandsList.get(anIndex);
 			long aComputedTimeStamp = timeStampComputer.computeTimestamp(nextCommand);
-			String aComputedTimeStampString =  ATimeStampComputer.toDateString( aComputedTimeStamp);
+			String aComputedTimeStampString =  AResettingTimeStampComputer.toDateString( aComputedTimeStamp);
 			System.out.println(anIndex + " computed time stamp" + aComputedTimeStampString);
 
 //			String aCommandTimeStampString =  AParticipantTimeLine.toDateString( nextCommand.getTimestamp());
