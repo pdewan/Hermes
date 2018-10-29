@@ -10,6 +10,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.PlatformUI;
@@ -32,8 +33,9 @@ public class ALogReplayer implements IExecutionListener {
 	String[] commands = new String[] {
 			IWorkbenchCommandConstants.EDIT_COPY,
 			IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST,
-			IWorkbenchCommandConstants.FILE_RENAME
-
+			IWorkbenchCommandConstants.FILE_RENAME,
+			IWorkbenchCommandConstants.EDIT_FIND_AND_REPLACE,
+			IWorkbenchCommandConstants.EDIT_UNDO
 			
 
 	};
@@ -176,13 +178,13 @@ public class ALogReplayer implements IExecutionListener {
 	@Visible(false)
 	@Override
 	public void postExecuteSuccess(String commandId, Object returnValue) {
-		System.out.println("Post execution success:" + returnValue);
+		System.out.println("Post execution success:" + commandId + " -->" + returnValue);
 		
 	}
 	@Visible(false)
 	@Override
 	public void preExecute(String commandId, ExecutionEvent event) {
-		System.out.println("Pre execution success:" + event);
+		System.out.println("Pre execution success:" + commandId + "-->" + event);
 		
 	}
 
