@@ -19,6 +19,7 @@ public class ATimeStampComputer implements TimeStampComputer {
 //				System.out.println ("TS 2 " + aTimeStamp2);			
 		
 			startTimeStamp = aTimeStamp2;
+			System.err.println("time stamp 2 " + aTimeStamp2 + " > start time " + startTimeStamp);
 		}
 		return aCommand.getTimestamp() + startTimeStamp;
 			

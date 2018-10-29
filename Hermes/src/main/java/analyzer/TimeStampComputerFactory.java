@@ -1,7 +1,7 @@
 package analyzer;
 
 public class TimeStampComputerFactory {
-	static TimeStampComputer singleton;
+	static TimeStampComputer singleton =  new ATimeStampComputer();
 	public static TimeStampComputer getSingleton() {
 		if (singleton == null) {
 			singleton = new ATimeStampComputer();
