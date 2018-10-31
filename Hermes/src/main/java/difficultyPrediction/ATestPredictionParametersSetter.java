@@ -15,11 +15,13 @@ public class ATestPredictionParametersSetter implements PredictionParametersSett
 	}
 	@Override
 	public int getSegmentLength() {
-		return SEGMENT_LENGTH;
+//		return SEGMENT_LENGTH;
+		return APredictionParameters.getInstance().getSegmentLength();
 	}
 	@Override
 	public int getStartupLag() {
-		return START_UP_LAG;
+//		return START_UP_LAG;
+		return APredictionParameters.getInstance().getStartupLag();
 	}
 
 }

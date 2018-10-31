@@ -1,5 +1,6 @@
 package analyzer;
 
+import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.PredictionParametersSetterSelector;
 import difficultyPrediction.eventAggregation.EventAggregationStrategy;
 import difficultyPrediction.eventAggregation.EventAggregator;
@@ -22,10 +23,13 @@ public class DiscreteChunksAnalyzer implements EventAggregationStrategy {
 		ignoreEvents = false;
 	}
 	
-//	int numberOfEvents() {
-//		return APredictionParameters.getInstance().getSegmentLength();
-////		return m_numberOfEvents;
-//	}
+	
+	// why was this commented out
+	
+	int numberOfEvents() {
+		return APredictionParameters.getInstance().getSegmentLength();
+//		return m_numberOfEvents;
+	}
 //	int numberOfEventsToIgnore() {
 //		return APredictionParameters.getInstance().getSegmentLength();
 //
@@ -44,8 +48,9 @@ public class DiscreteChunksAnalyzer implements EventAggregationStrategy {
 				ignoreEvents = false;
 			}
 		} else {
-			if (actions.size() % m_numberOfEvents == 0) {
-//			if (actions.size() % numberOfEvents() == 0) {
+//			if (actions.size() % m_numberOfEvents == 0) {
+			// why was this commmemted out
+			if (actions.size() % numberOfEvents() == 0) {
 
 //				NewEventSegment.newCase(this);
 				
