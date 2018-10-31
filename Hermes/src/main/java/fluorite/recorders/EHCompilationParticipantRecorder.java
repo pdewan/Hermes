@@ -817,8 +817,25 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		
 		
 		
-		int aProblemLineStart = lastFileADT.getPosition(problem.getSourceLineNumber(), 0 );
-		int aProblemLineEnd = lastFileADT.getPosition(problem.getSourceLineNumber() + 1, 0) - 1;
+		int aProblemLineStart = lastFileADT.getPosition(problem.getSourceLineNumber() - 1, 0 );
+		if (aProblemLineStart < 0) {
+			aProblemLineStart = problem.getSourceStart();
+		}
+		
+		int aProblemLineEnd =  Math.max(problem.getSourceEnd(),lastFileADT.getPosition(problem.getSourceLineNumber() + 1, 0));
+//		if (aProblemLineEnd < 0) {
+//			aProblemLineEnd = problem.getSourceEnd();
+//		}
+//		int aProblemLineStart = problem.getSourceStart();
+//		int aProblemLineEnd = problem.getSourceEnd();
+		if (aProblemLineStart < 0) {
+			System.err.println("aProblemLineStart is < 0");
+					aProblemLineStart = 0;		
+		}
+		if (aProblemLineEnd < 0) {
+			System.err.println("aProblemLineEnd is < 0");
+			   aProblemLineEnd = 0;		
+		}
 		String aProblemLine = lastFileContents.substring(aProblemLineStart, aProblemLineEnd);
 
 //		System.out.println("Message: " + problem.getMessage());
