@@ -53,7 +53,6 @@ public class ALogReplayer implements IExecutionListener {
 //		Command aCommand = commandService.getCommand("com.foo.the.command").executeWithChecks(new ExecutionEvent());
 				Command aCommand = commandService.getCommand(aCommandName);
 				aCommand.addExecutionListener(this);
-				aCommand.execute(event)
 			}
 		
 
