@@ -82,7 +82,8 @@ public class ADifficultyPredictionRunnable implements
 
 				}
 				// moving this below after update
-//				DifficultyRobot.getInstance().notifyNewCommand(newCommand);
+				// notifiication should occur before ratio notification, so moving it up again
+				DifficultyRobot.getInstance().notifyNewCommand(newCommand);
 				if (!newCommand.getCommandType().equals("PredictionCommand")
 						&& !newCommand.getCommandType().equals(
 								"DifficultyStatusCommand")
@@ -158,8 +159,9 @@ public class ADifficultyPredictionRunnable implements
 //										((PredictionCommand) newCommand)
 //												.getName());
 				}
-				// moving this below
-				DifficultyRobot.getInstance().notifyNewCommand(newCommand);
+				// moving this below,
+				// movint it up
+//				DifficultyRobot.getInstance().notifyNewCommand(newCommand);
 
 				// }
 
