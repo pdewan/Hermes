@@ -10,12 +10,17 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.ui.texteditor.ITextEditor;
 
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
@@ -25,8 +30,11 @@ import util.misc.Common;
 
 public class ALogReplayer implements IExecutionListener {
 	
-	IProject lastProject;
+	IProject lastManipulatedProject;
 	IEditorPart lastEditor;
+	ITextEditor lastTextEditor;
+	IDocumentProvider lastDocumentProvider;
+	IDocument lastDocument;
 	public static final String TEST_PROJECT_NAME = "DummyProj";
 	public static final String TEST_PROJECT_LOCATION = "D:/TestReplay/DummyProject";
 	public static final String TEST_FILE = "src/HelloWorld.java";
@@ -69,13 +77,13 @@ public class ALogReplayer implements IExecutionListener {
 	public void setJavaVersion(String javaVersion) {
 		this.javaVersion = javaVersion;
 	}
-	public void createOrGetProject(String aProjectName, String aLocation) {
-		lastProject = EHUtilities.createProjectFromLocation(aProjectName, aLocation, javaVersion);
+	public void getOrCreateProject(String aProjectName, String aLocation) {
+		lastManipulatedProject = EHUtilities.createProjectFromLocation(aProjectName, aLocation, javaVersion);
 //		EHUtilities.createProjectFromFolder(aProjectName, aLocation);
 
 	}
-	public void createOrGetPredefinedProject() {
-		createOrGetProject(TEST_PROJECT_NAME, TEST_PROJECT_LOCATION);
+	public void getOrCreatePredefinedProject() {
+		getOrCreateProject(TEST_PROJECT_NAME, TEST_PROJECT_LOCATION);
 	}
 	public void openEditorOfPredefinedFile() {
 		openEditorFromSwingThread(TEST_FILE);	
@@ -117,15 +125,17 @@ public class ALogReplayer implements IExecutionListener {
 //		
 //	}
 	protected void openEditorInUIThread(String aFileName) {
-		if (lastProject == null)
+		if (lastManipulatedProject == null)
 			return;
 		
-	 EHUtilities.openEditorInUIThread(lastProject, aFileName);
+	 EHUtilities.openEditorInUIThread(lastManipulatedProject, aFileName);
 		
 	}
 	protected void openEditorFromSwingThread(String aFileName) {
-		if (lastProject == null)
-			return;
+		if (lastManipulatedProject == null) {
+			getOrCreatePredefinedProject();
+//			return;
+		}
 		Runnable newRunnable = new Runnable() {
 
 			@Override
@@ -142,10 +152,11 @@ public class ALogReplayer implements IExecutionListener {
 		refreshFile(TEST_FILE);
 	}
 	protected void refreshFile(String aFileName) {
-		if (lastProject == null) {
-			return;
+		if (lastManipulatedProject == null) {
+			this.getOrCreatePredefinedProject();
+//			return;
 		}
-		EHUtilities.refreshFile(lastProject, aFileName);	
+		EHUtilities.refreshFile(lastManipulatedProject, aFileName);	
 //		Runnable aRunnable = new Runnable() {
 //			@Override
 //			public void run() {
@@ -185,6 +196,23 @@ public class ALogReplayer implements IExecutionListener {
 	@Override
 	public void preExecute(String commandId, ExecutionEvent event) {
 		System.out.println("Pre execution success:" + commandId + "-->" + event);
+		
+	}
+	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
+		lastEditor = EHUtilities.getActiveEditor();
+		if (lastEditor == null) return;
+		if (!(lastEditor instanceof AbstractTextEditor))
+			      return;
+			   lastTextEditor = (ITextEditor) lastEditor;
+		lastDocumentProvider = lastTextEditor.getDocumentProvider();
+		
+		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
+		   try {
+			lastDocument.replace(anOffset, aLength, aText);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
