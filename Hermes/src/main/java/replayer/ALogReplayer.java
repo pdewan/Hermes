@@ -10,6 +10,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.IWordDetector;
@@ -198,7 +199,23 @@ public class ALogReplayer implements IExecutionListener {
 		System.out.println("Pre execution success:" + commandId + "-->" + event);
 		
 	}
-	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
+	public void selectTextInCurrentEditor (int anOffset, int aLength) {
+		setTextEditorAndDocument();
+		if (lastTextEditor == null) {
+			return;
+		}
+//		lastTextEditor.selectAndReveal(anOffset, aLength);
+		EHUtilities.selectTextInSeparateThread(lastTextEditor, anOffset, aLength);
+	}
+	public void saveTextInCurrentEditor() {
+		setTextEditorAndDocument();
+		if (lastTextEditor == null) {
+			return;
+		}
+		EHUtilities.saveTextInSeparateThread(lastTextEditor);
+//		lastTextEditor.doSave(new NullProgressMonitor());
+	}
+	protected void setTextEditorAndDocument() {
 		lastEditor = EHUtilities.getCurrentEditorPart();
 		if (lastEditor == null) {
 			openEditorOfPredefinedFile();
@@ -210,6 +227,26 @@ public class ALogReplayer implements IExecutionListener {
 			      return;
 			   lastTextEditor = (ITextEditor) lastEditor;
 		lastDocumentProvider = lastTextEditor.getDocumentProvider();
+		
+		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
+		
+	}
+	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
+//		lastEditor = EHUtilities.getCurrentEditorPart();
+//		if (lastEditor == null) {
+//			openEditorOfPredefinedFile();
+//			System.out.println("no open editor. try again");
+////			lastEditor = EHUtilities.getActiveEditor();
+//			return;
+//		}
+//		if (!(lastEditor instanceof AbstractTextEditor))
+//			      return;
+//			   lastTextEditor = (ITextEditor) lastEditor;
+//		lastDocumentProvider = lastTextEditor.getDocumentProvider();
+		setTextEditorAndDocument();
+		if (lastDocument == null) {
+			return;
+		}
 		
 		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
 		   try {

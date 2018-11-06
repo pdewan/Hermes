@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.eclipse.core.commands.Category;
 import org.eclipse.core.commands.Command;
@@ -331,6 +333,14 @@ public class EHUtilities /*extends Utilities*/{
 //		IFile aFile = aProject.getFile(aFileName);
 //		return openEditor(aFile);
 //	}
+	static ThreadPoolExecutor executor;
+	public static void maybeCreateThreadPoolExecutor() {
+		if (executor == null) {
+			executor = 
+					  (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
+		}
+		
+	}
 	public static void  openEditorInUIThread(IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
 		 openEditorInUIThread(aFile);
@@ -339,6 +349,67 @@ public class EHUtilities /*extends Utilities*/{
 		IProject aProject = getProject(aProjectName);
 		IFile aFile = aProject.getFile(aFileName);
 		 openEditorInUIThread(aFile);
+	}
+	public static ThreadPoolExecutor executor() {
+		maybeCreateThreadPoolExecutor();
+		return executor;
+	}
+	public static void saveTextInSeparateThread(ITextEditor anEditor) {
+		
+				executor().submit(() -> {
+					saveTextInUIThread(anEditor);
+				    return null;
+				});
+//		Runnable newRunnable = new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				saveTextInUIThread(anEditor);
+//			}
+//			
+//		};
+//		Thread newThread = new Thread(newRunnable) ;
+//		newThread.start();
+	}
+	public static void selectTextInSeparateThread(ITextEditor anEditor, int anOffset, int aLength) { 
+		executor().submit(() -> {
+			selectTextInUIThread(anEditor, anOffset, aLength);
+		    return null;
+		});
+		Runnable newRunnable = new Runnable() {
+
+			@Override
+			public void run() {
+				selectTextInUIThread(anEditor, anOffset, aLength);
+			}
+			
+		};
+		Thread newThread = new Thread(newRunnable) ;
+		newThread.start();
+		
+	}
+	public static void selectTextInUIThread(ITextEditor anEditor, int anOffset, int aLength) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				anEditor.selectAndReveal(anOffset, aLength);
+			}
+		});
+	}
+	static IProgressMonitor nullProgressMonitor = new NullProgressMonitor();
+	public static void saveTextInUIThread(ITextEditor anEditor) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				anEditor.doSave(nullProgressMonitor);
+			}
+		});
 	}
 	public static void openEditorInUIThread(IFile aFile) {
 		
