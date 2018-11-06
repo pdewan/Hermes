@@ -36,6 +36,11 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -72,6 +77,7 @@ import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
 //import edu.cmu.scs.fluorite.util.Utilities;
 import fluorite.commands.EclipseCommand;
@@ -353,6 +359,33 @@ public class EHUtilities /*extends Utilities*/{
 	public static ThreadPoolExecutor executor() {
 		maybeCreateThreadPoolExecutor();
 		return executor;
+	}
+	public static void launchInSeparateThread (ILaunchConfiguration aConfiguration, String aMode) {
+		executor().submit(() -> {
+			launchInUIThread(aConfiguration, aMode);
+		    return null;
+		});
+	}
+	public static void launchInUIThread (ILaunchConfiguration aConfiguration, String aMode) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				launch(aConfiguration, aMode);
+			}
+		});
+	}
+	
+	public static void launch(ILaunchConfiguration aConfiguration, String aMode) {
+		try {
+			aConfiguration.launch(aMode, nullProgressMonitor );
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	public static void saveTextInSeparateThread(ITextEditor anEditor) {
 		
@@ -1112,4 +1145,63 @@ public class EHUtilities /*extends Utilities*/{
 	public static void setCurrentEditorPart(IEditorPart currentEditorPart) {
 		EHUtilities.currentEditorPart = currentEditorPart;
 	}
+	public static ILaunchConfiguration createLaunchConfiguration (String aConfigName, String aProjectName, String aMainClassName) {
+		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+		
+//		ILaunchConfigurationType configurationType =     manager.getLaunchConfigurationType("org.eclipse.cdt.launch.applicationLaunchType");
+		ILaunchConfigurationType configurationType =     manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
+
+		try {
+//			ILaunchConfiguration[] aLaunchConfiguration = manager.getLaunchConfigurations(type);
+			ILaunchConfigurationWorkingCopy workingCopy = configurationType.newInstance(null, aConfigName);
+			workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, aProjectName);
+			workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, aMainClassName);
+			return workingCopy.doSave();			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
+//ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+//
+//ILaunchConfigurationType type =     manager.getLaunchConfigurationType("org.eclipse.cdt.launch.applicationLaunchType");
+//ILaunchConfiguration[] lcs = manager.getLaunchConfigurations(type);
+//
+//     for (ILaunchConfiguration iLaunchConfiguration : lcs) {
+//         if (iLaunchConfiguration.getName().equals("Test PThread")) {
+//             ILaunchConfigurationWorkingCopy t = iLaunchConfiguration.getWorkingCopy();
+//             ILaunchConfiguration config = t.doSave();
+//             if (config != null) {
+//                 // config.launch(ILaunchManager.RUN_MODE, null);
+//                 DebugUITools.launch(config, ILaunchManager.DEBUG_MODE);
+//             }
+//         }
+//     }
+//public static void create(IProject project) {
+//    ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+//    ILaunchConfigurationType launchType = manager
+//            .getLaunchConfigurationType(JUNIT_LAUNCH_IDENTIFIER);
+//    try {
+//        ILaunchConfigurationWorkingCopy workingCopy = launchType.newInstance(null, project.getName());
+//        List<IResource> resources = new ArrayList<IResource>();
+//        resources.add(project);
+//        IResource[] resourcesArray = toArray(resources);
+//        workingCopy.setMappedResources(resources.toArray(resourcesArray) );
+//        workingCopy.setAttribute("org.eclipse.jdt.junit.CONTAINER", project.getName().replace("#", "\\#"));
+//        workingCopy.setAttribute("org.eclipse.jdt.junit.KEEPRUNNING_ATTR", false);
+//        workingCopy.setAttribute("org.eclipse.jdt.junit.TESTNAME", "");
+//        workingCopy.setAttribute("org.eclipse.jdt.junit.TEST_KIND", "org.eclipse.jdt.junit.loader.junit4");
+//        workingCopy.setAttribute("org.eclipse.jdt.launching.MAIN_TYPE", "");
+//        workingCopy.setAttribute("org.eclipse.jdt.launching.PROJECT_ATTR", "");
+//        workingCopy.setAttribute("org.eclipse.jdt.launching.VM_ARGUMENTS", "-Xms128m -Xmx512m -DSYS_DRIVE=${env_var:SYS_DRIVE} " +
+//                "-DAPPL_DRIVE=${env_var:APPL_DRIVE} -DDATA1_DRIVE=${env_var:DATA1_DRIVE} -DSYS_DIR=${env_var:SYS_DIR} " +
+//                "-DEXT1_DRIVE=F: -DTESTDATA_ROOT=${workspace_loc:trunk#IS+LVIS/testdata}");
+//        workingCopy.doSave();
+//    } catch (CoreException e) {
+//        log.log(Level.WARNING,
+//                "Unable to create a new launch configuration.", e);
+//    }
+//}

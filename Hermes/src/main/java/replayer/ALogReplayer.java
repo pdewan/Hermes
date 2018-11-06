@@ -11,6 +11,8 @@ import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.IWordDetector;
@@ -24,7 +26,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
-
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
 import fluorite.util.EHUtilities;
@@ -39,9 +40,12 @@ public class ALogReplayer implements IExecutionListener {
 	IDocumentProvider lastDocumentProvider;
 	IDocument lastDocument;
 	StyledText lastStyledText;
+	ILaunchConfiguration lastConfiguration;
 	public static final String TEST_PROJECT_NAME = "DummyProj";
 	public static final String TEST_PROJECT_LOCATION = "D:/TestReplay/DummyProject";
 	public static final String TEST_FILE = "src/HelloWorld.java";
+	public static final String TEST_MAIN_CLASS = "HelloWorld";
+	public static final String TEST_CONFIGURATION_NAME = "HelloWorld";
 	String[] commands = new String[] {
 			IWorkbenchCommandConstants.EDIT_COPY,
 			IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST,
@@ -227,6 +231,32 @@ public class ALogReplayer implements IExecutionListener {
 		EHUtilities.saveTextInSeparateThread(lastTextEditor);
 //		lastTextEditor.doSave(new NullProgressMonitor());
 	}
+	public void createLaunchConfiguration() {
+		
+		lastConfiguration = EHUtilities.createLaunchConfiguration(TEST_CONFIGURATION_NAME, TEST_PROJECT_NAME, TEST_MAIN_CLASS);
+		
+	}
+	ILaunchConfiguration lastConfiguration() {
+		if (lastConfiguration == null) {
+			createLaunchConfiguration();
+		}
+		return lastConfiguration;
+	}
+	public void debugConfiguration() {
+		try {
+			// do not need to this in separate thread
+			EHUtilities.launchInSeparateThread(lastConfiguration(), ILaunchManager.DEBUG_MODE);			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	public void runConfiguration() {
+		try {
+			EHUtilities.launchInSeparateThread(lastConfiguration(), ILaunchManager.RUN_MODE);			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
 	protected void setTextEditorDataStructures() {
 		lastEditor = EHUtilities.getCurrentEditorPart();
 		if (lastEditor == null) {
@@ -241,10 +271,7 @@ public class ALogReplayer implements IExecutionListener {
 		lastDocumentProvider = lastTextEditor.getDocumentProvider();
 		
 		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
-		   lastStyledText = (StyledText)lastTextEditor.getAdapter(Control.class);
-		   
-
-		
+		   lastStyledText = (StyledText)lastTextEditor.getAdapter(Control.class);		
 	}
 	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
 //		lastEditor = EHUtilities.getCurrentEditorPart();

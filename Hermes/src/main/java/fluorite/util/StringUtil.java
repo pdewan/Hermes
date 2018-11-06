@@ -14,5 +14,9 @@ public class StringUtil {
 		}
 		return userName;
 	}
+	
+	public static boolean isNullOrEmpty(String aString) {
+		return aString == null || aString.isEmpty();
+	}
 
 }
