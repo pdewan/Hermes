@@ -17,7 +17,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
 import difficultyPrediction.DifficultyPredictionSettings;
-import edu.cmu.scs.fluorite.model.EventRecorder;
 import fluorite.model.EHEventRecorder;
 import fluorite.plugin.EHActivator;
 import fluorite.preferences.Initializer;

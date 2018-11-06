@@ -14,6 +14,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.IWordDetector;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.PlatformUI;
@@ -36,6 +38,7 @@ public class ALogReplayer implements IExecutionListener {
 	ITextEditor lastTextEditor;
 	IDocumentProvider lastDocumentProvider;
 	IDocument lastDocument;
+	StyledText lastStyledText;
 	public static final String TEST_PROJECT_NAME = "DummyProj";
 	public static final String TEST_PROJECT_LOCATION = "D:/TestReplay/DummyProject";
 	public static final String TEST_FILE = "src/HelloWorld.java";
@@ -87,7 +90,7 @@ public class ALogReplayer implements IExecutionListener {
 		getOrCreateProject(TEST_PROJECT_NAME, TEST_PROJECT_LOCATION);
 	}
 	public void openEditorOfPredefinedFile() {
-		openEditorFromSwingThread(TEST_FILE);	
+		openEditorFromSeparateThread(TEST_FILE);	
 	}
 	public static void printWorkingDirectory() {
 		 System.out.println("Working Directory = " +
@@ -132,21 +135,22 @@ public class ALogReplayer implements IExecutionListener {
 	 EHUtilities.openEditorInUIThread(lastManipulatedProject, aFileName);
 		
 	}
-	protected void openEditorFromSwingThread(String aFileName) {
+	protected void openEditorFromSeparateThread(String aFileName) {
 		if (lastManipulatedProject == null) {
 			getOrCreatePredefinedProject();
 //			return;
 		}
-		Runnable newRunnable = new Runnable() {
-
-			@Override
-			public void run() {
-				openEditorInUIThread(aFileName);
-			}
-			
-		};
-		Thread newThread = new Thread(newRunnable) ;
-		newThread.start();
+		EHUtilities.openEditorFromSeparateThread(lastManipulatedProject, aFileName);
+//		Runnable newRunnable = new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				openEditorInUIThread(aFileName);
+//			}
+//			
+//		};
+//		Thread newThread = new Thread(newRunnable) ;
+//		newThread.start();
 		
 	}
 	public void refreshPredefinedFile() {
@@ -200,22 +204,30 @@ public class ALogReplayer implements IExecutionListener {
 		
 	}
 	public void selectTextInCurrentEditor (int anOffset, int aLength) {
-		setTextEditorAndDocument();
+		setTextEditorDataStructures();
 		if (lastTextEditor == null) {
 			return;
 		}
 //		lastTextEditor.selectAndReveal(anOffset, aLength);
 		EHUtilities.selectTextInSeparateThread(lastTextEditor, anOffset, aLength);
 	}
+	public void positionCursorInCurrentEditor (int anOffset) {
+		setTextEditorDataStructures();
+		if (lastStyledText == null) {
+			return;
+		}
+//		lastTextEditor.selectAndReveal(anOffset, aLength);
+		EHUtilities.positionCursorInSeparateThread(lastStyledText, anOffset);
+	}
 	public void saveTextInCurrentEditor() {
-		setTextEditorAndDocument();
+		setTextEditorDataStructures();
 		if (lastTextEditor == null) {
 			return;
 		}
 		EHUtilities.saveTextInSeparateThread(lastTextEditor);
 //		lastTextEditor.doSave(new NullProgressMonitor());
 	}
-	protected void setTextEditorAndDocument() {
+	protected void setTextEditorDataStructures() {
 		lastEditor = EHUtilities.getCurrentEditorPart();
 		if (lastEditor == null) {
 			openEditorOfPredefinedFile();
@@ -229,6 +241,9 @@ public class ALogReplayer implements IExecutionListener {
 		lastDocumentProvider = lastTextEditor.getDocumentProvider();
 		
 		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
+		   lastStyledText = (StyledText)lastTextEditor.getAdapter(Control.class);
+		   
+
 		
 	}
 	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
@@ -243,7 +258,7 @@ public class ALogReplayer implements IExecutionListener {
 //			      return;
 //			   lastTextEditor = (ITextEditor) lastEditor;
 //		lastDocumentProvider = lastTextEditor.getDocumentProvider();
-		setTextEditorAndDocument();
+		setTextEditorDataStructures();
 		if (lastDocument == null) {
 			return;
 		}

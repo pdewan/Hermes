@@ -371,21 +371,58 @@ public class EHUtilities /*extends Utilities*/{
 //		Thread newThread = new Thread(newRunnable) ;
 //		newThread.start();
 	}
+	public static void openEditorFromSeparateThread(IProject aProject, String aFileName) {
+		executor().submit(() -> {
+			openEditorInUIThread(aProject, aFileName);
+		    return null;
+		});
+		
+	}
+	public static void positionCursorInSeparateThread(StyledText aText, int anOffset) { 
+		executor().submit(() -> {
+			positionCursorInUIThread(aText, anOffset);
+		    return null;
+		});
+		
+//		Runnable newRunnable = new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				selectTextInUIThread(anEditor, anOffset, aLength);
+//			}
+//			
+//		};
+//		Thread newThread = new Thread(newRunnable) ;
+//		newThread.start();
+		
+	}
+	public static void positionCursorInUIThread(StyledText aText, int anOffset) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				aText.setCaretOffset(anOffset);
+			}
+		});
+	}
 	public static void selectTextInSeparateThread(ITextEditor anEditor, int anOffset, int aLength) { 
 		executor().submit(() -> {
 			selectTextInUIThread(anEditor, anOffset, aLength);
 		    return null;
 		});
-		Runnable newRunnable = new Runnable() {
-
-			@Override
-			public void run() {
-				selectTextInUIThread(anEditor, anOffset, aLength);
-			}
-			
-		};
-		Thread newThread = new Thread(newRunnable) ;
-		newThread.start();
+		
+//		Runnable newRunnable = new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				selectTextInUIThread(anEditor, anOffset, aLength);
+//			}
+//			
+//		};
+//		Thread newThread = new Thread(newRunnable) ;
+//		newThread.start();
 		
 	}
 	public static void selectTextInUIThread(ITextEditor anEditor, int anOffset, int aLength) {

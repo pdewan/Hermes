@@ -51,7 +51,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.browser;bundle-version="3.5.2",
  org.eclipse.core.variables;bundle-version="3.3.0",
  org.junit;bundle-version="4.12.0",
- org.eclipse.core.commands
+ org.eclipse.core.commands,
+ org.eclipse.swt
 Bundle-ClassPath: .,
  lib/commons-lang3-3.0.jar,
  lib/jxmpp-core-0.4.2.jar,
@@ -75,7 +76,6 @@ Bundle-ClassPath: .,
  lib/oeall22.jar,
  lib/weka3_6.jar,
  lib/commons-logging-1.1.1.jar,
- lib/edu.cmu.scs.fluorite_0.11.0.201504031625.jar,
  lib/org.eclipse.jdt.junit-3.3.2.jar
 Bundle-Activator: dayton.ellwanger.hermes.HermesActivator
 Bundle-ActivationPolicy: lazy
