@@ -199,8 +199,13 @@ public class ALogReplayer implements IExecutionListener {
 		
 	}
 	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
-		lastEditor = EHUtilities.getActiveEditor();
-		if (lastEditor == null) return;
+		lastEditor = EHUtilities.getCurrentEditorPart();
+		if (lastEditor == null) {
+			openEditorOfPredefinedFile();
+			System.out.println("no open editor. try again");
+//			lastEditor = EHUtilities.getActiveEditor();
+			return;
+		}
 		if (!(lastEditor instanceof AbstractTextEditor))
 			      return;
 			   lastTextEditor = (ITextEditor) lastEditor;
