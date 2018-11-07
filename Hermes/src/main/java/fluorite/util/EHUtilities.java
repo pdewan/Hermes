@@ -688,6 +688,19 @@ public class EHUtilities /*extends Utilities*/{
 
 		return mFillInCommands.get(styledTextCode);
 	}
+	   public static final String ECLIPSE_LINE_UP = "eventLogger.styledTextCommand.LINE_UP";
+	    public static final String ECLIPSE_LINE_DOWN = "eventLogger.styledTextCommand.LINE_DOWN";
+	    public static final String ECLIPSE_COLUMN_NEXT = "eventLogger.styledTextCommand.COLUMN_NEXT";
+	    public static final String ECLIPSE_COLUMN_PREVIOUS = "eventLogger.styledTextCommand.COLUMN_PREVIOUS";
+	    public static final String ECLIPSE_GOTO_START = "org.eclipse.ui.edit.text.goto.lineStart";
+	    public static final String ECLIPSE_GOTO_END = "org.eclipse.ui.edit.text.goto.lineEnd";
+	    public static final String ECLIPSE_SELECT_Start = "org.eclipse.ui.edit.text.select.lineStart";
+	    public static final String ECLIPSE_SELECT_END = "org.eclipse.ui.edit.text.select.lineEnd";
+	    public static final String ECLIPSE_SELECT_UP = "eventLogger.styledTextCommand.SELECT_LINE_UP";
+	    public static final String ECLIPSE_SELECT_DOWN = "eventLogger.styledTextCommand.SELECT_LINE_DOWN";
+	    public static final String ECLIPSE_SELECT_COLUMN_NEXT = "eventLogger.styledTextCommand.SELECT_COLUMN_NEXT";
+	    public static final String ECLIPSE_SELECT_ECLIPSE_COLUMN_PREVIOUS = "eventLogger.styledTextCommand.SELECT_COLUMN_PREVIOUS";
+	    public static final String ECLIPSE_SELECT_ALL = "org.eclipse.ui.edit.selectAll";
 
 	public static void createStyledTextCommands() {
 		if (mFillInCommands.size() > 0)
@@ -705,7 +718,9 @@ public class EHUtilities /*extends Utilities*/{
 				"SELECT_WINDOW_START", "WINDOW_START", "SELECT_PAGE_UP",
 				"PAGE_UP", "DELETE_WORD_NEXT", "CUT", "DELETE_NEXT", "COPY",
 				"PASTE", "TOGGLE_OVERWRITE", "SELECT_LINE_DOWN",
-				"SELECT_LINE_UP" };
+				"SELECT_LINE_UP",
+				"SELECT_ALL"
+				};
 
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
