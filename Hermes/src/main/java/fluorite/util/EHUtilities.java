@@ -21,6 +21,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
+import org.eclipse.core.commands.Parameterization;
+import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -71,7 +73,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
@@ -92,6 +96,8 @@ import fluorite.plugin.EHActivator;
 public class EHUtilities /*extends Utilities*/{
 	protected static Map <IFile, ITextEditor> fileToEditor = new HashMap<>();
 	private static Map<Integer, Command> mFillInCommands = new HashMap<Integer, Command>();
+	protected static Map<String, Command> stringToCommand = new HashMap<>();
+
 	public static final String FillInPrefix = "eventLogger.styledTextCommand";
 	public static final String JavaBuilder = "org.eclipse.jdt.core.javabuilder";
 	public static final String[] JAVA_NATURE = {"org.eclipse.jdt.core.javanature"};
@@ -346,6 +352,56 @@ public class EHUtilities /*extends Utilities*/{
 					  (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
 		}
 		
+	}
+	public static Map<String, String> EMPTY_MAP = new HashMap<>();
+	public static void executeCommand(String aCommandName, Map<String, String> aParameters) {
+		createStyledTextCommands();
+		Command aCommand = stringToCommand.get(aCommandName);
+		if (aCommand == null) {
+			return;
+		}
+		if (aParameters == null) {
+			aParameters = EMPTY_MAP;
+		}
+		try {
+			
+			IHandlerService handlerService = (IHandlerService) ((IServiceLocator) PlatformUI.getWorkbench())
+                    .getService(IHandlerService.class);
+
+			Parameterization[] params = new Parameterization[aParameters.size()];
+			int aParameterIndex = 0;
+			for (String aKey:aParameters.keySet()) {
+				Parameterization aParameterization = new Parameterization(
+													aCommand.getParameter(aKey), aParameters.get(aKey));
+				params[aParameterIndex] = aParameterization;
+				
+			}
+			
+//			{ new Parameterization(
+//                    aCommand.getParameter(""), "true") };
+			ParameterizedCommand parametrizedCommand = new ParameterizedCommand(aCommand, params);
+			handlerService.executeCommand(parametrizedCommand, null);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public static void executeCommandInSeparateThread (String aCommandName, Map<String, String> aParameters) {
+		executor().submit(() -> {
+			executeCommandInUIThread(aCommandName, aParameters);
+		    return null;
+		});
+	}
+	public static void executeCommandInUIThread (String aCommandName, Map<String, String> aParameters) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				executeCommand(aCommandName, aParameters);
+			}
+		});
 	}
 	public static void  openEditorInUIThread(IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
@@ -636,7 +692,7 @@ public class EHUtilities /*extends Utilities*/{
 	public static void createStyledTextCommands() {
 		if (mFillInCommands.size() > 0)
 			return;
-
+		
 		// create styled text commands and fill in map
 		String[] styledTextConstantStrings = { "DELETE_PREVIOUS", "LINE_DOWN",
 				"SELECT_WORD_PREVIOUS", "WORD_PREVIOUS",
@@ -683,6 +739,7 @@ public class EHUtilities /*extends Utilities*/{
 			// int constant = styledTextConstants[i];
 			Command newCommand = cs.getCommand(FillInPrefix + "."
 					+ styledTextConstantStrings[i]);
+			stringToCommand.put(styledTextConstantStrings[i], newCommand);
 			newCommand.define(getNameForStyledTextConstant(constant), "", cat);
 			newCommand.setHandler(new StyledTextHandler(constant));
 			mFillInCommands.put(constant, newCommand);

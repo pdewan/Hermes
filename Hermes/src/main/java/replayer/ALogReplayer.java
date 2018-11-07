@@ -299,5 +299,8 @@ public class ALogReplayer implements IExecutionListener {
 		}
 		
 	}
+	public void executeCommand(String aCommandName) {
+		EHUtilities.executeCommandInSeparateThread(aCommandName, EHUtilities.EMPTY_MAP);
+	}
 
 }
