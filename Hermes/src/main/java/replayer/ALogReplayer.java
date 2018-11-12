@@ -31,6 +31,7 @@ import bus.uigen.ObjectEditor;
 import fluorite.util.EHUtilities;
 import util.annotations.Visible;
 import util.misc.Common;
+import org.eclipse.swt.custom.ST;
 
 public class ALogReplayer implements IExecutionListener {
 	
@@ -301,6 +302,15 @@ public class ALogReplayer implements IExecutionListener {
 	}
 	public void executeCommand(String aCommandName) {
 		EHUtilities.executeCommandInSeparateThread(aCommandName, EHUtilities.EMPTY_MAP);
+		
+	}
+	public void invokeLineDownAction() {
+		setTextEditorDataStructures();
+		
+		invokeAction(ST.LINE_DOWN);
+	}
+	protected void invokeAction(int anAction) {
+		lastStyledText.invokeAction(anAction);
 	}
 
 }
