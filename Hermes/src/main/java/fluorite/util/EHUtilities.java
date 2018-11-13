@@ -403,6 +403,23 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
+	public static void invokeActionInSeparateThread (StyledText aStyledText, int anAction) {
+		executor().submit(() -> {
+			invokeActionInUIThread(aStyledText, anAction);
+		    return null;
+		});
+	}
+	public static void invokeActionInUIThread (StyledText aStyledText, int anAction) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				aStyledText.invokeAction(anAction);;
+			}
+		});
+	}
 	public static void  openEditorInUIThread(IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
 		 openEditorInUIThread(aFile);

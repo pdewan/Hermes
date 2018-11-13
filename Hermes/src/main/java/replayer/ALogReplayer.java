@@ -305,12 +305,16 @@ public class ALogReplayer implements IExecutionListener {
 		
 	}
 	public void invokeLineDownAction() {
-		setTextEditorDataStructures();
 		
 		invokeAction(ST.LINE_DOWN);
 	}
+	public void invokeCutAction() {
+		
+		invokeAction(ST.CUT);
+	}
 	protected void invokeAction(int anAction) {
-		lastStyledText.invokeAction(anAction);
+		setTextEditorDataStructures();
+		EHUtilities.invokeActionInSeparateThread(lastStyledText, anAction);
 	}
 
 }
