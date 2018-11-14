@@ -3,6 +3,7 @@ package replayer;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -15,7 +16,11 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IFindReplaceTargetExtension;
+import org.eclipse.jface.text.IFindReplaceTargetExtension3;
+import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.text.rules.IWordDetector;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorPart;
@@ -42,6 +47,10 @@ public class ALogReplayer implements IExecutionListener {
 	IDocument lastDocument;
 	StyledText lastStyledText;
 	ILaunchConfiguration lastConfiguration;
+	ISourceViewer lastSourceViewer;
+	TextViewer lastTextViewer;
+	protected IFindReplaceTargetExtension lastFindReplaceTargetExt;
+	protected IFindReplaceTargetExtension3 lastFindReplaceTargetExt3;
 	public static final String TEST_PROJECT_NAME = "DummyProj";
 	public static final String TEST_PROJECT_LOCATION = "D:/TestReplay/DummyProject";
 	public static final String TEST_FILE = "src/HelloWorld.java";
@@ -266,19 +275,43 @@ public class ALogReplayer implements IExecutionListener {
 //			lastEditor = EHUtilities.getActiveEditor();
 			return;
 		}
+		 lastSourceViewer = EHUtilities.getSourceViewer(lastEditor);
 		if (!(lastEditor instanceof AbstractTextEditor))
 			      return;
 			   lastTextEditor = (ITextEditor) lastEditor;
 		lastDocumentProvider = lastTextEditor.getDocumentProvider();
 		
 		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
-		   lastStyledText = (StyledText)lastTextEditor.getAdapter(Control.class);	
+		   lastStyledText = (StyledText)lastTextEditor.getAdapter(Control.class);
+		   if (!(lastSourceViewer instanceof TextViewer)) {
+			   return;
+		   }
+		   lastTextViewer = (TextViewer) lastSourceViewer;	
+		   lastFindReplaceTargetExt = (IFindReplaceTargetExtension) lastTextViewer.getFindReplaceTarget();
+		   lastFindReplaceTargetExt3 = (IFindReplaceTargetExtension3) lastFindReplaceTargetExt;
 		   
 	}
 	public void insertLineAtCaret() {
 		insertStringAtCaret("\n");
 		
 	}
+	@Visible(false)
+	public void findAndSelectTextAfterCursor (
+			String aFindString, boolean aSearchForward, boolean aCaseSensitive, boolean aWholeWord, boolean aRegExSearch) {
+		setTextEditorDataStructures();
+		EHUtilities.findAndSelectTextAfterCursorInSeparateThread(lastStyledText, lastFindReplaceTargetExt3, aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
+	}
+	public void findAndSelectTextAfterCursor (
+			String aFindString) {
+		findAndSelectTextAfterCursor(aFindString, true, false, false, false);
+	}
+//	public void findStringFromCaret(String aString) {
+//		setTextEditorDataStructures();
+//		
+//		 TextViewer.this.findAndSelectInRange(0, "foo", true, true, true, 0, 0, true);
+//		 //.this.findAndSelectInRange(modelOffset, findString, searchForward, caseSensitive, wholeWord, range.getOffset(), range.getLength(), regExSearch);
+//		
+//	}
 	public void insertStringAtCaret(String aString) {
 		setTextEditorDataStructures();
 		try {

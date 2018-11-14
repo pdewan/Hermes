@@ -51,6 +51,7 @@ import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IFindReplaceTarget;
+import org.eclipse.jface.text.IFindReplaceTargetExtension3;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension3;
@@ -386,6 +387,7 @@ public class EHUtilities /*extends Utilities*/{
 			e.printStackTrace();
 		}
 	}
+	
 	public static void replaceTextInSeparateThread (StyledText aStyledText, int aStart, int aLength, String aText) {
 		executor().submit(() -> {
 			replaceTextInUIThread(aStyledText, aStart, aLength, aText);
@@ -402,6 +404,32 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
+	public static void findAndSelectTextAfterCursorInSeparateThread (
+			StyledText aStyledText,
+			IFindReplaceTargetExtension3 aFindReplaceTargetExtension3,
+			String aFindString, boolean aSearchForward, boolean aCaseSensitive, boolean aWholeWord, boolean aRegExSearch) {
+		executor().submit(() -> {
+			findAndSelectTextAfterCursorInUIThread(aStyledText, aFindReplaceTargetExtension3, aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
+		});
+	}
+	public static void findAndSelectTextAfterCursorInUIThread (
+			StyledText aStyledText,
+			IFindReplaceTargetExtension3 aFindReplaceTargetExtension3,
+			String aFindString, boolean aSearchForward, boolean aCaseSensitive, boolean aWholeWord, boolean aRegExSearch) {
+		
+	
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				aFindReplaceTargetExtension3.findAndSelect(
+						aStyledText.getCaretOffset(), aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
+			}
+		});
+	}
+	
 	public static void insertTextAfterCursorInSeparateThread (StyledText aStyledText,  String aText) {
 		executor().submit(() -> {
 			insertTextAfterCursorInUIThread(aStyledText,  aText);
@@ -649,7 +677,7 @@ public class EHUtilities /*extends Utilities*/{
 
 		return editor;
 	}
-
+	
 	public static ISourceViewer getSourceViewer(IEditorPart editor) {
 		if (editor == null) {
 			return null;
