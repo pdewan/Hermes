@@ -272,7 +272,19 @@ public class ALogReplayer implements IExecutionListener {
 		lastDocumentProvider = lastTextEditor.getDocumentProvider();
 		
 		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
-		   lastStyledText = (StyledText)lastTextEditor.getAdapter(Control.class);		
+		   lastStyledText = (StyledText)lastTextEditor.getAdapter(Control.class);	
+		   
+	}
+	public void replaceTextCustom() {
+		setTextEditorDataStructures();
+		try {
+			int anOffset = lastDocument.search(0, "for", true, true, true);
+			lastStyledText.replaceTextRange(anOffset, 0, "for {\n");
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
 //		lastEditor = EHUtilities.getCurrentEditorPart();
