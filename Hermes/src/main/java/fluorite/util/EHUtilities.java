@@ -430,6 +430,33 @@ public class EHUtilities /*extends Utilities*/{
 		});
 	}
 	
+	public static void replaceSelectionInSeparateThread (
+			StyledText aStyledText,
+			IFindReplaceTargetExtension3 aFindReplaceTargetExtension3,
+			String aReplacement,
+			 boolean aRegExSearch) {
+		executor().submit(() -> {
+			replaceSelectionInUIThread(aStyledText, aReplacement, aFindReplaceTargetExtension3, aRegExSearch);
+		});
+	}
+	public static void replaceSelectionInUIThread (
+			StyledText aStyledText,
+			String aReplacement,
+			IFindReplaceTargetExtension3 aFindReplaceTargetExtension3,
+			 boolean aRegExSearch){
+		
+	
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				aFindReplaceTargetExtension3.replaceSelection(aReplacement, aRegExSearch);
+			}
+		});
+	}
+	
 	public static void insertTextAfterCursorInSeparateThread (StyledText aStyledText,  String aText) {
 		executor().submit(() -> {
 			insertTextAfterCursorInUIThread(aStyledText,  aText);

@@ -296,6 +296,16 @@ public class ALogReplayer implements IExecutionListener {
 		
 	}
 	@Visible(false)
+	public void replaceSelection (
+			String aReplacementString,  boolean aRegExSearch) {
+		setTextEditorDataStructures();
+		EHUtilities.replaceSelectionInSeparateThread(lastStyledText, lastFindReplaceTargetExt3, aReplacementString, aRegExSearch);
+	}
+	public void replaceSelection (
+			String aReplacementString) {
+		replaceSelection(aReplacementString, false);
+	}
+	@Visible(false)
 	public void findAndSelectTextAfterCursor (
 			String aFindString, boolean aSearchForward, boolean aCaseSensitive, boolean aWholeWord, boolean aRegExSearch) {
 		setTextEditorDataStructures();
