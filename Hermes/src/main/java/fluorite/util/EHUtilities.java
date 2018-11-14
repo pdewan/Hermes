@@ -53,6 +53,8 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.jface.text.IFindReplaceTargetExtension3;
 import org.eclipse.jface.text.ITextOperationTarget;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.IUndoManager;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension3;
 import org.eclipse.jface.text.source.ISourceViewerExtension4;
@@ -453,6 +455,29 @@ public class EHUtilities /*extends Utilities*/{
 			@Override
 			public void run() {
 				aFindReplaceTargetExtension3.replaceSelection(aReplacement, aRegExSearch);
+			}
+		});
+	}
+	public static void replaceAllInUIThread (
+			ITextViewer aTextViewer,
+			IUndoManager anUndoManager,
+			StyledText aStyledText,
+			IFindReplaceTargetExtension3 aFindReplaceTargetExtension3,
+			String aReplaceString,
+			String aFindString, boolean aSearchForward, boolean aCaseSensitive, boolean aWholeWord, boolean aRegExSearch) {
+		
+	
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				int anOffset = aStyledText.getCaretOffset();
+				
+				
+				aFindReplaceTargetExtension3.findAndSelect(
+						aStyledText.getCaretOffset(), aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
 			}
 		});
 	}

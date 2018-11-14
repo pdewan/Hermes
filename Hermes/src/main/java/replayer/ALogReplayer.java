@@ -18,6 +18,8 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IFindReplaceTargetExtension;
 import org.eclipse.jface.text.IFindReplaceTargetExtension3;
+import org.eclipse.jface.text.ITextViewerExtension6;
+import org.eclipse.jface.text.IUndoManager;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -47,10 +49,14 @@ public class ALogReplayer implements IExecutionListener {
 	IDocument lastDocument;
 	StyledText lastStyledText;
 	ILaunchConfiguration lastConfiguration;
+	
 	ISourceViewer lastSourceViewer;
-	TextViewer lastTextViewer;
+	TextViewer lastTextViewer;	
 	protected IFindReplaceTargetExtension lastFindReplaceTargetExt;
 	protected IFindReplaceTargetExtension3 lastFindReplaceTargetExt3;
+	protected ITextViewerExtension6 lastTextViewerExtension6;
+
+	protected IUndoManager lastUndoManager;
 	public static final String TEST_PROJECT_NAME = "DummyProj";
 	public static final String TEST_PROJECT_LOCATION = "D:/TestReplay/DummyProject";
 	public static final String TEST_FILE = "src/HelloWorld.java";
@@ -276,6 +282,7 @@ public class ALogReplayer implements IExecutionListener {
 			return;
 		}
 		 lastSourceViewer = EHUtilities.getSourceViewer(lastEditor);
+		 		 
 		if (!(lastEditor instanceof AbstractTextEditor))
 			      return;
 			   lastTextEditor = (ITextEditor) lastEditor;
@@ -289,7 +296,11 @@ public class ALogReplayer implements IExecutionListener {
 		   lastTextViewer = (TextViewer) lastSourceViewer;	
 		   lastFindReplaceTargetExt = (IFindReplaceTargetExtension) lastTextViewer.getFindReplaceTarget();
 		   lastFindReplaceTargetExt3 = (IFindReplaceTargetExtension3) lastFindReplaceTargetExt;
-		   
+//		   IUndoManager undoManager = null;
+			if (lastSourceViewer instanceof ITextViewerExtension6) {
+				lastTextViewerExtension6 = ((ITextViewerExtension6) lastSourceViewer);
+				lastUndoManager = lastTextViewerExtension6.getUndoManager();
+			}		   
 	}
 	public void insertLineAtCaret() {
 		insertStringAtCaret("\n");
@@ -334,7 +345,7 @@ public class ALogReplayer implements IExecutionListener {
 			e.printStackTrace();
 		}		
 	}
-
+	@Visible(false)
 	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
 //		lastEditor = EHUtilities.getCurrentEditorPart();
 //		if (lastEditor == null) {
