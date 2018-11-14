@@ -386,6 +386,38 @@ public class EHUtilities /*extends Utilities*/{
 			e.printStackTrace();
 		}
 	}
+	public static void replaceTextInSeparateThread (StyledText aStyledText, int aStart, int aLength, String aText) {
+		executor().submit(() -> {
+			replaceTextInUIThread(aStyledText, aStart, aLength, aText);
+		});
+	}
+	public static void replaceTextInUIThread (StyledText aStyledText, int aStart, int aLength, String aText) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				aStyledText.replaceTextRange(aStart, aLength, aText);
+			}
+		});
+	}
+	public static void insertTextAfterCursorInSeparateThread (StyledText aStyledText,  String aText) {
+		executor().submit(() -> {
+			insertTextAfterCursorInUIThread(aStyledText,  aText);
+		});
+	}
+	public static void insertTextAfterCursorInUIThread (StyledText aStyledText,  String aText) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				aStyledText.replaceTextRange(aStyledText.getCaretOffset(), 0, aText);
+			}
+		});
+	}
 	public static void executeCommandInSeparateThread (String aCommandName, Map<String, String> aParameters) {
 		executor().submit(() -> {
 			executeCommandInUIThread(aCommandName, aParameters);

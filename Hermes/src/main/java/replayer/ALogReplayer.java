@@ -275,17 +275,23 @@ public class ALogReplayer implements IExecutionListener {
 		   lastStyledText = (StyledText)lastTextEditor.getAdapter(Control.class);	
 		   
 	}
-	public void replaceTextCustom() {
-		setTextEditorDataStructures();
-		try {
-			int anOffset = lastDocument.search(0, "for", true, true, true);
-			lastStyledText.replaceTextRange(anOffset, 0, "for {\n");
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void insertLineAtCaret() {
+		insertStringAtCaret("\n");
 		
 	}
+	public void insertStringAtCaret(String aString) {
+		setTextEditorDataStructures();
+		try {
+//			int anOffset = lastDocument.search(0, "for", true, true, true);
+//			int anOffset = lastStyledText.getCaretOffset();
+			EHUtilities.insertTextAfterCursorInSeparateThread(lastStyledText, aString);
+//			lastStyledText.replaceTextRange(anOffset, 0, "for {\n");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
 	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
 //		lastEditor = EHUtilities.getCurrentEditorPart();
 //		if (lastEditor == null) {
