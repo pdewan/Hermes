@@ -47,6 +47,7 @@ implements EHICommand{
 		this();
 		mSearchString = findString;
 	}
+	protected FindConfigureDialog findConfigureDialog; 
 
 	private boolean mReplaceAll;
 	private boolean mScopeIsSelection;
@@ -76,11 +77,12 @@ implements EHICommand{
 	public static final String XML_ReplaceString_Tag = "replaceString";
 	
 	private void configureWithSearchTerm(Shell shell, String initialSearchString) {
-		FindConfigureDialog dlg = new FindConfigureDialog(shell,
+		findConfigureDialog = new FindConfigureDialog(shell,
 				initialSearchString, EHUtilities.getSourceViewer(EHEventRecorder
 						.getInstance().getEditor()));
-		dlg.open();
+		findConfigureDialog.open();
 	}
+
 
 	public void configureNew(Shell shell) {
 		if (FindConfigureDialog.getInstance() != null) {
@@ -465,5 +467,9 @@ super.createFrom(commandElement);
 
 	public boolean combine(EHICommand anotherCommand) {
 		return false;
+	}
+
+	public FindConfigureDialog getFindConfigureDialog() {
+		return findConfigureDialog;
 	}
 }

@@ -40,6 +40,8 @@ public class FindConfigureDialog extends Dialog {
 	private Button mForward;
 	private Button mBackward;
 	private Button mRegExpMode;
+	
+
 	private Button mMatchWord;
 	private Button mWrap;
 	private Button mIncremental;
@@ -48,6 +50,9 @@ public class FindConfigureDialog extends Dialog {
 
 	private Button mReplaceAndFindButton;
 	private Button mReplaceButton;
+	protected Button findButton;
+	protected Button replaceAllButton;
+
 
 	private String mInitialSearchString;
 
@@ -58,6 +63,7 @@ public class FindConfigureDialog extends Dialog {
 	private ITextViewer mViewer;
 	private Point mInitialSelection;
 	private Point mLastSelection;
+
 
 	private static final int FIND = 0;
 	private static final int REPLACE_AND_FIND = 1;
@@ -190,12 +196,12 @@ public class FindConfigureDialog extends Dialog {
 		GridLayout buttonsLayout = new GridLayout();
 		buttonsComp.setLayout(buttonsLayout);
 
-		createButton(buttonsComp, FIND, "Fi&nd", true);
+		findButton = createButton(buttonsComp, FIND, "Fi&nd", true);
 		mReplaceAndFindButton = createButton(buttonsComp, REPLACE_AND_FIND,
 				"Replace/Fin&d", false);
 
 		mReplaceButton = createButton(buttonsComp, REPLACE, "&Replace", false);
-		createButton(buttonsComp, REPLACE_ALL, "Replace &All", false);
+		replaceAllButton  = createButton(buttonsComp, REPLACE_ALL, "Replace &All", false);
 
 		setReplaceButtonsEnabled(false);
 
@@ -448,5 +454,67 @@ public class FindConfigureDialog extends Dialog {
 
 		return super.close();
 	}
+	public Text getSearchText() {
+		return mSearchText;
+	}
 
+	public void setSearchText(Text mSearchText) {
+		this.mSearchText = mSearchText;
+	}
+
+	public Text getReplaceText() {
+		return mReplaceText;
+	}
+
+	public void setReplaceText(Text mReplaceText) {
+		this.mReplaceText = mReplaceText;
+	}
+
+	public Button getForward() {
+		return mForward;
+	}
+
+	public void setForward(Button mForward) {
+		this.mForward = mForward;
+	}
+
+	public Button getRegExpMode() {
+		return mRegExpMode;
+	}
+
+	public void setRegExpMode(Button mRegExpMode) {
+		this.mRegExpMode = mRegExpMode;
+	}
+
+	public Button getIncremental() {
+		return mIncremental;
+	}
+
+	public void setIncremental(Button mIncremental) {
+		this.mIncremental = mIncremental;
+	}
+
+	public Button getReplaceAndFindButton() {
+		return mReplaceAndFindButton;
+	}
+
+	public void setReplaceAndFindButton(Button mReplaceAndFindButton) {
+		this.mReplaceAndFindButton = mReplaceAndFindButton;
+	}
+
+	public Button getReplaceButton() {
+		return mReplaceButton;
+	}
+
+	public void setReplaceButton(Button mReplaceButton) {
+		this.mReplaceButton = mReplaceButton;
+	}
+
+	public Button getFindButton() {
+		return findButton;
+	}
+
+	public Button getReplaceAllButton() {
+		return replaceAllButton;
+	}
 }
