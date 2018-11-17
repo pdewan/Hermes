@@ -460,6 +460,39 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
+	public static void invokeUndoInSeparateThread (IUndoManager anUndoManager) {
+		executor().submit(() -> {
+			invokeUndoInUIThread(anUndoManager);
+		});
+	}
+	public static void invokeUndoInUIThread (IUndoManager anUndoManager) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				anUndoManager.undo();
+			}
+		});
+	}
+	public static void invokeRedoInSeparateThread (IUndoManager anUndoManager) {
+		executor().submit(() -> {
+			invokeUndoInUIThread(anUndoManager);
+		});
+	}
+	public static void invokeRedoInUIThread (IUndoManager anUndoManager) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				anUndoManager.redo();
+			}
+		});
+	}
+	
 	public static void invokeClickInSeparateThread (Button aButton) {
 		executor().submit(() -> {
 			invokeClickInUIThread(aButton);

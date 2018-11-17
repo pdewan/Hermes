@@ -343,6 +343,7 @@ public class ALogReplayer implements IExecutionListener {
 	}
 	protected FindCommand lastFindCommand;
 	public void interactiveFindAndSelectTextAfterCursor(String aFindStrng) {
+		setTextEditorDataStructures();
 		lastFindCommand = new FindCommand(aFindStrng);
 		EHUtilities.invokeFindInSeparateThread(lastFindCommand);
 	}
@@ -414,6 +415,14 @@ public class ALogReplayer implements IExecutionListener {
 	protected void invokeAction(int anAction) {
 		setTextEditorDataStructures();
 		EHUtilities.invokeActionInSeparateThread(lastStyledText, anAction);
+	}
+	public void invokeUndo() {
+		setTextEditorDataStructures();
+		EHUtilities.invokeUndoInSeparateThread(lastUndoManager);
+	}
+	public void invokeRedo() {
+		setTextEditorDataStructures();
+		EHUtilities.invokeRedoInSeparateThread(lastUndoManager);
 	}
 	
 

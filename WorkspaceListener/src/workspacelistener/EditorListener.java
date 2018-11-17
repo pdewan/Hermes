@@ -32,7 +32,8 @@ public class EditorListener implements IPartListener, WorkspaceFileListener {
 				//Make sure we don't add two listeners to the same doc
 				if(!documents.contains(doc)) {
 					IFile file = textEditor.getEditorInput().getAdapter(IFile.class);
-					if (file == null || file.getFullPath() == null)// non document such as console
+					if (file == null || 
+							file.getFullPath() == null)// non document such as console
 						return; 
 					IPath filePath = file.getFullPath().makeAbsolute();
 					doc.addDocumentListener(new DocumentListener(filePath, this));
