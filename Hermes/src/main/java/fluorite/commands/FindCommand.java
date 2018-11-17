@@ -76,10 +76,17 @@ implements EHICommand{
 	public static final String XML_SearchString_Tag = "searchString";
 	public static final String XML_ReplaceString_Tag = "replaceString";
 	
-	private void configureWithSearchTerm(Shell shell, String initialSearchString) {
+	public void configureWithSearchTerm(Shell shell, String initialSearchString) {
 		findConfigureDialog = new FindConfigureDialog(shell,
 				initialSearchString, EHUtilities.getSourceViewer(EHEventRecorder
 						.getInstance().getEditor()));
+		findConfigureDialog.open();
+	}
+	public void configureWithSearchTermNonBlocking(Shell shell, String initialSearchString) {
+		findConfigureDialog = new FindConfigureDialog(shell,
+				initialSearchString, EHUtilities.getSourceViewer(EHEventRecorder
+						.getInstance().getEditor()));
+		findConfigureDialog.setBlockOnOpen(false);
 		findConfigureDialog.open();
 	}
 

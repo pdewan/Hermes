@@ -2,6 +2,8 @@ package fluorite.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -64,6 +66,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
@@ -88,11 +91,14 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
 //import edu.cmu.scs.fluorite.util.Utilities;
 import fluorite.commands.EclipseCommand;
+import fluorite.commands.FindCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.InsertStringCommand;
+import fluorite.dialogs.FindConfigureDialog;
 import fluorite.model.EHEventRecorder;
 //import fluorite.plugin.Activator;
 import fluorite.plugin.EHActivator;
+import util.misc.ThreadSupport;
 /*
  * This is are not being referred to, instead the Flourite Utilites class is referenced
  */
@@ -104,6 +110,8 @@ public class EHUtilities /*extends Utilities*/{
 	public static final String FillInPrefix = "eventLogger.styledTextCommand";
 	public static final String JavaBuilder = "org.eclipse.jdt.core.javabuilder";
 	public static final String[] JAVA_NATURE = {"org.eclipse.jdt.core.javanature"};
+	public static Method clickButtonMethod;
+
 	
 
 	public static String NewLine = System.getProperty("line.separator");
@@ -389,7 +397,89 @@ public class EHUtilities /*extends Utilities*/{
 			e.printStackTrace();
 		}
 	}
-	
+	public static void invokeCloseInSeparateThread(FindCommand aFindCommand) {
+		executor().submit(() -> {
+			invokeCloseInUIThread(aFindCommand);
+		});
+	}
+	public static void invokeCloseInUIThread(FindCommand aFindCommand) {
+		if (getDisplay() == null) {
+			return;
+		}
+		
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+//					aFindCommand.configureNew(Display.getDefault().getActiveShell());
+//					aFindCommand.configureWithSearchTermNonBlocking(Display.getDefault().getActiveShell(), aFindCommand.getSearchString());
+
+					FindConfigureDialog aFindConfigureDialog =  aFindCommand.getFindConfigureDialog();
+					if (aFindConfigureDialog != null) {
+						aFindConfigureDialog.close();
+					}
+//					Button aFindButton = aFindConfigureDialog.getFindButton();
+////					Thread.sleep(1000);
+//					clickButtonMethod().invoke(aFindButton);
+//					int i = 0;
+//					ThreadSupport.sleep(1000);
+//					aFindConfigureDialog.close();
+				} catch (Exception  e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	public static void invokeFindInSeparateThread(FindCommand aFindCommand) {
+		executor().submit(() -> {
+			invokeFindInUIThread(aFindCommand);
+		});
+	}
+	public static void invokeFindInUIThread(FindCommand aFindCommand) {
+		if (getDisplay() == null) {
+			return;
+		}
+		
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+//					aFindCommand.configureNew(Display.getDefault().getActiveShell());
+					aFindCommand.configureWithSearchTermNonBlocking(Display.getDefault().getActiveShell(), aFindCommand.getSearchString());
+
+					FindConfigureDialog aFindConfigureDialog =  aFindCommand.getFindConfigureDialog();
+					Button aFindButton = aFindConfigureDialog.getFindButton();
+//					Thread.sleep(1000);
+					clickButtonMethod().invoke(aFindButton);
+//					int i = 0;
+//					ThreadSupport.sleep(1000);
+//					aFindConfigureDialog.close();
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException  e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	public static void invokeClickInSeparateThread (Button aButton) {
+		executor().submit(() -> {
+			invokeClickInUIThread(aButton);
+		});
+	}
+	public static void invokeClickInUIThread (Button aButton) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					clickButtonMethod().invoke(aButton);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	public static void replaceTextInSeparateThread (StyledText aStyledText, int aStart, int aLength, String aText) {
 		executor().submit(() -> {
 			replaceTextInUIThread(aStyledText, aStart, aLength, aText);
@@ -1364,6 +1454,22 @@ public class EHUtilities /*extends Utilities*/{
 			e.printStackTrace();
 			return null;
 		}
+	}
+	public static final Method clickButtonMethod() {
+		if (clickButtonMethod == null) {
+			 try 
+			    {                           
+//			        Class<?>buttonClass = button.getClass().getSuperclass();
+
+				 	clickButtonMethod = Button.class.getDeclaredMethod("click");
+				 	clickButtonMethod.setAccessible(true);
+//			        method.invoke(button);          
+			    }
+			 catch (Exception e) {
+				 e.printStackTrace();
+			 }
+		}
+		return clickButtonMethod;
 	}
 }
 //ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();

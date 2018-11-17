@@ -1,6 +1,8 @@
 package replayer;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.PatternSyntaxException;
@@ -24,6 +26,7 @@ import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchCommandConstants;
@@ -35,6 +38,7 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
+import fluorite.commands.FindCommand;
 import fluorite.util.EHUtilities;
 import util.annotations.Visible;
 import util.misc.Common;
@@ -196,6 +200,21 @@ public class ALogReplayer implements IExecutionListener {
 		return ObjectEditor.edit(new ALogReplayer());
 	}
 	public static void main (String[] args) {
+//		Button button = (org.eclipse.swt.widgets.Button)Button.
+
+	    try 
+	    {                           
+//	        Class<?>buttonClass = button.getClass().getSuperclass();
+
+	        Method method = Button.class.getDeclaredMethod("click");
+	        method.setAccessible(true);
+//	        method.invoke(button);          
+	    }
+	    catch (SecurityException         e) { e.printStackTrace(); }
+	    catch (NoSuchMethodException     e) { e.printStackTrace(); }
+	    catch (IllegalArgumentException  e) { e.printStackTrace(); }
+//	    catch (IllegalAccessException    e) { e.printStackTrace(); }
+//	    catch (InvocationTargetException e) { e.printStackTrace(); }    
 		createUI();
 	}
 	@Visible(false)
@@ -322,6 +341,14 @@ public class ALogReplayer implements IExecutionListener {
 		setTextEditorDataStructures();
 		EHUtilities.findAndSelectTextAfterCursorInSeparateThread(lastStyledText, lastFindReplaceTargetExt3, aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
 	}
+	protected FindCommand lastFindCommand;
+	public void interactiveFindAndSelectTextAfterCursor(String aFindStrng) {
+		lastFindCommand = new FindCommand(aFindStrng);
+		EHUtilities.invokeFindInSeparateThread(lastFindCommand);
+	}
+	public void interactiveCloseOfFindDialog () {
+		EHUtilities.invokeCloseInSeparateThread(lastFindCommand);
+	}
 	public void findAndSelectTextAfterCursor (
 			String aFindString) {
 		findAndSelectTextAfterCursor(aFindString, true, false, false, false);
@@ -388,5 +415,6 @@ public class ALogReplayer implements IExecutionListener {
 		setTextEditorDataStructures();
 		EHUtilities.invokeActionInSeparateThread(lastStyledText, anAction);
 	}
+	
 
 }
