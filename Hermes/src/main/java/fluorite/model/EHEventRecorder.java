@@ -571,6 +571,7 @@ public class EHEventRecorder {
 		ADifficultyPredictionPluginEventProcessor.getInstance().commandProcessingStarted();
 		// maybeCreateDifficultyPredictionThread();
 		EHUtilities.setDisplay(PlatformUI.getWorkbench().getDisplay());
+		EHUtilities.setCurrentWorkbenchWindow(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 //		EHUtilities.openEditor("DummyProj", "D:/Test/DummyProject/src/HelloWorld.java");
 		// have to create the tray icon on the UI thread
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {

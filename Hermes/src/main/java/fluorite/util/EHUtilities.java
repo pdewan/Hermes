@@ -50,6 +50,8 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.PackageFragmentRoot;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IFindReplaceTarget;
@@ -118,10 +120,10 @@ public class EHUtilities /*extends Utilities*/{
 
 	private static Set<String> mEditCategories;
 	
-	static Display myDisplay;
-	static ICommandService myService;
-	static IEditorPart currentEditorPart;
-
+	protected static Display myDisplay;
+	protected static ICommandService myService;
+	protected static IEditorPart currentEditorPart;
+	protected static IWorkbenchWindow currentWorkbenchWindow;
 	
 	
 	static {
@@ -402,6 +404,7 @@ public class EHUtilities /*extends Utilities*/{
 			invokeCloseInUIThread(aFindCommand);
 		});
 	}
+	
 	public static void invokeCloseInUIThread(FindCommand aFindCommand) {
 		if (getDisplay() == null) {
 			return;
@@ -492,7 +495,24 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
-	
+	public static void showContributionItemInSeparateThread (IContributionItem aMenuManager) {
+		executor().submit(() -> {
+			showContribitionItemInUIThread(aMenuManager);
+		});
+	}
+	public static void showContribitionItemInUIThread (IContributionItem aMenuManager) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				
+					aMenuManager.setVisible(true);
+				
+			}
+		});
+	}
 	public static void invokeClickInSeparateThread (Button aButton) {
 		executor().submit(() -> {
 			invokeClickInUIThread(aButton);
@@ -513,6 +533,7 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
+	
 	public static void replaceTextInSeparateThread (StyledText aStyledText, int aStart, int aLength, String aText) {
 		executor().submit(() -> {
 			replaceTextInUIThread(aStyledText, aStart, aLength, aText);
@@ -1449,6 +1470,17 @@ public class EHUtilities /*extends Utilities*/{
 
 		// skip if this doesn't seem to correspond to anything we understand
 		return null;
+	}
+
+	
+	
+	public static IWorkbenchWindow getActiveWorkbenchWindow() {
+		return currentWorkbenchWindow;
+	}
+
+
+	public static void setCurrentWorkbenchWindow(IWorkbenchWindow currentWorkbenchWindow) {
+		EHUtilities.currentWorkbenchWindow = currentWorkbenchWindow;
 	}
 	public static Display getDisplay() {
 		return myDisplay;

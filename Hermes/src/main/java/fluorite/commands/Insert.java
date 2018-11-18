@@ -92,7 +92,7 @@ public class Insert extends BaseDocumentChangeEvent {
 
 	public String getName() {
 		return "Insert text (offset: " + Integer.toString(mOffset)
-				+ ", length: " + Integer.toString(mLength) + ")";
+				+ ", length: " + Integer.toString(mLength) + " " + mText + ")";
 	}
 
 	public String getDescription() {

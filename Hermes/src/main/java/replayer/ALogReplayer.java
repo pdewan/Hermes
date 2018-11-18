@@ -16,6 +16,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IFindReplaceTargetExtension;
@@ -28,11 +32,16 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchCommandConstants;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.internal.Workbench;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -42,6 +51,8 @@ import fluorite.commands.FindCommand;
 import fluorite.util.EHUtilities;
 import util.annotations.Visible;
 import util.misc.Common;
+
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ST;
 
 public class ALogReplayer implements IExecutionListener {
@@ -424,6 +435,97 @@ public class ALogReplayer implements IExecutionListener {
 		setTextEditorDataStructures();
 		EHUtilities.invokeRedoInSeparateThread(lastUndoManager);
 	}
-	
+	public void showEditMenu() {
+//		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
+//		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchWindow window = EHUtilities.getActiveWorkbenchWindow();
+
+			if(! (window instanceof WorkbenchWindow)) {
+				return;
+			}
+			 IMenuManager menuManager = ((WorkbenchWindow)window).getMenuManager();
+			 IMenuManager editMenu= menuManager.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
+			 
+			 EHUtilities.showContributionItemInSeparateThread(editMenu);
+//			 editMenu.addMenuListener(new IMenuListener() {
+//
+//				@Override
+//				public void menuAboutToShow(IMenuManager manager) {
+//					manager.setVisible(true);
+//					
+//				}
+//		            
+//		           
+//		});
+//		Event event = new Event();
+//		event.type = SWT.Show;    
+//		event.button = 1;
+//		editMenu.notifyListeners(event);
+	}
+	public void showUndoMenuItem() {
+//		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
+//		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchWindow window = EHUtilities.getActiveWorkbenchWindow();
+
+			if(! (window instanceof WorkbenchWindow)) {
+				return;
+			}
+			 IMenuManager menuManager = ((WorkbenchWindow)window).getMenuManager();
+			 IMenuManager editMenu= menuManager.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
+			 
+			 String anUndoItem = org.eclipse.ui.actions.ActionFactory.UNDO.getId();
+			 IContributionItem anItem = editMenu.findUsingPath(anUndoItem);
+			 EHUtilities.showContributionItemInSeparateThread(anItem);
+
+//			 editMenu.addMenuListener(new IMenuListener() {
+//
+//				@Override
+//				public void menuAboutToShow(IMenuManager manager) {
+//					manager.setVisible(true);
+//					
+//				}
+//		            
+//		           
+//		});
+//		Event event = new Event();
+//		event.type = SWT.Show;    
+//		event.button = 1;
+//		editMenu.notifyListeners(event);
+	}
+	@Visible(false)
+	public void menuProcessing() {
+//		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
+//		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchWindow window = EHUtilities.getActiveWorkbenchWindow();
+
+			if(! (window instanceof WorkbenchWindow)) {
+				return;
+			}
+			 IMenuManager menuManager = ((WorkbenchWindow)window).getMenuManager();
+			 IMenuManager editMenu= menuManager.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
+			 
+			 String anUndoItem = org.eclipse.ui.actions.ActionFactory.UNDO.getId();
+			 IContributionItem anItem = editMenu.findUsingPath(anUndoItem);
+			 
+			 
+			
+//			menuManager.get
+//
+//			    //TODO you may need to remove items from the coolbar as well
+//			    ICoolBarManager coolBarManager = null;
+//
+//			    if(((WorkbenchWindow) window).getCoolBarVisible()) {
+//			        coolBarManager = ((WorkbenchWindow)window).getCoolBarManager2();
+//			    }
+//
+//			    Menu menu = menuManager.getMenu();
+//
+//			    //you'll need to find the id for the item
+//			    String itemId = "menuId";
+//			    IContributionItem item = menuManager.find(itemId);
+//
+//			    // remember position, TODO this is protected
+//			    int controlIdx = menu.indexOf(mySaveAction.getId());
+			}
 
 }
