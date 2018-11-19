@@ -40,22 +40,40 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageDeclaration;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.debug.core.IJavaBreakpoint;
+import org.eclipse.jdt.debug.core.IJavaLineBreakpoint;
+import org.eclipse.jdt.debug.core.JDIDebugModel;
 import org.eclipse.jdt.internal.core.PackageFragmentRoot;
+import org.eclipse.jdt.internal.debug.ui.BreakpointUtils;
+import org.eclipse.jdt.internal.debug.ui.IJDIPreferencesConstants;
+import org.eclipse.jdt.internal.debug.ui.JDIDebugUIPlugin;
+import org.eclipse.jdt.internal.debug.ui.actions.ActionMessages;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.jface.text.IFindReplaceTargetExtension3;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.IUndoManager;
@@ -71,6 +89,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -84,6 +103,7 @@ import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.services.IServiceLocator;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
@@ -513,12 +533,12 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
-	public static void invokeClickInSeparateThread (Button aButton) {
+	public static void lineBreakpointToggleInSeparateThread(IType aSourceType, ITextEditor aTextEditor, int aLineNumber) { 
 		executor().submit(() -> {
-			invokeClickInUIThread(aButton);
+			lineBreakpointToggleInUIThread(aSourceType, aTextEditor, aLineNumber);
 		});
 	}
-	public static void invokeClickInUIThread (Button aButton) {
+	public static void lineBreakpointToggleInUIThread(IType aSourceType, ITextEditor aTextEditor, int aLineNumber) { 
 		if (getDisplay() == null) {
 			return;
 		}
@@ -526,8 +546,8 @@ public class EHUtilities /*extends Utilities*/{
 			@Override
 			public void run() {
 				try {
-					clickButtonMethod().invoke(aButton);
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					lineBreakpointToggle(aSourceType, aTextEditor, aLineNumber);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -1536,6 +1556,162 @@ public class EHUtilities /*extends Utilities*/{
 		}
 		return clickButtonMethod;
 	}
+	/**
+     * Prunes out all naming occurrences of anonymous inner types, since these types have no names
+     * and cannot be derived visiting an AST (no positive type name matching while visiting ASTs)
+     * @param type
+     * @return the compiled type name from the given {@link IType} with all occurrences of anonymous inner types removed
+     * @since 3.4
+     */
+	public static String pruneAnonymous(IType type) {
+    	StringBuffer buffer = new StringBuffer();
+    	IJavaElement parent = type;
+    	while(parent != null) {
+    		if(parent.getElementType() == IJavaElement.TYPE){
+    			IType atype = (IType) parent;
+    			try {
+	    			if(!atype.isAnonymous()) {
+	    				if(buffer.length() > 0) {
+	    					buffer.insert(0, '$');
+	    				}
+	    				buffer.insert(0, atype.getElementName());
+	    			}
+    			}
+    			catch(JavaModelException jme) {}
+    		}
+    		parent = parent.getParent();
+    	}
+    	return buffer.toString();
+    }
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
+	/**
+     * Returns the package qualified name, while accounting for the fact that a source file might
+     * not have a project
+     * @param type the type to ensure the package qualified name is created for
+     * @return the package qualified name
+     * @since 3.3
+     */
+    public static String createQualifiedTypeName(IType type) {
+    	String tname = pruneAnonymous(type);
+    	try {
+    		String packName = null;
+    		if (type.isBinary()) {
+    			packName = type.getPackageFragment().getElementName();
+    		} else {
+    			IPackageDeclaration[] pd = type.getCompilationUnit().getPackageDeclarations();
+				if(pd.length > 0) {
+					packName = pd[0].getElementName();
+				}
+    		}
+			if(packName != null && !packName.equals(EMPTY_STRING)) {
+				tname =  packName+"."+tname; //$NON-NLS-1$
+			}
+    	} 
+    	catch (JavaModelException e) {}
+    	return tname;
+    }
+    /**
+	 * Deletes the given breakpoint using the operation history, which allows to undo the deletion.
+	 * 
+	 * @param breakpoint the breakpoint to delete
+	 * @param part a workbench part, or <code>null</code> if unknown
+	 * @param progressMonitor the progress monitor
+	 * @throws CoreException if the deletion fails
+	 */
+	public static void deleteBreakpoint(IJavaBreakpoint breakpoint, IWorkbenchPart part, IProgressMonitor monitor) throws CoreException {
+		final Shell shell= part != null ? part.getSite().getShell() : null;
+		final boolean[] result= new boolean[] { true };
+
+		final IEclipsePreferences prefs= InstanceScope.INSTANCE.getNode(JDIDebugUIPlugin.getUniqueIdentifier());
+		boolean prompt= prefs.getBoolean(IJDIPreferencesConstants.PREF_PROMPT_DELETE_CONDITIONAL_BREAKPOINT, true);
+		if (prompt && breakpoint instanceof IJavaLineBreakpoint && ((IJavaLineBreakpoint)breakpoint).getCondition() != null) {
+			Display display= shell != null && !shell.isDisposed() ? shell.getDisplay() : PlatformUI.getWorkbench().getDisplay();
+			if (!display.isDisposed()) {
+				display.syncExec(new Runnable() {
+					@Override
+					public void run() {
+						MessageDialogWithToggle dialog= MessageDialogWithToggle.openOkCancelConfirm(shell, ActionMessages.ToggleBreakpointAdapter_confirmDeleteTitle,
+								ActionMessages.ToggleBreakpointAdapter_confirmDeleteMessage, ActionMessages.ToggleBreakpointAdapter_confirmDeleteShowAgain, false,
+								null, null);
+						if (dialog.getToggleState()) {
+							prefs.putBoolean(IJDIPreferencesConstants.PREF_PROMPT_DELETE_CONDITIONAL_BREAKPOINT, false);
+						}
+						result[0]= dialog.getReturnCode() == IDialogConstants.OK_ID;
+					}
+				});
+			}
+		}
+		
+		if (result[0]) {
+			DebugUITools.deleteBreakpoints(new IBreakpoint[] { breakpoint }, shell, monitor);
+		}
+	}
+	
+	public static void lineBreakpointToggle(IType aSourceType, ITextEditor aTextEditor, int aLineNumber) {
+		String tname = createQualifiedTypeName(aSourceType);
+//    	IJavaProject project = lastSourceType.getJavaProject();
+//    	if (locator == null || (project != null && !project.isOnClasspath(type))) {
+//    		tname = createQualifiedTypeName(type);
+//    	} else {
+//    		tname = locator.getFullyQualifiedTypeName();
+//    	}
+		
+    	IResource resource = BreakpointUtils.getBreakpointResource(aSourceType);
+		IJavaLineBreakpoint existingBreakpoint;
+		try {
+			existingBreakpoint = JDIDebugModel.lineBreakpointExists(resource, tname, aLineNumber);
+		
+		if (existingBreakpoint != null) {
+			deleteBreakpoint(existingBreakpoint, aTextEditor, null);
+			return ;
+		}
+		} catch (CoreException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Map<String, Object> attributes =new HashMap<String, Object>(10);
+		IDocumentProvider documentProvider = aTextEditor.getDocumentProvider();
+		if (documentProvider == null) {
+		    return;
+		}
+		IDocument document = documentProvider.getDocument(aTextEditor.getEditorInput());
+		int charstart = -1, charend = -1;
+		try {
+			IRegion line = document.getLineInformation(aLineNumber - 1);
+			charstart = line.getOffset();
+			charend = charstart + line.getLength();
+		} 	
+		catch (BadLocationException ble) {JDIDebugUIPlugin.log(ble);}
+		BreakpointUtils.addJavaBreakpointAttributes(attributes, aSourceType);
+		try {
+			IJavaLineBreakpoint breakpoint = JDIDebugModel.createLineBreakpoint(resource, tname, aLineNumber, charstart, charend, 0, true, attributes);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void invokeClickInSeparateThread (Button aButton) {
+		executor().submit(() -> {
+			invokeClickInUIThread(aButton);
+		});
+	}
+	public static void invokeClickInUIThread (Button aButton) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					clickButtonMethod().invoke(aButton);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 }
 //ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 //

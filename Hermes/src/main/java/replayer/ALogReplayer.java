@@ -1,11 +1,9 @@
 package replayer;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -14,7 +12,6 @@ import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -22,13 +19,8 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.internal.compiler.env.ISourceType;
-import org.eclipse.jdt.internal.core.SourceType;
 import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IFindReplaceTargetExtension;
@@ -36,26 +28,23 @@ import org.eclipse.jface.text.IFindReplaceTargetExtension3;
 import org.eclipse.jface.text.ITextViewerExtension6;
 import org.eclipse.jface.text.IUndoManager;
 import org.eclipse.jface.text.TextViewer;
-import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
+
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
 import fluorite.commands.FindCommand;
@@ -63,8 +52,6 @@ import fluorite.util.EHUtilities;
 import util.annotations.Visible;
 import util.misc.Common;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ST;
 
 public class ALogReplayer implements IExecutionListener {
 	
@@ -525,6 +512,10 @@ public class ALogReplayer implements IExecutionListener {
 //		event.button = 1;
 //		editMenu.notifyListeners(event);
 	}
+	public void lineBreakpointToggle(int aLineNumber) {
+		setTextEditorDataStructures();
+		EHUtilities.lineBreakpointToggleInSeparateThread(lastSourceType, lastTextEditor, aLineNumber);
+	}
 	@Visible(false)
 	public void menuProcessing() {
 //		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
@@ -560,74 +551,6 @@ public class ALogReplayer implements IExecutionListener {
 //			    // remember position, TODO this is protected
 //			    int controlIdx = menu.indexOf(mySaveAction.getId());
 			}
-//	void doLineBreakpointToggle(int aLineNumber) {
-//    	ITextEditor editor = lastTextEditor;
-//    	IType aType;
-//    	SourceType 
-//        if (editor != null && selection instanceof ITextSelection) {
-//            if (monitor.isCanceled()) {
-//                return Status.CANCEL_STATUS;
-//            }
-//            ITextSelection tsel = (ITextSelection) selection;
-//            if(tsel.getStartLine() < 0) {
-//            	return Status.CANCEL_STATUS;
-//            }
-//            try {
-//                report(null, part);
-//                ISelection sel = selection;
-//            	if(!(selection instanceof IStructuredSelection)) {
-//            		sel = translateToMembers(part, selection);
-//            	}
-//            	if(sel instanceof IStructuredSelection) {
-//                	IMember member = (IMember) ((IStructuredSelection)sel).getFirstElement();
-//                	IType type = null;
-//                	if(member.getElementType() == IJavaElement.TYPE) {
-//                		type = (IType) member;
-//                	}
-//                	else {
-//                		type = member.getDeclaringType();
-//                	}
-//                	String tname = null;
-//                	IJavaProject project = type.getJavaProject();
-//                	if (locator == null || (project != null && !project.isOnClasspath(type))) {
-//                		tname = createQualifiedTypeName(type);
-//                	} else {
-//                		tname = locator.getFullyQualifiedTypeName();
-//                	}
-//                	IResource resource = BreakpointUtils.getBreakpointResource(type);
-//					int lnumber = locator == null ? tsel.getStartLine() + 1 : locator.getLineLocation();
-//					IJavaLineBreakpoint existingBreakpoint = JDIDebugModel.lineBreakpointExists(resource, tname, lnumber);
-//					if (existingBreakpoint != null) {
-//						deleteBreakpoint(existingBreakpoint, editor, monitor);
-//						return Status.OK_STATUS;
-//					}
-//					Map<String, Object> attributes = new HashMap<String, Object>(10);
-//					IDocumentProvider documentProvider = editor.getDocumentProvider();
-//					if (documentProvider == null) {
-//					    return Status.CANCEL_STATUS;
-//					}
-//					IDocument document = documentProvider.getDocument(editor.getEditorInput());
-//					int charstart = -1, charend = -1;
-//					try {
-//						IRegion line = document.getLineInformation(lnumber - 1);
-//						charstart = line.getOffset();
-//						charend = charstart + line.getLength();
-//					} 	
-//					catch (BadLocationException ble) {JDIDebugUIPlugin.log(ble);}
-//					BreakpointUtils.addJavaBreakpointAttributes(attributes, type);
-//					IJavaLineBreakpoint breakpoint = JDIDebugModel.createLineBreakpoint(resource, tname, lnumber, charstart, charend, 0, true, attributes);
-//					if(locator == null) {
-//						new BreakpointLocationVerifierJob(document, parseCompilationUnit(type.getTypeRoot()), breakpoint, lnumber, tname, type, editor, bestMatch).schedule();
-//					}
-//                }
-//                else {
-//                	report(ActionMessages.ToggleBreakpointAdapter_3, part);
-//                	return Status.OK_STATUS;
-//                }
-//            } 
-//            catch (CoreException ce) {return ce.getStatus();}
-//        }
-//        return Status.OK_STATUS;
-//    }
-
+	
+	
 }

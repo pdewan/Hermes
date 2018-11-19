@@ -81,3 +81,7 @@ Bundle-ClassPath: .,
  lib/org.eclipse.jdt.junit-3.3.2.jar
 Bundle-Activator: dayton.ellwanger.hermes.HermesActivator
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.debug.ui,
+ org.eclipse.jdt.debug.core,
+ org.eclipse.jdt.internal.debug.ui,
+ org.eclipse.jdt.internal.debug.ui.actions
