@@ -82,6 +82,10 @@ Bundle-ClassPath: .,
 Bundle-Activator: dayton.ellwanger.hermes.HermesActivator
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.debug.ui,
+ org.eclipse.jdt.core.refactoring,
+ org.eclipse.jdt.core.refactoring.descriptors,
  org.eclipse.jdt.debug.core,
  org.eclipse.jdt.internal.debug.ui,
- org.eclipse.jdt.internal.debug.ui.actions
+ org.eclipse.jdt.internal.debug.ui.actions,
+ org.eclipse.ltk.core.refactoring,
+ org.eclipse.ltk.core.refactoring.history

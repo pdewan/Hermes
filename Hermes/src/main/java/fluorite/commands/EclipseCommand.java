@@ -33,6 +33,9 @@ public class EclipseCommand
 	public EclipseCommand(String commandId, int repeatCount) {
 //		super(commandId);
 		mCommandId = commandId;
+		if (mCommandId.contains("ename")) {
+			int i = 0;
+		}
 //		if (mCommandId.isEmpty()) {
 //			System.out.println("empty command id!");
 //		}

@@ -376,8 +376,12 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 
 		setPackageAndProject(context); // the sets not used it seems
 
-
+		if (lastFileADT == null) {
+			System.err.println("Last file adt null for adelta:" + aDelta);
+			return;
+		}
 		lastFileADT = aDelta.getCompilationUnitAST();
+		
 		List<String> anImports = lastFileADT.imports();
 		// System.out.println("AST/full source code:" + lastFileADT);
 		IProblem[] problems = null;

@@ -7,9 +7,11 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.PlatformUI;
@@ -44,9 +46,18 @@ import fluorite.commands.UndoCommand;
 import fluorite.util.EHUtilities;
 import fluorite.util.EventLoggerConsole;
 import util.trace.recorder.ExcludedCommand;
-
+import org.eclipse.ltk.core.refactoring.history.IRefactoringExecutionListener;
+import org.eclipse.ltk.core.refactoring.history.IRefactoringHistoryService;
+import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
+import org.eclipse.ltk.core.refactoring.Change;
+import org.eclipse.ltk.core.refactoring.Refactoring;
+import org.eclipse.ltk.core.refactoring.RefactoringCore;
+import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
+import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.TextChange;
 public class EHExecutionRecorder extends EHBaseRecorder implements
-		IExecutionListener {
+		IExecutionListener, IRefactoringExecutionListener {
 
 	private static EHExecutionRecorder instance = null;
 
@@ -68,6 +79,9 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 		mNonRecordableCommandIds.add("eventlogger.actions.viewLastLog");
 		mNonRecordableCommandIds.add("eventlogger.actions.annotateBackward");
 		mNonRecordableCommandIds.add("eventlogger.actions.annotateForward");
+		IRefactoringHistoryService aRefactoringHistoryService = RefactoringCore.getHistoryService();
+		aRefactoringHistoryService.connect();
+		aRefactoringHistoryService.addExecutionListener(this);
 	}
 
 	@Override
@@ -242,5 +256,40 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 		} else {
 			return new EclipseCommand(commandId);
 		}
+	}
+
+	@Override
+	public void executionNotification(RefactoringExecutionEvent event) {
+		System.out.println("Refactoring event:" + event + "description" + event.getDescriptor().getDescription());
+		RefactoringDescriptorProxy descriptorProxy = event.getDescriptor();
+		RefactoringDescriptor descriptor = descriptorProxy.requestDescriptor(new NullProgressMonitor());
+		try {
+//			Refactoring refactor =	descriptor.createRefactoringContext(new RefactoringStatus()).getRefactoring();
+		Refactoring refactor = descriptor.createRefactoring(new RefactoringStatus());
+		try {
+		refactor.checkInitialConditions(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+		refactor.checkFinalConditions(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			int i = 5;
+		}
+		
+//		Change change = refactor.createChange(new NullProgressMonitor());
+		Change change = refactor.createChange(null);
+		System.out.println("Change:" + change);
+		Object aChange = change.getModifiedElement();
+		if (change instanceof TextChange) {
+		    TextChange textChange = (TextChange)change;
+		    TextEdit edit = textChange.getEdit();
+		    System.out.println("Edit: " + edit);
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

@@ -50,12 +50,15 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.refactoring.IJavaRefactorings;
+import org.eclipse.jdt.core.refactoring.descriptors.RenameJavaElementDescriptor;
 import org.eclipse.jdt.debug.core.IJavaBreakpoint;
 import org.eclipse.jdt.debug.core.IJavaLineBreakpoint;
 import org.eclipse.jdt.debug.core.JDIDebugModel;
@@ -82,6 +85,11 @@ import org.eclipse.jface.text.source.ISourceViewerExtension3;
 import org.eclipse.jface.text.source.ISourceViewerExtension4;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ltk.core.refactoring.Change;
+import org.eclipse.ltk.core.refactoring.Refactoring;
+import org.eclipse.ltk.core.refactoring.RefactoringContribution;
+import org.eclipse.ltk.core.refactoring.RefactoringCore;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
@@ -1711,6 +1719,55 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
+	public static void invokeRefactoringInSeparateThread (ICompilationUnit aCompilationUnit, String aNewName) {
+		executor().submit(() -> {
+			invokeRefactoringInUIThread(aCompilationUnit, aNewName);
+		});
+	}
+	public static void invokeRefactoringInUIThread (ICompilationUnit aCompilationUnit, String aNewName) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					invokeRefactoringInUIThread(aCompilationUnit, aNewName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public static void refactor(ICompilationUnit aCompilationUnit, String aNewName) {
+		RefactoringContribution contribution =
+			    RefactoringCore.getRefactoringContribution(IJavaRefactorings .RENAME_COMPILATION_UNIT);
+		RenameJavaElementDescriptor descriptor =
+			    (RenameJavaElementDescriptor) contribution.createDescriptor();
+			descriptor.setProject(aCompilationUnit.getResource().getProject().getName( ));
+			descriptor.setNewName(aNewName); // new name for a Class
+			descriptor.setJavaElement(aCompilationUnit);
+
+			RefactoringStatus status = new RefactoringStatus();
+			try {
+			    Refactoring refactoring = descriptor.createRefactoring(status);
+
+			    IProgressMonitor monitor = new NullProgressMonitor();
+			    refactoring.checkInitialConditions(monitor);
+			    refactoring.checkFinalConditions(monitor);
+			    Change change = refactoring.createChange(monitor);
+			    change.perform(monitor);
+
+			} catch (CoreException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			} catch (Exception e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
+	}
+	
 
 }
 //ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();

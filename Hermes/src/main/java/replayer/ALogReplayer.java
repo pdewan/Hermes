@@ -92,7 +92,7 @@ public class ALogReplayer implements IExecutionListener {
 	};
 	
 	String javaVersion = "JavaSE-1.8";
-
+	@Visible(false)
 	public void listenToCommands() { 
 		ICommandService commandService = EHUtilities.getCommandService();
 		if (commandService == null) {
@@ -117,20 +117,25 @@ public class ALogReplayer implements IExecutionListener {
 	public String getJavaVersion() {
 		return javaVersion;
 	}
+	@Visible(false)
 	public void setJavaVersion(String javaVersion) {
 		this.javaVersion = javaVersion;
 	}
+	@Visible(false)
 	public void getOrCreateProject(String aProjectName, String aLocation) {
 		lastManipulatedProject = EHUtilities.createProjectFromLocation(aProjectName, aLocation, javaVersion);
 //		EHUtilities.createProjectFromFolder(aProjectName, aLocation);
 
 	}
+	@Visible(false)
 	public void getOrCreatePredefinedProject() {
 		getOrCreateProject(TEST_PROJECT_NAME, TEST_PROJECT_LOCATION);
 	}
+	@Visible(false)
 	public void openEditorOfPredefinedFile() {
-		openEditorFromSeparateThread(TEST_FILE);	
+		openEditor(TEST_FILE);	
 	}
+	@Visible(false)
 	public static void printWorkingDirectory() {
 		 System.out.println("Working Directory = " +
 	              System.getProperty("user.dir"));
@@ -167,31 +172,31 @@ public class ALogReplayer implements IExecutionListener {
 //		lastEditor = EHUtilities.openEditor(lastProject, aFileName);
 //		
 //	}
-	protected void openEditorInUIThread(String aFileName) {
+	protected void openEditor(String aFileName) {
 		if (lastManipulatedProject == null)
 			return;
 		
-	 EHUtilities.openEditorInUIThread(lastManipulatedProject, aFileName);
+	 EHUtilities.openEditorFromSeparateThread(lastManipulatedProject, aFileName);
 		
 	}
-	protected void openEditorFromSeparateThread(String aFileName) {
-		if (lastManipulatedProject == null) {
-			getOrCreatePredefinedProject();
-//			return;
-		}
-		EHUtilities.openEditorFromSeparateThread(lastManipulatedProject, aFileName);
-//		Runnable newRunnable = new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				openEditorInUIThread(aFileName);
-//			}
-//			
-//		};
-//		Thread newThread = new Thread(newRunnable) ;
-//		newThread.start();
-		
-	}
+//	protected void openEditorFromSeparateThread(String aFileName) {
+//		if (lastManipulatedProject == null) {
+//			getOrCreatePredefinedProject();
+////			return;
+//		}
+//		EHUtilities.openEditorFromSeparateThread(lastManipulatedProject, aFileName);
+////		Runnable newRunnable = new Runnable() {
+////
+////			@Override
+////			public void run() {
+////				openEditorInUIThread(aFileName);
+////			}
+////			
+////		};
+////		Thread newThread = new Thread(newRunnable) ;
+////		newThread.start();
+//		
+//	}
 	public void refreshPredefinedFile() {
 		refreshFile(TEST_FILE);
 	}
@@ -211,27 +216,6 @@ public class ALogReplayer implements IExecutionListener {
 		
 	}
 	
-	public static OEFrame createUI() {
-		return ObjectEditor.edit(new ALogReplayer());
-	}
-	public static void main (String[] args) {
-//		Button button = (org.eclipse.swt.widgets.Button)Button.
-
-	    try 
-	    {                           
-//	        Class<?>buttonClass = button.getClass().getSuperclass();
-
-	        Method method = Button.class.getDeclaredMethod("click");
-	        method.setAccessible(true);
-//	        method.invoke(button);          
-	    }
-	    catch (SecurityException         e) { e.printStackTrace(); }
-	    catch (NoSuchMethodException     e) { e.printStackTrace(); }
-	    catch (IllegalArgumentException  e) { e.printStackTrace(); }
-//	    catch (IllegalAccessException    e) { e.printStackTrace(); }
-//	    catch (InvocationTargetException e) { e.printStackTrace(); }    
-		createUI();
-	}
 	@Visible(false)
 	@Override
 	public void notHandled(String commandId, NotHandledException exception) {
@@ -551,6 +535,30 @@ public class ALogReplayer implements IExecutionListener {
 //			    // remember position, TODO this is protected
 //			    int controlIdx = menu.indexOf(mySaveAction.getId());
 			}
-	
-	
+	public void refactorOpenedFile (String aNewName) {
+		setTextEditorDataStructures();
+		EHUtilities.refactor(lastCompilationUnit, aNewName);
+	}
+	@Visible(false)
+	public static OEFrame createUI() {
+		return ObjectEditor.edit(new ALogReplayer());
+	}
+	public static void main (String[] args) {
+//		Button button = (org.eclipse.swt.widgets.Button)Button.
+
+	    try 
+	    {                           
+//	        Class<?>buttonClass = button.getClass().getSuperclass();
+
+	        Method method = Button.class.getDeclaredMethod("click");
+	        method.setAccessible(true);
+//	        method.invoke(button);          
+	    }
+	    catch (SecurityException         e) { e.printStackTrace(); }
+	    catch (NoSuchMethodException     e) { e.printStackTrace(); }
+	    catch (IllegalArgumentException  e) { e.printStackTrace(); }
+//	    catch (IllegalAccessException    e) { e.printStackTrace(); }
+//	    catch (InvocationTargetException e) { e.printStackTrace(); }    
+		createUI();
+	}
 }
