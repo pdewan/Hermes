@@ -357,7 +357,7 @@ public class ALogReplayer implements IExecutionListener {
 	public void findAndSelectTextAfterCursor (
 			String aFindString, boolean aSearchForward, boolean aCaseSensitive, boolean aWholeWord, boolean aRegExSearch) {
 		setTextEditorDataStructures();
-		EHUtilities.findAndSelectTextAfterCursorInSeparateThread(lastStyledText, lastFindReplaceTargetExt3, aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
+		EHUtilities.findAndSelectTextAfterCaretInSeparateThread(lastStyledText, lastFindReplaceTargetExt3, aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
 	}
 	protected FindCommand lastFindCommand;
 	public void interactiveFindAndSelectTextAfterCursor(String aFindStrng) {
@@ -554,7 +554,7 @@ public class ALogReplayer implements IExecutionListener {
 //			e.printStackTrace();
 //		}
 //		EHUtilities.refactor(lastCompilationUnit, IJavaRefactorings.RENAME_COMPILATION_UNIT, aNewName);
-		EHUtilities.invokeRenameElementAtCursorInSeparateThread(lastCompilationUnit, lastStyledText, aNewName);
+		EHUtilities.invokeRenameElementAtCursorInSeparateThread(lastTextEditor, lastCompilationUnit, lastStyledText, aNewName);
 
 	}
 	public void renameField (String aFieldName, String aNewName) {

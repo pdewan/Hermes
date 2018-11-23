@@ -54,6 +54,10 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.ILocalVariable;
+import org.eclipse.jdt.internal.compiler.env.ISourceField;
+import org.eclipse.jdt.internal.core.LocalVariable;
+
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -70,6 +74,8 @@ import org.eclipse.jdt.internal.debug.ui.BreakpointUtils;
 import org.eclipse.jdt.internal.debug.ui.IJDIPreferencesConstants;
 import org.eclipse.jdt.internal.debug.ui.JDIDebugUIPlugin;
 import org.eclipse.jdt.internal.debug.ui.actions.ActionMessages;
+import org.eclipse.jdt.internal.ui.actions.SelectionConverter;
+import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -136,11 +142,14 @@ import fluorite.dialogs.FindConfigureDialog;
 import fluorite.model.EHEventRecorder;
 //import fluorite.plugin.Activator;
 import fluorite.plugin.EHActivator;
+import 	org.eclipse.jdt.internal.core.SourceField;
+import 	org.eclipse.jdt.internal.core.SourceMethod;
 import util.misc.ThreadSupport;
 /*
  * This is are not being referred to, instead the Flourite Utilites class is referenced
  */
 public class EHUtilities /*extends Utilities*/{
+	public static Map<String, String> sourceTypeToRenameType;
 	protected static Map <IFile, ITextEditor> fileToEditor = new HashMap<>();
 	private static Map<Integer, Command> mFillInCommands = new HashMap<Integer, Command>();
 	protected static Map<String, Command> stringToCommand = new HashMap<>();
@@ -171,6 +180,16 @@ public class EHUtilities /*extends Utilities*/{
 		mEditCategories.add(EHEventRecorder.MacroCommandCategoryID);
 		mEditCategories.add("eclipse.ui.category.navigate");
 		mEditCategories.add(FillInPrefix);
+	}
+	public static Map<String, String> sourceTypeToRenameType() {
+		
+		if (sourceTypeToRenameType == null) {
+			sourceTypeToRenameType = new HashMap<>();
+			sourceTypeToRenameType.put(SourceField.class.toString(), IJavaRefactorings.RENAME_FIELD);
+			sourceTypeToRenameType.put(SourceMethod.class.toString(), IJavaRefactorings.RENAME_METHOD);
+			sourceTypeToRenameType.put(LocalVariable.class.toString(), IJavaRefactorings.RENAME_LOCAL_VARIABLE);
+		}
+		return sourceTypeToRenameType;
 	}
 	public static IProject getCurrentProject() {
 	    IProject project = null;
@@ -586,15 +605,15 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
-	public static void findAndSelectTextAfterCursorInSeparateThread (
+	public static void findAndSelectTextAfterCaretInSeparateThread (
 			StyledText aStyledText,
 			IFindReplaceTargetExtension3 aFindReplaceTargetExtension3,
 			String aFindString, boolean aSearchForward, boolean aCaseSensitive, boolean aWholeWord, boolean aRegExSearch) {
 		executor().submit(() -> {
-			findAndSelectTextAfterCursorInUIThread(aStyledText, aFindReplaceTargetExtension3, aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
+			findAndSelectTextAfterCaretInUIThread(aStyledText, aFindReplaceTargetExtension3, aFindString, aSearchForward, aCaseSensitive, aWholeWord, aRegExSearch);
 		});
 	}
-	public static void findAndSelectTextAfterCursorInUIThread (
+	public static void findAndSelectTextAfterCaretInUIThread (
 			StyledText aStyledText,
 			IFindReplaceTargetExtension3 aFindReplaceTargetExtension3,
 			String aFindString, boolean aSearchForward, boolean aCaseSensitive, boolean aWholeWord, boolean aRegExSearch) {
@@ -1832,12 +1851,12 @@ public class EHUtilities /*extends Utilities*/{
 			e.printStackTrace();
 		}
 	}
-	public static void invokeRenameElementAtCursorInSeparateThread (ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
+	public static void invokeRenameElementAtCursorInSeparateThread (IEditorPart anEditor, ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
 		executor().submit(() -> {
-			invokeRenameElementAtCursorInUIThread(aCompilationUnit, aStyledText, aNewName);
+			invokeRenameElementAtCursorInUIThread(anEditor, aCompilationUnit, aStyledText, aNewName);
 		});
 	}
-	public static void invokeRenameElementAtCursorInUIThread (ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
+	public static void invokeRenameElementAtCursorInUIThread (IEditorPart anEditor, ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
 		if (getDisplay() == null) {
 			return;
 		}
@@ -1845,25 +1864,25 @@ public class EHUtilities /*extends Utilities*/{
 			@Override
 			public void run() {
 				try {
-					renameElementAtCursor(aCompilationUnit, aStyledText, aNewName);
+					renameElementAtCursor(anEditor, aCompilationUnit, aStyledText, aNewName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	public static void renameElementAtCursor(ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
+	public static void renameElementAtCursor(IEditorPart anEditor, ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
 
 		try {
-			int anOffset = aStyledText.getCaretOffset();
-			IJavaElement anOpenElement = aCompilationUnit.getPrimary().getElementAt(anOffset);
+//			int anOffset = aStyledText.getCaretOffset();
+//			IJavaElement anOpenElement = aCompilationUnit.getPrimary().getElementAt(anOffset);
 
-			
+			IJavaElement anOpenElement = SelectionConverter.codeResolve((JavaEditor) anEditor)[0];
 
 			if (anOpenElement != null) {
-				refactor(anOpenElement, IJavaRefactorings.RENAME_FIELD, aNewName);
+				refactor(anOpenElement, sourceTypeToRenameType().get(anOpenElement.getClass().toString()), aNewName);
 			} else {
-				System.err.println("No element at position " + anOffset + " in " + aCompilationUnit);
+				System.err.println("No element at  caret position " + " in " + aCompilationUnit);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
