@@ -1,6 +1,9 @@
 package fluorite.recorders;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -8,6 +11,11 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
+import org.eclipse.jdt.core.refactoring.descriptors.JavaRefactoringDescriptor;
+import org.eclipse.jdt.core.refactoring.descriptors.RenameJavaElementDescriptor;
+import org.eclipse.jdt.internal.corext.refactoring.rename.RenameFieldProcessor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Listener;
@@ -49,13 +57,18 @@ import util.trace.recorder.ExcludedCommand;
 import org.eclipse.ltk.core.refactoring.history.IRefactoringExecutionListener;
 import org.eclipse.ltk.core.refactoring.history.IRefactoringHistoryService;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
+import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
+import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
 import org.eclipse.ltk.core.refactoring.Change;
+import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextChange;
+import org.eclipse.ltk.core.refactoring.TextEditBasedChange;
+import org.eclipse.jdt.internal.corext.refactoring.changes.DynamicValidationRefactoringChange;
 public class EHExecutionRecorder extends EHBaseRecorder implements
 		IExecutionListener, IRefactoringExecutionListener {
 
@@ -257,12 +270,43 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 			return new EclipseCommand(commandId);
 		}
 	}
+	
+	public static void fillTextEdits(Change aChange, List<TextEdit> aList) {
+//		if (aChange instanceof TextChange) {
+//			aList.add((TextChange) aChange);
+//			return;			
+//		}
+		if (aChange instanceof CompositeChange) {
+			CompositeChange aCompositeChange = (CompositeChange) aChange;
+			for (Change aChild: aCompositeChange.getChildren() ) {
+				fillTextEdits(aChild, aList);
+			}
+			return;
+		}
+		if (aChange instanceof CompilationUnitChange) {
+			aList.add(((CompilationUnitChange) aChange).getEdit());
+			return;
+		}
+		if (aChange instanceof TextChange) {
+		    TextChange textChange = (TextChange)aChange;
+		    aList.add(textChange.getEdit());		    
+		}
+		
+	}
 
 	@Override
 	public void executionNotification(RefactoringExecutionEvent event) {
-		System.out.println("Refactoring event:" + event + "description" + event.getDescriptor().getDescription());
+		System.out.println("Refactoring event:" + event + " description" + event.getDescriptor().getDescription());
 		RefactoringDescriptorProxy descriptorProxy = event.getDescriptor();
 		RefactoringDescriptor descriptor = descriptorProxy.requestDescriptor(new NullProgressMonitor());
+		System.out.println("Desciptor:" + descriptor);
+		if (descriptor instanceof JavaRefactoringDescriptor) {
+			JavaRefactoringDescriptor aJavaRefactoringDescriptor = (JavaRefactoringDescriptor) descriptor;
+			if (aJavaRefactoringDescriptor instanceof RenameJavaElementDescriptor ) {
+				RenameJavaElementDescriptor aRenameJavaElementDescriptor = (RenameJavaElementDescriptor) aJavaRefactoringDescriptor;
+				
+			}
+		}
 		try {
 //			Refactoring refactor =	descriptor.createRefactoringContext(new RefactoringStatus()).getRefactoring();
 		Refactoring refactor = descriptor.createRefactoring(new RefactoringStatus());
@@ -277,16 +321,46 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 			e.printStackTrace();
 			int i = 5;
 		}
-		
+		if (refactor instanceof RenameRefactoring ) {
+	    	RenameRefactoring aRenameRefactoring = (RenameRefactoring) refactor;
+	    	RenameFieldProcessor aRenameFieldProcessor = (RenameFieldProcessor) aRenameRefactoring.getProcessor();
+		}		
 //		Change change = refactor.createChange(new NullProgressMonitor());
-		Change change = refactor.createChange(null);
-		System.out.println("Change:" + change);
-		Object aChange = change.getModifiedElement();
-		if (change instanceof TextChange) {
-		    TextChange textChange = (TextChange)change;
-		    TextEdit edit = textChange.getEdit();
-		    System.out.println("Edit: " + edit);
-		}
+		Change aChange = refactor.createChange(null);
+		List<TextEdit> aList = new ArrayList();
+		fillTextEdits(aChange, aList);
+		System.out.println("Changes:" + aList);
+//		if (change instanceof CompositeChange) {
+//			System.out.println("Change:" + (CompositeChange) change);
+//			CompositeChange aCompositeChange = (CompositeChange) change;
+//			Change[] aChanges = aCompositeChange.getChildren();
+//			DynamicValidationRefactoringChange a;
+//			for (Change aChange:aChanges) {
+////				if (aChange instanceof DynamicValidationRefactoringChange) {
+//				if (aChange instanceof CompositeChange) {
+//
+////					DynamicValidationRefactoringChange aDynamicValidationRefactoringChange = (DynamicValidationRefactoringChange) aChange;
+//					for (Change aChange2: ((CompositeChange) aChange).getChildren()) {
+//						System.out.println(aChange2);
+//						if (aChange2 instanceof CompilationUnitChange) {
+//							System.out.println(((CompilationUnitChange) aChange2).getEdit());
+//						}
+//
+//					}
+//				
+//
+//				}
+//				System.out.println(aChange);
+//			}
+//
+//		}
+//		System.out.println("Change:" + change);
+//		Object aChange = change.getModifiedElement();
+//		if (change instanceof TextChange) {
+//		    TextChange textChange = (TextChange)change;
+//		    TextEdit edit = textChange.getEdit();
+//		    System.out.println("Edit: " + edit);
+//		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

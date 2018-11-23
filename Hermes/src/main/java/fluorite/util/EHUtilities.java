@@ -51,9 +51,11 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageDeclaration;
+import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -63,6 +65,7 @@ import org.eclipse.jdt.debug.core.IJavaBreakpoint;
 import org.eclipse.jdt.debug.core.IJavaLineBreakpoint;
 import org.eclipse.jdt.debug.core.JDIDebugModel;
 import org.eclipse.jdt.internal.core.PackageFragmentRoot;
+import org.eclipse.jdt.internal.core.SourceType;
 import org.eclipse.jdt.internal.debug.ui.BreakpointUtils;
 import org.eclipse.jdt.internal.debug.ui.IJDIPreferencesConstants;
 import org.eclipse.jdt.internal.debug.ui.JDIDebugUIPlugin;
@@ -118,6 +121,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
+import org.eclipse.jdt.internal.corext.refactoring.rename.RenameFieldProcessor;
+import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
+import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
+import org.eclipse.ltk.core.refactoring.participants.ResourceChangeChecker;
+import org.eclipse.ltk.core.refactoring.participants.ValidateEditChecker;
 
 //import edu.cmu.scs.fluorite.util.Utilities;
 import fluorite.commands.EclipseCommand;
@@ -1739,21 +1747,168 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
+	public static void renameTopClass(ICompilationUnit aCompilationUnit, String aNewName) {
+		ICompilationUnit aJavaElement = aCompilationUnit.getPrimary();
+		refactor(aJavaElement, IJavaRefactorings.RENAME_COMPILATION_UNIT, aNewName );
+	}
+	public static void invokeRenameFieldInSeparateThread (ICompilationUnit aCompilationUnit, String aFieldName, String aNewName) {
+		executor().submit(() -> {
+			invokeRenameFieldInUIThread(aCompilationUnit, aFieldName, aNewName);
+		});
+	}
+	public static void invokeRenameFieldInUIThread (ICompilationUnit aCompilationUnit, String aFieldName, String aNewName) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					renameField(aCompilationUnit,aFieldName, aNewName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	
-	public static void refactor(ICompilationUnit aCompilationUnit, String aNewName) {
+	public static IType getOpenPrimaryType(ICompilationUnit aCompilationUnit) {
+		try {
+			ICompilationUnit aPrimary = aCompilationUnit.getPrimary();
+			IJavaElement[] aChildren = aPrimary.getChildren();
+			for (IJavaElement aChild : aChildren) {
+				if (aChild instanceof SourceType) {
+					return (SourceType) aChild;
+				}
+			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static void renameField(ICompilationUnit aCompilationUnit, String aFieldName, String aNewName) {
+		// IType aType =
+		// aCompilationUnit.getType(aCompilationUnit.getElementName());
+		// if (!( aTopCompilationElement instanceof IType)) {
+		// return;
+		// }
+		// IType aType = (IType) aTopCompilationElement;
+		// IField aField = aType.getField(aFieldName);
+
+		try {
+			IType anOpenPrimary = getOpenPrimaryType(aCompilationUnit);			
+
+			IField anOpenField = anOpenPrimary.getField(aFieldName);
+//			ICompilationUnit aPrimary = aCompilationUnit.getPrimary();
+//			IJavaElement[] aChildren = aPrimary.getChildren();
+//			for (IJavaElement aChild : aChildren) {
+//				if (aChild instanceof SourceType) {
+//					anOpenField = ((SourceType) aChild).getField(aFieldName);
+//					break;
+//
+//				}
+//				//
+//			}
+			// ISourceRange aSourceRange = anOpenField2.getSourceRange();
+			// int anOffset = aSourceRange.getOffset();
+			// IField anOpenField = (IField) ((ICompilationUnit)
+			// aField.getPrimaryElement()).getElementAt(anOffset);
+
+			// try {
+			// aField.getOpenable().open(null);
+			// } catch (JavaModelException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			if (anOpenField != null) {
+				refactor(anOpenField, IJavaRefactorings.RENAME_FIELD, aNewName);
+			} else {
+				System.err.println("No field named " + aFieldName + " in " + aCompilationUnit);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void invokeRenameElementAtCursorInSeparateThread (ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
+		executor().submit(() -> {
+			invokeRenameElementAtCursorInUIThread(aCompilationUnit, aStyledText, aNewName);
+		});
+	}
+	public static void invokeRenameElementAtCursorInUIThread (ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					renameElementAtCursor(aCompilationUnit, aStyledText, aNewName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	public static void renameElementAtCursor(ICompilationUnit aCompilationUnit, StyledText aStyledText, String aNewName) {
+
+		try {
+			int anOffset = aStyledText.getCaretOffset();
+			IJavaElement anOpenElement = aCompilationUnit.getPrimary().getElementAt(anOffset);
+
+			
+
+			if (anOpenElement != null) {
+				refactor(anOpenElement, IJavaRefactorings.RENAME_FIELD, aNewName);
+			} else {
+				System.err.println("No element at position " + anOffset + " in " + aCompilationUnit);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void refactor(IJavaElement aJavaElement, String aRefactoringKind, String aNewName) {
+		System.out.println("refactoring: " + aJavaElement);
 		RefactoringContribution contribution =
-			    RefactoringCore.getRefactoringContribution(IJavaRefactorings .RENAME_COMPILATION_UNIT);
+//			    RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_COMPILATION_UNIT);
+	    RefactoringCore.getRefactoringContribution(aRefactoringKind);
+
 		RenameJavaElementDescriptor descriptor =
 			    (RenameJavaElementDescriptor) contribution.createDescriptor();
-			descriptor.setProject(aCompilationUnit.getResource().getProject().getName( ));
+//			descriptor.setProject(aCompilationUnit.getResource().getProject().getName( ));
+			descriptor.setProject(aJavaElement.getJavaProject().getElementName());
+			descriptor.setUpdateReferences(true);
 			descriptor.setNewName(aNewName); // new name for a Class
-			descriptor.setJavaElement(aCompilationUnit);
+//			descriptor.setJavaElement(aCompilationUnit);
+			descriptor.setJavaElement(aJavaElement);
+
 
 			RefactoringStatus status = new RefactoringStatus();
+			IProgressMonitor monitor = new NullProgressMonitor();
 			try {
 			    Refactoring refactoring = descriptor.createRefactoring(status);
-
-			    IProgressMonitor monitor = new NullProgressMonitor();
+//			    if (refactoring instanceof RenameRefactoring && aJavaElement instanceof IField) {
+//			    	RenameRefactoring aRenameRefactoring = (RenameRefactoring) refactoring;
+////			    	RenameFieldProcessor aRenameFieldProcessor = (RenameFieldProcessor) aRenameRefactoring.getProcessor();
+//			    	RenameFieldProcessor aRenameFieldProcessor =  new RenameFieldProcessor((IField) aJavaElement);
+//			    	aRenameRefactoring.setProcessor(aRenameFieldProcessor);
+//			    	CheckConditionsContext context= new CheckConditionsContext();
+//			    	context.add(new ValidateEditChecker(null));
+//			    	context.add(new ResourceChangeChecker());
+//
+////			    	aRenameFieldProcessor.checkInitialConditions(null);
+////			    	aRenameFieldProcessor.checkFinalConditions(null,context);
+//
+//			    	aRenameFieldProcessor.createChange(monitor).perform(monitor);
+////			    	aRenameFieldProcessor.set
+//			    }
+			   
+//			    IProgressMonitor monitor = new NullProgressMonitor();
 			    refactoring.checkInitialConditions(monitor);
 			    refactoring.checkFinalConditions(monitor);
 			    Change change = refactoring.createChange(monitor);

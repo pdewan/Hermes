@@ -85,7 +85,10 @@ Import-Package: org.eclipse.debug.ui,
  org.eclipse.jdt.core.refactoring,
  org.eclipse.jdt.core.refactoring.descriptors,
  org.eclipse.jdt.debug.core,
+ org.eclipse.jdt.internal.corext.refactoring.changes,
+ org.eclipse.jdt.internal.corext.refactoring.rename,
  org.eclipse.jdt.internal.debug.ui,
  org.eclipse.jdt.internal.debug.ui.actions,
  org.eclipse.ltk.core.refactoring,
- org.eclipse.ltk.core.refactoring.history
+ org.eclipse.ltk.core.refactoring.history,
+ org.eclipse.ltk.core.refactoring.participants

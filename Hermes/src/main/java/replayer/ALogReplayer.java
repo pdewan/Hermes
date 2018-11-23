@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.refactoring.IJavaRefactorings;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.text.BadLocationException;
@@ -173,8 +174,10 @@ public class ALogReplayer implements IExecutionListener {
 //		
 //	}
 	protected void openEditor(String aFileName) {
-		if (lastManipulatedProject == null)
-			return;
+		if (lastManipulatedProject == null) {
+			getOrCreatePredefinedProject();
+//			return;
+		}
 		
 	 EHUtilities.openEditorFromSeparateThread(lastManipulatedProject, aFileName);
 		
@@ -535,9 +538,37 @@ public class ALogReplayer implements IExecutionListener {
 //			    // remember position, TODO this is protected
 //			    int controlIdx = menu.indexOf(mySaveAction.getId());
 			}
-	public void refactorOpenedFile (String aNewName) {
+	public void renameTopClass (String aNewName) {
 		setTextEditorDataStructures();
-		EHUtilities.refactor(lastCompilationUnit, aNewName);
+//		EHUtilities.refactor(lastCompilationUnit, IJavaRefactorings.RENAME_COMPILATION_UNIT, aNewName);
+		EHUtilities.renameTopClass(lastCompilationUnit, aNewName);
+
+	}
+	public void renameElementAtCaret (String aNewName) {
+		setTextEditorDataStructures();
+//		try {
+//			IJavaElement anElement = lastCompilationUnit.getPrimary().getElementAt(54);
+//			System.out.println("found anElement");
+//		} catch (JavaModelException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		EHUtilities.refactor(lastCompilationUnit, IJavaRefactorings.RENAME_COMPILATION_UNIT, aNewName);
+		EHUtilities.invokeRenameElementAtCursorInSeparateThread(lastCompilationUnit, lastStyledText, aNewName);
+
+	}
+	public void renameField (String aFieldName, String aNewName) {
+		setTextEditorDataStructures();
+//		try {
+//			IJavaElement anElement = lastCompilationUnit.getPrimary().getElementAt(54);
+//			System.out.println("found anElement");
+//		} catch (JavaModelException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		EHUtilities.refactor(lastCompilationUnit, IJavaRefactorings.RENAME_COMPILATION_UNIT, aNewName);
+		EHUtilities.renameField(lastCompilationUnit, aFieldName, aNewName);
+
 	}
 	@Visible(false)
 	public static OEFrame createUI() {
