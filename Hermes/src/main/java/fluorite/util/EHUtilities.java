@@ -43,6 +43,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -66,6 +67,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.refactoring.IJavaRefactorings;
 import org.eclipse.jdt.core.refactoring.descriptors.RenameJavaElementDescriptor;
 import org.eclipse.jdt.debug.core.IJavaBreakpoint;
+import org.eclipse.jdt.debug.core.IJavaBreakpointListener;
 import org.eclipse.jdt.debug.core.IJavaLineBreakpoint;
 import org.eclipse.jdt.debug.core.JDIDebugModel;
 import org.eclipse.jdt.internal.core.PackageFragmentRoot;
@@ -764,7 +766,7 @@ public class EHUtilities /*extends Utilities*/{
 	
 	public static void launch(ILaunchConfiguration aConfiguration, String aMode) {
 		try {
-			aConfiguration.launch(aMode, nullProgressMonitor );
+			ILaunch aLaunch = aConfiguration.launch(aMode, nullProgressMonitor );
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1682,6 +1684,9 @@ public class EHUtilities /*extends Utilities*/{
 			DebugUITools.deleteBreakpoints(new IBreakpoint[] { breakpoint }, shell, monitor);
 		}
 	}
+	
+	
+	
 	
 	public static void lineBreakpointToggle(IType aSourceType, ITextEditor aTextEditor, int aLineNumber) {
 		String tname = createQualifiedTypeName(aSourceType);

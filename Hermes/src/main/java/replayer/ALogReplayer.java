@@ -11,15 +11,28 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.debug.core.DebugException;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.IBreakpointListener;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.Message;
 import org.eclipse.jdt.core.refactoring.IJavaRefactorings;
+import org.eclipse.jdt.debug.core.IJavaBreakpoint;
+import org.eclipse.jdt.debug.core.IJavaBreakpointListener;
+import org.eclipse.jdt.debug.core.IJavaDebugTarget;
+import org.eclipse.jdt.debug.core.IJavaLineBreakpoint;
+import org.eclipse.jdt.debug.core.IJavaThread;
+import org.eclipse.jdt.debug.core.IJavaType;
+import org.eclipse.jdt.debug.core.JDIDebugModel;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.text.BadLocationException;
@@ -54,7 +67,10 @@ import util.annotations.Visible;
 import util.misc.Common;
 
 
-public class ALogReplayer implements IExecutionListener {
+public class ALogReplayer implements IExecutionListener,
+//IBreakpointListener
+IJavaBreakpointListener 
+{
 	
 	protected IProject lastManipulatedProject;
 	protected IEditorPart lastEditor;
@@ -91,6 +107,18 @@ public class ALogReplayer implements IExecutionListener {
 			
 
 	};
+	
+	public ALogReplayer() {
+		listenToCommands();
+		listenToBreakpoints();
+	}
+	
+	public void listenToBreakpoints() {
+		JDIDebugModel.addJavaBreakpointListener(this);
+//		DebugPlugin.getDefault().getBreakpointManager().addBreakpointListener(this);
+
+
+	}
 	
 	String javaVersion = "JavaSE-1.8";
 	@Visible(false)
@@ -591,5 +619,67 @@ public class ALogReplayer implements IExecutionListener {
 //	    catch (IllegalAccessException    e) { e.printStackTrace(); }
 //	    catch (InvocationTargetException e) { e.printStackTrace(); }    
 		createUI();
+	}
+
+//	@Override
+//	public void breakpointAdded(IBreakpoint breakpoint) {
+//		System.out.println("breakpoint added:" + breakpoint);
+//		
+//	}
+//
+//	@Override
+//	public void breakpointRemoved(IBreakpoint breakpoint, IMarkerDelta delta) {
+//		System.out.println("breakpoint removed:" + breakpoint);
+//
+//		
+//	}
+//
+//	@Override
+//	public void breakpointChanged(IBreakpoint breakpoint, IMarkerDelta delta) {
+//		System.out.println("breakpoint changed:" + breakpoint);
+//
+//		
+//	}
+
+	@Override
+	public void addingBreakpoint(IJavaDebugTarget target, IJavaBreakpoint breakpoint) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int installingBreakpoint(IJavaDebugTarget target, IJavaBreakpoint breakpoint, IJavaType type) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void breakpointInstalled(IJavaDebugTarget target, IJavaBreakpoint breakpoint) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int breakpointHit(IJavaThread thread, IJavaBreakpoint breakpoint) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void breakpointRemoved(IJavaDebugTarget target, IJavaBreakpoint breakpoint) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void breakpointHasRuntimeException(IJavaLineBreakpoint breakpoint, DebugException exception) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void breakpointHasCompilationErrors(IJavaLineBreakpoint breakpoint, Message[] errors) {
+		// TODO Auto-generated method stub
+		
 	}
 }
