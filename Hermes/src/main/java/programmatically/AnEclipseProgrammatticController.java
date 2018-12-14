@@ -109,7 +109,9 @@ IJavaBreakpointListener
 			
 
 	};
-	
+	protected String getProjectLocation() {
+		return Paths.get(EHUtilities.getWorkspaceRoot().toString() , "DummyProject").toString();
+	}
 	public AnEclipseProgrammatticController() {
 //		listenToCommands();
 //		listenToBreakpoints();
@@ -166,13 +168,13 @@ IJavaBreakpointListener
 	}
 	@Visible(false)
 	public void getOrCreatePredefinedProject() {
-		getOrCreateProject(TEST_PROJECT_NAME, TEST_PROJECT_LOCATION);
+		getOrCreateProject(TEST_PROJECT_NAME, getProjectLocation());
 	}
 	@Visible(false)
 	public void openEditorOfPredefinedFile() {
 		openEditor(TEST_FILE);	
 	}
-	@Visible(false)
+//	@Visible(false)
 	public static void printWorkingDirectory() {
 		 System.out.println("Working Directory = " +
 	              System.getProperty("user.dir"));
@@ -200,7 +202,9 @@ IJavaBreakpointListener
 		
 	}
 	public void addTextAndRefreshPredefinedFile(String aText) {
-		addTextAndRefresh (TEST_PROJECT_LOCATION, TEST_FILE, aText);
+//		addTextAndRefresh (TEST_PROJECT_LOCATION, TEST_FILE, aText);
+		addTextAndRefresh (getProjectLocation(), TEST_FILE, aText);
+
 		
 	}
 //	public void openEditor(String aFileName) {
@@ -620,24 +624,7 @@ IJavaBreakpointListener
 		}
 		return logReplayer;
 	}
-	public static void main (String[] args) {
-//		Button button = (org.eclipse.swt.widgets.Button)Button.
-
-	    try 
-	    {                           
-//	        Class<?>buttonClass = button.getClass().getSuperclass();
-
-	        Method method = Button.class.getDeclaredMethod("click");
-	        method.setAccessible(true);
-//	        method.invoke(button);          
-	    }
-	    catch (SecurityException         e) { e.printStackTrace(); }
-	    catch (NoSuchMethodException     e) { e.printStackTrace(); }
-	    catch (IllegalArgumentException  e) { e.printStackTrace(); }
-//	    catch (IllegalAccessException    e) { e.printStackTrace(); }
-//	    catch (InvocationTargetException e) { e.printStackTrace(); }    
-		createUI();
-	}
+	
 
 //	@Override
 //	public void breakpointAdded(IBreakpoint breakpoint) {
@@ -699,5 +686,23 @@ IJavaBreakpointListener
 	public void breakpointHasCompilationErrors(IJavaLineBreakpoint breakpoint, Message[] errors) {
 		// TODO Auto-generated method stub
 		
+	}
+	public static void main (String[] args) {
+//		Button button = (org.eclipse.swt.widgets.Button)Button.
+		DifficultyPredictionSettings.setReplayMode(true);
+	    try 
+	    {                           
+//	        Class<?>buttonClass = button.getClass().getSuperclass();
+
+	        Method method = Button.class.getDeclaredMethod("click");
+	        method.setAccessible(true);
+//	        method.invoke(button);          
+	    }
+	    catch (SecurityException         e) { e.printStackTrace(); }
+	    catch (NoSuchMethodException     e) { e.printStackTrace(); }
+	    catch (IllegalArgumentException  e) { e.printStackTrace(); }
+//	    catch (IllegalAccessException    e) { e.printStackTrace(); }
+//	    catch (InvocationTargetException e) { e.printStackTrace(); }    
+		createUI();
 	}
 }

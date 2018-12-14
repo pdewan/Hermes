@@ -1895,6 +1895,9 @@ public class EHUtilities /*extends Utilities*/{
 		}
 	}
 	
+	public static IPath getWorkspaceRoot() {
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation();
+	}
 	
 	public static void refactor(IJavaElement aJavaElement, String aRefactoringKind, String aNewName) {
 		System.out.println("refactoring: " + aJavaElement);
