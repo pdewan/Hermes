@@ -170,7 +170,6 @@ IJavaBreakpointListener
 	public void getOrCreatePredefinedProject() {
 		getOrCreateProject(TEST_PROJECT_NAME, getProjectLocation());
 	}
-	@Visible(false)
 	public void openEditorOfPredefinedFile() {
 		openEditor(TEST_FILE);	
 	}
@@ -431,7 +430,7 @@ IJavaBreakpointListener
 			e.printStackTrace();
 		}		
 	}
-	@Visible(false)
+//	@Visible(false)
 	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
 //		lastEditor = EHUtilities.getCurrentEditorPart();
 //		if (lastEditor == null) {

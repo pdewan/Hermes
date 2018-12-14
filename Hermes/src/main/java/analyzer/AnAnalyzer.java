@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -226,10 +227,10 @@ public class AnAnalyzer implements Analyzer {
 	public void loadDirectory() {
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader(participantsFolder
-					.getLabel().getText() + EXPERIMENTAL_DATA
+			br = new BufferedReader(new FileReader(Paths.get(participantsFolder
+					.getLabel().getText(),  EXPERIMENTAL_DATA
 			// PARTICIPANT_INFORMATION_DIRECTORY
-					+ PARTICIPANT_INFORMATION_FILE));
+					, PARTICIPANT_INFORMATION_FILE).toString()));
 			String word = null;
 			while ((word = br.readLine()) != null) {
 				String[] userInfo = word.split(",");
@@ -448,7 +449,7 @@ public class AnAnalyzer implements Analyzer {
 		// PredictorConfigurer.visualizePrediction();
 		// }
 		// the main subdirectory we are putting files in
-		String outPath = participantsFolder.getText() + OUTPUT_DATA;
+		String outPath = Paths.get(participantsFolder.getText(), OUTPUT_DATA ).toString();
 		// + this.outputSubdirectory;
 		if (participantList.get(0).equals(ALL_PARTICIPANTS)) {
 			// remove all from the participants
@@ -788,9 +789,10 @@ public class AnAnalyzer implements Analyzer {
 							+ PredictionParametersSetterSelector.getSingleton()
 									.getSegmentLength()));
 			notifyNewParticipant(aParticipantId, aParticipantFolder);
-			storeBrowserHistoryOfFolder(participantsFolder.getText()
-						+ EXPERIMENTAL_DATA + aParticipantFolder + "/"
-						+ BROWSER_FOLDER);
+			storeBrowserHistoryOfFolder(Paths.get(participantsFolder.getText()
+						, EXPERIMENTAL_DATA,
+//						aParticipantFolder + "/"
+						BROWSER_FOLDER).toString());
 			playNestedCommandList();
 
 
