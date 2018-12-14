@@ -1,4 +1,4 @@
-package replayer;
+package programmatically;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -61,13 +61,14 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
+import difficultyPrediction.DifficultyPredictionSettings;
 import fluorite.commands.FindCommand;
 import fluorite.util.EHUtilities;
 import util.annotations.Visible;
 import util.misc.Common;
 
 
-public class ALogReplayer implements IExecutionListener,
+public class AnEclipseProgrammatticController implements IExecutionListener,
 //IBreakpointListener
 IJavaBreakpointListener 
 {
@@ -98,6 +99,7 @@ IJavaBreakpointListener
 	public static final String TEST_FILE = "src/HelloWorld.java";
 	public static final String TEST_MAIN_CLASS = "HelloWorld";
 	public static final String TEST_CONFIGURATION_NAME = "HelloWorld";
+	static AnEclipseProgrammatticController logReplayer;
 	String[] commands = new String[] {
 			IWorkbenchCommandConstants.EDIT_COPY,
 			IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST,
@@ -108,11 +110,17 @@ IJavaBreakpointListener
 
 	};
 	
-	public ALogReplayer() {
+	public AnEclipseProgrammatticController() {
+//		listenToCommands();
+//		listenToBreakpoints();
+	}
+	protected void addAsObserver() {
+		if (DifficultyPredictionSettings.isReplayMode())
+			return;
+
 		listenToCommands();
 		listenToBreakpoints();
 	}
-	
 	public void listenToBreakpoints() {
 		JDIDebugModel.addJavaBreakpointListener(this);
 //		DebugPlugin.getDefault().getBreakpointManager().addBreakpointListener(this);
@@ -600,7 +608,17 @@ IJavaBreakpointListener
 	}
 	@Visible(false)
 	public static OEFrame createUI() {
-		return ObjectEditor.edit(new ALogReplayer());
+		AnEclipseProgrammatticController aLogReplayer = new AnEclipseProgrammatticController();
+		aLogReplayer.addAsObserver();
+		return ObjectEditor.edit(aLogReplayer);
+	}
+	@Visible(false)
+	public static AnEclipseProgrammatticController getInstance() {
+		if (logReplayer == null) {
+			logReplayer = new AnEclipseProgrammatticController();
+			logReplayer.addAsObserver();
+		}
+		return logReplayer;
 	}
 	public static void main (String[] args) {
 //		Button button = (org.eclipse.swt.widgets.Button)Button.

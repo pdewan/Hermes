@@ -287,6 +287,7 @@ public class AnAnalyzer implements Analyzer {
 	 * Loads stuck point from the stuckpoint.csv file into the hashmap.
 	 * 
 	 */
+	@Visible(false)
 	public void loadStuckPoint() {
 		CSVParser parser = new ACSVParser();
 		// try {
@@ -346,6 +347,7 @@ public class AnAnalyzer implements Analyzer {
 	 * 
 	 * 
 	 */
+	@Visible(false)
 	public synchronized void loadStuckInterval() {
 		CSVParser parser = new ACSVParser();
 		// try {
@@ -393,6 +395,7 @@ public class AnAnalyzer implements Analyzer {
 		parser.stop();
 
 	}
+	@Visible(false)
 
 	public void doLoadLogs() {
 //		FactorySingletonInitializer.configure();
@@ -554,7 +557,7 @@ public class AnAnalyzer implements Analyzer {
 
 		logsLoaded = true;
 	}
-
+	@Visible(false)
 	public void processBrowserHistoryOfFolder(String aFolderName) {
 		String fullName = aFolderName;
 		File folder = new File(fullName);
@@ -586,6 +589,7 @@ public class AnAnalyzer implements Analyzer {
 		notifyFinishedBrowserLines();
 
 	}
+	@Visible(false)
 	public void storeBrowserHistoryOfFolder(String aFolderName) {
 		String fullName = aFolderName;
 		File folder = new File(fullName);
@@ -624,7 +628,7 @@ public class AnAnalyzer implements Analyzer {
 
 	}
 
-
+	@Visible(false)
 	public void processBrowserHistoryOfFile(String aFileName) {
 		try {
 			FileInputStream fis = new FileInputStream(aFileName);
@@ -645,6 +649,7 @@ public class AnAnalyzer implements Analyzer {
 		}
 
 	}
+	@Visible(false)
 	public void storeBrowserHistoryOfFile(String aFileName) {
 		try {
 			FileInputStream fis = new FileInputStream(aFileName);
@@ -687,6 +692,7 @@ public class AnAnalyzer implements Analyzer {
 	 */
 	@Override
 	// modularize this method
+	@Visible(false)
 	public void processParticipant(String aParticipantId, String outPath,
 			String dataPath, boolean isIndividualPart) {
 
@@ -889,6 +895,7 @@ public class AnAnalyzer implements Analyzer {
 	 * @see analyzer.Analyzer#convertXMLLogToObjects(java.lang.String)
 	 */
 	@Override
+	@Visible(false)
 	public List<List<EHICommand>> convertXMLLogToObjects(String aFolderName) {
 
 		List<List<EHICommand>> listOfListOFcommands = new Vector<List<EHICommand>>();
@@ -947,6 +954,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 
 	// let us do this in the analyzerprocessor
+	@Visible(false)
 	public static void maybeRecordFeatures(RatioFeatures details) {
 
 		if (!DifficultyPredictionSettings.isNewRatioFiles()
@@ -974,17 +982,21 @@ public class AnAnalyzer implements Analyzer {
 	 * DifficultyPredictionPluginEventProcessor)
 	 */
 	@Override
+	@Visible(false)
+
 	public void setDifficultyEventProcessor(
 			DifficultyPredictionPluginEventProcessor difficultyEventProcessor) {
 		this.difficultyEventProcessor = difficultyEventProcessor;
 	}
 
 	@Override
+	@Visible(false)
 	public void addAnalyzerListener(AnalyzerListener aListener) {
 		listeners.add(aListener);
 	}
 
 	@Override
+	@Visible(false)
 	public void removeAnalyzerListener(AnalyzerListener aListener) {
 		listeners.remove(aListener);
 	}
@@ -996,6 +1008,7 @@ public class AnAnalyzer implements Analyzer {
 //		}
 //	}
 	@Override
+	@Visible(false)
 	public void notifyNewPrediction(PredictionCommand aPredictionCommand, PredictionType aPredictionType, long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.newPrediction(aPredictionCommand, aPredictionType, aStartAbsoluteTime, aDuration);
@@ -1005,6 +1018,7 @@ public class AnAnalyzer implements Analyzer {
 	
 	
 	@Override
+	@Visible(false)
 	public void notifyNewCorrectStatus(DifficultyCommand difficultyCommand, Status aStatus, long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.newCorrectStatus(difficultyCommand, aStatus, aStartAbsoluteTime, aDuration);
@@ -1012,6 +1026,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 	
 	@Override
+	@Visible(false)
 	public void notifyWebVisit(WebVisitCommand aCommand,long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.newWebVisit(aCommand, aStartAbsoluteTime, aDuration);
@@ -1019,6 +1034,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 	
 	@Override
+	@Visible(false)
 	public void notifyNewStoredCommand(EHICommand aCommand,long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.newStoredCommand(aCommand, aStartAbsoluteTime, aDuration);
@@ -1026,6 +1042,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 	
 	@Override
+	@Visible(false)
 	public void notifyNewStoredInputCommand(EHICommand aCommand, long aStartAbsoluteTime, long aDuration) {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.newStoredInputCommand(aCommand, aStartAbsoluteTime, aDuration);
@@ -1034,6 +1051,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 	
 	@Override
+	@Visible(false)
 	public void notifyReplayStarted() {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.replayStarted();
@@ -1041,6 +1059,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 	
 	@Override
+	@Visible(false)
 	public void notifyReplayFinished() {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.replayFinished();
@@ -1048,6 +1067,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 
 	@Override
+	@Visible(false)
 	public void notifyNewParticipant(String anId, String aFolder) {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.newParticipant(anId, aFolder);
@@ -1055,6 +1075,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 
 	@Override
+	@Visible(false)
 	public void notifyFinishParticipant(String anId, String aFolder) {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.finishParticipant(anId, aFolder);
@@ -1064,6 +1085,7 @@ public class AnAnalyzer implements Analyzer {
 	 * This will be called once for each file in the nested command list
 	 */
 	@Override
+	@Visible(false)
 	public void notifyStartTimeStamp(long aStartTimeStamp) {
 //		lastStartTimestamp = aStartTimeStamp;
 		for (AnalyzerListener aListener : listeners) {
@@ -1071,6 +1093,7 @@ public class AnAnalyzer implements Analyzer {
 		}
 	}
 	@Override
+	@Visible(false)
 	public void notifyExperimentStartTimeStamp(long aStartTimeStamp) {
 //		lastStartTimestamp = aStartTimeStamp;
 		for (AnalyzerListener aListener : listeners) {
@@ -1079,6 +1102,7 @@ public class AnAnalyzer implements Analyzer {
 	}
 
 	@Override
+	@Visible(false)
 	public void notifyNewBrowseLine(String aLine) {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.newBrowseLine(aLine);
@@ -1093,6 +1117,7 @@ public class AnAnalyzer implements Analyzer {
 	/*
 	 * Just for compatibility with old scheme in which all lines are fired at the end
 	 */
+	@Visible(false)
 	public void notifyAllWebVisitsInFile() {
 		for (String aLine:webVisitsInFile) {
 		for (AnalyzerListener aListener : listeners) {
@@ -1106,7 +1131,7 @@ public class AnAnalyzer implements Analyzer {
 		}
 	}
 	
-	
+	@Visible(false)
 	public void notifyAllWebCommandsInFile() {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.newBrowserCommands(sortedWebVisitCommands);
@@ -1154,7 +1179,7 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 	return aWebVisitCommand;
 }
 
-
+	@Visible(false)
 	public void notifyFinishedBrowserLines() {
 		for (AnalyzerListener aListener : listeners) {
 			aListener.finishedBrowserLines();
@@ -1187,6 +1212,7 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 	}
 
 	@Override
+	@Visible(false)
 	public void setOutputSubDirectory(String outputDir) {
 		this.outputSubdirectory = outputDir;
 
@@ -1211,29 +1237,21 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 	}
 
 	@Visible(false)
-	public static void main(String[] args) {
-
-		// Analyzer analyzer = new AnAnalyzer();
-		DifficultyPredictionSettings.setReplayMode(true);
-
-		OEFrame frame = ObjectEditor.edit(AnAnalyzer.getInstance());
-		frame.setSize(500, 335);
-//		ObjectEditor.edit(AnAnalyzer.getInstance(), 500, 335);
-
-	}
 	public static String convertSecondsToHMmSs(long seconds) {
 	    long s = seconds % 60;
 	    long m = (seconds / 60) % 60;
 	    long h = (seconds / (60 * 60)) % 24;
 	    return String.format("%d:%02d:%02d", h,m,s);
 	}
+	@Visible(false)
 	public static String convertMillSecondsToHMmSs(long aMilliSeconds) {
 	    return convertSecondsToHMmSs(aMilliSeconds/1000);
 	}
+	@Visible(false)
 	public static long  duration(EHICommand aCommand) {
 		return duration (aCommand.getTimestamp(), aCommand.getTimestamp2());
 	}
-	
+	@Visible(false)
     public static long  duration(long aTimestamp1, long aTimestamp2) {
     	if (aTimestamp2 < aTimestamp1 && aTimestamp2 != 0) {
     		throw new RuntimeException();
@@ -1306,6 +1324,17 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener arg0) {
 		propertyChangeSupport.addPropertyChangeListener(arg0);
+
+	}
+	@Visible(false)
+	public static void main(String[] args) {
+
+		// Analyzer analyzer = new AnAnalyzer();
+		DifficultyPredictionSettings.setReplayMode(true);
+
+		OEFrame frame = ObjectEditor.edit(AnAnalyzer.getInstance());
+		frame.setSize(500, 335);
+//		ObjectEditor.edit(AnAnalyzer.getInstance(), 500, 335);
 
 	}
 
