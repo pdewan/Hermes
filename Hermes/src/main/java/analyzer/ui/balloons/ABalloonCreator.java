@@ -21,7 +21,7 @@ public class ABalloonCreator implements Resettable{
 	}
 
 	public void setStatus(String newVal) {
-		ADifficultyPredictionRunnable.getInstance().asyncShowStatusInBallonTip(newVal);		
+		ADifficultyPredictionRunnable.getOrCreateInstance().asyncShowStatusInBallonTip(newVal);		
 		
 	}
 	

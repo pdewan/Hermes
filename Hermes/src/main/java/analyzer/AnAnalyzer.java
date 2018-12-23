@@ -96,12 +96,12 @@ public class AnAnalyzer implements Analyzer {
 
 //	public static final String STUCKPOINT_FILE = "data/GroundTruth/Stuckpoints.csv";
 	public   String stuckPointFile() {
-		return Paths.get (participantDirectoryName(), "GroundTruth/Stuckpoints.csv").toString();
+		return Paths.get (getParticipantsFolderName(), "GroundTruth/Stuckpoints.csv").toString();
 	}
 
 //	public static final String STUCKINTERVAL_FILE = "data/GroundTruth/Stuck Intervals.csv";
 	public   String stuckIntervalsFile() {
-		return Paths.get (participantDirectoryName(), "GroundTruth/Stuck Intervals.csv").toString();
+		return Paths.get (getParticipantsFolderName(), "GroundTruth/Stuck Intervals.csv").toString();
 	}
 
 //	public static final String PARTICIPANT_INFORMATION_DIRECTORY = "data/ExperimentalData/";
@@ -165,7 +165,8 @@ public class AnAnalyzer implements Analyzer {
 
 		reader = new EHLogReader();
 		participantsFolder = new AFileSetterModel(JFileChooser.DIRECTORIES_ONLY);
-		participantsFolder.setText(DEFAULT_PARTICIPANT_DIRECTORY);
+//		participantsFolder.setText(DEFAULT_PARTICIPANT_DIRECTORY);
+		participantsFolder.setText(defaultParticipantDirectory());
 		parameters = new AnAnalyzerParameters(this);
 		parameters.getParticipants().addChoice(ALL_PARTICIPANTS);
 		parameters.getParticipants().setValue(ALL_PARTICIPANTS);
@@ -175,10 +176,12 @@ public class AnAnalyzer implements Analyzer {
 
 
 	}
-	
-	public String participantDirectoryName() {
-		return participantsFolder.getLabel().getText();
+	protected String defaultParticipantDirectory() {
+		return DEFAULT_PARTICIPANT_DIRECTORY;
 	}
+//	public String participantDirectoryName() {
+//		return participantsFolder.getLabel().getText();
+//	}
 
 	void notifyPre() {
 		propertyChangeSupport.firePropertyChange("this", null, this);
@@ -240,8 +243,8 @@ public class AnAnalyzer implements Analyzer {
 	public void loadDirectory() {
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader(Paths.get(participantsFolder
-					.getLabel().getText(),  EXPERIMENTAL_DATA
+			br = new BufferedReader(new FileReader(Paths.get(
+					getParticipantsFolderName(),  EXPERIMENTAL_DATA
 			// PARTICIPANT_INFORMATION_DIRECTORY
 					, PARTICIPANT_INFORMATION_FILE).toString()));
 			String word = null;
@@ -520,8 +523,11 @@ public class AnAnalyzer implements Analyzer {
 					continue;
 				this.outputSubdirectory = outPath + aParticipantId + "/";
 				// should there be a notifyNewParticipant here also
-				processParticipant(aParticipantId, this.outputSubdirectory,
-						participantsFolder.getText() + EXPERIMENTAL_DATA,
+				processParticipant(aParticipantId, 
+						this.outputSubdirectory,
+//						participantsFolder.getText() + EXPERIMENTAL_DATA,
+						Paths.get(getParticipantsFolderName(), EXPERIMENTAL_DATA).toString(),
+
 						// + AnAnalyzer.participants.get(aParticipantId) + "/" +
 						// ECLIPSE_FOLDER,
 						false);
@@ -533,9 +539,12 @@ public class AnAnalyzer implements Analyzer {
 
 		} else {
 			// String aParticipanttFolder = participants.get(participantId);
-			this.outputSubdirectory = outPath + participantId + "/";
+//			this.outputSubdirectory = outPath + participantId + "/";
+			this.outputSubdirectory = Paths.get(outPath, participantId).toString();
+
 			processParticipant(participantId, this.outputSubdirectory,
-					participantsFolder.getText() + EXPERIMENTAL_DATA
+					Paths.get (getParticipantsFolderName(), EXPERIMENTAL_DATA).toString()
+//					participantsFolder.getText() + EXPERIMENTAL_DATA
 					// + aParticipanttFolder + "/" + ECLIPSE_FOLDER
 					, true);
 
@@ -694,8 +703,12 @@ public class AnAnalyzer implements Analyzer {
 
 	void waitForParticipantLogsToBeProcessed() {
 		try {
+			if (difficultyEventProcessor.getDifficultyPredictionThread() != null) {
 			// difficultyPredictionThread.join();
 			difficultyEventProcessor.getDifficultyPredictionThread().join();
+			} else {
+				System.out.println("Cannot wait for difficulty prediction thread to finish");
+			}
 		} catch (InterruptedException e) {
 
 			e.printStackTrace();
@@ -724,16 +737,20 @@ public class AnAnalyzer implements Analyzer {
 		String aFullParticipantOutputFolderName = outPath;
 		// String aFullParticipantOutputFolderName = outPath+(isIndividualPart?
 		// aParticipantFolder+"/":"");
-		String aFullParticipantDataFolderName = dataPath + aParticipantFolder
-				+ "/" + ECLIPSE_FOLDER;
+//		String aFullParticipantDataFolderName = dataPath + aParticipantFolder
+//				+ "/" + ECLIPSE_FOLDER;
+		String aFullParticipantDataFolderName = Paths.get(dataPath, aParticipantFolder,
+				ECLIPSE_FOLDER).toString();
 		File anOutputFolder = new File(aFullParticipantOutputFolderName);
 		if (!anOutputFolder.exists())
 			anOutputFolder.mkdirs();
 
 		// if (isIndividualPart) {
-
-		String aFullRatiosFileName = aFullParticipantOutputFolderName
-				+ "ratios.csv";
+//
+//		String aFullRatiosFileName = aFullParticipantOutputFolderName
+//				+ "ratios.csv";
+		String aFullRatiosFileName = Paths.get(aFullParticipantOutputFolderName,
+				"ratios.csv").toString();
 		File aRatiosFile = new File(aFullRatiosFileName);
 		if (aRatiosFile.exists()) {
 			DifficultyPredictionSettings.setRatioFileExists(true);
@@ -793,9 +810,11 @@ public class AnAnalyzer implements Analyzer {
 			TimeStampComputerFactory.getSingleton().reset(); // this is called by setRpelayedData
 			DifficultyPredictionSettings.setRatiosFileName(aFullRatiosFileName);
 			//moving this up in the constructor so we do not configure many times
-			difficultyEventProcessor = new ADifficultyPredictionPluginEventProcessor();
-			ADifficultyPredictionPluginEventProcessor
-					.setInstance(difficultyEventProcessor);
+//			difficultyEventProcessor = new ADifficultyPredictionPluginEventProcessor();
+			difficultyEventProcessor = ADifficultyPredictionPluginEventProcessor.getInstance();
+
+//			ADifficultyPredictionPluginEventProcessor
+//					.setInstance(difficultyEventProcessor);
 			difficultyEventProcessor.commandProcessingStarted();
 			 mediator = difficultyEventProcessor
 					.getDifficultyPredictionRunnable().getMediator();
@@ -806,7 +825,7 @@ public class AnAnalyzer implements Analyzer {
 							+ PredictionParametersSetterSelector.getSingleton()
 									.getSegmentLength()));
 			notifyNewParticipant(aParticipantId, aParticipantFolder);
-			storeBrowserHistoryOfFolder(Paths.get(participantsFolder.getText()
+			storeBrowserHistoryOfFolder(Paths.get(getParticipantsFolderName()
 						, EXPERIMENTAL_DATA,
 //						aParticipantFolder + "/"
 						BROWSER_FOLDER).toString());

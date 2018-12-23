@@ -60,7 +60,7 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 	
 	protected String computeOutputFileName() {
 //		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
-		return  analyzer.participantDirectoryName() + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
+		return  analyzer.getParticipantsFolderName() + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
 
 	}
 	public static final String HEADER = 

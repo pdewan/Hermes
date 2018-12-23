@@ -327,10 +327,13 @@ public class ADifficultyPredictionRunnable implements
 
 	}
 
-	public static DifficultyPredictionRunnable getInstance() {
+	public static DifficultyPredictionRunnable getOrCreateInstance() {
 		if (instance == null)
 			new ADifficultyPredictionRunnable();
 		return instance;
+	}
+	public static boolean difficultyPredictionRunnableExists() {
+		return instance != null;
 	}
 
 }

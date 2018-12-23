@@ -23,7 +23,7 @@ public class ADifficultyPredictionAndStatusPrinter extends ABasicStoredDataStati
 	public static final String HEADER = " ";
 	protected String computeOutputFileName() {
 //		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
-		return  analyzer.participantDirectoryName() + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
+		return  analyzer.getParticipantsFolderName() + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
 
 	}
 	protected void maybeWriteHeader() {

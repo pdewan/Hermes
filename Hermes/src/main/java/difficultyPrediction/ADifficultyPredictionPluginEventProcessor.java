@@ -105,10 +105,19 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 //		this.pendingPredictionCommands = pendingPredictionCommands;
 //	}
 	protected void maybeCreateDifficultyPredictionThread() {
+//		if (ADifficultyPredictionRunnable.getInstance() != null) {
+//			difficultyPredictionRunnable = ADifficultyPredictionRunnable.getInstance();
+//			return; // the plugin has created the runnable
+//		}
 		if (predictorThreadOption == PredictorThreadOption.SINGLE_THREAD && 
-				(difficultyPredictionRunnable == null || !difficultyPredictionThread.isAlive())) {
+				(difficultyPredictionRunnable == null || difficultyPredictionThread == null || !difficultyPredictionThread.isAlive())) {
 			// create the difficulty prediction thread
-			difficultyPredictionRunnable = new ADifficultyPredictionRunnable();
+//			difficultyPredictionRunnable = new ADifficultyPredictionRunnable();
+			boolean difficultyPredictionRunnableExists = ADifficultyPredictionRunnable.difficultyPredictionRunnableExists();
+			difficultyPredictionRunnable = ADifficultyPredictionRunnable.getOrCreateInstance();
+			if (difficultyPredictionRunnableExists) {
+				return; // no need to create thread as plugin has the thread
+			}
 //			pendingPredictionCommands = difficultyPredictionRunnable.getPendingCommands();
 			difficultyPredictionThread = new Thread(difficultyPredictionRunnable);
 			difficultyPredictionThread.setName(DifficultyPredictionRunnable.DIFFICULTY_PREDICTION_THREAD_NAME);
@@ -349,5 +358,5 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 //			aListener.newRatios(aFeatures);
 //		}
 //	}
-
+	
 }

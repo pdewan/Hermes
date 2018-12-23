@@ -17,6 +17,10 @@ import programmatically.AnEclipseProgrammatticController;
 import util.annotations.Visible;
 
 public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
+	public static final String ECLIPSE_REPLAYER_DEFAULT_PARTICIPANT_DIRECTORY = "D:/dewan_backup/Java/Hermes/Hermes/data";
+	protected String defaultParticipantDirectory() {
+		return ECLIPSE_REPLAYER_DEFAULT_PARTICIPANT_DIRECTORY;
+	}
 	public AnEclipseReplayer() {
 		this.addAnalyzerListener(this);
 	}
@@ -118,6 +122,7 @@ public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	public static  void main (String[] args) {
 		DifficultyPredictionSettings.setReplayMode(true);
 
