@@ -94,8 +94,15 @@ public class AnAnalyzer implements Analyzer {
 	public static final String ECLIPSE_FOLDER = "Eclipse/";
 	public static final String BROWSER_FOLDER = "Browser/";
 
-	public static final String STUCKPOINT_FILE = "data/GroundTruth/Stuckpoints.csv";
-	public static final String STUCKINTERVAL_FILE = "data/GroundTruth/Stuck Intervals.csv";
+//	public static final String STUCKPOINT_FILE = "data/GroundTruth/Stuckpoints.csv";
+	public   String stuckPointFile() {
+		return Paths.get (participantDirectoryName(), "GroundTruth/Stuckpoints.csv").toString();
+	}
+
+//	public static final String STUCKINTERVAL_FILE = "data/GroundTruth/Stuck Intervals.csv";
+	public   String stuckIntervalsFile() {
+		return Paths.get (participantDirectoryName(), "GroundTruth/Stuck Intervals.csv").toString();
+	}
 
 //	public static final String PARTICIPANT_INFORMATION_DIRECTORY = "data/ExperimentalData/";
 //	public static final String PARTICIPANT_OUTPUT_DIRECTORY = "data/OutputData/";
@@ -298,7 +305,9 @@ public class AnAnalyzer implements Analyzer {
 	public void loadStuckPoint() {
 		CSVParser parser = new ACSVParser();
 		// try {
-		parser.start(STUCKPOINT_FILE);
+//		parser.start(STUCKPOINT_FILE);
+		parser.start(stuckPointFile());
+
 		// } catch (FileNotFoundException e1) {
 		// // TODO Auto-generated catch block
 		// e1.printStackTrace();
@@ -358,7 +367,9 @@ public class AnAnalyzer implements Analyzer {
 	public synchronized void loadStuckInterval() {
 		CSVParser parser = new ACSVParser();
 		// try {
-		parser.start(STUCKINTERVAL_FILE);
+//		parser.start(STUCKINTERVAL_FILE);
+		parser.start(stuckIntervalsFile());
+
 		// } catch (FileNotFoundException e1) {
 		// // TODO Auto-generated catch block
 		// e1.printStackTrace();
