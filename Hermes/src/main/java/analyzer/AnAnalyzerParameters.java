@@ -275,8 +275,8 @@ public class AnAnalyzerParameters implements AnalyzerParameters  {
 				new Runnable() {
 			public void run() {
 				analyzer.processParticipant(participants.getChoices().get(1 + currentParticipantIndex()), 
-						AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA, 
-						AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.EXPERIMENTAL_DATA, true);
+						AnAnalyzer.DEFAULT_PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA, 
+						AnAnalyzer.DEFAULT_PARTICIPANT_DIRECTORY + AnAnalyzer.EXPERIMENTAL_DATA, true);
 
 			}};
 			Thread aThread = (new Thread(aRunnable));

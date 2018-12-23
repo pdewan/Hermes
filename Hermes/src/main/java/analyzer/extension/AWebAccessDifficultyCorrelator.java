@@ -15,7 +15,8 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 	protected String outputFileName;
 	protected File outputFile;
 	
-	public AWebAccessDifficultyCorrelator() {
+	public AWebAccessDifficultyCorrelator(Analyzer anAnalyzer) {
+		super(anAnalyzer);
 		
 	}
 	
@@ -58,7 +59,9 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 	}
 	
 	protected String computeOutputFileName() {
-		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
+//		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
+		return  analyzer.participantDirectoryName() + AnAnalyzer.OUTPUT_DATA + WEB_ACCESS_FIlE_NAME;
+
 	}
 	public static final String HEADER = 
 			"Id,Duration MS, Duration, Web Visits,Web Episodes,Focus,Insurmountable,Surmountable,Predicted, Corrected, Difficulties, DifficultiesNoWebAccess, InsurmNoWebAccess, SurmNoWebAccess, WebAcessInsurm, WebAccessSurm, WebAccessProgress, WebAccessDiff, NumProgresses, NumImdterminates, ProgressIndeterminate, SurmountableIndeterminate, InsurmountableIndeterminate, Predictions, DifficultiesWithWebEpisodes,SurmountableWithWebEpisodes, InsumountableWithWebEpisodes, PredictedWithWebEpisodes, WebAccessDifficulty, WebAccessProgress, NormalWithWebEpisodes";
@@ -230,7 +233,7 @@ public class AWebAccessDifficultyCorrelator extends ABasicStoredDataStatistics {
 		 DifficultyPredictionSettings.setReplayMode(true);
 			//
 			 Analyzer analyzer = new AnAnalyzer();
-			 AWebAccessDifficultyCorrelator analyzerListener = new AWebAccessDifficultyCorrelator();
+			 AWebAccessDifficultyCorrelator analyzerListener = new AWebAccessDifficultyCorrelator(analyzer);
 			 analyzer.loadDirectory();
 //			 analyzer.getAnalyzerParameters().setNewOutputFiles(true);
 			 analyzerListener.setWriteFile(true);

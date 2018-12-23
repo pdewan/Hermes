@@ -12,12 +12,19 @@ import fluorite.commands.PredictionCommand;
 import util.misc.Common;
 
 public class ADifficultyPredictionAndStatusPrinter extends ABasicStoredDataStatistics{
+	public ADifficultyPredictionAndStatusPrinter(Analyzer anAnalyzer) {
+		super(anAnalyzer);
+		// TODO Auto-generated constructor stub
+	}
+
 	public static final String DIFFICULTY_FIlE_NAME = "allInteractiveDifficulties.csv";
 	protected String outputFileName;
 	protected File outputFile;
 	public static final String HEADER = " ";
 	protected String computeOutputFileName() {
-		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
+//		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
+		return  analyzer.participantDirectoryName() + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
+
 	}
 	protected void maybeWriteHeader() {
 //		if (outputFile == null) {
@@ -96,7 +103,7 @@ public class ADifficultyPredictionAndStatusPrinter extends ABasicStoredDataStati
 		 DifficultyPredictionSettings.setReplayMode(true);
 			//
 			 Analyzer analyzer = new AnAnalyzer();
-			 ADifficultyPredictionAndStatusPrinter analyzerListener = new ADifficultyPredictionAndStatusPrinter();
+			 ADifficultyPredictionAndStatusPrinter analyzerListener = new ADifficultyPredictionAndStatusPrinter(analyzer);
 			 analyzer.loadDirectory();
 //			 analyzer.getAnalyzerParameters().setNewOutputFiles(true);
 			 analyzerListener.setWriteFile(true);

@@ -79,6 +79,8 @@ public interface Analyzer
 	Map<String, Queue<StuckInterval>> getStuckIntervalMap();
 	
 	public String getOutputDirectory();
+	public String participantDirectoryName();
+
 
 //	void notifyNewCorrectStatus(int aStatus);
 	void addPropertyChangeListener(PropertyChangeListener aListener);

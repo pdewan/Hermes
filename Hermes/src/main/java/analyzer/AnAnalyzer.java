@@ -85,7 +85,9 @@ import util.annotations.Visible;
  *
  */
 public class AnAnalyzer implements Analyzer {
-	public static final String PARTICIPANT_DIRECTORY = "data/";
+//	public static final String PARTICIPANT_DIRECTORY = "data/";
+	public static final String DEFAULT_PARTICIPANT_DIRECTORY = "data/";
+
 	public static final String EXPERIMENTAL_DATA = "ExperimentalData/";
 	public static final String OUTPUT_DATA = "OutputData/";
 
@@ -95,8 +97,8 @@ public class AnAnalyzer implements Analyzer {
 	public static final String STUCKPOINT_FILE = "data/GroundTruth/Stuckpoints.csv";
 	public static final String STUCKINTERVAL_FILE = "data/GroundTruth/Stuck Intervals.csv";
 
-	public static final String PARTICIPANT_INFORMATION_DIRECTORY = "data/ExperimentalData/";
-	public static final String PARTICIPANT_OUTPUT_DIRECTORY = "data/OutputData/";
+//	public static final String PARTICIPANT_INFORMATION_DIRECTORY = "data/ExperimentalData/";
+//	public static final String PARTICIPANT_OUTPUT_DIRECTORY = "data/OutputData/";
 
 	public static final String PARTICIPANT_INFORMATION_FILE = "Participant_Info.csv";
 	public static final String RATIOS_FILE_NAME = "ratios.csv";
@@ -156,7 +158,7 @@ public class AnAnalyzer implements Analyzer {
 
 		reader = new EHLogReader();
 		participantsFolder = new AFileSetterModel(JFileChooser.DIRECTORIES_ONLY);
-		participantsFolder.setText(PARTICIPANT_DIRECTORY);
+		participantsFolder.setText(DEFAULT_PARTICIPANT_DIRECTORY);
 		parameters = new AnAnalyzerParameters(this);
 		parameters.getParticipants().addChoice(ALL_PARTICIPANTS);
 		parameters.getParticipants().setValue(ALL_PARTICIPANTS);
@@ -165,6 +167,10 @@ public class AnAnalyzer implements Analyzer {
 		FactorySingletonInitializer.configure();
 
 
+	}
+	
+	public String participantDirectoryName() {
+		return participantsFolder.getLabel().getText();
 	}
 
 	void notifyPre() {
@@ -449,7 +455,7 @@ public class AnAnalyzer implements Analyzer {
 		// PredictorConfigurer.visualizePrediction();
 		// }
 		// the main subdirectory we are putting files in
-		String outPath = Paths.get(participantsFolder.getText(), OUTPUT_DATA ).toString();
+		String outPath = Paths.get(participantsFolder.getLabel().getText(), OUTPUT_DATA ).toString();
 		// + this.outputSubdirectory;
 		if (participantList.get(0).equals(ALL_PARTICIPANTS)) {
 			// remove all from the participants

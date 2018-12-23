@@ -150,7 +150,10 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 
 	// boolean madePrediction;
 
-	
+	Analyzer analyzer;
+	public ABasicStoredDataStatistics(Analyzer anAnalyzer) {
+		analyzer = anAnalyzer;
+	}
 
 	protected void initStatistics() {
 		numParticipants++;
@@ -804,7 +807,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		DifficultyPredictionSettings.setReplayMode(true);
 		//
 		Analyzer analyzer = new AnAnalyzer();
-		AnalyzerListener analyzerListener = new ABasicStoredDataStatistics();
+		AnalyzerListener analyzerListener = new ABasicStoredDataStatistics(analyzer);
 		analyzer.loadDirectory();
 		analyzer.getAnalyzerParameters().getParticipants().setValue("17");
 		analyzer.addAnalyzerListener(analyzerListener);
