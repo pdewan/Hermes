@@ -639,7 +639,7 @@ public class AnAnalyzer implements Analyzer {
 		
 
 		for (int i = 0; i < participantFiles.size(); i++) {
-			String aFileName = fullName + participantFiles.get(i);
+			String aFileName = Paths.get (fullName, participantFiles.get(i)).toString();
 			if (!aFileName.endsWith(".txt"))
 				continue;
 
