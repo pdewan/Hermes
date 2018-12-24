@@ -825,9 +825,12 @@ public class AnAnalyzer implements Analyzer {
 							+ PredictionParametersSetterSelector.getSingleton()
 									.getSegmentLength()));
 			notifyNewParticipant(aParticipantId, aParticipantFolder);
-			storeBrowserHistoryOfFolder(Paths.get(getParticipantsFolderName()
+			storeBrowserHistoryOfFolder(Paths.get(
+					getParticipantsFolderName()
 						, EXPERIMENTAL_DATA,
 //						aParticipantFolder + "/"
+						aParticipantFolder,
+
 						BROWSER_FOLDER).toString());
 			playNestedCommandList();
 
@@ -954,7 +957,9 @@ public class AnAnalyzer implements Analyzer {
 				+ participantFiles.size() + " file(s)");
 
 		for (int i = 0; i < participantFiles.size(); i++) {
-			String aFileName = fullName + participantFiles.get(i);
+//			String aFileName = fullName + participantFiles.get(i);
+			String aFileName = Paths.get(fullName, participantFiles.get(i)).toString();
+
 			if (!aFileName.endsWith(".xml"))
 				continue;
 
