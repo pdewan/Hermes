@@ -103,7 +103,9 @@ public class AnAnalyzer implements Analyzer {
 
 	public static final String ECLIPSE_FOLDER = "Eclipse/";
 	public static final String BROWSER_FOLDER = "Browser/";
-	public static final String ANALYZER_LOG_FOLDER = "ReplayedLogs/";
+	public static final String REPLAYED_LOG_FOLDER = "ReplayedLogs/";
+	public static final String REPLAYED_WORKSPACE_FOLDER = "ReplayedWorkspaces/";
+
 
 
 //	public static final String STUCKPOINT_FILE = "data/GroundTruth/Stuckpoints.csv";
@@ -190,7 +192,7 @@ public class AnAnalyzer implements Analyzer {
 
 	}
 	protected File getOrCreateLogLocation(String aParticipantId) {
-		String aFileName = Paths.get(outPath, aParticipantId, ANALYZER_LOG_FOLDER,aParticipantId ).toString();
+		String aFileName = Paths.get(outPath, aParticipantId, REPLAYED_LOG_FOLDER,aParticipantId ).toString();
 		File aFile = new File(aFileName);
 		if (!aFile.exists()) {
 			try {

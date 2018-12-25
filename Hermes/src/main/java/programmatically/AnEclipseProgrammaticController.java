@@ -611,9 +611,9 @@ IJavaBreakpointListener
 	}
 	@Visible(false)
 	public static OEFrame createUI() {
-		AnEclipseProgrammaticController aLogReplayer = new AnEclipseProgrammaticController();
-		aLogReplayer.addAsObserver();
-		return ObjectEditor.edit(aLogReplayer);
+		AnEclipseProgrammaticController aProgrammaticController = new AnEclipseProgrammaticController();
+		aProgrammaticController.addAsObserver();
+		return ObjectEditor.edit(aProgrammaticController);
 	}
 	@Visible(false)
 	public static AnEclipseProgrammaticController getInstance() {
