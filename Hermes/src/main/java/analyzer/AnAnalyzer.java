@@ -10,6 +10,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
+
 
 import analyzer.extension.ACSVParser;
 import analyzer.extension.AStuckInterval;
@@ -69,6 +73,7 @@ import fluorite.commands.WebVisitCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EHXMLFormatter;
 import fluorite.util.EHLogReader;
+import programmatically.AnEclipseProgrammaticController;
 import util.annotations.LayoutName;
 import util.annotations.Row;
 import util.annotations.Visible;
@@ -104,7 +109,9 @@ public class AnAnalyzer implements Analyzer {
 	public static final String ECLIPSE_FOLDER = "Eclipse/";
 	public static final String BROWSER_FOLDER = "Browser/";
 	public static final String REPLAYED_LOG_FOLDER = "ReplayedLogs/";
-	public static final String REPLAYED_WORKSPACE_FOLDER = "ReplayedWorkspaces/";
+	public static final String REPLAYED_PROJECT_FOLDER = "ReplayedProjects/";
+	public static final String PROJECT_NAME_PREFIX = "Project";
+
 
 
 
@@ -206,6 +213,46 @@ public class AnAnalyzer implements Analyzer {
 		}
 		return aFile;
 	}
+	public AnEclipseProgrammaticController programmaticController() {
+		return AnEclipseProgrammaticController.getInstance();
+	}
+	public static void emptyDirectory (File aDirectory) {
+		try {
+			 Path aPath = Paths.get(aDirectory.getAbsolutePath());
+			  Files.newDirectoryStream( aPath).forEach( aFile -> {
+			    try { Files.delete( aFile ); }
+			    catch ( IOException e ) { throw new UncheckedIOException(e); }
+			  } );
+			}
+			catch ( IOException e ) {
+			  e.printStackTrace();
+			}
+	}
+	protected String projectName (String aParticipantId) {
+		return PROJECT_NAME_PREFIX + "_" + aParticipantId;
+	}
+	protected File getOrCreateEmptyProjectLocation(String aParticipantId) {
+		String aProjectLocation = Paths.get(outPath, aParticipantId, REPLAYED_PROJECT_FOLDER, projectName(aParticipantId) ).toString();
+		File aProjectDir = new File(aProjectLocation);
+		if (!aProjectDir.exists()) {
+			try {
+				if (!aProjectDir.exists()) {						
+					aProjectDir.mkdirs();
+					
+				}
+//				aFile.createNewFile();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} 
+		File anSrcFolder = Paths.get(aProjectDir.getAbsolutePath(), "src").toFile();
+		if (!anSrcFolder.exists()) {
+			anSrcFolder.mkdir();
+		}		
+		emptyDirectory(anSrcFolder);
+		return aProjectDir;
+		
+	}
 	protected Logger getLogger() {
 		return Logger.getLogger(Analyzer.class.getName());
 	}
@@ -219,6 +266,11 @@ public class AnAnalyzer implements Analyzer {
 		}
 		
 
+	}
+	public void resetProject(String aParticipantId, long aStartTimestamp ) {
+		File aProjectLocation = getOrCreateEmptyProjectLocation(aParticipantId);
+		programmaticController().getOrCreateProject(projectName(aParticipantId), aProjectLocation.getAbsolutePath());
+		
 	}
 	public void resetLogger(String aParticipantId, long aStartTimestamp ) {
 //		Handler[] aHandlers = getLogger().getHandlers();

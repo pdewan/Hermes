@@ -27,9 +27,7 @@ public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
 	public AnEclipseReplayer() {
 		this.addAnalyzerListener(this);
 	}
-	public AnEclipseProgrammaticController programmaticController() {
-		return AnEclipseProgrammaticController.getInstance();
-	}
+	
 	public static void createUI() {
 		ObjectEditor.edit(new AnEclipseReplayer() );
 	}
@@ -60,7 +58,7 @@ public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
 	@Visible(false)
 	public void newParticipant(String anId, String aFolder) {
 		resetLogger(anId, startTimestamp);
-		
+		resetProject(anId, startTimestamp);		
 	}
 	
 	
