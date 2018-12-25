@@ -14,7 +14,7 @@ import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
 import fluorite.model.StatusConsts;
-import programmatically.AnEclipseProgrammatticController;
+import programmatically.AnEclipseProgrammaticController;
 import util.trace.difficultyPrediction.AddedCommandToPredictionQueue;
 import util.trace.difficultyPrediction.CommandIgnoredBecauseQueueFull;
 import util.trace.difficultyPrediction.RemovedCommandFromPredictionQueue;

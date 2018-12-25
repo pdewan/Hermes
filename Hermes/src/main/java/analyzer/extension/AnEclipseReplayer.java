@@ -13,19 +13,22 @@ import fluorite.commands.PredictionCommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
 import fluorite.commands.WebVisitCommand;
-import programmatically.AnEclipseProgrammatticController;
+import programmatically.AnEclipseProgrammaticController;
 import util.annotations.Visible;
 
 public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
+	// edit this to set your folder
 	public static final String ECLIPSE_REPLAYER_DEFAULT_PARTICIPANT_DIRECTORY = "D:/dewan_backup/Java/Hermes/Hermes/data";
+	protected long startTimestamp;
+
 	protected String defaultParticipantDirectory() {
 		return ECLIPSE_REPLAYER_DEFAULT_PARTICIPANT_DIRECTORY;
 	}
 	public AnEclipseReplayer() {
 		this.addAnalyzerListener(this);
 	}
-	public AnEclipseProgrammatticController logReplayer() {
-		return AnEclipseProgrammatticController.getInstance();
+	public AnEclipseProgrammaticController programmaticController() {
+		return AnEclipseProgrammaticController.getInstance();
 	}
 	public static void createUI() {
 		ObjectEditor.edit(new AnEclipseReplayer() );
@@ -54,16 +57,18 @@ public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Visible(false)
 	public void newParticipant(String anId, String aFolder) {
-		// TODO Auto-generated method stub
+		resetLogger(anId, startTimestamp);
 		
 	}
+	
+	
 
 	@Visible(false)
-	public void startTimestamp(long aStartTimeStamp) {
+	public void startTimestamp(long aStartTimestamp) {
 		// TODO Auto-generated method stub
+		startTimestamp = aStartTimestamp;
 		
 	}
 
@@ -87,7 +92,7 @@ public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
 
 	@Visible(false)
 	public void finishParticipant(String anId, String aFolder) {
-		// TODO Auto-generated method stub
+		removeLogHandlers(anId);
 		
 	}
 
@@ -99,7 +104,7 @@ public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
 
 	@Visible(false)
 	public void newStoredInputCommand(EHICommand aNewCommand, long aStartAbsoluteTime, long aDuration) {
-		// TODO Auto-generated method stub
+		recordCommand(aNewCommand);
 		
 	}
 

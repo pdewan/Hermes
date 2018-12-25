@@ -27,6 +27,10 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Vector;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
@@ -62,10 +66,14 @@ import fluorite.commands.PredictionCommand;
 import fluorite.commands.PredictionType;
 import fluorite.commands.Status;
 import fluorite.commands.WebVisitCommand;
+import fluorite.model.EHEventRecorder;
+import fluorite.model.EHXMLFormatter;
 import fluorite.util.EHLogReader;
 import util.annotations.LayoutName;
 import util.annotations.Row;
 import util.annotations.Visible;
+import util.trace.recorder.LogFileCreated;
+import util.trace.recorder.LogHandlerBound;
 
 @LayoutName(AttributeNames.GRID_BAG_LAYOUT)
 /**
@@ -85,6 +93,8 @@ import util.annotations.Visible;
  *
  */
 public class AnAnalyzer implements Analyzer {
+//	private final static Logger ANALYZER_LOGGER = Logger.getLogger(Analyzer.class.getName());
+
 //	public static final String PARTICIPANT_DIRECTORY = "data/";
 	public static final String DEFAULT_PARTICIPANT_DIRECTORY = "data/";
 
@@ -93,6 +103,8 @@ public class AnAnalyzer implements Analyzer {
 
 	public static final String ECLIPSE_FOLDER = "Eclipse/";
 	public static final String BROWSER_FOLDER = "Browser/";
+	public static final String ANALYZER_LOG_FOLDER = "ReplayedLogs/";
+
 
 //	public static final String STUCKPOINT_FILE = "data/GroundTruth/Stuckpoints.csv";
 	public   String stuckPointFile() {
@@ -113,6 +125,7 @@ public class AnAnalyzer implements Analyzer {
 	public static final String ALL_PARTICIPANTS = "All";
 	public static final String IGNORE_KEYWORD = "IGNORE";
 	 final Hashtable<String, String> participants = new Hashtable<String, String>();
+	 protected String outPath;
 
 	// do not make public, we only need to fill these maps once, must uphold
 	// that they are unmodifiable via getter methods
@@ -176,6 +189,61 @@ public class AnAnalyzer implements Analyzer {
 
 
 	}
+	protected File getOrCreateLogLocation(String aParticipantId) {
+		String aFileName = Paths.get(outPath, aParticipantId, ANALYZER_LOG_FOLDER,aParticipantId ).toString();
+		File aFile = new File(aFileName);
+		if (!aFile.exists()) {
+			try {
+				if (!aFile.getParentFile().exists()) {						
+					aFile.getParentFile().mkdirs();
+				}
+				aFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return aFile;
+	}
+	protected Logger getLogger() {
+		return Logger.getLogger(Analyzer.class.getName());
+	}
+	public void removeLogHandlers(String aParticipantId) {
+		Handler[] aHandlers = getLogger().getHandlers();
+		for (Handler aHandler:aHandlers) {
+			FileHandler aFileHandler = (FileHandler) aHandler;
+			getLogger().removeHandler(aHandler);
+			aFileHandler.close();
+
+		}
+		
+
+	}
+	public void resetLogger(String aParticipantId, long aStartTimestamp ) {
+//		Handler[] aHandlers = getLogger().getHandlers();
+//		for (Handler aHandler:aHandlers) {
+//			getLogger().removeHandler(aHandler);
+//		}
+		getLogger().setLevel(Level.FINE);
+
+//		File outputFile = null;
+		try {
+			File aLogLocation = getOrCreateLogLocation(aParticipantId);
+//			outputFile = new File(logLocation, EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
+			LogFileCreated.newCase(aLogLocation.getName(), this);
+
+			FileHandler handler = new FileHandler(aLogLocation.getPath());
+			handler.setEncoding("UTF-8");
+			handler.setFormatter(new EHXMLFormatter(aStartTimestamp)); 
+			getLogger().addHandler(handler);
+			LogHandlerBound.newCase(handler, this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	protected void recordCommand (EHICommand aCommand) {
+		getLogger().log(Level.FINE, null, aCommand);
+	}
+	
 	protected String defaultParticipantDirectory() {
 		return DEFAULT_PARTICIPANT_DIRECTORY;
 	}
@@ -469,7 +537,9 @@ public class AnAnalyzer implements Analyzer {
 		// PredictorConfigurer.visualizePrediction();
 		// }
 		// the main subdirectory we are putting files in
-		String outPath = Paths.get(participantsFolder.getLabel().getText(), OUTPUT_DATA ).toString();
+//		String outPath = Paths.get(participantsFolder.getLabel().getText(), OUTPUT_DATA ).toString();
+		outPath = Paths.get(getParticipantsFolderName(), OUTPUT_DATA ).toString();
+
 		// + this.outputSubdirectory;
 		if (participantList.get(0).equals(ALL_PARTICIPANTS)) {
 			// remove all from the participants

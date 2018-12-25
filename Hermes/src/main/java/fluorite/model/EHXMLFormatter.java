@@ -19,6 +19,11 @@ Formatter
 //		mStartTimestamp = startTimestamp;
 //	super(startTimestamp);
 	}
+
+	public EHXMLFormatter() {
+//		mStartTimestamp = startTimestamp;
+//	super(startTimestamp);
+	}
 //
 	private long mStartTimestamp;
 	// If this value is returned, there's something wrong with the version recognizing logic. 

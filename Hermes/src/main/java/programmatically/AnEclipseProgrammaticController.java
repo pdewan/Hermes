@@ -68,7 +68,7 @@ import util.annotations.Visible;
 import util.misc.Common;
 
 
-public class AnEclipseProgrammatticController implements IExecutionListener,
+public class AnEclipseProgrammaticController implements IExecutionListener,
 //IBreakpointListener
 IJavaBreakpointListener 
 {
@@ -99,7 +99,7 @@ IJavaBreakpointListener
 	public static final String TEST_FILE = "src/HelloWorld.java";
 	public static final String TEST_MAIN_CLASS = "HelloWorld";
 	public static final String TEST_CONFIGURATION_NAME = "HelloWorld";
-	static AnEclipseProgrammatticController logReplayer;
+	static AnEclipseProgrammaticController programmaticController;
 	String[] commands = new String[] {
 			IWorkbenchCommandConstants.EDIT_COPY,
 			IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST,
@@ -112,7 +112,7 @@ IJavaBreakpointListener
 	protected String getProjectLocation() {
 		return Paths.get(EHUtilities.getWorkspaceRoot().toString() , "DummyProject").toString();
 	}
-	public AnEclipseProgrammatticController() {
+	public AnEclipseProgrammaticController() {
 //		listenToCommands();
 //		listenToBreakpoints();
 	}
@@ -611,17 +611,17 @@ IJavaBreakpointListener
 	}
 	@Visible(false)
 	public static OEFrame createUI() {
-		AnEclipseProgrammatticController aLogReplayer = new AnEclipseProgrammatticController();
+		AnEclipseProgrammaticController aLogReplayer = new AnEclipseProgrammaticController();
 		aLogReplayer.addAsObserver();
 		return ObjectEditor.edit(aLogReplayer);
 	}
 	@Visible(false)
-	public static AnEclipseProgrammatticController getInstance() {
-		if (logReplayer == null) {
-			logReplayer = new AnEclipseProgrammatticController();
-			logReplayer.addAsObserver();
+	public static AnEclipseProgrammaticController getInstance() {
+		if (programmaticController == null) {
+			programmaticController = new AnEclipseProgrammaticController();
+			programmaticController.addAsObserver();
 		}
-		return logReplayer;
+		return programmaticController;
 	}
 	
 
@@ -646,42 +646,49 @@ IJavaBreakpointListener
 //	}
 
 	@Override
+	@Visible(false)
 	public void addingBreakpoint(IJavaDebugTarget target, IJavaBreakpoint breakpoint) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	@Visible(false)
 	public int installingBreakpoint(IJavaDebugTarget target, IJavaBreakpoint breakpoint, IJavaType type) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
+	@Visible(false)
 	public void breakpointInstalled(IJavaDebugTarget target, IJavaBreakpoint breakpoint) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	@Visible(false)
 	public int breakpointHit(IJavaThread thread, IJavaBreakpoint breakpoint) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
+	@Visible(false)
 	public void breakpointRemoved(IJavaDebugTarget target, IJavaBreakpoint breakpoint) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	@Visible(false)
 	public void breakpointHasRuntimeException(IJavaLineBreakpoint breakpoint, DebugException exception) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	@Visible(false)
 	public void breakpointHasCompilationErrors(IJavaLineBreakpoint breakpoint, Message[] errors) {
 		// TODO Auto-generated method stub
 		
