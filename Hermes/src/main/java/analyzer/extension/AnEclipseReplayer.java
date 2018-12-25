@@ -99,7 +99,11 @@ public class AnEclipseReplayer extends AnAnalyzer implements AnalyzerListener {
 		// TODO Auto-generated method stub
 		
 	}
-
+// override this to terminate earlier, by returning false
+	@Override
+	protected boolean terminateReplayNow() {
+		return super.terminateReplayNow();
+	}
 	@Visible(false)
 	public void newStoredInputCommand(EHICommand aNewCommand, long aStartAbsoluteTime, long aDuration) {
 		recordCommand(aNewCommand);

@@ -136,7 +136,7 @@ IJavaBreakpointListener
 		ICommandService commandService = EHUtilities.getCommandService();
 		if (commandService == null) {
 			System.out.println("No command service");
-		}
+		} else {
 		try {
 			for (String aCommandName: commands) {				
 			
@@ -149,6 +149,7 @@ IJavaBreakpointListener
 		}
 		catch (Exception exception) {
 			exception.printStackTrace();
+		}
 		}
 	}
 	

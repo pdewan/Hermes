@@ -152,7 +152,7 @@ public class AnAnalyzer implements Analyzer {
 
 	 long startTimestamp;
 	 long experimentStartTimestamp;
-	List<List<EHICommand>> nestedCommandsList;
+	protected List<List<EHICommand>> nestedCommandsList;
 
 	FileSetterModel participantsFolder, outputFolder, experimentalData;
 	AnalyzerParameters parameters;
@@ -980,13 +980,28 @@ public class AnAnalyzer implements Analyzer {
 		}
 
 	}
+	// override this to terminate earlier
+	protected boolean continueTopLevelCommandReplay(int anIndex, List<List<EHICommand>> aNestedList) {
+		return anIndex < aNestedList.size() && !terminateReplayNow();
+	}
+	// override this to terminate earlier
+	protected boolean continueSecondLevelCommandReplay(int anIndex, List<EHICommand> aList) {
+		return anIndex < aList.size() && !terminateReplayNow();
+	}
+	protected boolean terminateReplayNow() {
+		return false;
+	}
 	
 	protected void playNestedCommandList() {
 		startTimestamp = 0;
 		experimentStartTimestamp = 0;
-		for (int index = 0; index < nestedCommandsList.size(); index++) {
+//		for (int index = 0; index < nestedCommandsList.size(); index++) {
+		for (int index = 0; continueTopLevelCommandReplay(index, nestedCommandsList); index++) {
+
 			List<EHICommand> commands = nestedCommandsList.get(index);
-			for (int i = 0; i < commands.size(); i++) {
+//			for (int i = 0; i < commands.size(); i++) {
+			for (int i = 0; continueSecondLevelCommandReplay(i, commands); i++) {
+
 				EHICommand aCommand = commands.get(i);
 				long aCommandTime = aCommand.getTimestamp() + startTimestamp;
 				long aDuration = duration(aCommand);
