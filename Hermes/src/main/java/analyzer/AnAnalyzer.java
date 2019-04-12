@@ -992,6 +992,12 @@ public class AnAnalyzer implements Analyzer {
 		return false;
 	}
 	
+	protected void maybeForwardCommandToDifficultyEventProcessor(EHICommand aCommand, boolean isPrediction) {
+		if (!isPrediction) { // added this
+			difficultyEventProcessor.newCommand(aCommand); // why play this 
+			}
+	}
+	
 	protected void playNestedCommandList() {
 		startTimestamp = 0;
 		experimentStartTimestamp = 0;
@@ -1031,9 +1037,10 @@ public class AnAnalyzer implements Analyzer {
 																// command
 //					startTimeStamp = commands.get(i).getTimestamp2();
 //					notifyStartTimeStamp(startTimeStamp);
-					if (!isPrediction) { // added this
+					maybeForwardCommandToDifficultyEventProcessor(aCommand, isPrediction);
+					/*if (!isPrediction) { // added this
 					difficultyEventProcessor.newCommand(aCommand); // why play this 
-					}
+					}*/
 
 //					notifyStartTimeStamp(startTimeStamp);
 
