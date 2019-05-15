@@ -31,8 +31,10 @@ public class ContentAssistListener implements ICompletionListener {
 		// TODO Auto-generated method stub
 		try {
 		System.out.println("Selection changed" + proposal.getDisplayString());
+		System.out.println("Selection contxt" + proposal.getContextInformation());
+
 		
-		System.out.println(proposal.getAdditionalProposalInfo());
+//		System.out.println(proposal.getAdditionalProposalInfo());
 //		if (proposal instanceof ICompletionProposalExtension2) {
 //			ICompletionProposalExtension2 anExtension2 = (ICompletionProposalExtension2) proposal;
 //			

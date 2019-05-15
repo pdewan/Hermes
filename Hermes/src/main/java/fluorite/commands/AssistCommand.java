@@ -20,6 +20,7 @@ implements EHICommand{
 	}
 	public AssistCommand(AssistType assistType, StartEndType startEndType,
 			boolean autoActivated, String context) {
+		System.out.println("Thread:" + Thread.currentThread() + this.getClass());
 		mAssistType = assistType;
 		mStartEndType = startEndType;
 		mAutoActivated = (mStartEndType == StartEndType.END) ? false

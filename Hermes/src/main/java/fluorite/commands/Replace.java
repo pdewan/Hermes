@@ -22,6 +22,8 @@ public class Replace extends BaseDocumentChangeEvent {
 	public Replace(int offset, int length, int startLine, int endLine,
 			int insertionLength, String deletedText, String insertedText,
 			IDocument document) {
+		System.out.println("Thread:" + Thread.currentThread() + this.getClass());
+
 		mOffset = offset;
 		mLength = length;
 		mStartLine = startLine;
@@ -166,9 +168,14 @@ public class Replace extends BaseDocumentChangeEvent {
 
 	public String getName() {
 		return "Replace text (offset: " + Integer.toString(mOffset)
-				+ ", length: " + Integer.toString(mLength) + ", startLine: "
+				+ ", deletion length: " + Integer.toString(mLength)
+				+ ", deletion text: " + mDeletedText
+				+ ", inseretion length: " + Integer.toString(mInsertionLength)
+				+ ", inserted text: " + mInsertedText
+				+ ", startLine: "
 				+ Integer.toString(mStartLine) + ", endLine: "
-				+ Integer.toString(mEndLine) + ")";
+				+ Integer.toString(mEndLine) + 
+				")";
 	}
 
 	public String getDescription() {
