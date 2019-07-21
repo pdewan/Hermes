@@ -5,7 +5,6 @@ import analyzer.AnalyzerFactory;
 import bus.uigen.OEFrame;
 //import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
-//import bus.uigen.hermes.HermesObjectEditorProxy;
 import difficultyPrediction.DifficultyPredictionSettings;
 
 public class AVisuallyReplayingAnalyzer {

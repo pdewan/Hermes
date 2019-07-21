@@ -2,6 +2,8 @@ package config;
 
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -11,20 +13,24 @@ import difficultyPrediction.predictionManagement.ClassifierSpecification;
 import difficultyPrediction.predictionManagement.OversampleSpecification;
 
 public class AHelperConfigurationManager implements HelperConfigurationManager {
-	public static final String DEFAULT_ARFF_FILE_LOCATION = "data/userStudy2010.arff";
-	public static final ClassifierSpecification DEFAULT_CLASSIFIER_SPECIFICATION = ClassifierSpecification.J48;
-	public static final OversampleSpecification DEFAULT_OVERSAMPLE_SPECIFICATION = OversampleSpecification.SMOTE;
-	public static final CommandClassificationSchemeName DEFAULT_RATIO_SCHEME = CommandClassificationSchemeName.A1;
+//	static Boolean DEFAULT_SHOW_REPLAYER = false;
+//	static Boolean DEFAULT_SHOW_PREDICTION_CONTROLLER = false;
+//	public static final String DEFAULT_ARFF_FILE_LOCATION = "data/userStudy2010.arff";
+//	public static final ClassifierSpecification DEFAULT_CLASSIFIER_SPECIFICATION = ClassifierSpecification.J48;
+//	public static final OversampleSpecification DEFAULT_OVERSAMPLE_SPECIFICATION = OversampleSpecification.SMOTE;
+//	public static final CommandClassificationSchemeName DEFAULT_RATIO_SCHEME = CommandClassificationSchemeName.A1;
+//
+//
+//    public static final String CONFIG_DIR = "config";
+//    public static final String CONFIG_FILE = "config.properties";
+//    public static final String STATIC_CONFIGURATION_FILE_NAME = "helper-config/helper-config.properties";
+//    public static final String RECORDER_JAVA = "recorder.javalocation";
+//    public static final String PLAYER_JAVA = "player.javalocation";
+//    public static final String ARFF_FILE= "predictor.arffLocation";
+//    public static final String CLASSIFIER= "predictor.classifier";
+//    public static final String SHOW_REPLAYER = "showReplayer";
+//    public static final String SHOW_PREDICTION_CONTROLLER = "showPredictionController";
 
-
-    public static final String CONFIG_DIR = "config";
-    public static final String CONFIG_FILE = "config.properties";
-    public static final String STATIC_CONFIGURATION_FILE_NAME = "helper-config/helper-config.properties";
-    public static final String RECORDER_JAVA = "recorder.javalocation";
-    public static final String PLAYER_JAVA = "player.javalocation";
-    public static final String ARFF_FILE= "predictor.arffLocation";
-    public static final String CLASSIFIER= "predictor.classifier";
-//    public static final String CLASSIFIER= "classifier";
 
     public static final String OVERSAMPLE= "predictor.oversample";
     public static final String COMMAND_CLASIFICATION_SCHEME= "predictor.commandClassification";
@@ -43,83 +49,105 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
     }
     @Override
     public String getRecorderJavaPath() {
-    	
-       return staticConfiguration == null?null:staticConfiguration.getString(RECORDER_JAVA, "java");
+    	return getStringProperty(RECORDER_JAVA, DEFAULT_JAVA_PATH );
+//       return staticConfiguration == null?null:staticConfiguration.getString(RECORDER_JAVA, "java");
 
     }
     @Override
     public String getPlayerJavaPath() {
-    	
-       return staticConfiguration == null?null:staticConfiguration.getString(PLAYER_JAVA, "java");
+    	return getStringProperty(PLAYER_JAVA, DEFAULT_JAVA_PATH );
+
+//       return staticConfiguration == null?null:staticConfiguration.getString(PLAYER_JAVA, DEFAULT_JAVA_PATH );
 
     }
     @Override
 	public String getARFFFileName() {
-		return staticConfiguration == null?DEFAULT_ARFF_FILE_LOCATION:staticConfiguration.getString(ARFF_FILE, DEFAULT_ARFF_FILE_LOCATION);
+    	return getStringProperty(DEFAULT_ARFF_FILE_LOCATION, DEFAULT_ARFF_FILE_LOCATION );
+
+//		return staticConfiguration == null?DEFAULT_ARFF_FILE_LOCATION:staticConfiguration.getString(ARFF_FILE, DEFAULT_ARFF_FILE_LOCATION);
 	}
     @Override
 	public ClassifierSpecification getClassifierSpecification() {
-//		if (classifierSpecification == null) {
-//			classifierSpecification = getStaticClassifierSpecification();
-//		}
-//		return classifierSpecification;
-    	return getStaticClassifierSpecification();
-	}
-    protected ClassifierSpecification getStaticClassifierSpecification() {
-		try {
-		
-			return staticConfiguration == null?
-					DEFAULT_CLASSIFIER_SPECIFICATION:
+    	String aString = getStringProperty(CLASSIFIER, null);
+    	if (aString == null) {
+    		return DEFAULT_CLASSIFIER_SPECIFICATION;
+    	}
+    	try {    		
+			return					
 					ClassifierSpecification.valueOf(
-						staticConfiguration.getString(CLASSIFIER, DEFAULT_CLASSIFIER_SPECIFICATION.toString()));
+							aString);
 		} catch (Exception e) {
 			return DEFAULT_CLASSIFIER_SPECIFICATION; // in case valueOf fails
 		}
+//    	return getStaticClassifierSpecification();
 	}
-    @Override
-   	public OversampleSpecification getOversampleSpecification() {
-//   		if (oversampleSpecification == null) {
-//   			oversampleSpecification = getStaticOversampleSpecification();
-//   		}
-//   		return oversampleSpecification;
-    	return getStaticOversampleSpecification();
-   	}
-    @Override
-    public CommandClassificationSchemeName getCommandClassificationScheme() {
-    	return getStaticCommandClassificationScheme();
-    }
-//    @Override
-//    public void setClassifierSpecification(
-//			ClassifierSpecification classifierSpecification) {
-//		this.classifierSpecification = classifierSpecification;
-//	}
-//    @Override
-//	public void setOversampleSpecification(
-//			OversampleSpecification oversampleSpecification) {
-//		this.oversampleSpecification = oversampleSpecification;
+//    protected ClassifierSpecification getStaticClassifierSpecification() {
+//		try {
+//		
+//			return staticConfiguration == null?
+//					DEFAULT_CLASSIFIER_SPECIFICATION:
+//					ClassifierSpecification.valueOf(
+//						staticConfiguration.getString(CLASSIFIER, DEFAULT_CLASSIFIER_SPECIFICATION.toString()));
+//		} catch (Exception e) {
+//			return DEFAULT_CLASSIFIER_SPECIFICATION; // in case valueOf fails
+//		}
 //	}
     
-	protected OversampleSpecification getStaticOversampleSpecification() {
-   		try {
-   			return staticConfiguration == null?
-   					DEFAULT_OVERSAMPLE_SPECIFICATION:
-   					OversampleSpecification.valueOf(
-   						staticConfiguration.getString(OVERSAMPLE, DEFAULT_OVERSAMPLE_SPECIFICATION.toString()));
-   		} catch (Exception e) {
-   			return DEFAULT_OVERSAMPLE_SPECIFICATION; // in case valueOf fails
-   		}
+    @Override
+   	public OversampleSpecification getOversampleSpecification() {
+    	String aString = getStringProperty(OVERSAMPLE, null);
+    	if (aString == null) {
+    		return DEFAULT_OVERSAMPLE_SPECIFICATION;
+    	}
+    	try {    		
+			return					
+					OversampleSpecification.valueOf(
+							aString);
+		} catch (Exception e) {
+			return DEFAULT_OVERSAMPLE_SPECIFICATION; // in case valueOf fails
+		}
+//    	return getStaticOversampleSpecification();
    	}
+//    protected OversampleSpecification getStaticOversampleSpecification() {
+//   		try {
+//   			return staticConfiguration == null?
+//   					DEFAULT_OVERSAMPLE_SPECIFICATION:
+//   					OversampleSpecification.valueOf(
+//   						staticConfiguration.getString(OVERSAMPLE, DEFAULT_OVERSAMPLE_SPECIFICATION.toString()));
+//   		} catch (Exception e) {
+//   			return DEFAULT_OVERSAMPLE_SPECIFICATION; // in case valueOf fails
+//   		}
+//   	}
+    @Override
+    public CommandClassificationSchemeName getCommandClassificationScheme() {
+    	String aString = getStringProperty(COMMAND_CLASIFICATION_SCHEME, null);
+    	if (aString == null) {
+    		return DEFAULT_RATIO_SCHEME;
+    	}
+    	try {    		
+			return					
+					CommandClassificationSchemeName.valueOf(
+							aString);
+		} catch (Exception e) {
+			return DEFAULT_RATIO_SCHEME; // in case valueOf fails
+		}
+//    	return getStaticCommandClassificationScheme();
+    }
+//    protected CommandClassificationSchemeName getStaticCommandClassificationScheme() {
+//   		try {
+//   			return staticConfiguration == null?
+//   					DEFAULT_RATIO_SCHEME:
+//   					CommandClassificationSchemeName.valueOf(
+//   						staticConfiguration.getString(COMMAND_CLASIFICATION_SCHEME, DEFAULT_RATIO_SCHEME.toString()));
+//   		} catch (Exception e) {
+//   			return DEFAULT_RATIO_SCHEME; // in case valueOf fails
+//   		}
+//   	}
+
+    
 	
-	protected CommandClassificationSchemeName getStaticCommandClassificationScheme() {
-   		try {
-   			return staticConfiguration == null?
-   					DEFAULT_RATIO_SCHEME:
-   					CommandClassificationSchemeName.valueOf(
-   						staticConfiguration.getString(COMMAND_CLASIFICATION_SCHEME, DEFAULT_RATIO_SCHEME.toString()));
-   		} catch (Exception e) {
-   			return DEFAULT_RATIO_SCHEME; // in case valueOf fails
-   		}
-   	}
+	
+	
 	
 
     public PropertiesConfiguration getDynamicConfiguration() {
@@ -142,39 +170,21 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 
     public void init() {
         try {
-//			 PropertiesConfiguration configuration = new PropertiesConfiguration("./config/config.properties");
-//			 PropertiesConfiguration configuration = new PropertiesConfiguration(STATIC_CONFIGURATION_FILE_NAME);
-//        	System.out.println ("Working directory ="+ System.getProperty("user.dir"));
-//        	System.out.println ("Home directory ="+ System.getProperty("user.home"));
+
 
         	
             PropertiesConfiguration configuration = createStaticConfiguration();
+            
 
-//            StaticConfigurationFileRead.newCase(STATIC_CONFIGURATION_FILE_NAME, this);
             setStaticConfiguration(configuration);
-//            if (configuration == null)
-//            	return;
-//            String dynamicConfigurationName = configuration.getString("helper.dynamicConfiguration", "dynamicconfig.properties");
-//            
-//            File file = new File(dynamicConfigurationName);
-//            if (!file.exists()) {
-//                file.createNewFile();
-////                DynamicConfigurationFileCreated.newCase(dynamicConfigurationName, this);
-////	         	convertToDynamicConfiguration();
-//            }
-//            dynamicConfiguration = new PropertiesConfiguration(dynamicConfigurationName);
-//            DynamicConfigurationFileRead.newCase(dynamicConfigurationName, this);
 
-//	         GraderSettings.get().convertToDynamicConfiguration();
         } catch (Exception e) {
 //            StaticConfigurationFileNotRead.newCase(STATIC_CONFIGURATION_FILE_NAME, this);
             System.err.println("Error loading config file.");
             System.err.println(e.getMessage());
             e.printStackTrace();
 
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
+
         }
     }
 
@@ -182,30 +192,66 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
     	try {
     		File file= new File (System.getProperty("user.home") + "/" + STATIC_CONFIGURATION_FILE_NAME);
     		if (!file.exists()) {
-    			System.err.println("Configuration file not found at:" + file.getAbsolutePath());
+//    			System.out.println("Configuration file not found at:" + file.getAbsolutePath());
 			    file= new File (STATIC_CONFIGURATION_FILE_NAME);
     		}
     		if (!file.exists()) {
-    			System.err.println("Configuration file not found at:" + file.getAbsolutePath());
-    			return null;
-    		} else {
-    			System.out.println("Configuration file found at:" + file.getAbsolutePath());
-
-    		}
-//    		File file = new File (STATIC_CONFIGURATION_FILE_NAME);
-//    		if (!file.exists())
-//    			file= new File (System.getProperty("user.home") + "/" + STATIC_CONFIGURATION_FILE_NAME);
-//    		if (!file.exists()) {
 //    			System.err.println("Configuration file not found at:" + file.getAbsolutePath());
 //    			return null;
-//    		}
+    			return new PropertiesConfiguration(); // so we do not have to check it for null
+    		} else {
+    			// will put some kind of trace later
+//    			System.out.println("Configuration file found at:" + file.getAbsolutePath());
+
+    		}
+
     		
 			return new PropertiesConfiguration(file.getAbsolutePath());
 		} catch (ConfigurationException e) {
-			System.err.println("Could not getproperties configuration");
+//			System.err.println("Could not getproperties configuration");
 			return null;
 		}
     }
+	@Override
+	public Boolean isShowPredictionController() {
+		return getBooleanProperty(SHOW_PREDICTION_CONTROLLER, DEFAULT_SHOW_PREDICTION_CONTROLLER);
+//		return getStaticConfiguration().getBoolean(SHOW_PREDICTION_CONTROLLER, null);
+	}
+	@Override
+	public Boolean isShowReplayer() {
+		return getBooleanProperty(SHOW_REPLAYER, DEFAULT_SHOW_REPLAYER);
+
+//		return getStaticConfiguration().getBoolean(SHOW_REPLAYER, null);
+	}
+	protected Map<String, Boolean> booleanProperties = new HashMap<>();
+	protected Map<String, Integer> integerProperties = new HashMap<>();
+	protected Map<String, String> stringProperties = new HashMap<>();
+	@Override
+	public Boolean getBooleanProperty(String aPropertyName, Boolean aDefaultValue) {
+		Boolean retVal = booleanProperties.get(aPropertyName);
+		if (retVal == null) {
+			retVal =  staticConfiguration.getBoolean(aPropertyName, aDefaultValue);
+		}
+		return retVal;
+	}
+	@Override
+	public String getStringProperty(String aPropertyName, String aDefaultValue) {
+		String retVal = stringProperties.get(aPropertyName);
+		if (retVal == null) {
+			retVal =  staticConfiguration.getString(aPropertyName, aDefaultValue);
+		}
+		return retVal;
+	}
+	@Override
+	public Integer getIntegerProperty(String aPropertyName, Integer aDefaultValue) {
+		Integer retVal = integerProperties.get(aPropertyName);
+		if (retVal == null) {
+			retVal =  staticConfiguration.getInteger(aPropertyName, aDefaultValue);
+		}
+		return retVal;
+	}
+	
+	
 	
 	        
    

@@ -1,5 +1,8 @@
 package difficultyPrediction;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import difficultyPrediction.predictionManagement.ClassifierSpecification;
 
 public class DifficultyPredictionSettings {
@@ -10,8 +13,9 @@ public class DifficultyPredictionSettings {
 	static boolean replayRatioFiles;
 	static ClassifierSpecification classifierSpecification;
 	static boolean makePredictions;
-//	static OversampleSpecification oversampleSpecification;
-//	static String arffFileName;
+	static Map<String, Boolean> booleanProperties = new HashMap();
+	static Map<String, String> stringProperties = new HashMap();
+
 
 	
 
@@ -84,6 +88,31 @@ public class DifficultyPredictionSettings {
 	public static void setMakePredictions(boolean makePredictions) {
 		DifficultyPredictionSettings.makePredictions = makePredictions;
 	}
+//	static Boolean DEFAULT_SHOW_REPLAYER = false;
+//	static Boolean DEFAULT_SHOW_PREDICTION_CONTROLLER = false;
+	static  Boolean showReplayer;
+	static Boolean showPredictionController;
+	
+	
+
+	
+	public static Boolean isShowPredictionController() {
+		
+		return showPredictionController;
+	}
+
+	public static void setShowPredictionController(boolean newVal) {
+		showPredictionController = newVal;
+	}
+
+	public static boolean isShowReplayer() {
+		return showReplayer;
+	}
+
+	public static void setShowReplayer(boolean newVal) {
+		showReplayer = newVal;
+	}
+
 //	public static String getARFFFileName() {
 //		if (arffFileName == null) {
 //			arffFileName = HelperConfigurationManagerFactory.getSingleton().getARFFFileName();

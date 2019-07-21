@@ -51,7 +51,8 @@ public class ADifficultyPredictionRunnable implements
 		PredictorConfigurer.configure(); // comment this out if do not want the
 											// OE UI
 //		ALogReplayer.createUI();
-		AnEclipseReplayer.createUI();
+		if (DifficultyPredictionSettings.isShowReplayer())
+			AnEclipseReplayer.createUI();
 		while (true) {
 			try {
 				newCommand = pendingCommands.take();

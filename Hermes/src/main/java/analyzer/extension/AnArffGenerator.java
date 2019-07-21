@@ -17,7 +17,6 @@ import analyzer.AnalyzerFactories;
 import analyzer.ParticipantTimeLine;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
-//import bus.uigen.hermes.HermesObjectEditorProxy;
 import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.DifficultyRobot;
 import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
