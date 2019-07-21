@@ -22,6 +22,7 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 	List<IWorkbenchPart> opendedParts = new ArrayList();
 	List<IWorkbenchPart> activeParts = new ArrayList();
 	List<IPartListener> partListeners = new ArrayList();
+	protected boolean updateSnaphot = false;
 
 	public static EHPartRecorder getInstance() {
 		if (instance == null) {
@@ -84,7 +85,8 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 				IDocument currentDoc = EHUtilities.getDocument(getRecorder()
 						.getEditor());
 
-				if (filePath != null && currentDoc != null) {
+				if (filePath != null && currentDoc != null &&updateSnaphot) {
+					
 					FileSnapshotManager.getInstance().updateSnapshot(filePath,
 							currentDoc.get());
 				}

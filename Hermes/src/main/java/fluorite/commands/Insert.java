@@ -19,6 +19,8 @@ public class Insert extends BaseDocumentChangeEvent {
 	}
 	
 	public Insert(int offset, String text, IDocument doc) {
+		System.out.println("Thread:" + Thread.currentThread() + this.getClass());
+
 		mOffset = offset;
 		mLength = text.length();
 
