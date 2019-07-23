@@ -16,7 +16,7 @@ Formatter
 {
 
 	public EHXMLFormatter(long startTimestamp) {
-//		mStartTimestamp = startTimestamp;
+		mStartTimestamp = startTimestamp;  // for some reason this was commented out
 //	super(startTimestamp);
 	}
 

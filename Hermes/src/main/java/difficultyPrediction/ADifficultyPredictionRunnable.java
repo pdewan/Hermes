@@ -8,6 +8,7 @@ import org.eclipse.ui.PlatformUI;
 
 import analyzer.extension.ARatioFileGenerator;
 import analyzer.extension.AnEclipseReplayer;
+import config.HelperConfigurationManagerFactory;
 import config.PredictorConfigurer;
 //import dayton.ServerConnection;
 import fluorite.commands.DifficultyCommand;
@@ -51,8 +52,10 @@ public class ADifficultyPredictionRunnable implements
 		PredictorConfigurer.configure(); // comment this out if do not want the
 											// OE UI
 //		ALogReplayer.createUI();
-		if (DifficultyPredictionSettings.isShowReplayer())
+//		if (DifficultyPredictionSettings.isShowReplayer())
+		if (HelperConfigurationManagerFactory.getSingleton().isShowReplayer()) {
 			AnEclipseReplayer.createUI();
+		}
 		while (true) {
 			try {
 				newCommand = pendingCommands.take();

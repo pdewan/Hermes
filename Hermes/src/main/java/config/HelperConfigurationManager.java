@@ -21,7 +21,7 @@ public interface HelperConfigurationManager {
 	OversampleSpecification getOversampleSpecification();
 
 	CommandClassificationSchemeName getCommandClassificationScheme();
-     Boolean isShowPredictionController() ;
+     Boolean isVisualizePredictions() ;
      
      Boolean getBooleanProperty(String aPropertyName, Boolean aDefaultValue);
      String getStringProperty(String aPropertyName, String aDefaultValue);
@@ -34,7 +34,7 @@ public interface HelperConfigurationManager {
 	    public static final String ARFF_FILE= "predictor.arffLocation";
 	    public static final String CLASSIFIER= "predictor.classifier";
 	    public static final String SHOW_REPLAYER = "showReplayer";
-	    public static final String SHOW_PREDICTION_CONTROLLER = "showPredictionController";
+	    public static final String VISUALIZE_PREDICTIONS = "visualizePredictions";
 	    
 
 
@@ -45,7 +45,7 @@ public interface HelperConfigurationManager {
 	    public static final String COMMAND_CLASIFICATION_SCHEME= "predictor.commandClassification";
 	    
 	    static Boolean DEFAULT_SHOW_REPLAYER = false;
-		static Boolean DEFAULT_SHOW_PREDICTION_CONTROLLER = false;
+		static Boolean DEFAULT_VISUALIZE_PREDICTIONS = false;
 		public static final String DEFAULT_ARFF_FILE_LOCATION = "data/userStudy2010.arff";
 		public static final ClassifierSpecification DEFAULT_CLASSIFIER_SPECIFICATION = ClassifierSpecification.J48;
 		public static final OversampleSpecification DEFAULT_OVERSAMPLE_SPECIFICATION = OversampleSpecification.SMOTE;

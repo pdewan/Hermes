@@ -193,12 +193,48 @@ public class EHUtilities /*extends Utilities*/{
 		}
 		return sourceTypeToRenameType;
 	}
+	public static IPath getPathOfCurrentProject() {
+		IProject aProject = getCurrentProject();
+		if (aProject == null) {
+			return null;
+		}
+		return aProject.getFullPath();
+	}
+	public static IProject getCurrentProjectyFromActivePage() {
+//		Eclipse doesn't have a concept of 'current project'. The selection service gives you the selection for the currently active part which may be an editor or a view.
+//
+//		If the selection you get back from ISelectionService.getSelection is not an IStructuredSelection then the active part is probably an editor. So in that case you can try and get the current project from the active editor using something like:
+		  IWorkbenchWindow window = PlatformUI.getWorkbench()
+		            .getActiveWorkbenchWindow();
+		IWorkbenchPage activePage = window.getActivePage();
+
+		IEditorPart activeEditor = activePage.getActiveEditor();
+
+		if (activeEditor != null) {
+		   IEditorInput input = activeEditor.getEditorInput();
+
+		   IProject project = input.getAdapter(IProject.class);
+		   if (project == null) {
+		      IResource resource = input.getAdapter(IResource.class);
+		      if (resource != null) {
+		         project = resource.getProject();
+		         return project;
+		      }
+		   }
+		}
+		return null;
+	}
 	public static IProject getCurrentProject() {
+//		try {
 	    IProject project = null;
 	    IWorkbenchWindow window = PlatformUI.getWorkbench()
 	            .getActiveWorkbenchWindow();
 	    if (window != null) {
 	        ISelection iselection = window.getSelectionService().getSelection();
+	        if (!(iselection instanceof IStructuredSelection)) {
+	        	return getCurrentProjectyFromActivePage();
+	        }
+	    
 	        IStructuredSelection selection = (IStructuredSelection) iselection;
 	        if (selection == null) {
 	            return null;

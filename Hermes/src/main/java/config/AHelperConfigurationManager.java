@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.eclipse.core.runtime.Platform;
 
+import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
 import difficultyPrediction.predictionManagement.ClassifierSpecification;
 import difficultyPrediction.predictionManagement.OversampleSpecification;
@@ -187,8 +189,12 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 
         }
     }
+    public static void getPluginath() {
+//    	 Platform.asLocalURL();
 
+    }
     PropertiesConfiguration createStaticConfiguration() {
+    	String aLocalDirectory = System.getProperty("user.dir");
     	try {
     		File file= new File (System.getProperty("user.home") + "/" + STATIC_CONFIGURATION_FILE_NAME);
     		if (!file.exists()) {
@@ -213,8 +219,8 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 		}
     }
 	@Override
-	public Boolean isShowPredictionController() {
-		return getBooleanProperty(SHOW_PREDICTION_CONTROLLER, DEFAULT_SHOW_PREDICTION_CONTROLLER);
+	public Boolean isVisualizePredictions() {
+		return getBooleanProperty(VISUALIZE_PREDICTIONS, DEFAULT_VISUALIZE_PREDICTIONS);
 //		return getStaticConfiguration().getBoolean(SHOW_PREDICTION_CONTROLLER, null);
 	}
 	@Override

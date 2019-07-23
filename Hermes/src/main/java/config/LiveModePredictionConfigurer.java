@@ -10,6 +10,7 @@ import difficultyPrediction.APredictionParameters;
 
 public class LiveModePredictionConfigurer {
 	public static void configure() {
+		if (HelperConfigurationManagerFactory.getSingleton().isVisualizePredictions())
 		visualizePrediction();
 	}
 	// can be called by analyzer

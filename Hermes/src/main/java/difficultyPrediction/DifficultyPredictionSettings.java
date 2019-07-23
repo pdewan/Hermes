@@ -13,8 +13,8 @@ public class DifficultyPredictionSettings {
 	static boolean replayRatioFiles;
 	static ClassifierSpecification classifierSpecification;
 	static boolean makePredictions;
-	static Map<String, Boolean> booleanProperties = new HashMap();
-	static Map<String, String> stringProperties = new HashMap();
+//	static Map<String, Boolean> booleanProperties = new HashMap();
+//	static Map<String, String> stringProperties = new HashMap();
 
 
 	
@@ -105,13 +105,13 @@ public class DifficultyPredictionSettings {
 		showPredictionController = newVal;
 	}
 
-	public static boolean isShowReplayer() {
-		return showReplayer;
-	}
+//	public static boolean isShowReplayer() {
+//		return showReplayer;
+//	}
 
-	public static void setShowReplayer(boolean newVal) {
-		showReplayer = newVal;
-	}
+//	public static void setShowReplayer(boolean newVal) {
+//		showReplayer = newVal;
+//	}
 
 //	public static String getARFFFileName() {
 //		if (arffFileName == null) {

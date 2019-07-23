@@ -8,8 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.FileHandler;
@@ -27,6 +29,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.debug.core.DebugPlugin;
@@ -198,6 +202,26 @@ public class EHEventRecorder {
 	// PredictorThreadOption.SINGLE_THREAD;
 
 	private final static Logger LOGGER = Logger.getLogger(EHEventRecorder.class.getName());
+	protected Map<String, Logger> projectToLogger = new HashMap<>();
+	
+	protected Logger projectLogger() {
+		IProject aProject = EHUtilities.getCurrentProject();
+		if (aProject == null) {
+			return null;
+		}
+		String aProjectName = aProject.getName();
+		Logger aLogger = projectToLogger.get(aProjectName);
+		if (aLogger == null) {
+			aLogger = Logger.getLogger(aProjectName);
+			boolean aSuccess = initializeProjectLogger(aProject, aLogger);	
+			if (aSuccess) {
+				projectToLogger.put(aProjectName, aLogger);
+			} else {
+				return null;
+			}
+		}
+		return aLogger;
+	}
 
 	public static EHEventRecorder getInstance() {
 		if (instance == null) {
@@ -668,7 +692,8 @@ public class EHEventRecorder {
 		// Flush the commands that are not yet logged into the file.
 		PendingCommandsLogBegin.newCase(allDocAndNonDocCommands, this);
 		for (EHICommand command : allDocAndNonDocCommands) {
-			LOGGER.log(Level.FINE, null, command);
+			log(Level.FINE, null, command);
+//			LOGGER.log(Level.FINE, null, command);
 		}
 		PendingCommandsLogEnd.newCase(allDocAndNonDocCommands, this);
 
@@ -708,13 +733,78 @@ public class EHEventRecorder {
 		// pendingPredictionCommands.add(new AnEndOfQueueCommand());
 		notifyRecordingEnded();
 	}
+	
+	protected Logger workspaceLogger() {
+		return LOGGER;
+	}
+	
+	public static final String PROJECT_LOGGER_FILE_NAME = "Logs/Eclipse";
+	
+	protected boolean initializeProjectLogger(IProject aProject, Logger aLogger) {
+		IPath aProjectLocation = aProject.getLocation();
+		File aProjectFileLocation = aProjectLocation.toFile();
+		File aLogFileLocation = new File(aProjectFileLocation, PROJECT_LOGGER_FILE_NAME);
+		File aCreatedFile = maybeCreateDirectory(aLogFileLocation, false);
+		if (aCreatedFile == null)
+			return false;
+		initializeLogger(aLogger, aCreatedFile);
+		return true;
+		
+	}
 
+//	private void initializeLogger() {
+////		setLogLevel(Level.FINE);
+//		LOGGER.setLevel(Level.FINE);
+//
+//		File outputFile = null;
+//		try {
+//			File logLocation = getLogLocation();
+//			outputFile = new File(logLocation, EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
+//			LogFileCreated.newCase(outputFile.getName(), this);
+//
+//			FileHandler handler = new FileHandler(outputFile.getPath());
+//			handler.setEncoding("UTF-8");
+//			handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
+//
+//			LOGGER.addHandler(handler);
+//			LogHandlerBound.newCase(handler, this);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	private void initializeLogger() {
-		LOGGER.setLevel(Level.FINE);
+//		setLogLevel(Level.FINE);
+//		LOGGER.setLevel(Level.FINE);
 
 		File outputFile = null;
 		try {
-			File logLocation = getLogLocation();
+			File aLogFileLocation = getWorkspaceLogLocation();
+			File aCreatedFile = maybeCreateDirectory(aLogFileLocation, true);
+			if (aCreatedFile == null)
+				return;
+			initializeLogger(workspaceLogger(), aCreatedFile);
+//			return true;
+
+//			initializeLogger(workspaceLogger(), outputFile);
+//			LogFileCreated.newCase(outputFile.getName(), this);
+//
+//			FileHandler handler = new FileHandler(outputFile.getPath());
+//			handler.setEncoding("UTF-8");
+//			handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
+//
+//			LOGGER.addHandler(handler);
+//			LogHandlerBound.newCase(handler, this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	protected void initializeLogger(Logger aLogger, File logLocation) {
+		aLogger.setLevel(Level.FINE);
+		File outputFile = null;
+		try {
 			outputFile = new File(logLocation, EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
 			LogFileCreated.newCase(outputFile.getName(), this);
 
@@ -722,12 +812,31 @@ public class EHEventRecorder {
 			handler.setEncoding("UTF-8");
 			handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
 
-			LOGGER.addHandler(handler);
+			aLogger.addHandler(handler);
 			LogHandlerBound.newCase(handler, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
+    protected File maybeCreateDirectory(File logLocation, boolean isGlobalLogger) {
+    	try {
+//			File logLocation = HermesActivator.getDefault().getStateLocation().append("Logs")
+//					.toFile();
+			if (!logLocation.exists()) {
+				if (!logLocation.mkdirs()) {
+					throw new Exception("Could not make log directory!");
+				}
+			}
+			return logLocation;
+		} catch (Exception e) {
+			if (isGlobalLogger)
+			return new File("Logs");
+			else
+				return null;
+		}
+	}
+	
 
 	public EHEvents getRecordedEventsSoFar() {
 		return getRecordedEvents(allDocAndNonDocCommands);
@@ -736,10 +845,15 @@ public class EHEventRecorder {
 	public EHEvents getRecordedEvents(List<EHICommand> commands) {
 		return new EHEvents(commands, "", Long.toString(getStartTimestamp()), "", getStartTimestamp());
 	}
-
-	private File getLogLocation() throws Exception {
+	public static final String WORKSPACE_LOG_NAME = "Logs";
+    /**
+     * This is the workspace logger
+     * @return
+     * @throws Exception
+     */
+	private File getWorkspaceLogLocation() throws Exception {
 		try {
-			File logLocation = HermesActivator.getDefault().getStateLocation().append("Logs")
+			File logLocation = HermesActivator.getDefault().getStateLocation().append(WORKSPACE_LOG_NAME)
 					.toFile();
 			if (!logLocation.exists()) {
 				if (!logLocation.mkdirs()) {
@@ -748,7 +862,7 @@ public class EHEventRecorder {
 			}
 			return logLocation;
 		} catch (Exception e) {
-			return new File("Logs");
+			return new File(WORKSPACE_LOG_NAME);
 		}
 	}
 
@@ -856,6 +970,19 @@ public class EHEventRecorder {
 		}
 	}
 	
+	protected void log (Level aLevel, String aMessage, Object anObject) {
+		log (workspaceLogger(), aLevel, aMessage, anObject);
+		log(projectLogger(), aLevel, aMessage, anObject);
+	}
+	protected void log (Logger aLogger, Level aLevel, String aMessage, Object anObject) {
+		if (aLogger == null) {
+			return;
+		}
+		aLogger.log(aLevel, aMessage, anObject);
+		
+		
+		
+	}
 /*
  * Get a concurrent modification event
  */
@@ -976,7 +1103,8 @@ public class EHEventRecorder {
 			final EHICommand firstCmd = docOrNormalCommands.getFirst();
 			CommandLoggingInitiated.newCase(firstCmd,mStartTimestamp, this);
 //			System.out.println("***Logging command" + firstCmd);
-			LOGGER.log(Level.FINE, null, firstCmd);
+			log(Level.FINE, null, firstCmd);
+//			LOGGER.log(Level.FINE, null, firstCmd);
 			// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
 			// what should be sent to prediction, not individual commands");
 
