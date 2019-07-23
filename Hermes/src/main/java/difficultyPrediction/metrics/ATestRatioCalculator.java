@@ -11,7 +11,11 @@ import fluorite.commands.CompilationCommand;
 import fluorite.commands.EclipseCommand;
 import fluorite.commands.EHICommand;
 
-
+/**
+ * This was the default class, but it did not have computeFeatures.
+ * @author dewan
+ *
+ */
 public class ATestRatioCalculator implements RatioCalculator {
 //	public enum Features{
 //		A0("leaveoneouta0/"),
@@ -290,6 +294,17 @@ public class ATestRatioCalculator implements RatioCalculator {
 					+ numberOfFocusEvents + numberOfRemoveEvents)) * 100;
 
 		return removePercentage;
+	}
+	/**
+	 * How is this supposed to be different from computeMetrics other than the return value?
+	 */
+	@Override
+	public RatioFeatures computeFeatures(List<EHICommand> userActions) {
+		// TODO Auto-generated method stub
+		RatioFeatures retVal = new ARatioFeatures();
+		System.out.println ("returning dummy ratio features");
+
+		return retVal;
 	}
 
 	/* (non-Javadoc)
@@ -570,13 +585,6 @@ public class ATestRatioCalculator implements RatioCalculator {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public RatioFeatures computeFeatures(List<EHICommand> userActions) {
-		// TODO Auto-generated method stub
-		RatioFeatures retVal = new ARatioFeatures();
-		System.out.println ("returning dummy ratio features");
-
-		return retVal;
-	}
+	
 
 }

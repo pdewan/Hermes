@@ -3,6 +3,7 @@ package fluorite.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 
 import fluorite.plugin.EHActivator;
+import util.trace.Tracer;
 
 
 public class Initializer extends AbstractPreferenceInitializer {
@@ -68,7 +69,7 @@ public class Initializer extends AbstractPreferenceInitializer {
 	}
 	// added by PD to call this method 
     public static void initializeDefaultPreferencesStatic() {
-        System.out.println ("Initialized preference store");
+        Tracer.info (Initializer.class, "Initialized preference store");
         EHActivator.getDefault().getPreferenceStore()
                         .setDefault(Pref_EnableEventLogger, true);
         EHActivator.getDefault().getPreferenceStore()

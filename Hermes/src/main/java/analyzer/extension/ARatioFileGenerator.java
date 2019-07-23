@@ -78,7 +78,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	@Override
 	public void newParticipant(String anId, String aFolder) {
-		System.out.println("Extension**New Participant:" + anId);
+//		System.out.println("Extension**New Participant:" + anId);
 //		participantTimeLine = new AParticipantTimeLine();
 		participantTimeLine = AnalyzerFactories.createParticipantTimeLine();
 		participantToTimeLine.put(anId, participantTimeLine);
@@ -132,7 +132,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 			e.printStackTrace();
 		}
 		
-		System.out.println("e");
+//		System.out.println("e");
 
 	}
 	

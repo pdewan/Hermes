@@ -13,6 +13,7 @@ import org.osgi.framework.BundleContext;
 import fluorite.model.EHEventRecorder;
 import fluorite.plugin.EHActivator;
 import fluorite.preferences.Initializer;
+import util.trace.Tracer;
 import util.trace.plugin.PluginStarted;
 
 /**
@@ -35,7 +36,7 @@ public class HermesActivator extends AbstractUIPlugin {
 	
 	public void ehStart(BundleContext context) throws Exception {
 		if (EHActivator.getDefault().getPreferenceStore().getBoolean(Initializer.Pref_EnableEventLogger)) {
-			System.out.println ("Read preference store, initializing fluorite");
+			Tracer.info (this, "Read preference store, initializing fluorite");
 
 			// NOTE: This event recording must start after the workbench is
 			// fully loaded.
@@ -50,7 +51,7 @@ public class HermesActivator extends AbstractUIPlugin {
 				}
 
 			};
-			System.out.println ("Set system etc in start");
+			Tracer.info (this, "Set system etc in start");
 
 			uiJob.setSystem(true);
 			uiJob.setUser(false);

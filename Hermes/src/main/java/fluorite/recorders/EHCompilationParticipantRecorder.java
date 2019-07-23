@@ -36,6 +36,7 @@ import fluorite.commands.ShellCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EclipseEventListener;
 import hermes.tags.Tags;
+import util.trace.Tracer;
 
 
 public class EHCompilationParticipantRecorder extends CompilationParticipant  implements TaggedJSONListener, EclipseEventListener{
@@ -377,7 +378,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		setPackageAndProject(context); // the sets not used it seems
 
 		if (lastFileADT == null) {
-			System.err.println("Last file adt null for adelta:" + aDelta);
+			Tracer.info(this, "Last file adt null for adelta:" + aDelta);
 			return;
 		}
 		lastFileADT = aDelta.getCompilationUnitAST();

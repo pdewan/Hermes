@@ -29,12 +29,18 @@ public interface HelperConfigurationManager {
 
 	
 	 Boolean isShowReplayer() ;
+	 Boolean isTraceInfo();
+	 Boolean isLogWorkspace();
+	 Boolean isLogProject();
 	   public static final String RECORDER_JAVA = "recorder.javalocation";
 	    public static final String PLAYER_JAVA = "player.javalocation";
 	    public static final String ARFF_FILE= "predictor.arffLocation";
 	    public static final String CLASSIFIER= "predictor.classifier";
 	    public static final String SHOW_REPLAYER = "showReplayer";
 	    public static final String VISUALIZE_PREDICTIONS = "visualizePredictions";
+	    public static final String SHOW_INFO = "showInfo";
+	    public static final String LOG_WORKSPACE = "logWorksace";
+	    public static final String LOG_PRJECT = "logProject";
 	    
 
 
@@ -51,4 +57,8 @@ public interface HelperConfigurationManager {
 		public static final OversampleSpecification DEFAULT_OVERSAMPLE_SPECIFICATION = OversampleSpecification.SMOTE;
 		public static final CommandClassificationSchemeName DEFAULT_RATIO_SCHEME = CommandClassificationSchemeName.A1;
 		public static final String DEFAULT_JAVA_PATH = "java";
+		 public static final boolean DEFAULT_SHOW_INFO = false;
+
+		 public static final boolean DEFAULT_LOG_WORKSPACE = true;
+		 public static final boolean DEFAULT_LOG_PROJECT = true;
 }

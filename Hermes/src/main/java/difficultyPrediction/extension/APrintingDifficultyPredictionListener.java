@@ -5,7 +5,9 @@ import difficultyPrediction.featureExtraction.RatioFeatures;
 import fluorite.commands.EHICommand;
 
 public class APrintingDifficultyPredictionListener implements DifficultyPredictionEventListener{
-
+	public APrintingDifficultyPredictionListener() {
+		
+	}
 	@Override
 	public void newCommand(EHICommand newCommand) {
 		System.out.println("Extension**New User/Prediction Command:" + newCommand);		

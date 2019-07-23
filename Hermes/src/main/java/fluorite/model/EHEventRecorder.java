@@ -58,6 +58,7 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import config.HelperConfigurationManagerFactory;
 import dayton.ellwanger.hermes.HermesActivator;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
 import fluorite.actions.FindAction;
@@ -83,6 +84,7 @@ import fluorite.recorders.EHShellRecorder;
 import fluorite.recorders.EHStyledTextEventRecorder;
 import fluorite.recorders.EHVariableValueRecorder;
 import fluorite.util.EHUtilities;
+import util.trace.Tracer;
 import util.trace.plugin.PluginStopped;
 import util.trace.recorder.AddedCommandToBuffers;
 import util.trace.recorder.CombinedCommand;
@@ -546,7 +548,7 @@ public class EHEventRecorder {
 		mNormalCommands = new LinkedList<EHICommand>();
 		mDocumentChangeCommands = new LinkedList<EHICommand>();
 		mCurrentlyExecutingCommand = false;
-		System.out.println(" Recording started");
+		Tracer.info(this, " Recording started");
 		mRecordCommands = true;
 		mStartTimestamp = Calendar.getInstance().getTime().getTime();
 		ADifficultyPredictionPluginEventProcessor.getInstance().commandProcessingStarted();
@@ -692,7 +694,7 @@ public class EHEventRecorder {
 		// Flush the commands that are not yet logged into the file.
 		PendingCommandsLogBegin.newCase(allDocAndNonDocCommands, this);
 		for (EHICommand command : allDocAndNonDocCommands) {
-			log(Level.FINE, null, command);
+			maybeLog(Level.FINE, null, command);
 //			LOGGER.log(Level.FINE, null, command);
 		}
 		PendingCommandsLogEnd.newCase(allDocAndNonDocCommands, this);
@@ -970,9 +972,13 @@ public class EHEventRecorder {
 		}
 	}
 	
-	protected void log (Level aLevel, String aMessage, Object anObject) {
-		log (workspaceLogger(), aLevel, aMessage, anObject);
-		log(projectLogger(), aLevel, aMessage, anObject);
+	protected void maybeLog (Level aLevel, String aMessage, Object anObject) {
+		if (HelperConfigurationManagerFactory.getSingleton().isLogWorkspace()) {
+			log (workspaceLogger(), aLevel, aMessage, anObject);
+		}
+		if (HelperConfigurationManagerFactory.getSingleton().isLogProject()) {
+			log(projectLogger(), aLevel, aMessage, anObject);
+		}
 	}
 	protected void log (Logger aLogger, Level aLevel, String aMessage, Object anObject) {
 		if (aLogger == null) {
@@ -1103,7 +1109,7 @@ public class EHEventRecorder {
 			final EHICommand firstCmd = docOrNormalCommands.getFirst();
 			CommandLoggingInitiated.newCase(firstCmd,mStartTimestamp, this);
 //			System.out.println("***Logging command" + firstCmd);
-			log(Level.FINE, null, firstCmd);
+			maybeLog(Level.FINE, null, firstCmd);
 //			LOGGER.log(Level.FINE, null, firstCmd);
 			// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
 			// what should be sent to prediction, not individual commands");

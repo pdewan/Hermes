@@ -2,6 +2,7 @@ package util.trace.hermes.timetracker;
 
 
 
+import config.HelperConfigurationManagerFactory;
 import util.trace.ImplicitKeywordKind;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
@@ -12,7 +13,9 @@ import util.trace.Tracer;
 public class TimeTrackerTraceUtility {
 
 	public static void setTracing() {
-		Tracer.showInfo(true);
+		Boolean aShowInfo = HelperConfigurationManagerFactory.getSingleton().isTraceInfo();
+		Tracer.showInfo(aShowInfo);
+//		Tracer.showInfo(true);
 		Tracer.setDisplayThreadName(false); 
 		TraceableInfo.setPrintTraceable(true);
 		TraceableInfo.setPrintSource(true);

@@ -22,7 +22,7 @@ public class Replace extends BaseDocumentChangeEvent {
 	public Replace(int offset, int length, int startLine, int endLine,
 			int insertionLength, String deletedText, String insertedText,
 			IDocument document) {
-		System.out.println("Thread:" + Thread.currentThread() + this.getClass());
+//		System.out.println("Thread:" + Thread.currentThread() + this.getClass());
 
 		mOffset = offset;
 		mLength = length;

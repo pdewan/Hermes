@@ -41,7 +41,7 @@ public class ExtractRatiosBasedOnNumberOfEvents implements
 			List<Double> percentages = null;
 			int i = 2;
 			percentages = ratioCalculator.computeMetrics(actions);
-			RatioFeatures aRatioFeatures = ratioCalculator.computeFeatures(actions);
+			RatioFeatures aRatioFeatures = ratioCalculator.computeFeatures(actions); // we do not seem to do anything with this object
 //			List<Double> genericPercentages = genericRatioCalculator.computeMetrics(actions);
 //			if (!(percentages.equals(genericPercentages))) {
 //				System.err.println ("Generic and specific percentages diverge:" + percentages + " " + genericPercentages);

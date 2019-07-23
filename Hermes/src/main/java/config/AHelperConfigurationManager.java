@@ -256,6 +256,18 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 		}
 		return retVal;
 	}
+	@Override
+	public Boolean isTraceInfo() {
+		return getBooleanProperty(SHOW_INFO, DEFAULT_SHOW_INFO);
+	}
+	@Override
+	public Boolean isLogWorkspace() {
+		return getBooleanProperty(LOG_WORKSPACE, DEFAULT_LOG_WORKSPACE);
+	}
+	@Override
+	public Boolean isLogProject() {
+		return getBooleanProperty(LOG_PRJECT, DEFAULT_LOG_PROJECT);
+	}
 	
 	
 	

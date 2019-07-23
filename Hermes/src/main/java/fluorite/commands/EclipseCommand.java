@@ -21,6 +21,7 @@ import fluorite.model.EHEventRecorder;
 import fluorite.plugin.EHActivator;
 import fluorite.preferences.Initializer;
 import fluorite.util.EventLoggerConsole;
+import util.trace.Tracer;
 
 public class EclipseCommand 
 //	extends EclipseCommand 
@@ -163,7 +164,7 @@ public class EclipseCommand
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
 		if (cs == null) {
-			System.err.println("Null command service:" );
+			Tracer.info(this, "Null command service:" );
 			return "";
 		}
 		Command command = cs.getCommand(mCommandId);
