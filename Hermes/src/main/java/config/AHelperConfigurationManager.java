@@ -34,8 +34,8 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 //    public static final String SHOW_PREDICTION_CONTROLLER = "showPredictionController";
 
 
-    public static final String OVERSAMPLE= "predictor.oversample";
-    public static final String COMMAND_CLASIFICATION_SCHEME= "predictor.commandClassification";
+//    public static final String OVERSAMPLE= "predictor.oversample";
+//    public static final String COMMAND_CLASIFICATION_SCHEME= "predictor.commandClassification";
 
 
     protected static PropertiesConfiguration staticConfiguration;
@@ -258,7 +258,7 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	}
 	@Override
 	public Boolean isTraceInfo() {
-		return getBooleanProperty(SHOW_INFO, DEFAULT_SHOW_INFO);
+		return getBooleanProperty(TRACE_INFO, DEFAULT_TRACE_INFO);
 	}
 	@Override
 	public Boolean isLogWorkspace() {
@@ -268,7 +268,38 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	public Boolean isLogProject() {
 		return getBooleanProperty(LOG_PRJECT, DEFAULT_LOG_PROJECT);
 	}
-	
+	@Override
+	public Boolean isLogRatio() {
+		return getBooleanProperty(SAVE_EACH_RATIO, DEFAULT_SAVE_EACH_RATIO);
+	}
+	@Override
+	public Integer getSegmentLength() {
+		return getIntegerProperty(SEGMENT_LENGTH, DEFAULT_SEGMENT_LENGTH);
+	}
+	@Override
+	public void setSegmentLength(int newVal) {
+		integerProperties.put(SEGMENT_LENGTH, newVal);
+	}
+	@Override
+	public Integer getStartupLag() {
+		return getIntegerProperty(STARTUP_LAG, DEFAULT_STARUP_LAG);
+	}
+	@Override
+	public void setStartupLag(int newVal) {
+		integerProperties.put(STARTUP_LAG, newVal);
+	}
+	@Override
+	public Integer getStatusAggregated() {
+		return getIntegerProperty(STATUS_AGGREGATED, DEFAULT_STATUS_AGGREGATED);
+	}
+	@Override
+	public void setStatusAggregated(int newVal) {
+		integerProperties.put(STATUS_AGGREGATED, newVal);
+	}
+	@Override
+	public boolean isSaveEachRatio() {
+		return getBooleanProperty(SAVE_EACH_RATIO, DEFAULT_SAVE_EACH_RATIO);
+	}
 	
 	
 	        

@@ -50,11 +50,44 @@ public class APercentageCalculator implements RatioCalculator {
 		return isDebugEvent;
 	}
 
-	/* (non-Javadoc)
-	 * @see difficultyPrediction.metrics.FeatureCalculator#isEditEvent(edu.cmu.scs.fluorite.commands.ICommand)
+//	/* (non-Javadoc)
+//	 * @see difficultyPrediction.metrics.FeatureCalculator#isEditEvent(edu.cmu.scs.fluorite.commands.ICommand)
+//	 */
+//	@Override
+//	public boolean isInsertOrEditEvent(EHICommand event) {
+//		boolean isEditEvent = false;
+//		if ((event.getCommandType().equals("CopyCommand"))
+//				|| (event.getCommandType().equals("CutCommand"))
+//				|| (event.getCommandType().equals("Delete"))
+//				|| (event.getCommandType().equals("Insert"))
+//				|| (event.getCommandType().equals("InsertStringCommand"))
+//				|| (event.getCommandType().equals("PasteCommand"))
+//				|| (event.getCommandType().equals("RedoCommand"))
+//				|| (event.getCommandType().equals("Replace"))
+//				|| (event.getCommandType().equals("SelectTextCommand"))
+//				|| (event.getCommandType().equals("UndoCommand"))
+//
+//		) {
+//			isEditEvent = true;
+//		}
+//
+//		if (event.getCommandType().equals("EclipseCommand")) {
+//			EclipseCommand eclipseCommand = (EclipseCommand) event;
+//			if (eclipseCommand.getCommandID().toLowerCase().contains("edit")) {
+//				isEditEvent = true;
+//			}
+//		}
+//		
+//		return isEditEvent;
+//	}
+	/**
+	 * No one should call this
 	 */
+	public boolean isInsertEvent(EHICommand event) {
+		return isEditEvent(event);
+	}
 	@Override
-	public boolean isInsertOrEditEvent(EHICommand event) {
+	public boolean isEditEvent(EHICommand event) {
 		boolean isEditEvent = false;
 		if ((event.getCommandType().equals("CopyCommand"))
 				|| (event.getCommandType().equals("CutCommand"))
@@ -77,18 +110,7 @@ public class APercentageCalculator implements RatioCalculator {
 				isEditEvent = true;
 			}
 		}
-		// switch(event.getEventKind()) {
-		// case EDIT:
-		// isEditEvent=true;
-		// break;
-		// case COMMAND:
-		// if (event.getCommandId() != null) {
-		// if(event.getCommandId().toLowerCase().contains("edit")) {
-		// isEditEvent = true;
-		// }
-		// }
-		// break;
-		// }
+		
 		return isEditEvent;
 	}
 
@@ -295,7 +317,9 @@ public class APercentageCalculator implements RatioCalculator {
 		for (int i = 0; i < userActions.size(); i++) {
 			EHICommand myEvent = userActions.get(i);
 
-			if (isInsertOrEditEvent(myEvent)) {
+//			if (isInsertOrEditEvent(myEvent)) {
+			if (isEditEvent(myEvent)) {
+
 				numberOfEditEvents++;
 				System.out.println ("Edit command:" + myEvent);
 			} else if (isDebugEvent(myEvent)) {
@@ -331,10 +355,18 @@ public class APercentageCalculator implements RatioCalculator {
 	/* (non-Javadoc)
 	 * @see difficultyPrediction.metrics.FeatureCalculator#getFeatureName(edu.cmu.scs.fluorite.commands.ICommand)
 	 */
-	@Override
+//	@Override
+	public List<String> getFeatureNames(EHICommand myEvent) {
+		List<String> aFeatureNames = new ArrayList();
+		aFeatureNames.add(getFeatureName(myEvent));
+		return aFeatureNames;
+		
+	}
 	public  String getFeatureName(EHICommand myEvent) {
 		
-			if (isInsertOrEditEvent(myEvent)) {
+//			if (isInsertOrEditEvent(myEvent)) {
+			if (isEditEvent(myEvent)) {
+
 				return "Edit";
 				
 			} else if (isDebugEvent(myEvent)) {
@@ -372,5 +404,19 @@ public class APercentageCalculator implements RatioCalculator {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public CommandCategory[] getComputedFeatures() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getComputedFeatureNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

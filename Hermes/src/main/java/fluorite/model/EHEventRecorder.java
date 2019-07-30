@@ -207,7 +207,7 @@ public class EHEventRecorder {
 	protected Map<String, Logger> projectToLogger = new HashMap<>();
 	
 	protected Logger projectLogger() {
-		IProject aProject = EHUtilities.getCurrentProject();
+		IProject aProject = EHUtilities.getAndStoreCurrentProject();
 		if (aProject == null) {
 			return null;
 		}
@@ -1103,6 +1103,8 @@ public class EHEventRecorder {
 		 * Vice versa also, combine a bunch of inserts until a move caret is detected
 
 		 * It seems first commands are doc change
+		 * 
+		 * First can get out of sync. So maybe we should flush the cache if the size gets too large
 		 */
 		while (docOrNormalCommands.size() > 1 && 
 				docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst()) {
@@ -1243,6 +1245,7 @@ public class EHEventRecorder {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
 		return "Log" + format.format(new Date(timestamp)) + (autosave ? "-Autosave" : "") + ".xml";
 	}
+	
 
 	public static Document createDocument(EHEvents events) {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();

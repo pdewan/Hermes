@@ -1,7 +1,11 @@
 package difficultyPrediction.metrics;
 
 import bus.uigen.ObjectEditor;
-
+/**
+ * Same as 
+ * @author dewan
+ *
+ */
 public class AnA1CommandCategories extends AnA0CommandCategories{
 //	CommandName[] editOrInsertCommands = {
 //			CommandName.CopyCommand,
@@ -68,11 +72,18 @@ public class AnA1CommandCategories extends AnA0CommandCategories{
 		}
 			
 	}
+	protected void mapCategories() {
+//		map (editOrInsertCategory(), CommandCategory.EDIT_OR_INSERT);
+		map (insertCategory(), CommandCategory.INSERT);
+		map (removeCategory(), CommandCategory.REMOVE);
+		map (debugCategory(), CommandCategory.DEBUG);
+		map (focusCategory(), CommandCategory.FOCUS);
+		map (navigationCategory(), CommandCategory.NAVIGATION);
+	}
 	public AnA1CommandCategories() {
 		this(true);
 	}
-	@Override
-	protected CommandName[] editOrInsertCategory() {
+	protected CommandName[] insertCategory() {
 		return insertCategory;
 	}
 	@Override

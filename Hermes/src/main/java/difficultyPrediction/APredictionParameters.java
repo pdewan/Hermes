@@ -21,9 +21,9 @@ import util.annotations.Visible;
 
 public class APredictionParameters implements PredictionParameters {
 	static PredictionParameters instance;
-	int segmentLength = 25;
-	int startupLag = 50;
-	int statusAggregated = 5;
+//	int segmentLength = 25;
+//	int startupLag = 50;
+//	int statusAggregated = 5;
 	ClassifierSpecification classifierSpecification;
 	OversampleSpecification oversampleSpecification;
 	CommandClassificationSchemeName ratioScheme;
@@ -49,12 +49,16 @@ public class APredictionParameters implements PredictionParameters {
 	@Column(0)
 	@ComponentWidth(30)
 	public int getStartupLag() {
-		return startupLag;
+		return HelperConfigurationManagerFactory.getSingleton().getStartupLag();
 	}
 
 	public void setStartupLag(int newValue) {
-		int oldValue = startupLag;
-		this.startupLag = newValue;
+//		int oldValue = startupLag;
+//		this.startupLag = newValue;
+//		propertyChangeSupport.firePropertyChange("StartupLag", oldValue,
+//				newValue);
+		int oldValue = getStartupLag();
+		HelperConfigurationManagerFactory.getSingleton().setStartupLag(newValue);
 		propertyChangeSupport.firePropertyChange("StartupLag", oldValue,
 				newValue);
 
@@ -64,12 +68,16 @@ public class APredictionParameters implements PredictionParameters {
 	@Column(1)
 	@ComponentWidth(30)
 	public int getSegmentLength() {
-		return segmentLength;
+//		return segmentLength;
+		return HelperConfigurationManagerFactory.getSingleton().getSegmentLength();
+
 	}
 
 	public void setSegmentLength(int newVal) {
-		int oldValue = segmentLength;
-		this.segmentLength = newVal;
+//		int oldValue = segmentLength;
+//		this.segmentLength = newVal;
+		int oldValue = getSegmentLength();
+		HelperConfigurationManagerFactory.getSingleton().setSegmentLength(newVal);
 		propertyChangeSupport.firePropertyChange("SegmentLength", oldValue,
 				newVal);
 
@@ -79,12 +87,15 @@ public class APredictionParameters implements PredictionParameters {
 	@Column(2)
 	@ComponentWidth(30)
 	public int getStatusAggregated() {
-		return statusAggregated;
+		return HelperConfigurationManagerFactory.getSingleton().getStatusAggregated();
+
+//		return statusAggregated;
 	}
 
 	public void setStatusAggregated(int newValue) {
-		int oldValue = statusAggregated;
-		this.statusAggregated = newValue;
+		int oldValue = getStatusAggregated();
+		HelperConfigurationManagerFactory.getSingleton().setStatusAggregated(newValue);
+//		this.statusAggregated = newValue;
 		propertyChangeSupport.firePropertyChange("StatusAggregated", oldValue,
 				newValue);
 	}

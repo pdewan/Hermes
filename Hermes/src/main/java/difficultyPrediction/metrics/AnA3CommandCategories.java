@@ -35,10 +35,18 @@ public class AnA3CommandCategories extends AnA2CommandCategories{
 		this(true);
 	}
 	
+//	@Override
+//	protected CommandName[] editOrInsertCategory() {
+//		List<CommandName> resultList = new ArrayList();
+//		resultList.addAll(Arrays.asList(super.editOrInsertCategory()));
+//		resultList.addAll(Arrays.asList(additionsToInsertCategory));
+//		resultList.removeAll(Arrays.asList(deletionsToInsertCategory));
+//		return resultList.toArray(new CommandName[] {});
+//	}
 	@Override
-	protected CommandName[] editOrInsertCategory() {
+	protected CommandName[] insertCategory() {
 		List<CommandName> resultList = new ArrayList();
-		resultList.addAll(Arrays.asList(super.editOrInsertCategory()));
+		resultList.addAll(Arrays.asList(super.insertCategory()));
 		resultList.addAll(Arrays.asList(additionsToInsertCategory));
 		resultList.removeAll(Arrays.asList(deletionsToInsertCategory));
 		return resultList.toArray(new CommandName[] {});

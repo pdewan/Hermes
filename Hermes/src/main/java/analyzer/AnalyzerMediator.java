@@ -184,17 +184,17 @@ public class AnalyzerMediator implements Mediator {
 		
 	}
 
-	@Override
-	public StatusInformation getStatusInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setStatusInformation(StatusInformation statusInformation) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public StatusInformation getStatusInformation() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void setStatusInformation(StatusInformation statusInformation) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void addRatioFeaturesListener(

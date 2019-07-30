@@ -42,7 +42,7 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 	RatioBasedFeatureExtractor featureExtractor;
 	PredictionManager predictionManager;
 	StatusManager statusManager;
-	private StatusInformation statusInformation;
+//	private StatusInformation statusInformation;
 //	List<PluginEventListener> listeners = new ArrayList();
 	
 
@@ -99,20 +99,21 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 	public void featureExtractor_HandOffFeatures(RatioBasedFeatureExtractor extractor,
 			RatioFeatures details) {
 		Tracer.info(this, "difficultyRobot.featureExtractor");
-		statusInformation = new AStatusInformation();
-		statusInformation.setEditRatio(details.getEditRatio());
-	
-		statusInformation.setDebugRatio(details.getDebugRatio());
-		statusInformation.setNavigationRatio(details.getNavigationRatio());
-		statusInformation.setRemoveRatio(details.getRemoveRatio());
-		statusInformation.setFocusRatio(details.getFocusRatio());
-		NewExtractedStatusInformation.newCase(statusInformation.toString(), this);
-		//notifyNewRatios(details);
-//		ADifficultyPredictionPluginEventProcessor.getInstance().notifyNewRatios(details);
+//		statusInformation = new AStatusInformation();
+//		statusInformation.setEditRatio(details.getEditRatio());
+//	
+//		statusInformation.setDebugRatio(details.getDebugRatio());
+//		statusInformation.setNavigationRatio(details.getNavigationRatio());
+//		statusInformation.setRemoveRatio(details.getRemoveRatio());
+//		statusInformation.setFocusRatio(details.getFocusRatio());
+//		NewExtractedStatusInformation.newCase(statusInformation.toString(), this);
+
 		notifyNewRatios(details);
 		AnAnalyzer.maybeRecordFeatures(details);
 
-		this.predictionManager.getPredictionStrategy().predictSituation(details.getEditRatio(), details.getDebugRatio(), details.getNavigationRatio(), details.getFocusRatio(), details.getRemoveRatio());
+//		this.predictionManager.getPredictionStrategy().predictSituation(details.getEditRatio(), details.getDebugRatio(), details.getNavigationRatio(), details.getFocusRatio(), details.getRemoveRatio());
+		this.predictionManager.getPredictionStrategy().predictSituation(details);
+
 //		NewPrediction.newCase(this);
 
 	}
@@ -123,12 +124,12 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 			APredictionManagerDetails details) {
 		StatusAggregationStarted.newCase(this);
 		Tracer.info(this, "difficultyRobot.handOffPrediction");
-		statusInformation.setPredictedClass("Prediction");
-		statusInformation.setPrediction(details.predictionValue);
-		statusInformation.setTimeStamp(new Date(Calendar.getInstance().getTimeInMillis()));
-		statusInformation.setStatusKind(StatusKind.PREDICTION_MADE);
-		statusInformation.setUserId(this.id);
-		statusInformation.setUserName(this.id);
+//		statusInformation.setPredictedClass("Prediction");
+//		statusInformation.setPrediction(details.predictionValue);
+//		statusInformation.setTimeStamp(new Date(Calendar.getInstance().getTimeInMillis()));
+//		statusInformation.setStatusKind(StatusKind.PREDICTION_MADE);
+//		statusInformation.setUserId(this.id);
+//		statusInformation.setUserName(this.id);
 		notifyNewStatus(details.predictionValue);
 		this.statusManager.strategy.aggregateStatuses(details.predictionValue);
 	}
@@ -236,15 +237,16 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 		this.statusManager = statusManager;
 	}
 
+	// why do we need statusInformation?
 
-	public StatusInformation getStatusInformation() {
-		return statusInformation;
-	}
-
-
-	public void setStatusInformation(StatusInformation statusInformation) {
-		this.statusInformation = statusInformation;
-	}
+//	public StatusInformation getStatusInformation() {
+//		return statusInformation;
+//	}
+//
+//
+//	public void setStatusInformation(StatusInformation statusInformation) {
+//		this.statusInformation = statusInformation;
+//	}
 	
 	// moved this code to superclass
 	

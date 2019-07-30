@@ -46,9 +46,9 @@ public class ARatioFileComponents extends ARatioFeatures implements RatioFileCom
 		this.actualStatus = actualStatus;
 	}
 
-	public double getEditRatio() {
-		return editRatio;
-	}
+//	public double getEditRatio() {
+//		return editRatio;
+//	}
 
 //	public void setEditRatio(double editRatio) {
 //		this.editRatio = editRatio;

@@ -72,12 +72,12 @@ public class FeatureExtractorAnalyzer {
 			args.setExceptionsPerRun(exceptionsPerRun);
 			args.setInsertionRatio(insertionRatio);
 			args.setDeletionRatio(deletionRatio);
-			args.setInsertionTimeRatio(insertionTimeRatio);
-			args.setDeletionTimeRatio(deletionTimeRatio);
-			args.setDebugTimeRatio(debugTimeRatio);
-			args.setNavigationTimeRatio(navigationTimeRatio);
-			args.setFocusTimeRatio(focusTimeRatio);
-			args.setRemoveTimeRatio(removeTimeRatio);
+			args.setInsertionRate(insertionTimeRatio);
+//			args.setDeletionRate(deletionTimeRatio);
+			args.setDebugRate(debugTimeRatio);
+			args.setNavigationRate(navigationTimeRatio);
+			args.setFocusRate(focusTimeRatio);
+			args.setRemoveRate(removeTimeRatio);
 			args.setSavedTimeStamp(metrics.getCurrentTimeStamp());
 			mediator.featureExtractor_HandOffFeatures(null, args); // Raise
 			// the event

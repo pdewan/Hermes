@@ -1,32 +1,24 @@
 package difficultyPrediction.metrics;
 
+import java.util.List;
+
 public interface CommandCategoryMapping {
 
 	public abstract String getSearchCommands();
 
-	//	public void setSearchCommands(String searchCommands) {
-	//		this.searchCommands = searchCommands;
-	//	}
+
 	public abstract String getDebugCommands();
 
-	//	public void setDebugCommands(String debugCommands) {
-	//		this.debugCommands = debugCommands;
-	//	}
-	public abstract String getEditOrInsertCommands();
 
-	//	public void setEditOrInsertCommands(String editOrInsertCommands) {
-	//		this.editOrInsertCommands = editOrInsertCommands;
-	//	}
+//	public abstract String getEditOrInsertCommands();
+
+	
 	public abstract String getFocusCommands();
 
-	//	public void setFocusCommands(String focusCommands) {
-	//		this.focusCommands = focusCommands;
-	//	}
+	
 	public abstract String getRemoveCommands();
 
-	//	public void setRemoveCommands(String removeCommands) {
-	//		this.removeCommands = removeCommands;
-	//	}
+	
 	public abstract CategorizedCommand[] getCommandsToCategories();
 
 	public abstract void setCommandsToFeatureDesciptor(
@@ -40,10 +32,33 @@ public interface CommandCategoryMapping {
 
 	String getNavigationCommands();
 
-	CommandCategory getCommandCategory(CommandName aCommandName);
+	List<CommandCategory> getCommandCategories(CommandName aCommandName);
 
 	CommandName searchCommandName(String anID);
 
-	CommandCategory searchCommandCategory(String anID);
+//	CommandCategory searchCommandCategory(String anID);
+	List<CommandCategory> searchCommandCategories(String anID);
+
+
+	String getFeatureName(CommandCategory aCommandCategory);
+
+	String getEditCommands();
+
+	String getInsertCommands();
+
+	/**
+	 * We will use these names when doing prediction from features
+	 * By default a category is its name. 
+	 * Subclasses will change it based on the weka file used
+	 */
+	String[] getCommandCategoryNames();
+
+	/**
+	 * This will be the order of the command categories in the arff file
+	 */
+	CommandCategory[] getRelevantCommandCategories();
+
+
+	String[] getOrderedRelevantFeatureNames();
 
 }

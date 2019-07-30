@@ -12,6 +12,10 @@ import config.HelperConfigurationManagerFactory;
 import dayton.ellwanger.hermes.HermesActivator;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.DifficultyPredictionSettings;
+import difficultyPrediction.featureExtraction.RatioFeatures;
+import difficultyPrediction.metrics.CommandCategory;
+import difficultyPrediction.metrics.CommandCategoryMapping;
+import util.trace.Tracer;
 import weka.classifiers.Classifier;
 
 public class DecisionTreeModel implements PredictionManagerStrategy {
@@ -23,16 +27,23 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 	protected Map<Classifier, Boolean> classifierBuilt = new HashMap();
 
 	private String wekaDataFileLocation = "data/userStudy2010.arff";
-
+	
+	CommandCategoryMapping commandCategoryMapping;
+//	CommandCategory[] relevantCommandCategories;
+	String[] relevantFeatureNames;
 
 	public DecisionTreeModel(PredictionManager predictionManager) {
 		this.predictionManager = predictionManager;
+		commandCategoryMapping = APredictionParameters.getInstance().
+				getCommandClassificationScheme().
+				getCommandCategoryMapping();
+//		relevantCommandCategories = commandCategoryMapping.getRelevantCommandCategories();
+		relevantFeatureNames = commandCategoryMapping.getOrderedRelevantFeatureNames();
 	}
 	
 	protected String wekaDataFileLocation() {
-		String aSpecifiedLocation = HelperConfigurationManagerFactory.getSingleton().getARFFFileName();
-//		return aSpecifiedLocation == null?wekaDataFileLocation:aSpecifiedLocation;
-//		return APredictionParameters.getInstance().getARFFFileName().getText();
+//		 String aSpecifiedLocation = HelperConfigurationManagerFactory.getSingleton().getARFFFileName();
+//		 return aSpecifiedLocation;
 		return APredictionParameters.getInstance().getClassificationParameters().getARFFFileName();
 
 	}
@@ -163,7 +174,111 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 				long startTime = System.currentTimeMillis();
 				buildClassifierModel();
 //				isClassifierModelBuilt = true;
-				System.out.println(" Built  model in m:" + (System.currentTimeMillis() - startTime));
+				Tracer.info(this, " Built  model in m:" + (System.currentTimeMillis() - startTime));
+
+				
+			}
+
+			double predictedClass = getClassifier().classifyInstance(testingSet
+					.instance(0));
+			predictedValue = testingSet.classAttribute().value(
+					(int) predictedClass);
+//			System.out.println("Predicted Value: " + predictedValue);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		predictionManager.onPredictionHandOff(predictedValue);
+	}
+	public void predictSituation(RatioFeatures aRatioFeatures) {
+//		String predictedValue = "NO";
+		String predictedValue = PROGRESS_PREDICTION;
+		weka.core.Attribute wekaAttributes[] = new weka.core.Attribute[relevantFeatureNames.length];
+		try {
+			for (int i = 0; i < relevantFeatureNames.length; i++) {
+				String aCommandCategoryName = relevantFeatureNames[i];
+				wekaAttributes[i] = new weka.core.Attribute(
+						aCommandCategoryName);		
+				
+			}
+//			// Declare five numeric attributes
+//			weka.core.Attribute searchPercentageAttribute = new weka.core.Attribute(
+//					"searchPercentage");
+//			weka.core.Attribute debugPercentageAttribute = new weka.core.Attribute(
+//					"debugPercentage");
+//			weka.core.Attribute focusPercentageAttribute = new weka.core.Attribute(
+//					"focusPercentage");
+//			weka.core.Attribute editPercentageAttribute = new weka.core.Attribute(
+//					"editPercentage");
+//			weka.core.Attribute removePercentageAttribute = new weka.core.Attribute(
+//					"removePercentage");
+
+			// Declare the class attribute along with its values
+			weka.core.FastVector fvClassVal = new weka.core.FastVector(2);
+//			fvClassVal.addElement("YES");
+//			fvClassVal.addElement("NO");
+			fvClassVal.addElement(DIFFICULTY_PREDICTION);
+			fvClassVal.addElement(PROGRESS_PREDICTION);
+			weka.core.Attribute aResultClassAttribute = new weka.core.Attribute(
+					"STUCK", fvClassVal);
+
+			// Declare the feature vector
+			// should be 6
+			weka.core.FastVector fvWekaAttributes = new weka.core.FastVector(wekaAttributes.length + 1);
+			for (weka.core.Attribute aWekaAttribute:wekaAttributes) {
+				fvWekaAttributes.addElement(aWekaAttribute);
+			}
+//			fvWekaAttributes.addElement(searchPercentageAttribute);
+//			fvWekaAttributes.addElement(debugPercentageAttribute);
+//			fvWekaAttributes.addElement(focusPercentageAttribute);
+//			fvWekaAttributes.addElement(editPercentageAttribute);
+//			fvWekaAttributes.addElement(removePercentageAttribute);
+			fvWekaAttributes.addElement(aResultClassAttribute);
+
+			// Create an empty training set
+			weka.core.Instances testingSet = new weka.core.Instances("Rel",
+					fvWekaAttributes, 10); // why 10?
+
+			// Set class index
+			testingSet.setClassIndex(relevantFeatureNames.length); // index of result
+
+			// Create the instance
+			weka.core.Instance iExample = new weka.core.Instance(relevantFeatureNames.length);
+			for (int i = 0; i < relevantFeatureNames.length; i++) {
+//				CommandCategory aCommandCategory = relevantCommandCategories[i];
+//				String aFeatureName = commandCategoryMapping.getFeatureName(aCommandCategory);
+				String aFeatureName = relevantFeatureNames[i];
+
+				Double aFeatureValue = (Double) aRatioFeatures.getFeature(aFeatureName);
+				iExample.setValue(
+						(weka.core.Attribute) fvWekaAttributes.elementAt(i),
+						aFeatureValue);
+			}
+
+//			iExample.setValue(
+//					(weka.core.Attribute) fvWekaAttributes.elementAt(0),
+//					navigationRatio);
+//			iExample.setValue(
+//					(weka.core.Attribute) fvWekaAttributes.elementAt(1),
+//					debugRatio);
+//			iExample.setValue(
+//					(weka.core.Attribute) fvWekaAttributes.elementAt(2),
+//					focusRatio);
+//			iExample.setValue(
+//					(weka.core.Attribute) fvWekaAttributes.elementAt(3),
+//					editOrInsertRatio);
+//			iExample.setValue(
+//					(weka.core.Attribute) fvWekaAttributes.elementAt(4),
+//					deleteRatio);
+
+			// add the instance
+			testingSet.add(iExample);
+
+			if (!isClassifierBuilt()) {
+				long startTime = System.currentTimeMillis();
+				buildClassifierModel();
+//				isClassifierModelBuilt = true;
+				Tracer.info(this, " Built  model in m:" + (System.currentTimeMillis() - startTime));
 
 				
 			}

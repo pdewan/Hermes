@@ -39,7 +39,7 @@ public class ExtractRatiosBasedOnNumberOfEvents implements
 	
 	public void performFeatureExtraction(List<EHICommand> actions, RatioBasedFeatureExtractor featureExtractor) {
 			List<Double> percentages = null;
-			int i = 2;
+//			int i = 2;
 			percentages = ratioCalculator.computeMetrics(actions);
 			RatioFeatures aRatioFeatures = ratioCalculator.computeFeatures(actions); // we do not seem to do anything with this object
 //			List<Double> genericPercentages = genericRatioCalculator.computeMetrics(actions);
@@ -61,8 +61,9 @@ public class ExtractRatiosBasedOnNumberOfEvents implements
 			if (!correctRatios) {
 				System.out.println("compariosn failed");
 			}
-			featureExtractor.onFeatureHandOff(percentages.get(EDIT_PERCENTAGE), percentages.get(DEBUG_PERCENTAGE), 
-                    percentages.get(NAVIGATION_PERCENTAGE), percentages.get(FOCUS_PERCENTAGE), percentages.get(REMOVE_PERCENTAGE), timeStamp);		
+//			featureExtractor.onFeatureHandOff(percentages.get(EDIT_PERCENTAGE), percentages.get(DEBUG_PERCENTAGE), 
+//                    percentages.get(NAVIGATION_PERCENTAGE), percentages.get(FOCUS_PERCENTAGE), percentages.get(REMOVE_PERCENTAGE), timeStamp);	
+			featureExtractor.onFeatureHandOff(aRatioFeatures);		
 	}
 
 }

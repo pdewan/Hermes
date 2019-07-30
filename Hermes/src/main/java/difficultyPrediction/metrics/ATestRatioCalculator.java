@@ -13,6 +13,8 @@ import fluorite.commands.EHICommand;
 
 /**
  * This was the default class, but it did not have computeFeatures.
+ * The goal of this class is to check if Jason and Kevin's old code is consistent
+ * with the new mapping based scheme
  * @author dewan
  *
  */
@@ -85,7 +87,9 @@ public class ATestRatioCalculator implements RatioCalculator {
 	 * @see difficultyPrediction.metrics.FeatureCalculator#isEditEvent(edu.cmu.scs.fluorite.commands.ICommand)
 	 */
 	@Override
-	public boolean isInsertOrEditEvent(EHICommand event) {
+	public boolean isEditEvent(EHICommand event) {
+
+//	public boolean isInsertOrEditEvent(EHICommand event) {
 		boolean isEditEvent = false;
 		if ((event.getCommandType().equals("CopyCommand"))
 
@@ -113,6 +117,10 @@ public class ATestRatioCalculator implements RatioCalculator {
 
 		return isEditEvent;
 	}
+	public boolean isInsertEvent(EHICommand event) {
+		return isEditEvent(event);
+	}
+	
 	// switch(event.getEventKind()) {
 	// case EDIT:
 	// isEditEvent=true;
@@ -346,11 +354,16 @@ public class ATestRatioCalculator implements RatioCalculator {
 		for (int i = 0; i < userActions.size(); i++) {
 			int foo = 1;
 			EHICommand myEvent = userActions.get(i);
-			CommandCategory aCommandCategory = AGenericRatioCalculator.toCommandCategory(myEvent);
+			List<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
+			for (CommandCategory aCommandCategory:aCommandCategories) {
 
 			switch(APredictionParameters.getInstance().getCommandClassificationScheme()) {
 
 //			switch(CURRENT_SCHEME) {
+			/**
+			 * This code seems to duplicating toCommandCategory, it is meant only to
+			 * check if commandCategory is the same as Jason and Kevin's old code
+			 */
 			case A0:
 
 				//jason's edit scheme
@@ -384,7 +397,9 @@ public class ATestRatioCalculator implements RatioCalculator {
 				if (jasonCalculator.isInsertionEvent(myEvent)) {
 					numberOfEditOrInsertEvents++;
 					System.out.println ("Insert command:" + myEvent);
-					if (aCommandCategory != CommandCategory.EDIT_OR_INSERT) {
+//					if (aCommandCategory != CommandCategory.EDIT_OR_INSERT) {
+					if (aCommandCategory != CommandCategory.INSERT) {
+
 						System.out.println ("Policies diverge");
 
 					}
@@ -437,7 +452,9 @@ public class ATestRatioCalculator implements RatioCalculator {
 				if (jasonCalculator.isInsertionEvent(myEvent)) {
 					numberOfEditOrInsertEvents++;
 					//System.out.println ("Edit command:" + myEvent);
-					if (aCommandCategory != CommandCategory.EDIT_OR_INSERT) {
+//					if (aCommandCategory != CommandCategory.EDIT_OR_INSERT) {
+					if (aCommandCategory != CommandCategory.INSERT) {
+
 						System.out.println ("Policies diverge");
 
 					}
@@ -486,10 +503,14 @@ public class ATestRatioCalculator implements RatioCalculator {
 			case A3:
 
 				//third ratios, original scheme
-				if (isInsertOrEditEvent(myEvent)) {
+//				if (isInsertOrEditEvent(myEvent)) {
+				if (isInsertEvent(myEvent)) {
+
 					numberOfEditOrInsertEvents++;
 					//System.out.println ("Edit command:" + myEvent);
-					if (aCommandCategory != CommandCategory.EDIT_OR_INSERT) {
+					if (aCommandCategory != CommandCategory.INSERT) {
+
+//					if (aCommandCategory != CommandCategory.EDIT_OR_INSERT) {
 						System.out.println ("Policies diverge");
 
 					}
@@ -538,6 +559,7 @@ public class ATestRatioCalculator implements RatioCalculator {
 			}
 
 		}
+		}
 
 		ArrayList<Integer> eventData = new ArrayList<Integer>();
 		eventData.add(numberOfDebugEvents);
@@ -551,13 +573,24 @@ public class ATestRatioCalculator implements RatioCalculator {
 	/* (non-Javadoc)
 	 * @see difficultyPrediction.metrics.FeatureCalculator#getFeatureName(edu.cmu.scs.fluorite.commands.ICommand)
 	 */
-	@Override
+//	@Override
+//	public  List<String> getFeatureNames(EHICommand myEvent) {
+//		List<String> aFeatureNames = new ArrayList();
+//		aFeatureNames.add(getFeatureName(myEvent));
+//		return aFeatureNames;
+//	}
+
 	public  String getFeatureName(EHICommand myEvent) {
-
-		if (isInsertOrEditEvent(myEvent)) {
+		if (isEditEvent(myEvent)) {
 			return "Edit";
+		}
 
-		} else if (isDebugEvent(myEvent)) {
+//		if (isInsertOrEditEvent(myEvent)) {
+//			return "Edit";
+//
+//		} 
+		
+		else if (isDebugEvent(myEvent)) {
 			return "Debug";
 
 		} else if (isNavigationEvent(myEvent)) {
@@ -582,6 +615,16 @@ public class ATestRatioCalculator implements RatioCalculator {
 	//	}
 	@Override
 	public RatioFeatures computeRatioFeatures(List<EHICommand> userActions) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public CommandCategory[] getComputedFeatures() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<String> getComputedFeatureNames() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,15 +1,18 @@
 package difficultyPrediction.metrics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import util.annotations.Position;
 
 
 public class ACategorizedCommand implements CategorizedCommand {
 	CommandName command = null;
-	CommandCategory feature = CommandCategory.OTHER;
-	public ACategorizedCommand(CommandName command, CommandCategory feature) {
-		this.command = command;
-		this.feature = feature;
-	}
+	List<CommandCategory> features = new ArrayList();
+//	public ACategorizedCommand(CommandName command) {
+//		this.command = command;
+////		this.feature = feature;
+//	}
 	public ACategorizedCommand(CommandName command) {
 		this.command = command;
 	}
@@ -22,12 +25,12 @@ public class ACategorizedCommand implements CategorizedCommand {
 	
 	@Override
 	@Position(1)
-	public CommandCategory getCategory() {
-		return feature;
+	public List<CommandCategory> getCategories() {
+		return features;
 	}
 	@Override
-	public void setCategory(CommandCategory feature) {
-		this.feature = feature;
+	public void setCategories(List<CommandCategory> newVal) {
+		this.features = newVal;
 	}
 	
 	

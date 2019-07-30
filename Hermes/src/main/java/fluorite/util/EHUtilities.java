@@ -224,6 +224,16 @@ public class EHUtilities /*extends Utilities*/{
 		}
 		return null;
 	}
+	
+	public static IProject getAndStoreCurrentProject() {
+		IProject aProject = getCurrentProject();
+		if (aProject != null) {
+			CurrentProjectHolder.setProject(aProject);
+		}
+		return aProject;
+	}
+
+	
 	public static IProject getCurrentProject() {
 //		try {
 	    IProject project = null;

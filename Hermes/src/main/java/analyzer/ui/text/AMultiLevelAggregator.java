@@ -334,7 +334,7 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	}
     @Visible(false)
 	protected  String toClassifiedString (EHICommand aCommand) {
-		String featureName = ratioCalculator.getFeatureName(aCommand);
+		String featureName = RatioCalculator.getFeatureNames(aCommand).toString();
 		return 
 				featureName + " " + AResettingTimeStampComputer.toDateString(TimeStampComputerFactory.getSingleton().computeTimestamp(aCommand)) + 
 				" (" + aCommand + " )";

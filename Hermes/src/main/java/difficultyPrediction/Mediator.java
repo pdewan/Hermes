@@ -43,10 +43,11 @@ public interface Mediator extends MediatorRegistrar {
 
 	public void setStatusManager(StatusManager statusManager) ;
 
-	public StatusInformation getStatusInformation() ;
-
-
-	public void setStatusInformation(StatusInformation statusInformation) ;
+//	public StatusInformation getStatusInformation() ;
+//
+//
+//	public void setStatusInformation(StatusInformation statusInformation) ;
+	
 //	public void addRatioFeaturesListener(RatioFeaturesListener aRatioFeaturesListener) ;
 //	
 //	public void removeRatioFeaturesListener(RatioFeaturesListener aRatioFeaturesListener) ;

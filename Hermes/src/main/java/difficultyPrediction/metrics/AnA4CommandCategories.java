@@ -71,8 +71,12 @@ public class AnA4CommandCategories extends AnA0CommandCategories{
 	public AnA4CommandCategories() {
 		this(true);
 	}
+//	@Override
+//	protected CommandName[] editOrInsertCategory() {
+//		return insertCategory;
+//	}
 	@Override
-	protected CommandName[] editOrInsertCategory() {
+	protected CommandName[] insertCategory() {
 		return insertCategory;
 	}
 	@Override

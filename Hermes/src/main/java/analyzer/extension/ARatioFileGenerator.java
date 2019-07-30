@@ -50,7 +50,6 @@ import util.trace.difficultyPrediction.analyzer.AnalyzerPredictionStopNotificati
 public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		implements RatioFileGenerator {
 	Analyzer analyzer;
-	static RatioFileGenerator analyzerProcessor;
 	protected Map<String, ParticipantTimeLine> participantToTimeLine = new HashMap();
 
 	String currentParticipant;
@@ -110,29 +109,91 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		// System.out.println("Browse line:" + aLine);
 		
 	}
+	
+	protected boolean preSaveRatioFile() {
+		return (DifficultyPredictionSettings.isNewRatioFiles() || !DifficultyPredictionSettings.isRatioFileExists())
+				&& DifficultyPredictionSettings.shouldCreateRatioFiles();
+	}
+	
+	protected String workspaceMetrcsFileName() {
+		return DifficultyPredictionSettings.getRatiosFileName();
+	}
+	public void saveRatioFile(String aFileName) {
+		// method here
+				addStuckData(participantTimeLine);
+
+				StringBuffer timeLineText = participantTimeLine.toText();
+
+				try {
+//					if(DifficultyPredictionSettings.shouldCreateRatioFiles())
+						Common.writeText(aFileName, timeLineText.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	}
+	
+	protected void saveWorkspaceRatios() {
+		String aFileName = workspaceMetrcsFileName();
+		saveRatioFile(aFileName);
+		
+	}
+	protected void doSaveRatios() {
+		saveWorkspaceRatios();
+
+	}
+	
+	public void saveRatioFile() {
+//		if (!DifficultyPredictionSettings.isNewRatioFiles()
+//				&& DifficultyPredictionSettings.isRatioFileExists())
+//			return;
+		if (!preSaveRatioFile())
+			return;
+		doSaveRatios();
+//		String aFileName = DifficultyPredictionSettings.getRatiosFileName();
+//		String aFileName = workspaceRatioFileName();
+//		saveRatioFile(aFileName);
+
+//
+//		// method here
+//		addStuckData(participantTimeLine);
+//
+//		StringBuffer timeLineText = participantTimeLine.toText();
+//
+//		try {
+//			if(DifficultyPredictionSettings.shouldCreateRatioFiles())
+//				Common.writeText(aFileName, timeLineText.toString());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+////		System.out.println("e");
+	}
 
 	@Override
 	public void finishedBrowserLines() {
-		
-		if (!DifficultyPredictionSettings.isNewRatioFiles()
-				&& DifficultyPredictionSettings.isRatioFileExists())
-			return;
-		String aFileName = DifficultyPredictionSettings.getRatiosFileName();
-
-		// method here
-		addStuckData(participantTimeLine);
-
-		StringBuffer timeLineText = participantTimeLine.toText();
-
-		try {
-			if(DifficultyPredictionSettings.shouldCreateRatioFiles())
-				Common.writeText(aFileName, timeLineText.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-//		System.out.println("e");
+		saveRatioFile();
+		// this is the original code
+//		if (!DifficultyPredictionSettings.isNewRatioFiles()
+//				&& DifficultyPredictionSettings.isRatioFileExists())
+//			return;
+//		String aFileName = DifficultyPredictionSettings.getRatiosFileName();
+//
+//		// method here
+//		addStuckData(participantTimeLine);
+//
+//		StringBuffer timeLineText = participantTimeLine.toText();
+//
+//		try {
+//			if(DifficultyPredictionSettings.shouldCreateRatioFiles())
+//				Common.writeText(aFileName, timeLineText.toString());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+////		System.out.println("e");
 
 	}
 	
@@ -492,6 +553,8 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	
 	public static void main(String[] args) {
+		 RatioFileGenerator analyzerProcessor; // why is this static
+
 		 DifficultyPredictionSettings.setReplayMode(true);
 		//
 		 Analyzer analyzer = new AnAnalyzer();
