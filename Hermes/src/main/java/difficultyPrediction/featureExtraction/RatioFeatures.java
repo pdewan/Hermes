@@ -68,6 +68,8 @@ public interface RatioFeatures {
 	public void setElapsedTime(int newVal);
 	public String getCommandString();
 	public void setCommandString(String newVal);
+	void setEstimatedBusyTime(int newVal);
+	int getEstimatedBusyTime();
 	
 
 }

@@ -33,6 +33,8 @@ public class ARatioFeatures implements RatioFeatures {
 //	protected long savedTimeStamp;
 	public static final String SAVED_TIME_STAMP = "savedTimeStamp";
 	public static final String ELAPSED_TIME = "elapsedTime";
+	public static final String ESTIMATED_BUSY_TIME = "busyTime";
+
 	public static final String COMMAND_STRING = "commandString";
 
 
@@ -202,6 +204,19 @@ public class ARatioFeatures implements RatioFeatures {
 		featureNameToValue.put(ELAPSED_TIME, newVal) ;
 
 	}
+	@Override
+	public int getEstimatedBusyTime() {
+		return (Integer) featureNameToValue.get(ESTIMATED_BUSY_TIME) ;
+
+//		return savedTimeStamp;
+	}
+	@Override
+	public void setEstimatedBusyTime(int newVal) {
+//		this.savedTimeStamp = savedTimeStamp;
+		featureNameToValue.put(ESTIMATED_BUSY_TIME, newVal) ;
+
+	}
+	@Override
 	public String getCommandString() {
 		return (String) featureNameToValue.get(COMMAND_STRING) ;
 

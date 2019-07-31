@@ -4,6 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.PlatformUI;
 
+import config.HelperConfigurationManagerFactory;
 import fluorite.model.EHEventRecorder;
 import fluorite.viewpart.HelpViewPart;
 
@@ -35,6 +36,9 @@ public class ADifficultyStatusDisplayer implements DifficultyStatusDisplayer {
 	 */
 	@Override
 	public void showStatusInBallonTip(String status) {
+		if (!HelperConfigurationManagerFactory.getSingleton().isShowStatus()) {
+			return;
+		}
 		if (ballonTip == null) {
 			ballonTip = new ToolTip(PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getShell(), SWT.BALLOON

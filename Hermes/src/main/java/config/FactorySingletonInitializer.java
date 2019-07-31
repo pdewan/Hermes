@@ -16,7 +16,7 @@ public class FactorySingletonInitializer {
 			LiveModeInitializer.configure();
 
 		
-	PredictionParametersSetterSelector.getSingleton().setPredictionParameters();
+//	PredictionParametersSetterSelector.getSingleton().setPredictionParameters();
 	}
 
 }

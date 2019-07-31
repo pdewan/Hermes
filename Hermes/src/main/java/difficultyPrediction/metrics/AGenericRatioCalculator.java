@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
@@ -27,12 +28,14 @@ public class AGenericRatioCalculator implements RatioCalculator {
 	// HashMap();
 	CommandCategoryMapping commandCategoryMapping;
 	List<CommandCategory> relevantCommandCategoryList;
+	int idleTime;
 
 	public AGenericRatioCalculator() {
 		// mapCommandCategoryToFeatureName();
 		commandCategoryMapping = APredictionParameters.getInstance().getCommandClassificationScheme()
 				.getCommandCategoryMapping();
 		relevantCommandCategoryList = Arrays.asList(commandCategoryMapping.getRelevantCommandCategories());
+		idleTime = HelperConfigurationManagerFactory.getSingleton().getIdleTime();
 	}
 
 	// protected static List<CommandCategory> emptyCommandCategories= new
@@ -402,7 +405,13 @@ public class AGenericRatioCalculator implements RatioCalculator {
 			int anElapsedTime = (int) (segmentEndTime - segmentStartTime);
 			double aSegmentTimePeriodSecs = anElapsedTime / 1000;
 			aRatioFeatures.setElapsedTime(anElapsedTime);
-
+			if (anElapsedTime > idleTime) {
+				aRatioFeatures.setEstimatedBusyTime(0);
+			} else {
+				aRatioFeatures.setEstimatedBusyTime(anElapsedTime);
+			}
+			
+			aRatioFeatures.setCommandString(commandString.toString());
 			if (aSegmentTimePeriodSecs > 0) {
 				aRatioFeatures.setCommandRate(totalEvents / aSegmentTimePeriodSecs);
 				aRatioFeatures.setDebugRate(numberOfDebugEvents / aSegmentTimePeriodSecs);
@@ -522,15 +531,16 @@ public class AGenericRatioCalculator implements RatioCalculator {
 			// We will process non countable events also for metrics files
 			if (!aPreviousCategories.equals(aCommandCategories)) {
 				commandString.append("(");
+				aPreviousCategoriesCount = 1;
+			} else {
+				aPreviousCategoriesCount++; 
 			}
 			boolean anIsFirst = true;
 
 			for (CommandCategory aCommandCategory : aCommandCategories) {
 				processCategorizedCommand(myEvent, aCommandCategory);
-				if (aPreviousCategories.equals(aCommandCategories)) {
-					aPreviousCategoriesCount++; 
-				} else {
-					aPreviousCategoriesCount = 0;
+				if (!aPreviousCategories.equals(aCommandCategories)) {
+//					aPreviousCategoriesCount = 0;
 					if (anIsFirst) {
 						anIsFirst = false;
 					} else {
@@ -549,7 +559,10 @@ public class AGenericRatioCalculator implements RatioCalculator {
 				aPreviousCategoriesIndex = commandString.length();
 				
 			} 
+			commandString.setLength(aPreviousCategoriesIndex);
 			commandString.append(aPreviousCategoriesCount);
+//			commandString.append(CATEGORIES_COUNT_SEPARATOR);
+			aPreviousCategories = aCommandCategories;
 
 
 		}

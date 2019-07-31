@@ -300,6 +300,16 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	public boolean isSaveEachRatio() {
 		return getBooleanProperty(SAVE_EACH_RATIO, DEFAULT_SAVE_EACH_RATIO);
 	}
+	@Override
+	public boolean isShowStatus() {
+		return getBooleanProperty(SHOW_STATUS, DEFAULT_SHOW_STATUS);
+
+	}
+	@Override
+	public int getIdleTime() {
+		return getIntegerProperty(IDLE_TIME, DEFAULT_IDLE_TIME);
+	}
+	
 	
 	
 	        

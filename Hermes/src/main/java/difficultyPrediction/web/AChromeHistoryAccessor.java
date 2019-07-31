@@ -25,7 +25,7 @@ import org.jivesoftware.smack.util.FileUtils;
 */
 public class AChromeHistoryAccessor {
 	
-
+	public static final long CHROME_MINUS_UNIX = 11644473600000000L;
 	/**
 	 * @author www.javaworkspace.com
 	 * 
@@ -80,7 +80,7 @@ public class AChromeHistoryAccessor {
 //            .executeQuery ("SELECT title, visit_count, datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch'), URL FROM urls where visit_count > 0");
 //	              .executeQuery ("SELECT title, visit_count, datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01', 'localtime')), URL FROM urls where visit_count > 0");
 //	              .executeQuery ("SELECT title, visit_count, datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch'), URL FROM urls where visit_count > 0");
-	              .executeQuery ("SELECT title, visit_count,"
+	              .executeQuery ("SELECT title, visit_count, last_visit_time, "
 	              		+ "datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch', 'localtime'), URL FROM urls where visit_count > 0");
 
 
@@ -89,11 +89,22 @@ public class AChromeHistoryAccessor {
 //	        	String aTimeString = resultSet.getString("last_visit_time");
 	        	String aTimeString = resultSet.getString("datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch', 'localtime')");
 //	        	2019-07-29 11:04:26
+	        	System.out.println ("aChrome date:" + aTimeString);
 	        	DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	            Date date = df.parse(aTimeString);
 	            System.out.println(date);
-	            long aTime = date.getTime();
-	            Date aParsedDate = new Date(aTime);
+	            long aUnixTime = date.getTime();
+	            String aChromeTimeMicrosecsString = resultSet.getString("last_visit_time");
+	            long aChromeTimeMicrosecs = Long.parseLong(aChromeTimeMicrosecsString);
+	            long aUnixTimeMicrosecs = aUnixTime*1000;
+	            long aTimeDifference = aChromeTimeMicrosecs - aUnixTimeMicrosecs;
+	            System.out.println("Chrrome - Unix:" + aTimeDifference);
+	            Date aParsedDate = new Date(aUnixTime);
+	            System.out.println("Date1" + aParsedDate);
+	            long aCalculatedUnixTime = (aChromeTimeMicrosecs - CHROME_MINUS_UNIX)/1000;
+	            aParsedDate.setTime(aCalculatedUnixTime);
+	            System.out.println("Date1" + aParsedDate);
+
 //	            System.out.println("Java Date = " + date.toString());
 //	            System.out.println("Java Date as a 'long' value = " + date.getTime());  // Returns the number of milliseconds since Jan
 //	        	long aTime = Long.parseLong(aTimeString);

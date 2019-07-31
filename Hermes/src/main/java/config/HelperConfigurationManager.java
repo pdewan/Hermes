@@ -30,6 +30,9 @@ public interface HelperConfigurationManager {
 
 
 	    public static final String SAVE_EACH_RATIO = "saveEachRatio";
+	    public static final String SHOW_STATUS = "showStatus";
+	    public static final String IDLE_TIME = "idleTime";
+
 	    
 
 	    
@@ -48,6 +51,10 @@ public interface HelperConfigurationManager {
 		 public static final int DEFAULT_SEGMENT_LENGTH = 25;
 		 public static final int DEFAULT_STARUP_LAG = 50;
 		 public static final int DEFAULT_STATUS_AGGREGATED = 5;
+		 public static final boolean DEFAULT_SHOW_STATUS = false;
+		 public static final int DEFAULT_IDLE_TIME = 10000; //ms
+
+
 
 	public  PropertiesConfiguration getStaticConfiguration() ;
 	public  void setStaticConfiguration(
@@ -83,6 +90,8 @@ public interface HelperConfigurationManager {
 	void setStatusAggregated(int newVal);
 	void setSegmentLength(int newVal);
 	boolean isSaveEachRatio();
+	boolean isShowStatus();
+	int getIdleTime();
 
 	  
 
