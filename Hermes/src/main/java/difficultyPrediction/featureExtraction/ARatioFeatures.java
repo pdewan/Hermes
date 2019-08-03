@@ -1,7 +1,9 @@
 package difficultyPrediction.featureExtraction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import analyzer.extension.StuckInterval;
@@ -10,6 +12,7 @@ import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.metrics.CommandCategory;
 import difficultyPrediction.metrics.CommandCategoryMapping;
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
+import difficultyPrediction.web.PageVisit;
 import fluorite.model.EHEventRecorder;
 /**
  * This should really be a map, rather than a record
@@ -36,6 +39,13 @@ public class ARatioFeatures implements RatioFeatures {
 	public static final String ESTIMATED_BUSY_TIME = "busyTime";
 
 	public static final String COMMAND_STRING = "commandString";
+	public static final String PAGE_VISITS = "pageVisits";
+	public static final String NUM_PAGES_VISITED = "numURLs";
+	public static final String NUM_SEARCHES = "numSearches";
+	public static final String MAX_SEARCH_LENGTH = "maxSearchLength";
+
+
+	
 
 
 //	protected double other1Feature;
@@ -54,11 +64,32 @@ public class ARatioFeatures implements RatioFeatures {
 	private StuckPoint stuckPoint;
 	private StuckInterval stuckInterval;
 	protected CommandCategoryMapping commandCategoryMapping; 
+	static List<PageVisit> emptyPageVisits = new ArrayList();
 
 	public ARatioFeatures() {
 		commandCategoryMapping = APredictionParameters.getInstance().
 				getCommandClassificationScheme().
 					getCommandCategoryMapping();
+		setCommandRate(0);
+		setCommandString("");
+		setDebugRate(0);
+		setDebugRatio(0);
+		setDeletionRatio(0);
+		setEditRate(0);
+		setEditRatio(0);
+		setElapsedTime(0);
+		setEstimatedBusyTime(0);
+		setExceptionsPerRun(0);
+		setFocusRate(0);
+		setFocusRatio(0);
+		setInsertionRate(0);
+		setInsertionRatio(0);
+		setNavigationRate(0);
+		setNavigationRatio(0);
+		setNumPagesVisited(0);
+		setPageVisits(emptyPageVisits);
+
+		
 	 }
 
 	public double getInsertRatio() {
@@ -366,6 +397,47 @@ public class ARatioFeatures implements RatioFeatures {
 	@Override
 	public void setFeature(String aFeatureName, Object newVal) {
 		featureNameToValue.put(aFeatureName, newVal);
+	}
+
+	@Override
+	public void setPageVisits(List<PageVisit> aPageVisits) {
+		featureNameToValue.put(NUM_PAGES_VISITED, aPageVisits);
+	}
+
+	@Override
+	public List<PageVisit> getPageVisits() {
+		return (List<PageVisit>) featureNameToValue.get(NUM_PAGES_VISITED);
+	}
+
+	@Override
+	public void setNumPagesVisited(int aNumPages) {
+		featureNameToValue.put(NUM_PAGES_VISITED, aNumPages);
+	}
+
+	@Override
+	public int getNumPagesVisited() {
+		return (int) featureNameToValue.get(NUM_PAGES_VISITED);
+	}
+
+	@Override
+	public void setNumWebSearches(int aNumPages) {
+		featureNameToValue.put(NUM_SEARCHES, aNumPages);
+
+	}
+
+	@Override
+	public int getNumWebSearches() {
+		return (int) featureNameToValue.get(NUM_SEARCHES);
+	}
+
+	@Override
+	public void setMaxSearchLength(int newValue) {
+		featureNameToValue.put(MAX_SEARCH_LENGTH, newValue);
+	}
+
+	@Override
+	public int getMaxSearchLength() {
+		return  (int) featureNameToValue.get(MAX_SEARCH_LENGTH);
 	}
 	
 	

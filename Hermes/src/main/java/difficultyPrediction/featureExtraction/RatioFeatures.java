@@ -1,7 +1,10 @@
 package difficultyPrediction.featureExtraction;
 
+import java.util.List;
+
 import analyzer.extension.StuckInterval;
 import analyzer.extension.StuckPoint;
+import difficultyPrediction.web.PageVisit;
 
 public interface RatioFeatures {
 	public void setEditRatio(double editRatio) ;
@@ -69,7 +72,15 @@ public interface RatioFeatures {
 	public String getCommandString();
 	public void setCommandString(String newVal);
 	void setEstimatedBusyTime(int newVal);
-	int getEstimatedBusyTime();
+	int getEstimatedBusyTime();	
+	void setPageVisits(List<PageVisit> aPageVisits);
+	List<PageVisit> getPageVisits();
+	void setNumPagesVisited(int aNumPages);
+	int getNumPagesVisited();
+	void setNumWebSearches(int aNumPages);
+	int getNumWebSearches();
+	void setMaxSearchLength(int newValue);
+	int getMaxSearchLength();
 	
 
 }

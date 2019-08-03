@@ -3,6 +3,7 @@ package config;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -232,6 +233,7 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	protected Map<String, Boolean> booleanProperties = new HashMap<>();
 	protected Map<String, Integer> integerProperties = new HashMap<>();
 	protected Map<String, String> stringProperties = new HashMap<>();
+	protected Map<String, List> listProperties = new HashMap<>();
 	@Override
 	public Boolean getBooleanProperty(String aPropertyName, Boolean aDefaultValue) {
 		Boolean retVal = booleanProperties.get(aPropertyName);
@@ -245,6 +247,14 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 		String retVal = stringProperties.get(aPropertyName);
 		if (retVal == null) {
 			retVal =  staticConfiguration.getString(aPropertyName, aDefaultValue);
+		}
+		return retVal;
+	}
+	@Override
+	public List getListProperty(String aPropertyName, List aDefaultValue) {
+		List retVal = listProperties.get(aPropertyName);
+		if (retVal == null) {
+			retVal =  staticConfiguration.getList(aPropertyName, aDefaultValue);
 		}
 		return retVal;
 	}
@@ -308,6 +318,14 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	@Override
 	public int getIdleTime() {
 		return getIntegerProperty(IDLE_TIME, DEFAULT_IDLE_TIME);
+	}
+	@Override
+	public List<String> getTechnicalTerms() {
+		return getListProperty(TECHNICAL_TERMS, DEFAULT_TECHNICAL_TERMS);
+	}
+	@Override
+	public List<String> getNonTechnicalTerms() {
+		return getListProperty(NON_TECHNICAL_TEMS, DEFAULT_NON_TECHNICAL_TERMS);
 	}
 	
 	

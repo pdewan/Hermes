@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -232,6 +233,7 @@ public class EHUtilities /*extends Utilities*/{
 		}
 		return aProject;
 	}
+	
 
 	
 	public static IProject getCurrentProject() {
@@ -1265,6 +1267,13 @@ public class EHUtilities /*extends Utilities*/{
 				.getAdapter(IFindReplaceTarget.class);
 		return target;
 	}
+	static Date date = new Date();
+	public static Date toDate (long aCommandTimestamp) {
+		long aStartTimeStamp = EHEventRecorder.getInstance().getStartTimestamp();
+		long aTime = aStartTimeStamp + aCommandTimestamp;
+		date.setTime(aTime);
+		return date;
+	}
 
 	public static String persistCommand(Map<String, String> attrs,
 			Map<String, String> data, EHICommand command) {
@@ -1281,6 +1290,9 @@ public class EHUtilities /*extends Utilities*/{
 		attrs.put("__id", Integer.toString(command.getCommandIndex()));
 		attrs.put("_type", command.getCommandType());
 		attrs.put("timestamp", Long.toString(command.getTimestamp()));
+		Date aDate = toDate(command.getTimestamp());
+		attrs.put("date", aDate.toString());
+
 		if (command.getRepeatCount() > 1) {
 			attrs.put("timestamp2", Long.toString(command.getTimestamp2()));
 			attrs.put("repeat", Integer.toString(command.getRepeatCount()));

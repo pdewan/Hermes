@@ -1240,6 +1240,7 @@ public class EHEventRecorder {
 	public void setStartTimeStamp(long newVal) {
 		mStartTimestamp = newVal;
 	}
+	
 
 	public static String getUniqueMacroNameByTimestamp(long timestamp, boolean autosave) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");

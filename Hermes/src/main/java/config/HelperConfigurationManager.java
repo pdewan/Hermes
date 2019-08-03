@@ -1,5 +1,8 @@
 package config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
@@ -32,6 +35,9 @@ public interface HelperConfigurationManager {
 	    public static final String SAVE_EACH_RATIO = "saveEachRatio";
 	    public static final String SHOW_STATUS = "showStatus";
 	    public static final String IDLE_TIME = "idleTime";
+	    public static final String TECHNICAL_TERMS = "technicalTerms";
+	    public static final String NON_TECHNICAL_TEMS = "technicalTerms";
+  		
 
 	    
 
@@ -53,6 +59,54 @@ public interface HelperConfigurationManager {
 		 public static final int DEFAULT_STATUS_AGGREGATED = 5;
 		 public static final boolean DEFAULT_SHOW_STATUS = false;
 		 public static final int DEFAULT_IDLE_TIME = 10000; //ms
+		 public static final String[]  DEFAULT_TECHNICAL_TERMS_ARRAY = {
+				 	"\\.edu/", 
+				 	" [Cc][Ss]",
+				 	"Computer Science",
+				 	"[Cc][Oo][Mm][Pp]",
+				 	"[Jj]ava", 
+				 	"[Ll]isp",
+				 	"[Pp]ython", 				 	
+				 	"[Pp]rolog",
+				 	" C ",
+				 	"oracle",
+				 	" ML ",				 	
+				 	"Standard ML",
+				 	"sourceforge",
+				 	"utorial", 
+				 	"iazza", 
+				 	"interpreter",
+				 	"compiler",
+				 	"[Ee]clipse", 
+				 	"gcc",
+				 	"upyter", 
+				 	"ithub",
+				 	"Google Scholar",
+				 	"oftware",
+				 	"ardware",
+				 	"rogramming",
+				 	"tackoverflow",
+				 	"ssignment",
+				 	"[cC]ourse",
+				 	"[nN]otes",
+				 	"y[vV]erse",
+				 	"Google Docs",
+				 	"\\.pdf/",
+				 	"ecture"
+				 	
+				 	};
+		 
+		 public static final String[] DEFAULT_NON_TECHNICAL_TERMS_ARRAY = {	
+				 "alendar",
+				 "[mM]ail", 
+				 "nbox",
+				 "acebook",
+				 "radescope",
+				 "hasWorkingJavascript="
+				 };
+		 public static final List<String> DEFAULT_TECHNICAL_TERMS = Arrays.asList( DEFAULT_TECHNICAL_TERMS_ARRAY);
+		 public static final List<String> DEFAULT_NON_TECHNICAL_TERMS = Arrays.asList( DEFAULT_NON_TECHNICAL_TERMS_ARRAY);
+
 
 
 
@@ -92,6 +146,9 @@ public interface HelperConfigurationManager {
 	boolean isSaveEachRatio();
 	boolean isShowStatus();
 	int getIdleTime();
+	List<String> getTechnicalTerms();
+	List<String> getNonTechnicalTerms();
+	List getListProperty(String aPropertyName, List aDefaultValue);
 
 	  
 
