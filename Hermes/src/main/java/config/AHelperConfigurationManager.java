@@ -311,8 +311,13 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 		return getBooleanProperty(SAVE_EACH_RATIO, DEFAULT_SAVE_EACH_RATIO);
 	}
 	@Override
-	public boolean isShowStatus() {
-		return getBooleanProperty(SHOW_STATUS, DEFAULT_SHOW_STATUS);
+	public boolean isShowAllStatuses() {
+		return getBooleanProperty(SHOW_ALL_STATUSES, DEFAULT_SHOW_ALL_STATUSES);
+
+	}
+	@Override
+	public boolean isShowStatusTransitions() {
+		return getBooleanProperty(SHOW_STATUS_TRANSITIONS, DEFAULT_SHOW_STATUS_TRANSITIONS);
 
 	}
 	@Override
@@ -325,7 +330,7 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	}
 	@Override
 	public List<String> getNonTechnicalTerms() {
-		return getListProperty(NON_TECHNICAL_TEMS, DEFAULT_NON_TECHNICAL_TERMS);
+		return getListProperty(NON_TECHNICAL_TERMS, DEFAULT_NON_TECHNICAL_TERMS);
 	}
 	
 	

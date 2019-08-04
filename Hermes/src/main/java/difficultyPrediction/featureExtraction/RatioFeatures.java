@@ -40,6 +40,9 @@ public interface RatioFeatures {
 	public void setFocusRate(double focusRate);
 	public double getRemoveRate() ;
 	public void setRemoveRate(double removeRate) ;
+	public long getUnixStartTime();
+	public void setUnixStartTime(long newVal) ;
+
 	public long getSavedTimeStamp();
 	public void setSavedTimeStamp(long savedTimeStamp) ;
 	public double getEditRatio();
@@ -81,6 +84,8 @@ public interface RatioFeatures {
 	int getNumWebSearches();
 	void setMaxSearchLength(int newValue);
 	int getMaxSearchLength();
+	String getFileName();
+	void setFileName(String newVal);
 	
 
 }

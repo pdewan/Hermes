@@ -33,10 +33,12 @@ public interface HelperConfigurationManager {
 
 
 	    public static final String SAVE_EACH_RATIO = "saveEachRatio";
-	    public static final String SHOW_STATUS = "showStatus";
+	    public static final String SHOW_ALL_STATUSES = "showAllStatus";
+	    public static final String SHOW_STATUS_TRANSITIONS = "showStatusTransitions";
+
 	    public static final String IDLE_TIME = "idleTime";
 	    public static final String TECHNICAL_TERMS = "technicalTerms";
-	    public static final String NON_TECHNICAL_TEMS = "technicalTerms";
+	    public static final String NON_TECHNICAL_TERMS = "nonTechnicalTerms";
   		
 
 	    
@@ -57,7 +59,10 @@ public interface HelperConfigurationManager {
 		 public static final int DEFAULT_SEGMENT_LENGTH = 25;
 		 public static final int DEFAULT_STARUP_LAG = 50;
 		 public static final int DEFAULT_STATUS_AGGREGATED = 5;
-		 public static final boolean DEFAULT_SHOW_STATUS = false;
+		 public static final boolean DEFAULT_SHOW_ALL_STATUSES = false;
+		 public static final boolean DEFAULT_SHOW_STATUS_TRANSITIONS = true;
+
+		 
 		 public static final int DEFAULT_IDLE_TIME = 10000; //ms
 		 public static final String[]  DEFAULT_TECHNICAL_TERMS_ARRAY = {
 				 	"\\.edu/", 
@@ -144,7 +149,8 @@ public interface HelperConfigurationManager {
 	void setStatusAggregated(int newVal);
 	void setSegmentLength(int newVal);
 	boolean isSaveEachRatio();
-	boolean isShowStatus();
+	boolean isShowAllStatuses();
+	boolean isShowStatusTransitions();
 	int getIdleTime();
 	List<String> getTechnicalTerms();
 	List<String> getNonTechnicalTerms();

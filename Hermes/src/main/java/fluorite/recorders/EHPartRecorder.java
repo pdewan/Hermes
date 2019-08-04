@@ -95,13 +95,14 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 			}
 
 			IEditorPart editor = (IEditorPart) part;
-			EHUtilities.setCurrentEditorPart(editor);
+			EHUtilities.setCurrentEditorPartAndFile(editor);
+			
 			try {
 			EHUtilities.getSourceViewerExtension4(editor).
 			getContentAssistantFacade().addCompletionListener(ContentAssistListener.getInstance());
 			getRecorder().addListeners(editor);
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 			
 			FileOpenCommand newFoc = new FileOpenCommand(editor);

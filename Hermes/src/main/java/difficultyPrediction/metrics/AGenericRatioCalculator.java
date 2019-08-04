@@ -6,12 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
+
 import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
+import difficultyPrediction.web.AChromeHistoryAccessor;
 import fluorite.commands.CompilationCommand;
 import fluorite.commands.EclipseCommand;
+import fluorite.model.EHEventRecorder;
+import fluorite.util.CurrentFileHolder;
+import fluorite.util.EHUtilities;
 import util.trace.Tracer;
 import fluorite.commands.EHICommand;
 
@@ -403,6 +409,8 @@ public class AGenericRatioCalculator implements RatioCalculator {
 			aRatioFeatures.setRemoveClassRatio(0);
 
 			int anElapsedTime = (int) (segmentEndTime - segmentStartTime);
+			aRatioFeatures.setSavedTimeStamp(segmentEndTime);
+			aRatioFeatures.setUnixStartTime(EHUtilities.toAbsoluteTime(segmentStartTime));
 			double aSegmentTimePeriodSecs = anElapsedTime / 1000;
 			aRatioFeatures.setElapsedTime(anElapsedTime);
 			if (anElapsedTime > idleTime) {
@@ -425,7 +433,14 @@ public class AGenericRatioCalculator implements RatioCalculator {
 
 			}
 		}
-
+		IFile aFile = CurrentFileHolder.getIFile();
+		String aFileName = "";
+		if (aFile != null) {
+			aFileName = aFile.getName();
+		}
+		
+		aRatioFeatures.setFileName(aFileName);
+		AChromeHistoryAccessor.processURLs(aRatioFeatures, aRatioFeatures.getUnixStartTime());
 		return aRatioFeatures;
 	}
 
@@ -522,7 +537,7 @@ public class AGenericRatioCalculator implements RatioCalculator {
 
 			List<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
 			if (aCommandCategories == null || aCommandCategories.isEmpty()) {
-				System.err.println("Unclassified command:" + myEvent);
+				Tracer.info(this, "Unclassified command:" + myEvent);
 				continue;
 			}
 			if (isCountableEvent(aCommandCategories)) {

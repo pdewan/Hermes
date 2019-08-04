@@ -6,6 +6,7 @@ import org.eclipse.ui.PlatformUI;
 
 import config.HelperConfigurationManagerFactory;
 import fluorite.model.EHEventRecorder;
+import fluorite.model.StatusConsts;
 import fluorite.viewpart.HelpViewPart;
 
 public class ADifficultyStatusDisplayer implements DifficultyStatusDisplayer {
@@ -15,16 +16,41 @@ public class ADifficultyStatusDisplayer implements DifficultyStatusDisplayer {
 	public ToolTip getBalloonTip() {
 		return ballonTip;
 	}
+	
+	boolean showStatus(String aStatus) {
+		// a single boolean expressionw will probably be harder to understand
+		if (HelperConfigurationManagerFactory.getSingleton().isShowAllStatuses()) {
+			return true;
+		}
+		if (!HelperConfigurationManagerFactory.getSingleton().isShowStatusTransitions()) {
+			return false;
+		}
+		if (aStatus.equals(lastStatus)) {
+			return false;
+		}
+		if (lastStatus.isEmpty() && StatusConsts.MAKING_PROGRESS_STATUS.equals(aStatus))
+			return false;
+		return true;
+	}
 
 	/* (non-Javadoc)
 	 * @see difficultyPrediction.DifficultyStatusDisplayer#changeStatusInHelpView(java.lang.String)
 	 */
 	@Override
 	public void changeStatusInHelpView(String status) {
-		lastStatus = HelpViewPart.getStatusInformation();
-		 if (status.equals(lastStatus)) 
-			 return;
-		System.out.println("Changing status sync");
+		
+//		if (!HelperConfigurationManagerFactory.getSingleton().isShowAllStatuses()) {
+//			return;
+//		}
+		if (!showStatus(status)) {
+			lastStatus = status;
+			return;
+		}
+//		lastStatus = HelpViewPart.getStatusInformation();
+		lastStatus = status;
+//		 if (status.equals(lastStatus)) 
+//			 return;
+//		System.out.println("Changing status sync");
 		showStatusInBallonTip(status);
 		HelpViewPart.displayStatusInformation(status);
 		lastStatus = status;
@@ -36,9 +62,9 @@ public class ADifficultyStatusDisplayer implements DifficultyStatusDisplayer {
 	 */
 	@Override
 	public void showStatusInBallonTip(String status) {
-		if (!HelperConfigurationManagerFactory.getSingleton().isShowStatus()) {
-			return;
-		}
+//		if (!HelperConfigurationManagerFactory.getSingleton().isShowAllStatuses()) {
+//			return;
+//		}
 		if (ballonTip == null) {
 			ballonTip = new ToolTip(PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getShell(), SWT.BALLOON

@@ -161,10 +161,10 @@ public class InsertStringCommand
 	public String getDescription() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Insert the string into the document at the current caret location");
-		if (mData != null) {
-			buffer.append("\n");
-			buffer.append(getName());
-		}
+//		if (mData != null) {
+//			buffer.append("\n");
+//			buffer.append(getName());
+//		}
 		return buffer.toString();
 	}
 

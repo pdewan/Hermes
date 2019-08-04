@@ -1,6 +1,7 @@
 package util.trace.recorder;
 
 import fluorite.commands.EHICommand;
+import fluorite.commands.InsertStringCommand;
 import util.trace.Tracer;
 
 public class ReceivedCommand extends ICommandInfo{
@@ -9,7 +10,9 @@ public class ReceivedCommand extends ICommandInfo{
 	}	
     
     public static ReceivedCommand newCase (String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
-
+//    	if (aCommand instanceof InsertStringCommand) {
+//    		System.out.println("Received insery string command");
+//    	}
     	if (shouldInstantiate(ReceivedCommand.class)) {
     	ReceivedCommand retVal = new ReceivedCommand(aMessage, aCommand, aStartTimeStamp, aFinder);
     	retVal.announce();

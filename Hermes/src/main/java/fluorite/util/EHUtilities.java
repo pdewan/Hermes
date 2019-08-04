@@ -1269,10 +1269,15 @@ public class EHUtilities /*extends Utilities*/{
 	}
 	static Date date = new Date();
 	public static Date toDate (long aCommandTimestamp) {
-		long aStartTimeStamp = EHEventRecorder.getInstance().getStartTimestamp();
-		long aTime = aStartTimeStamp + aCommandTimestamp;
-		date.setTime(aTime);
+//		long aStartTimeStamp = EHEventRecorder.getInstance().getStartTimestamp();
+//		long aTime = aStartTimeStamp + aCommandTimestamp;
+		date.setTime(toAbsoluteTime(aCommandTimestamp));
 		return date;
+	}
+	public static long toAbsoluteTime (long aCommandTimestamp) {
+		long aStartTimeStamp = EHEventRecorder.getInstance().getStartTimestamp();
+		return (aStartTimeStamp + aCommandTimestamp);
+	
 	}
 
 	public static String persistCommand(Map<String, String> attrs,
@@ -1420,6 +1425,22 @@ public class EHUtilities /*extends Utilities*/{
 			try {
 				IFileEditorInput fileInput = (IFileEditorInput) input;
 				return fileInput.getFile().getLocation().toOSString();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+	public static IFile getFileFromEditor(IEditorPart editor) {
+		if (editor == null) {
+			return null;
+		}
+		IEditorInput input = editor.getEditorInput();
+		if (input instanceof IFileEditorInput) {
+			try {
+				IFileEditorInput fileInput = (IFileEditorInput) input;
+				return fileInput.getFile();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1613,8 +1634,11 @@ public class EHUtilities /*extends Utilities*/{
 		return currentEditorPart;
 	}
 
-	public static void setCurrentEditorPart(IEditorPart currentEditorPart) {
+	public static void setCurrentEditorPartAndFile(IEditorPart currentEditorPart) {
 		EHUtilities.currentEditorPart = currentEditorPart;
+		if (currentEditorPart != null) {
+			CurrentFileHolder.setFile(getFileFromEditor(currentEditorPart));
+		}
 	}
 	public static ILaunchConfiguration createLaunchConfiguration (String aConfigName, String aProjectName, String aMainClassName) {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();

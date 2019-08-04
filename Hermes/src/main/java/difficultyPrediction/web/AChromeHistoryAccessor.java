@@ -24,6 +24,7 @@ import org.jivesoftware.smack.util.FileUtils;
 import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
+import util.trace.Tracer;
 
 /**
  * Adapted from http://www.javaworkspace.com/connectdatabase/connectSQLite.do
@@ -69,13 +70,16 @@ public class AChromeHistoryAccessor {
 	static File targetFile;
 
 	public static void deleteTargetFile() {
-		if (targetFile.exists()) {
+		if (targetFile != null && targetFile.exists()) {
 			targetFile.delete();
 		}
 	}
 	public static void closeConnections() throws SQLException {
+		if (resultSet !=null)
 		resultSet.close();
+		if (statement != null)
 		statement.close();
+		if (connection != null)
 		connection.close();
 	}
 
@@ -236,7 +240,7 @@ public class AChromeHistoryAccessor {
 
 			if (previousTime == aVisitTime) { 
 //				&& aTitle.equals(previousTitle)) {
-				System.out.println(aDate + ":Ignoring duplicate visit" + aTitle);
+//				System.out.println(aDate + ":Ignoring duplicate visit" + aTitle);
 				continue;
 			}
 			aNumURLs++;
@@ -246,9 +250,9 @@ public class AChromeHistoryAccessor {
 				
 			} else {
 				aPreviousVisitWasASearch = false;
-				if (aMaxSearchLength < aSearchLength) {
-					System.out.println("New Max search Length " + aSearchLength);
-				}
+//				if (aMaxSearchLength < aSearchLength) {
+//					System.out.println("New Max search Length " + aSearchLength);
+//				}
 				aMaxSearchLength = Math.max(aMaxSearchLength, aSearchLength);
 				aSearchLength = 0;
 			}
@@ -256,7 +260,7 @@ public class AChromeHistoryAccessor {
 			
 			PageVisit aPageVisit = new PageVisit(aTitle, aVisitCount, aURL);
 			if (!trackURL(aPageVisit)) {
-				System.out.println(aDate + "Ignoring non technical visit" + aTitle + " " + aURL);
+				Tracer.info(AChromeHistoryAccessor.class, aDate + "Ignoring non technical visit" + aTitle + " " + aURL);
 
 				continue;
 			}
@@ -267,7 +271,7 @@ public class AChromeHistoryAccessor {
 
 			previousTitle = aTitle;
 			previousTime = aVisitTime;
-			System.out.println(aDate + "Adding  technical visit " + aPageVisit);
+			Tracer.info(AChromeHistoryAccessor.class, aDate + "Adding  technical visit " + aPageVisit);
 
 			aPageVisits.add(aPageVisit);
 
@@ -275,6 +279,8 @@ public class AChromeHistoryAccessor {
 		aRatioFeatures.setPageVisits(aPageVisits);
 		aRatioFeatures.setNumPagesVisited(aNumURLs);
 		aRatioFeatures.setNumWebSearches(aNumGoogleSearches);
+		aMaxSearchLength = Math.max(aMaxSearchLength, aSearchLength);
+
 		aRatioFeatures.setMaxSearchLength(aMaxSearchLength);
 		closeConnections();
 		deleteTargetFile();

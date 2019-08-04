@@ -35,6 +35,9 @@ public class ARatioFeatures implements RatioFeatures {
 //	protected double removeTimeRatio;
 //	protected long savedTimeStamp;
 	public static final String SAVED_TIME_STAMP = "savedTimeStamp";
+	public static final String UNIX_START_TIME = "unixStartTime";
+	public static final String FILE_NAME = "fileName";
+
 	public static final String ELAPSED_TIME = "elapsedTime";
 	public static final String ESTIMATED_BUSY_TIME = "busyTime";
 
@@ -43,6 +46,7 @@ public class ARatioFeatures implements RatioFeatures {
 	public static final String NUM_PAGES_VISITED = "numURLs";
 	public static final String NUM_SEARCHES = "numSearches";
 	public static final String MAX_SEARCH_LENGTH = "maxSearchLength";
+	
 
 
 	
@@ -88,6 +92,11 @@ public class ARatioFeatures implements RatioFeatures {
 		setNavigationRatio(0);
 		setNumPagesVisited(0);
 		setPageVisits(emptyPageVisits);
+		setNumWebSearches(0);
+		setMaxSearchLength(0);
+		setUnixStartTime(0);
+		setFileName("");
+		
 
 		
 	 }
@@ -438,6 +447,27 @@ public class ARatioFeatures implements RatioFeatures {
 	@Override
 	public int getMaxSearchLength() {
 		return  (int) featureNameToValue.get(MAX_SEARCH_LENGTH);
+	}
+
+	@Override
+	public long getUnixStartTime() {
+		return (long) featureNameToValue.get(UNIX_START_TIME);
+	}
+
+	@Override
+	public void setUnixStartTime(long newVal) {
+		featureNameToValue.put(UNIX_START_TIME, newVal);
+	}
+
+	@Override
+	public String getFileName() {
+		return 	(String) featureNameToValue.get(FILE_NAME);
+
+	}
+
+	@Override
+	public void setFileName(String newVal) {
+		featureNameToValue.put(FILE_NAME, newVal);
 	}
 	
 	

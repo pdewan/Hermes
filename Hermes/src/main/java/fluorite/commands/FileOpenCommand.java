@@ -16,6 +16,7 @@ import org.w3c.dom.NodeList;
 
 import fluorite.model.EHEventRecorder;
 import fluorite.model.FileSnapshotManager;
+import fluorite.util.CurrentProjectHolder;
 import fluorite.util.EHUtilities;
 
 public class FileOpenCommand extends 
@@ -42,6 +43,7 @@ implements EHICommand {
 				IFile file = fileInput.getFile();
 				IProject project = file.getProject();
 				mProjectName = project.getName();
+				CurrentProjectHolder.setProject(project);
 				mFilePath = fileInput.getFile().getLocation().toOSString();
 
 				String content = EHUtilities.getDocument(editor).get();

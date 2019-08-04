@@ -6,11 +6,13 @@ import org.eclipse.jface.text.contentassist.ICompletionListenerExtension2;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.ICompletionProposalExtension2;
 
+import util.trace.Tracer;
+
 public class ContentAssistListener implements ICompletionListener {
 
 	@Override
 	public void assistSessionStarted(ContentAssistEvent event) {
-		System.out.println("Session started" + event.toString());
+		Tracer.info(this, "Session started" + event.toString());
 //		// TODO Auto-generated method stub
 		
 	}
@@ -30,8 +32,8 @@ public class ContentAssistListener implements ICompletionListener {
 	public void selectionChanged(ICompletionProposal proposal, boolean smartToggle) {
 		// TODO Auto-generated method stub
 		try {
-		System.out.println("Selection changed" + proposal.getDisplayString());
-		System.out.println("Selection contxt" + proposal.getContextInformation());
+		Tracer.info(this, "Selection changed" + proposal.getDisplayString());
+		Tracer.info(this, "Selection contxt" + proposal.getContextInformation());
 
 		
 //		System.out.println(proposal.getAdditionalProposalInfo());
