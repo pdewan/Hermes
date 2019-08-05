@@ -16,6 +16,7 @@ import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
 import fluorite.model.StatusConsts;
 import programmatically.AnEclipseProgrammaticController;
+import util.trace.Tracer;
 import util.trace.difficultyPrediction.AddedCommandToPredictionQueue;
 import util.trace.difficultyPrediction.CommandIgnoredBecauseQueueFull;
 import util.trace.difficultyPrediction.RemovedCommandFromPredictionQueue;
@@ -130,7 +131,7 @@ public class ADifficultyPredictionRunnable implements
 //									.updateStatus(
 //											((PredictionCommand) newCommand)
 //													.getName());
-						System.out.println("Async Display Status Update:" + newCommand);
+						Tracer.info(this, "Async Display Status Update:" + newCommand);
 						PlatformUI.getWorkbench().getDisplay()
 						.asyncExec(new ADisplayStatusUpdatingRunnable(difficultyStatusDisplayer, currentStatus));
 						

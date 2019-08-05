@@ -440,7 +440,7 @@ public class AGenericRatioCalculator implements RatioCalculator {
 		}
 		
 		aRatioFeatures.setFileName(aFileName);
-		AChromeHistoryAccessor.processURLs(aRatioFeatures, aRatioFeatures.getUnixStartTime());
+		AChromeHistoryAccessor.processURLs(aRatioFeatures);
 		return aRatioFeatures;
 	}
 

@@ -234,24 +234,24 @@ public class ARatioFeatures implements RatioFeatures {
 		featureNameToValue.put(SAVED_TIME_STAMP, newVal) ;
 
 	}
-	public int getElapsedTime() {
-		return (Integer) featureNameToValue.get(ELAPSED_TIME) ;
+	public long getElapsedTime() {
+		return (Long) featureNameToValue.get(ELAPSED_TIME) ;
 
 //		return savedTimeStamp;
 	}
-	public void setElapsedTime(int newVal) {
+	public void setElapsedTime(long newVal) {
 //		this.savedTimeStamp = savedTimeStamp;
 		featureNameToValue.put(ELAPSED_TIME, newVal) ;
 
 	}
 	@Override
-	public int getEstimatedBusyTime() {
-		return (Integer) featureNameToValue.get(ESTIMATED_BUSY_TIME) ;
+	public long getEstimatedBusyTime() {
+		return (Long) featureNameToValue.get(ESTIMATED_BUSY_TIME) ;
 
 //		return savedTimeStamp;
 	}
 	@Override
-	public void setEstimatedBusyTime(int newVal) {
+	public void setEstimatedBusyTime(long newVal) {
 //		this.savedTimeStamp = savedTimeStamp;
 		featureNameToValue.put(ESTIMATED_BUSY_TIME, newVal) ;
 
@@ -410,12 +410,12 @@ public class ARatioFeatures implements RatioFeatures {
 
 	@Override
 	public void setPageVisits(List<PageVisit> aPageVisits) {
-		featureNameToValue.put(NUM_PAGES_VISITED, aPageVisits);
+		featureNameToValue.put(PAGE_VISITS, aPageVisits);
 	}
 
 	@Override
 	public List<PageVisit> getPageVisits() {
-		return (List<PageVisit>) featureNameToValue.get(NUM_PAGES_VISITED);
+		return (List<PageVisit>) featureNameToValue.get(PAGE_VISITS);
 	}
 
 	@Override

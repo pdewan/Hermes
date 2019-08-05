@@ -1,5 +1,7 @@
 package difficultyPrediction;
 
+import util.trace.Tracer;
+
 public class ADisplayStatusUpdatingRunnable implements Runnable{
 	String status;
 //	DifficultyPredictionRunnable difficultyPredictionRunnable;
@@ -11,7 +13,7 @@ public class ADisplayStatusUpdatingRunnable implements Runnable{
 	DifficultyStatusDisplayer difficultyStatusDisplayer;
 
 	public ADisplayStatusUpdatingRunnable(DifficultyStatusDisplayer aDifficultyStatusDisplayer, String aStatus) {
-	System.out.println ("ADisplayStatusUpdatingRunnable created");
+	Tracer.info (this, "ADisplayStatusUpdatingRunnable created");
 	status = aStatus;
 	difficultyStatusDisplayer = aDifficultyStatusDisplayer;
 }

@@ -70,12 +70,12 @@ public interface RatioFeatures {
 //	public void setOther9Feature(double newVal) ;
 	public Object getFeature(String aFeatureName);
 	public void setFeature(String aFeatureName, Object newVal);
-	public int getElapsedTime();
-	public void setElapsedTime(int newVal);
+	public long getElapsedTime();
+	public void setElapsedTime(long newVal);
 	public String getCommandString();
 	public void setCommandString(String newVal);
-	void setEstimatedBusyTime(int newVal);
-	int getEstimatedBusyTime();	
+	void setEstimatedBusyTime(long newVal);
+	long getEstimatedBusyTime();	
 	void setPageVisits(List<PageVisit> aPageVisits);
 	List<PageVisit> getPageVisits();
 	void setNumPagesVisited(int aNumPages);

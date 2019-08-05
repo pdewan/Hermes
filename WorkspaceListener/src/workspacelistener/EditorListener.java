@@ -27,6 +27,9 @@ public class EditorListener implements IPartListener, WorkspaceFileListener {
 			if(part instanceof IEditorPart) {
 				IEditorPart editorPart = (IEditorPart) part;
 				ITextEditor textEditor = (ITextEditor) editorPart.getAdapter(ITextEditor.class);
+				if (textEditor == null) {
+					return;
+				}
 				IDocumentProvider docProvider = textEditor.getDocumentProvider();
 				IDocument doc = docProvider.getDocument(textEditor.getEditorInput());
 				//Make sure we don't add two listeners to the same doc

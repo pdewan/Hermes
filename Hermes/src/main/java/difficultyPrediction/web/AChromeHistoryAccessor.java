@@ -137,12 +137,14 @@ public class AChromeHistoryAccessor {
 		return sourceFile.lastModified() > aUnixStartTime;
 	}
 
-	public static void composeQuery(long aChromeStartTimeRange) {
+	public static void composeQuery(long aChromeStartTimeRange, long aChromeEndTimeRange) {
 //		query = String.format("SELECT title, visit_count, last_visit_time, "
 //				+ "datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch', 'localtime'), URL FROM urls where last_visit_time > "
 //				+ aChromeStartTimeRange);
-		query = String.format("SELECT title, visit_count, last_visit_time, URL FROM urls where last_visit_time > "
-				+ aChromeStartTimeRange);
+		query = String.format("SELECT title, visit_count, last_visit_time, URL FROM urls where last_visit_time >= %s AND last_visit_time <= %s",
+				aChromeStartTimeRange, aChromeEndTimeRange );
+//		where last_visit_time >= "
+//				+ aChromeTime  + " AND last_visit_time <= "  + aChromeTime2);
 	
 	}
 
@@ -218,6 +220,14 @@ public class AChromeHistoryAccessor {
 	public static boolean isGoogleSearch(String aTopic) {
 		return aTopic.contains("Google Search");
 	}
+	
+	public static long toChromeTime (long aUnixTime) {
+		return aUnixTime*1000 + CHROME_MINUS_UNIX;
+	}
+	
+	public static long toUnixTime (long aChromeTime) {
+		return (aChromeTime - CHROME_MINUS_UNIX)/1000;
+	}
 
 	public static void processResultSet(long aStartTime, RatioFeatures aRatioFeatures) throws SQLException {
 		int aNumURLs = 0;
@@ -231,7 +241,9 @@ public class AChromeHistoryAccessor {
 		while (resultSet.next()) {
 //			String aVisitTimeString = ;
 			long aVisitTime = Long.parseLong(resultSet.getString("last_visit_time"));
-			long aUnixTime = (aVisitTime - CHROME_MINUS_UNIX)/1000;
+//			long aUnixTime = (aVisitTime - CHROME_MINUS_UNIX)/1000;
+			long aUnixTime = toUnixTime(aVisitTime);
+
 			aDate.setTime(aUnixTime);
 			int aVisitCount = Integer.parseInt(resultSet.getString("visit_count"));
 			String aTitle = resultSet.getString("title");
@@ -258,9 +270,9 @@ public class AChromeHistoryAccessor {
 			}
 				
 			
-			PageVisit aPageVisit = new PageVisit(aTitle, aVisitCount, aURL);
+			PageVisit aPageVisit = new PageVisit(aUnixTime, aTitle, aVisitCount, aURL);
 			if (!trackURL(aPageVisit)) {
-				Tracer.info(AChromeHistoryAccessor.class, aDate + "Ignoring non technical visit" + aTitle + " " + aURL);
+				Tracer.info(AChromeHistoryAccessor.class, aDate + "Ignoring non technical visit " + aPageVisit);
 
 				continue;
 			}
@@ -286,19 +298,25 @@ public class AChromeHistoryAccessor {
 		deleteTargetFile();
 	}
 	
-	public static void processURLs(RatioFeatures aRatioFeatures, long aUnixStartTime) {
+	public static void processURLs(RatioFeatures aRatioFeatures) {
 		
 		try {
 			initializeSource();
+			long aUnixStartTime = aRatioFeatures.getUnixStartTime();
 			if (!hasSourceChanged(aUnixStartTime))
 				return;
 			initializeTargetFileName();
 			initializeJDBCFileName();
 			copyTargetFile();
 			connectToJDBCFileName();
-			long aChromeStartTimeRange = aUnixStartTime*1000 + CHROME_MINUS_UNIX;
+//			long aChromeStartTimeRange = aUnixStartTime*1000 + CHROME_MINUS_UNIX;
+			long aChromeStartTimeRange = toChromeTime(aUnixStartTime);
+			long anElapsedTime = aRatioFeatures.getElapsedTime();
+			long aUnixEndTime = aUnixStartTime + anElapsedTime;
+//			long aChromeEndTimeRange = toChromeTime(aRatioFeatures.getUnixStartTime() + aRatioFeatures.getElapsedTime());
+			long aChromeEndTimeRange = toChromeTime(aUnixEndTime);
 
-			composeQuery(aChromeStartTimeRange);
+			composeQuery(aChromeStartTimeRange, aChromeEndTimeRange);
 			executeQuery();
 			processResultSet(aChromeStartTimeRange, aRatioFeatures);
 			
@@ -323,10 +341,18 @@ public class AChromeHistoryAccessor {
 	
 
 	public static void main(String[] args) {
-		long aTime = System.currentTimeMillis() - 90 * 24 * 60 * 60 * 1000L; // last 90 dats
-		RatioFeatures aRatioFetaures = new ARatioFeatures();		
-		processURLs(aRatioFetaures, aTime);
-		
+		Tracer.showInfo(true);
+		long aTime = System.currentTimeMillis() - 5 * 24 * 60 * 60 * 1000L; // last 90 dats
+		long aTime2 = aTime + 3*24 * 60 * 60 * 1000L;
+		RatioFeatures aRatioFetaures = new ARatioFeatures();	
+		aRatioFetaures.setUnixStartTime(aTime);
+//		aRatioFetaures.setElapsedTime(3*24 * 60 * 60 * 1000L);
+		aRatioFetaures.setElapsedTime(aTime2-aTime);
+
+		processURLs(aRatioFetaures);
+		for (PageVisit aPageVisit:aRatioFetaures.getPageVisits()) {
+			System.out.println(aPageVisit);
+		}
 		
 		Date aCurrentDate = new Date(aTime);
 		
@@ -338,6 +364,7 @@ public class AChromeHistoryAccessor {
 	
 		System.out.println("current date" + aCurrentDate);
 		long aChromeTime = aTime * 1000 + CHROME_MINUS_UNIX;
+		long aChromeTime2 = aTime2 * 1000 + CHROME_MINUS_UNIX;
 
 		Connection connection = null;
 		ResultSet resultSet = null;
@@ -387,6 +414,13 @@ public class AChromeHistoryAccessor {
 					// "jdbc:sqlite:/home/username/.config/chromium/Default/History"
 					JDBC_FILE);
 			statement = connection.createStatement();
+			String aQuery = "SELECT title, visit_count, last_visit_time, "
+					// + "datetime(last_visit_time / 1000000 +
+					// (strftime('%s', '1601-01-01')), 'unixepoch',
+					// 'localtime'), URL FROM urls where visit_count >
+					// 0");
+					+ "datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch', 'localtime'), URL FROM urls where last_visit_time >= "
+					+ aChromeTime  + " AND last_visit_time <= "  + aChromeTime2;
 			resultSet = statement
 					// .executeQuery ("SELECT * FROM urls where visit_count >
 					// 0");
@@ -409,8 +443,8 @@ public class AChromeHistoryAccessor {
 							// (strftime('%s', '1601-01-01')), 'unixepoch',
 							// 'localtime'), URL FROM urls where visit_count >
 							// 0");
-							+ "datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch', 'localtime'), URL FROM urls where last_visit_time > "
-							+ aChromeTime);
+							+ "datetime(last_visit_time / 1000000 + (strftime('%s', '1601-01-01')), 'unixepoch', 'localtime'), URL FROM urls where last_visit_time >= "
+							+ aChromeTime  + " AND last_visit_time <= "  + aChromeTime2);
 
 			while (resultSet.next()) {
 				// String aTimeString = resultSet.getString("last_visit_time");
