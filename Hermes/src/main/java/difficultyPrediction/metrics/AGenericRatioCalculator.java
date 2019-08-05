@@ -453,12 +453,11 @@ public class AGenericRatioCalculator implements RatioCalculator {
 	}
 
 	protected CommandCategory[] computedFeatures = { CommandCategory.NAVIGATION, CommandCategory.DEBUG,
-			// SEARCH,
 			CommandCategory.FOCUS, CommandCategory.EDIT, CommandCategory.REMOVE, CommandCategory.INSERT,
 			CommandCategory.COMMAND_RATE, CommandCategory.NAVIGATION_RATE, CommandCategory.DEBUG_RATE,
-			// SEARCH,
 			CommandCategory.FOCUS_RATE, CommandCategory.EDIT_RATE, CommandCategory.REMOVE_RATE,
 			CommandCategory.INSERT_RATE,
+			CommandCategory.WEB_LINK_TIMES
 
 	};
 

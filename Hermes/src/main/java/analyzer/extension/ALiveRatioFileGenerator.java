@@ -43,7 +43,7 @@ public class ALiveRatioFileGenerator extends ARatioFileGenerator implements Live
     		AnalyzerFactory.getSingleton().addAnalyzerListener(this);
     	} else {
     		newParticipant(LIVE_USER_NAME, DUMMY_FOLDER_NAME);
-    		appendFeatureHeader(headerStringBuffer);
+    		fillHeader(headerStringBuffer);
     		
     	}
     }
@@ -93,34 +93,95 @@ public class ALiveRatioFileGenerator extends ARatioFileGenerator implements Live
     	}
     	return computedFeatureNames;
     }
-    protected void appendFeatureHeader(StringBuffer aStringBuffer) {
-    	boolean isFirst = true;
+    /**
+     * Called last so we do not have to put a trailing command
+     */
+    protected void appendWebEpilogHeader(StringBuffer aStringBuffer) {
+//    	aStringBuffer.append("time, numVisits,  title, URL");
+    	aStringBuffer.append("Web Page Visits");
+    	
+    }
+    protected void appendWebEpilogValues(StringBuffer aStringBuffer, RatioFeatures aRatioFeatures) {
+//    	aStringBuffer.append("time, numVisits,  title, URL");
+    	aStringBuffer.append(aRatioFeatures.getPageVisits());
+    	
+    }
+    protected void appendPrologHeade(StringBuffer aStringBuffer) {
+    	aStringBuffer.append("Date, File, StartTime, ElapsedTime, BusyTime, ");
+    	
+    }
+    static Date date = new Date();
+    static Date toDate(long aUnixTime) {
+    	date.setTime(aUnixTime);
+    	return date;
+    }
+    protected void appendrPrologValues(StringBuffer aStringBuffer, RatioFeatures aRatioFeatures) {
+    	aStringBuffer.append(
+    			toDate(aRatioFeatures.getUnixStartTime()) + "," +
+    			aRatioFeatures.getFileName() + ", " +
+    			aRatioFeatures.getUnixStartTime() + ", " +
+    			aRatioFeatures.getElapsedTime() + ", " +
+    			aRatioFeatures.getEstimatedBusyTime()
+    			);
+    	
+    }
+  
+    protected void appendFeatureNames(StringBuffer aStringBuffer) {
+//    	boolean isFirst = true;
     	
     	for (String aFeatureName:computedFeatureNames()) {
-    		if (!isFirst) {
-    			aStringBuffer.append(",");
-
-    		} else {
-    			isFirst = false;
-    		}
+//    		if (!isFirst) {
+//    			aStringBuffer.append(",");
+//
+//    		} else {
+//    			isFirst = false;
+//    		}
 			aStringBuffer.append(aFeatureName);
+			aStringBuffer.append(",");
 
     	}
     	 
     }
     protected void appendFeatureValues(StringBuffer aStringBuffer, RatioFeatures aRatioFeatures) {
-    	boolean isFirst = true;
+//    	boolean isFirst = true;
     	
     	for (String aFeatureName:computedFeatureNames()) {
     		Double aFeatureValue = (Double) aRatioFeatures.getFeature(aFeatureName);
-    		if (!isFirst) {
-    			aStringBuffer.append(",");
-    		} else {
-    			isFirst = false;
-    		}
+//    		if (!isFirst) {
+//    			aStringBuffer.append(",");
+//    		} else {
+//    			isFirst = false;
+//    		}
 			aStringBuffer.append(aFeatureValue);
+			aStringBuffer.append(",");
     	}    	 
     }
+    
+    protected void fillHeader(StringBuffer aStringBuffer) {
+    	appendPrologHeade(aStringBuffer);
+    	appendFeatureNames(aStringBuffer);
+    	appendWebEpilogHeader(aStringBuffer);
+//    	boolean isFirst = true;
+//    	
+//    	for (String aFeatureName:computedFeatureNames()) {
+//    		if (!isFirst) {
+//    			aStringBuffer.append(",");
+//
+//    		} else {
+//    			isFirst = false;
+//    		}
+//			aStringBuffer.append(aFeatureName);
+//
+//    	}
+    	 
+    }
+    protected void fillValues(StringBuffer aStringBuffer, RatioFeatures aRatioFeatures) {
+    	appendrPrologValues(aStringBuffer, aRatioFeatures);
+    	appendFeatureValues(aStringBuffer, aRatioFeatures);
+    	appendWebEpilogValues(aStringBuffer, aRatioFeatures);
+
+    }
+    
     
 //    protected void appendToWorkspaceRat(String aFileName, String aText) {
 //    	try(FileWriter fw = new FileWriter("myfile.txt", true);
@@ -252,10 +313,11 @@ public class ALiveRatioFileGenerator extends ARatioFileGenerator implements Live
     		metricsStringBuffer.setLength(0);
     		metricsStringBuffer.append("\n");
 //    		workspaceOut().print(stringBuffer);
-    		appendFeatureValues (metricsStringBuffer, newVal);
+//    		appendFeatureValues (metricsStringBuffer, newVal);
+    		fillValues(metricsStringBuffer, newVal);
     		logMetrics(workspaceOut(), metricsStringBuffer);
     		logMetrics(projectOut(), metricsStringBuffer);
-    		metricsStringBuffer.setLength(0);
+    		metricsStringBuffer.setLength(0); // twice for safety
     		
     	}
     	
