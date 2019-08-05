@@ -12,13 +12,14 @@ import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.metrics.CommandCategory;
 import difficultyPrediction.metrics.CommandCategoryMapping;
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
-import difficultyPrediction.web.PageVisit;
+import difficultyPrediction.web.chrome.AWebFeatures;
+import difficultyPrediction.web.chrome.PageVisit;
 import fluorite.model.EHEventRecorder;
 /**
  * This should really be a map, rather than a record
  *
  */
-public class ARatioFeatures implements RatioFeatures {
+public class ARatioFeatures extends AWebFeatures implements RatioFeatures {
 //	protected double editRatio;
 //	protected double debugRatio;
 //	protected double navigationRatio;
@@ -34,18 +35,18 @@ public class ARatioFeatures implements RatioFeatures {
 //	protected double focusTimeRatio;
 //	protected double removeTimeRatio;
 //	protected long savedTimeStamp;
-	public static final String SAVED_TIME_STAMP = "savedTimeStamp";
-	public static final String UNIX_START_TIME = "unixStartTime";
-	public static final String FILE_NAME = "fileName";
-
-	public static final String ELAPSED_TIME = "elapsedTime";
-	public static final String ESTIMATED_BUSY_TIME = "busyTime";
-
-	public static final String COMMAND_STRING = "commandString";
-	public static final String PAGE_VISITS = "pageVisits";
-	public static final String NUM_PAGES_VISITED = "numURLs";
-	public static final String NUM_SEARCHES = "numSearches";
-	public static final String MAX_SEARCH_LENGTH = "maxSearchLength";
+//	public static final String SAVED_TIME_STAMP = "savedTimeStamp";
+//	public static final String UNIX_START_TIME = "unixStartTime";
+//	public static final String FILE_NAME = "fileName";
+//
+//	public static final String ELAPSED_TIME = "elapsedTime";
+//	public static final String ESTIMATED_BUSY_TIME = "busyTime";
+//
+//	public static final String COMMAND_STRING = "commandString";
+//	public static final String PAGE_VISITS = "pageVisits";
+//	public static final String NUM_PAGES_VISITED = "numURLs";
+//	public static final String NUM_SEARCHES = "numSearches";
+//	public static final String MAX_SEARCH_LENGTH = "maxSearchLength";
 	
 
 
@@ -61,14 +62,14 @@ public class ARatioFeatures implements RatioFeatures {
 //	protected double other7Feature;
 //	protected double other8Feature;
 //	protected double other9Feature;
-	protected Map<String, Object> featureNameToValue = new HashMap<>();
+//	protected Map<String, Object> featureNameToValue = new HashMap<>();
 
 
 	
 	private StuckPoint stuckPoint;
 	private StuckInterval stuckInterval;
 	protected CommandCategoryMapping commandCategoryMapping; 
-	static List<PageVisit> emptyPageVisits = new ArrayList();
+//	static List<PageVisit> emptyPageVisits = new ArrayList();
 
 	public ARatioFeatures() {
 		commandCategoryMapping = APredictionParameters.getInstance().
@@ -81,7 +82,7 @@ public class ARatioFeatures implements RatioFeatures {
 		setDeletionRatio(0);
 		setEditRate(0);
 		setEditRatio(0);
-		setElapsedTime(0);
+//		setElapsedTime(0);
 		setEstimatedBusyTime(0);
 		setExceptionsPerRun(0);
 		setFocusRate(0);
@@ -90,11 +91,11 @@ public class ARatioFeatures implements RatioFeatures {
 		setInsertionRatio(0);
 		setNavigationRate(0);
 		setNavigationRatio(0);
-		setNumPagesVisited(0);
-		setPageVisits(emptyPageVisits);
-		setNumWebSearches(0);
-		setMaxSearchLength(0);
-		setUnixStartTime(0);
+//		setNumPagesVisited(0);
+//		setPageVisits(emptyPageVisits);
+//		setNumWebSearches(0);
+//		setMaxSearchLength(0);
+//		setUnixStartTime(0);
 		setFileName("");
 		
 
@@ -234,16 +235,16 @@ public class ARatioFeatures implements RatioFeatures {
 		featureNameToValue.put(SAVED_TIME_STAMP, newVal) ;
 
 	}
-	public long getElapsedTime() {
-		return (Long) featureNameToValue.get(ELAPSED_TIME) ;
-
-//		return savedTimeStamp;
-	}
-	public void setElapsedTime(long newVal) {
-//		this.savedTimeStamp = savedTimeStamp;
-		featureNameToValue.put(ELAPSED_TIME, newVal) ;
-
-	}
+//	public long getElapsedTime() {
+//		return (Long) featureNameToValue.get(ELAPSED_TIME) ;
+//
+////		return savedTimeStamp;
+//	}
+//	public void setElapsedTime(long newVal) {
+////		this.savedTimeStamp = savedTimeStamp;
+//		featureNameToValue.put(ELAPSED_TIME, newVal) ;
+//
+//	}
 	@Override
 	public long getEstimatedBusyTime() {
 		return (Long) featureNameToValue.get(ESTIMATED_BUSY_TIME) ;
@@ -399,65 +400,65 @@ public class ARatioFeatures implements RatioFeatures {
 //	public void setOther9Feature(double newVal) {
 //		other9Feature = newVal;
 //	}
-	@Override
-	public Object getFeature(String aFeatureName) {
-		return featureNameToValue.get(aFeatureName);
-	}
-	@Override
-	public void setFeature(String aFeatureName, Object newVal) {
-		featureNameToValue.put(aFeatureName, newVal);
-	}
+//	@Override
+//	public Object getFeature(String aFeatureName) {
+//		return featureNameToValue.get(aFeatureName);
+//	}
+//	@Override
+//	public void setFeature(String aFeatureName, Object newVal) {
+//		featureNameToValue.put(aFeatureName, newVal);
+//	}
+//
+//	@Override
+//	public void setPageVisits(List<PageVisit> aPageVisits) {
+//		featureNameToValue.put(PAGE_VISITS, aPageVisits);
+//	}
+//
+//	@Override
+//	public List<PageVisit> getPageVisits() {
+//		return (List<PageVisit>) featureNameToValue.get(PAGE_VISITS);
+//	}
+//
+//	@Override
+//	public void setNumPagesVisited(int aNumPages) {
+//		featureNameToValue.put(NUM_PAGES_VISITED, aNumPages);
+//	}
+//
+//	@Override
+//	public int getNumPagesVisited() {
+//		return (int) featureNameToValue.get(NUM_PAGES_VISITED);
+//	}
+//
+//	@Override
+//	public void setNumWebSearches(int aNumPages) {
+//		featureNameToValue.put(NUM_SEARCHES, aNumPages);
+//
+//	}
+//
+//	@Override
+//	public int getNumWebSearches() {
+//		return (int) featureNameToValue.get(NUM_SEARCHES);
+//	}
+//
+//	@Override
+//	public void setMaxSearchLength(int newValue) {
+//		featureNameToValue.put(MAX_SEARCH_LENGTH, newValue);
+//	}
+//
+//	@Override
+//	public int getMaxSearchLength() {
+//		return  (int) featureNameToValue.get(MAX_SEARCH_LENGTH);
+//	}
 
-	@Override
-	public void setPageVisits(List<PageVisit> aPageVisits) {
-		featureNameToValue.put(PAGE_VISITS, aPageVisits);
-	}
-
-	@Override
-	public List<PageVisit> getPageVisits() {
-		return (List<PageVisit>) featureNameToValue.get(PAGE_VISITS);
-	}
-
-	@Override
-	public void setNumPagesVisited(int aNumPages) {
-		featureNameToValue.put(NUM_PAGES_VISITED, aNumPages);
-	}
-
-	@Override
-	public int getNumPagesVisited() {
-		return (int) featureNameToValue.get(NUM_PAGES_VISITED);
-	}
-
-	@Override
-	public void setNumWebSearches(int aNumPages) {
-		featureNameToValue.put(NUM_SEARCHES, aNumPages);
-
-	}
-
-	@Override
-	public int getNumWebSearches() {
-		return (int) featureNameToValue.get(NUM_SEARCHES);
-	}
-
-	@Override
-	public void setMaxSearchLength(int newValue) {
-		featureNameToValue.put(MAX_SEARCH_LENGTH, newValue);
-	}
-
-	@Override
-	public int getMaxSearchLength() {
-		return  (int) featureNameToValue.get(MAX_SEARCH_LENGTH);
-	}
-
-	@Override
-	public long getUnixStartTime() {
-		return (long) featureNameToValue.get(UNIX_START_TIME);
-	}
-
-	@Override
-	public void setUnixStartTime(long newVal) {
-		featureNameToValue.put(UNIX_START_TIME, newVal);
-	}
+//	@Override
+//	public long getUnixStartTime() {
+//		return (long) featureNameToValue.get(UNIX_START_TIME);
+//	}
+//
+//	@Override
+//	public void setUnixStartTime(long newVal) {
+//		featureNameToValue.put(UNIX_START_TIME, newVal);
+//	}
 
 	@Override
 	public String getFileName() {

@@ -1,4 +1,4 @@
-package difficultyPrediction.web;
+package difficultyPrediction.web.chrome;
 
 public class PageVisit {
 	

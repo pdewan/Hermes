@@ -12,7 +12,7 @@ import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
-import difficultyPrediction.web.AChromeHistoryAccessor;
+import difficultyPrediction.web.chrome.AChromeHistoryAccessor;
 import fluorite.commands.CompilationCommand;
 import fluorite.commands.EclipseCommand;
 import fluorite.model.EHEventRecorder;
@@ -42,6 +42,9 @@ public class AGenericRatioCalculator implements RatioCalculator {
 				.getCommandCategoryMapping();
 		relevantCommandCategoryList = Arrays.asList(commandCategoryMapping.getRelevantCommandCategories());
 		idleTime = HelperConfigurationManagerFactory.getSingleton().getIdleTime();
+		AChromeHistoryAccessor.setTerms(
+				HelperConfigurationManagerFactory.getSingleton().getTechnicalTerms(),
+HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 	}
 
 	// protected static List<CommandCategory> emptyCommandCategories= new

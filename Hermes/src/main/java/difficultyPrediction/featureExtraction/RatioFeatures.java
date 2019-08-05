@@ -4,9 +4,10 @@ import java.util.List;
 
 import analyzer.extension.StuckInterval;
 import analyzer.extension.StuckPoint;
-import difficultyPrediction.web.PageVisit;
+import difficultyPrediction.web.WebFeatures;
+import difficultyPrediction.web.chrome.PageVisit;
 
-public interface RatioFeatures {
+public interface RatioFeatures extends WebFeatures {
 	public void setEditRatio(double editRatio) ;
 	public double getDebugRatio() ;
 	public void setDebugRatio(double newVal) ;
@@ -87,5 +88,18 @@ public interface RatioFeatures {
 	String getFileName();
 	void setFileName(String newVal);
 	
+	public static final String SAVED_TIME_STAMP = "savedTimeStamp";
+//	public static final String UNIX_START_TIME = "unixStartTime";
+	public static final String FILE_NAME = "fileName";
+
+//	public static final String ELAPSED_TIME = "elapsedTime";
+	public static final String ESTIMATED_BUSY_TIME = "busyTime";
+
+	public static final String COMMAND_STRING = "commandString";
+//	public static final String PAGE_VISITS = "pageVisits";
+//	public static final String NUM_PAGES_VISITED = "numURLs";
+//	public static final String NUM_SEARCHES = "numSearches";
+//	public static final String MAX_SEARCH_LENGTH = "maxSearchLength";
+//	
 
 }

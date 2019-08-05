@@ -1,5 +1,7 @@
 package difficultyPrediction.web;
 
+import difficultyPrediction.web.chrome.AWebBrowserAccessor;
+
 public class WebBrowserAccessorFactory {
 	static WebBrowserAccessor singleton;
 	public static void createSingleton() {
