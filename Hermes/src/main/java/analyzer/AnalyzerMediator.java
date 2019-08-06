@@ -24,6 +24,7 @@ import difficultyPrediction.predictionManagement.PredictionManager;
 import difficultyPrediction.statusManager.StatusListener;
 import difficultyPrediction.statusManager.StatusManager;
 import difficultyPrediction.statusManager.StatusManagerDetails;
+import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 
 public class AnalyzerMediator implements Mediator {
@@ -290,6 +291,30 @@ public class AnalyzerMediator implements Mediator {
 
 	@Override
 	public void notifyNewReplayedStatus(int aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyNewManualStatus(String aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyNewManualStatus(DifficultyCommand aCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyNewAggregateStatus(String aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void manualStatusView_HandOffManualStatus(DifficultyCommand aDififcultyCommand) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -614,6 +614,13 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	}
 
 
+	@Override
+	public void newManualStatus(DifficultyCommand aCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	
 
 	

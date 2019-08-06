@@ -9,6 +9,7 @@ import difficultyPrediction.predictionManagement.APredictionManagerDetails;
 import difficultyPrediction.predictionManagement.PredictionManager;
 import difficultyPrediction.statusManager.StatusManager;
 import difficultyPrediction.statusManager.StatusManagerDetails;
+import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 
 
@@ -19,6 +20,7 @@ public interface Mediator extends MediatorRegistrar {
 	public void statusManager_HandOffStatus(StatusManager manager, StatusManagerDetails details);
 	void featureExtractor_HandOffFeatures(RatioBasedFeatureExtractor extractor,
 			RatioFeatures details);
+	void manualStatusView_HandOffManualStatus(DifficultyCommand aDififcultyCommand);
 	void processEvent(EHICommand e);
 	public EventAggregator getEventAggregator();
 

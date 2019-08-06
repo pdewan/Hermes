@@ -98,7 +98,7 @@ public class ADifficultyPredictionRunnable implements
 						&& !(newCommand instanceof DifficultyCommand)) {
 					mediator.processEvent(newCommand);
 				} else if (!(newCommand instanceof PredictionCommand)) {
-					System.out.println("Ignoreing difficulty status Command "
+					Tracer.info(this, "Ignoreing difficulty status Command "
 							+ newCommand);
 				} else {
 					// String lastStatus = null;

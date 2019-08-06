@@ -5,6 +5,7 @@ import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesListener;
 import difficultyPrediction.featureExtraction.WebLinkListener;
 import difficultyPrediction.statusManager.StatusListener;
+import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 
 public interface MediatorRegistrar {
@@ -22,6 +23,13 @@ public interface MediatorRegistrar {
 	public void  notifyNewRatios(RatioFeatures aRatios) ;
 	
 	public void  notifyNewStatus(String aStatus) ;
+	public  void  notifyNewManualStatus(String aStatus);
+	public  void  notifyNewManualStatus(DifficultyCommand aCommand);
+
+	public  void  notifyNewAggregateStatus(String aStatus);
+
+	
+
 	public abstract void addPluginEventListener(
 			PluginEventListener aListener);
 

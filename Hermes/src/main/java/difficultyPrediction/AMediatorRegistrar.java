@@ -12,6 +12,7 @@ import difficultyPrediction.featureExtraction.RatioFeaturesListener;
 import difficultyPrediction.featureExtraction.WebLinkListener;
 import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
 import difficultyPrediction.statusManager.StatusListener;
+import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import util.GlobalRunnableExecutor;
 import util.trace.difficultyPrediction.notification.NotifiedManualStatusToListener;
@@ -307,6 +308,13 @@ public class AMediatorRegistrar implements MediatorRegistrar {
 			aListener.newManualStatus(aStatus);
 		}
 	}
+	@Override
+	public void notifyNewManualStatus(DifficultyCommand aCommand) {
+
+		for (StatusListener aListener:statusListeners) {
+			aListener.newManualStatus(aCommand);
+		}
+	}
 	public synchronized void  notifyNewWebLinks(List<WebLink> aWebLinks) {
 		for (WebLinkListener aListener:webLinkListeners) {
 //			for (WebLink aWebLink:aWebLinks) {
@@ -381,6 +389,8 @@ public class AMediatorRegistrar implements MediatorRegistrar {
 			
 		}
 	}
+
+
 
 
 	

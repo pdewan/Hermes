@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.DifficultyRobot;
+import fluorite.commands.DifficultyCommand;
 
 public class AStatusBar extends JPanel implements StatusBar {
 
@@ -222,6 +223,12 @@ public class AStatusBar extends JPanel implements StatusBar {
 
 	@Override
 	public void newReplayedStatus(int aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newManualStatus(DifficultyCommand aCommand) {
 		// TODO Auto-generated method stub
 		
 	}

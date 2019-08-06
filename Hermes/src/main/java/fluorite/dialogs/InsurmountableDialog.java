@@ -134,7 +134,9 @@ org.eclipse.jface.dialogs.TitleAreaDialog {
 		
 		
 		Label labelAskingForHelp = new Label(parent, SWT.NONE);
-		labelAskingForHelp.setText("Who are you asking for help?");
+//		labelAskingForHelp.setText("Who are you asking for help?");
+		labelAskingForHelp.setText("Who could help you?");
+
 		
 		gridData = new GridData();
 		gridData.grabExcessHorizontalSpace = true;

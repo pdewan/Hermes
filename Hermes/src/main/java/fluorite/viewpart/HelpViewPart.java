@@ -15,6 +15,7 @@ import org.eclipse.ui.part.ViewPart;
 
 //import context.saros.SarosAccessorFactory;
 import analyzer.ui.APredictionController;
+import difficultyPrediction.DifficultyRobot;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.Status;
 import fluorite.dialogs.InsurmountableDialog;
@@ -28,6 +29,7 @@ public class HelpViewPart extends ViewPart {
 	}
 
 	private static Label lblStatusValue;
+	boolean workspaceButtons = false;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -42,12 +44,16 @@ public class HelpViewPart extends ViewPart {
 
 		lblStatusValue = new Label(parent, SWT.NONE);
 		FormData fd_lblStatusValue = new FormData();
-		fd_lblStatusValue.bottom = new FormAttachment(0, 19);
+//		fd_lblStatusValue.bottom = new FormAttachment(0, 19);
+		fd_lblStatusValue.bottom = new FormAttachment(0, 40);
+
 		fd_lblStatusValue.right = new FormAttachment(0, 455);
 		fd_lblStatusValue.top = new FormAttachment(0, 5);
 		fd_lblStatusValue.left = new FormAttachment(0, 159);
 		lblStatusValue.setLayoutData(fd_lblStatusValue);
 		lblStatusValue.setSize(500, lblStatusValue.getSize().y);
+//		lblStatusValue.setSize(500, 400);
+
 		lblStatusValue.setText("Session Started");
 
 		final Shell shell = this.getSite().getWorkbenchWindow().getShell();
@@ -63,6 +69,8 @@ public class HelpViewPart extends ViewPart {
 				DifficultyCommand command = new DifficultyCommand(Status.Making_Progress);
 				EHEventRecorder.getInstance().recordCommand(command);
 				lblStatusValue.setText(StatusConsts.PROGRESS_TEXT);
+				DifficultyRobot.getInstance().manualStatusView_HandOffManualStatus(command);
+
 			}
 		});
 
@@ -85,6 +93,8 @@ public class HelpViewPart extends ViewPart {
 									dialog.getOtherCausedDifficulty(), dialog.getOvercomeDifficultyDropDown(), 
 									dialog.getOtherOverComeDifficultySaveText(), dialog.getOtherMinutes());
 					EHEventRecorder.getInstance().recordCommand(command);
+					DifficultyRobot.getInstance().manualStatusView_HandOffManualStatus(command);
+
 					lblStatusValue.setText(StatusConsts.SURMOUNTABLE_TEXT);
 				}
 			}
@@ -106,6 +116,7 @@ public class HelpViewPart extends ViewPart {
 									dialog.getOtherCausedDifficulty(), dialog.getOvercomeDifficultyDropDown(), 
 									dialog.getOtherOverComeDifficultySaveText(), dialog.getOtherMinutes(), 
 									dialog.getPersonAskedForHelp());
+					DifficultyRobot.getInstance().manualStatusView_HandOffManualStatus(command);
 					EHEventRecorder.getInstance().recordCommand(command);
 					lblStatusValue.setText(StatusConsts.INSURMOUNTABLE_TEXT);
 				}
@@ -124,7 +135,7 @@ public class HelpViewPart extends ViewPart {
 //				LiveModePredictionConfigurer.visualizePrediction();
 			}
 		});
-		
+		if (workspaceButtons) {
 		Button btnExportWorkspace = new Button(parent, SWT.NONE);
 		FormData fd_btnExportWorkspace = new FormData();
 		fd_btnExportWorkspace.top = new FormAttachment(0, 124);
@@ -156,6 +167,7 @@ public class HelpViewPart extends ViewPart {
 //				LiveModePredictionConfigurer.visualizePrediction();
 			}
 		});
+		}
 	}
 	
 	public static String getStatusInformation()

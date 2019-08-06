@@ -102,12 +102,12 @@ public class ARatioFeatures extends AWebFeatures implements RatioFeatures {
 		
 	 }
 
-	public double getInsertRatio() {
-		return (Double) featureNameToValue.get(commandCategoryMapping.getFeatureName(CommandCategory.INSERT)) ;
-	}
-	public void setInsertRatio(double newVal) {
-		featureNameToValue.put(commandCategoryMapping.getFeatureName(CommandCategory.INSERT), newVal);
-	}
+//	public double getInsertRatio() {
+//		return (Double) featureNameToValue.get(commandCategoryMapping.getFeatureName(CommandCategory.INSERT)) ;
+//	}
+//	public void setInsertRatio(double newVal) {
+//		featureNameToValue.put(commandCategoryMapping.getFeatureName(CommandCategory.INSERT), newVal);
+//	}
 //	public double getEditRatio() {
 //	return (Double) featureNameToValue.get(commandCategoryMapping.getFeatureName(CommandCategory.EDIT_OR_INSERT)) ;
 //}
@@ -165,6 +165,9 @@ public class ARatioFeatures extends AWebFeatures implements RatioFeatures {
 		return (Double) featureNameToValue.get(commandCategoryMapping.getFeatureName(CommandCategory.INSERT)) ;
 	}
 	public void setInsertionRatio(double newVal) {
+//		if (newVal != 0) {
+//			System.out.println("Non zero" + newVal);	
+//		}
 		featureNameToValue.put(commandCategoryMapping.getFeatureName(CommandCategory.INSERT), newVal) ;
 
 	}

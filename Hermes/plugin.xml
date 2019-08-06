@@ -26,6 +26,15 @@
          	id="hermes.statusView"
          	name="Hermes">
          </view>
+         <view
+            allowMultiple="false"
+            category="hermes.viewCategory"
+            class="fluorite.viewpart.HelpViewPart"
+            id="hermes.difficultyView"
+            name="DifficultyStatus"
+            restorable="true">
+         </view>
+         
    </extension>
    <extension
          point="org.eclipse.ui.startup">

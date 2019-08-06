@@ -291,7 +291,9 @@ public abstract class ACommandCategoryMapping implements CommandCategoryMapping 
 			if (Character.isUpperCase(aCommandNameString.charAt(0)))
 				continue;
 			if (aLowerCaseID.contains(aCommandNameString))
-				return aCommandName;
+				return aCommandName; 
+			// editor contains edit but us debug command
+	//		autogen:::org.eclipse.jdt.debug.compilationuniteditor.breakpointruleractions/org.eclipse.jdt.debug.ui.actions.managebreakpointruleraction
 		}
 		return null;
 	}
@@ -301,7 +303,7 @@ public abstract class ACommandCategoryMapping implements CommandCategoryMapping 
 	 */
 	@Override
 	public List<CommandCategory> searchCommandCategories(String anID) {
-		CommandName aCommandName = searchCommandName(anID);
+		CommandName aCommandName = searchCommandName(anID); // there can be multiple commandNames too
 		if (aCommandName == null) {
 			return emptyCommandCategory;
 		}

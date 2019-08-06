@@ -22,6 +22,7 @@ import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
 import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
 import difficultyPrediction.statusManager.StatusManager;
 import difficultyPrediction.statusManager.StatusManagerDetails;
+import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
 import fluorite.commands.PredictionType;
@@ -342,6 +343,14 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 		if (instance == null)
 			instance = new DifficultyRobot(""); // not sure what the id is actually used for
 		return instance;
+	}
+
+
+	@Override
+	public void manualStatusView_HandOffManualStatus(DifficultyCommand aDififcultyCommand) {
+		notifyNewManualStatus(aDififcultyCommand);
+		notifyNewManualStatus(aDififcultyCommand.getStatus().toString());
+		
 	}
 	
 }

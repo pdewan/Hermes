@@ -122,7 +122,7 @@ public class EHEventRecorder {
 	public static final String DocumentChangeCategoryID = "eventlogger.category.documentChange";
 	public static final String DifficultyCategory = "Difficulty";
 	public static final String DifficultyCategoryID = "eventerlogger.category.Difficulty";
-	
+
 	public static final String WebCategory = "Web";
 	public static final String WebCategoryID = "eventerlogger.category.Web";
 
@@ -173,8 +173,6 @@ public class EHEventRecorder {
 	protected ListenerList<RecorderListener> recorderListener;
 	protected ListenerList<EclipseEventListener> eventListener;
 
-
-
 	private List<Runnable> mScheduledTasks;
 
 	private static EHEventRecorder instance = null;
@@ -205,7 +203,7 @@ public class EHEventRecorder {
 
 	private final static Logger LOGGER = Logger.getLogger(EHEventRecorder.class.getName());
 	protected Map<String, Logger> projectToLogger = new HashMap<>();
-	
+
 	protected Logger projectLogger() {
 		IProject aProject = EHUtilities.getAndStoreCurrentProject();
 		if (aProject == null) {
@@ -215,7 +213,7 @@ public class EHEventRecorder {
 		Logger aLogger = projectToLogger.get(aProjectName);
 		if (aLogger == null) {
 			aLogger = Logger.getLogger(aProjectName);
-			boolean aSuccess = initializeProjectLogger(aProject, aLogger);	
+			boolean aSuccess = initializeProjectLogger(aProject, aLogger);
 			if (aSuccess) {
 				projectToLogger.put(aProjectName, aLogger);
 			} else {
@@ -306,7 +304,7 @@ public class EHEventRecorder {
 	public void removeDocumentChangeListener(EHDocumentChangeListener docChangeListener) {
 		mDocumentChangeListeners.remove(docChangeListener);
 	}
-	
+
 	public void addRecorderListener(RecorderListener aListener) {
 		recorderListener.add(aListener);
 		if (mStartTimestamp > 0) {
@@ -317,17 +315,18 @@ public class EHEventRecorder {
 	public void removeRecorderListeer(RecorderListener aListener) {
 		recorderListener.remove(aListener);
 	}
+
 	public void addEclipseEventListener(EclipseEventListener aListener) {
 		eventListener.add(aListener);
 		addRecorderListener(aListener);
-//		recorderListener.add(aListener);
+		// recorderListener.add(aListener);
 	}
 
 	public void removeEclipseEventListener(RecorderListener aListener) {
 		eventListener.remove(aListener);
 		recorderListener.remove(aListener);
 	}
-	
+
 	public void addCommandExecutionListener(EHCommandExecutionListener aListener) {
 		mCommandExecutionListeners.add(aListener);
 	}
@@ -368,39 +367,40 @@ public class EHEventRecorder {
 			((EHDocumentChangeListener) listenerObj).documentChanged(docChange);
 		}
 		for (Object listenerObj : eventListener.getListeners()) {
-			((EclipseEventListener)listenerObj).documentChanged(docChange.getClass().getSimpleName(), docChange.getTimestamp());
+			((EclipseEventListener) listenerObj).documentChanged(docChange.getClass().getSimpleName(),
+					docChange.getTimestamp());
 		}
 	}
+
 	public void fireCommandExecutedEvent(EHICommand command) {
 		for (Object listenerObj : mCommandExecutionListeners.getListeners()) {
-			((EHCommandExecutionListener)listenerObj).commandExecuted(command);
+			((EHCommandExecutionListener) listenerObj).commandExecuted(command);
 		}
 		for (Object listenerObj : eventListener.getListeners()) {
-			((EclipseEventListener)listenerObj).commandExecuted(command.getClass().getSimpleName(), command.getTimestamp());
+			((EclipseEventListener) listenerObj).commandExecuted(command.getClass().getSimpleName(),
+					command.getTimestamp());
 		}
 	}
-	
+
 	public void notifyRecordingStarted(long aStartTimestamp) {
 		for (Object listenerObj : recorderListener.getListeners()) {
-			((RecorderListener)listenerObj).eventRecordingStarted(aStartTimestamp);
+			((RecorderListener) listenerObj).eventRecordingStarted(aStartTimestamp);
 		}
 	}
+
 	public void notifyRecordingEnded() {
 		for (Object listenerObj : recorderListener.getListeners()) {
-			((RecorderListener)listenerObj).eventRecordingEnded();
+			((RecorderListener) listenerObj).eventRecordingEnded();
 		}
 		for (Object listenerObj : eventListener.getListeners()) {
-			((EclipseEventListener)listenerObj).eventRecordingEnded();
+			((EclipseEventListener) listenerObj).eventRecordingEnded();
 		}
 	}
-	
-	
 
 	public synchronized void fireDocumentChangeFinalizedEvent(BaseDocumentChangeEvent docChange) {
 		if (docChange instanceof FileOpenCommand) {
 			return;
 		}
-		
 
 		if (docChange == mLastFiredDocumentChange) {
 			return;
@@ -411,9 +411,9 @@ public class EHEventRecorder {
 
 			((EHDocumentChangeListener) listenerObj).documentChangeFinalized(docChange);
 		}
-		
+
 		for (Object listenerObj : eventListener.getListeners()) {
-			((EclipseEventListener)listenerObj).documentChangeFinalized(docChange.getTimestamp());
+			((EclipseEventListener) listenerObj).documentChangeFinalized(docChange.getTimestamp());
 		}
 
 		mLastFiredDocumentChange = docChange;
@@ -598,7 +598,8 @@ public class EHEventRecorder {
 		// maybeCreateDifficultyPredictionThread();
 		EHUtilities.setDisplay(PlatformUI.getWorkbench().getDisplay());
 		EHUtilities.setCurrentWorkbenchWindow(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-//		EHUtilities.openEditor("DummyProj", "D:/Test/DummyProject/src/HelloWorld.java");
+		// EHUtilities.openEditor("DummyProj",
+		// "D:/Test/DummyProject/src/HelloWorld.java");
 		// have to create the tray icon on the UI thread
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
@@ -618,8 +619,9 @@ public class EHEventRecorder {
 				}
 			}
 		}
-//		IWizardDescriptor[] aDescriptors = PlatformUI.getWorkbench().getNewWizardRegistry().getPrimaryWizards();
-		
+		// IWizardDescriptor[] aDescriptors =
+		// PlatformUI.getWorkbench().getNewWizardRegistry().getPrimaryWizards();
+
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().addShellListener(EHShellRecorder.getInstance());
 
 		DebugPlugin.getDefault().addDebugEventListener(EHDebugEventSetRecorder.getInstance());
@@ -652,7 +654,6 @@ public class EHEventRecorder {
 		for (Runnable runnable : mScheduledTasks) {
 			runnable.run();
 		}
-		
 
 	}
 
@@ -665,10 +666,10 @@ public class EHEventRecorder {
 		// check is for systems that don't support Tray
 		if (tray != null) {
 			try {
-//				URL url = new URL(fluorite.plugin.Activator.getDefault().getDescriptor().getInstallURL(),
-//						ICON_PATH);
-				URL url = new URL(HermesActivator.getInstallURL(),
-						ICON_PATH);
+				// URL url = new
+				// URL(fluorite.plugin.Activator.getDefault().getDescriptor().getInstallURL(),
+				// ICON_PATH);
+				URL url = new URL(HermesActivator.getInstallURL(), ICON_PATH);
 				ImageDescriptor imageDescriptior = ImageDescriptor.createFromURL(url);
 				Image image = imageDescriptior.createImage();
 				trayItem = new TrayItem(tray, SWT.NONE);
@@ -695,7 +696,7 @@ public class EHEventRecorder {
 		PendingCommandsLogBegin.newCase(allDocAndNonDocCommands, this);
 		for (EHICommand command : allDocAndNonDocCommands) {
 			maybeLog(Level.FINE, null, command);
-//			LOGGER.log(Level.FINE, null, command);
+			// LOGGER.log(Level.FINE, null, command);
 		}
 		PendingCommandsLogEnd.newCase(allDocAndNonDocCommands, this);
 
@@ -735,13 +736,13 @@ public class EHEventRecorder {
 		// pendingPredictionCommands.add(new AnEndOfQueueCommand());
 		notifyRecordingEnded();
 	}
-	
+
 	protected Logger workspaceLogger() {
 		return LOGGER;
 	}
-	
+
 	public static final String PROJECT_LOGGER_FILE_NAME = "Logs/Eclipse";
-	
+
 	protected boolean initializeProjectLogger(IProject aProject, Logger aLogger) {
 		IPath aProjectLocation = aProject.getLocation();
 		File aProjectFileLocation = aProjectLocation.toFile();
@@ -751,32 +752,34 @@ public class EHEventRecorder {
 			return false;
 		initializeLogger(aLogger, aCreatedFile);
 		return true;
-		
+
 	}
 
-//	private void initializeLogger() {
-////		setLogLevel(Level.FINE);
-//		LOGGER.setLevel(Level.FINE);
-//
-//		File outputFile = null;
-//		try {
-//			File logLocation = getLogLocation();
-//			outputFile = new File(logLocation, EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
-//			LogFileCreated.newCase(outputFile.getName(), this);
-//
-//			FileHandler handler = new FileHandler(outputFile.getPath());
-//			handler.setEncoding("UTF-8");
-//			handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
-//
-//			LOGGER.addHandler(handler);
-//			LogHandlerBound.newCase(handler, this);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	// private void initializeLogger() {
+	//// setLogLevel(Level.FINE);
+	// LOGGER.setLevel(Level.FINE);
+	//
+	// File outputFile = null;
+	// try {
+	// File logLocation = getLogLocation();
+	// outputFile = new File(logLocation,
+	// EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(),
+	// false));
+	// LogFileCreated.newCase(outputFile.getName(), this);
+	//
+	// FileHandler handler = new FileHandler(outputFile.getPath());
+	// handler.setEncoding("UTF-8");
+	// handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
+	//
+	// LOGGER.addHandler(handler);
+	// LogHandlerBound.newCase(handler, this);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 	private void initializeLogger() {
-//		setLogLevel(Level.FINE);
-//		LOGGER.setLevel(Level.FINE);
+		// setLogLevel(Level.FINE);
+		// LOGGER.setLevel(Level.FINE);
 
 		File outputFile = null;
 		try {
@@ -785,29 +788,28 @@ public class EHEventRecorder {
 			if (aCreatedFile == null)
 				return;
 			initializeLogger(workspaceLogger(), aCreatedFile);
-//			return true;
+			// return true;
 
-//			initializeLogger(workspaceLogger(), outputFile);
-//			LogFileCreated.newCase(outputFile.getName(), this);
-//
-//			FileHandler handler = new FileHandler(outputFile.getPath());
-//			handler.setEncoding("UTF-8");
-//			handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
-//
-//			LOGGER.addHandler(handler);
-//			LogHandlerBound.newCase(handler, this);
+			// initializeLogger(workspaceLogger(), outputFile);
+			// LogFileCreated.newCase(outputFile.getName(), this);
+			//
+			// FileHandler handler = new FileHandler(outputFile.getPath());
+			// handler.setEncoding("UTF-8");
+			// handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
+			//
+			// LOGGER.addHandler(handler);
+			// LogHandlerBound.newCase(handler, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
 	protected void initializeLogger(Logger aLogger, File logLocation) {
 		aLogger.setLevel(Level.FINE);
 		File outputFile = null;
 		try {
-			outputFile = new File(logLocation, EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
+			outputFile = new File(logLocation,
+					EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
 			LogFileCreated.newCase(outputFile.getName(), this);
 
 			FileHandler handler = new FileHandler(outputFile.getPath());
@@ -819,12 +821,14 @@ public class EHEventRecorder {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-    protected File maybeCreateDirectory(File logLocation, boolean isGlobalLogger) {
-    	try {
-//			File logLocation = HermesActivator.getDefault().getStateLocation().append("Logs")
-//					.toFile();
+
+	protected File maybeCreateDirectory(File logLocation, boolean isGlobalLogger) {
+		try {
+			// File logLocation =
+			// HermesActivator.getDefault().getStateLocation().append("Logs")
+			// .toFile();
 			if (!logLocation.exists()) {
 				if (!logLocation.mkdirs()) {
 					throw new Exception("Could not make log directory!");
@@ -833,12 +837,11 @@ public class EHEventRecorder {
 			return logLocation;
 		} catch (Exception e) {
 			if (isGlobalLogger)
-			return new File("Logs");
+				return new File("Logs");
 			else
 				return null;
 		}
 	}
-	
 
 	public EHEvents getRecordedEventsSoFar() {
 		return getRecordedEvents(allDocAndNonDocCommands);
@@ -847,16 +850,18 @@ public class EHEventRecorder {
 	public EHEvents getRecordedEvents(List<EHICommand> commands) {
 		return new EHEvents(commands, "", Long.toString(getStartTimestamp()), "", getStartTimestamp());
 	}
+
 	public static final String WORKSPACE_LOG_NAME = "Logs";
-    /**
-     * This is the workspace logger
-     * @return
-     * @throws Exception
-     */
+
+	/**
+	 * This is the workspace logger
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	private File getWorkspaceLogLocation() throws Exception {
 		try {
-			File logLocation = HermesActivator.getDefault().getStateLocation().append(WORKSPACE_LOG_NAME)
-					.toFile();
+			File logLocation = HermesActivator.getDefault().getStateLocation().append(WORKSPACE_LOG_NAME).toFile();
 			if (!logLocation.exists()) {
 				if (!logLocation.mkdirs()) {
 					throw new Exception("Could not make log directory!");
@@ -934,92 +939,92 @@ public class EHEventRecorder {
 	boolean isPredictionRelatedCommand(final EHICommand newCommand) {
 		return newCommand instanceof PredictionCommand || newCommand instanceof DifficultyCommand;
 	}
+
 	public int getNumNotifiedCommands() {
 		return numNotifiedCommands;
 	}
+
 	public int getNumReceivedCommnads() {
 		return numReceivedCommands;
 	}
-	
+
 	public int getNumDataEvents() {
 		return numDataEvents;
 	}
-	
+
 	public int getNumFinalizedDataEvents() {
 		return numFinalizedDataEvents;
 	}
-	
-	
-	protected void notifyCommandAndDocChangeListeners(EHICommand newCommand, 
-			EHICommand lastCommand) {
+
+	protected void notifyCommandAndDocChangeListeners(EHICommand newCommand, EHICommand lastCommand) {
 		numNotifiedCommands++;
 		if (newCommand instanceof BaseDocumentChangeEvent) {
 			if (!(newCommand instanceof FileOpenCommand)) {
-				fireDocumentChangedEvent((BaseDocumentChangeEvent)newCommand);
-				DocumentChangeCommandNotified.newCase((BaseDocumentChangeEvent)newCommand, mStartTimestamp, this);
+				fireDocumentChangedEvent((BaseDocumentChangeEvent) newCommand);
+				DocumentChangeCommandNotified.newCase((BaseDocumentChangeEvent) newCommand, mStartTimestamp, this);
 			}
-			
+
 			if (lastCommand instanceof BaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
-				fireDocumentChangeFinalizedEvent((BaseDocumentChangeEvent)lastCommand);
-				
-				DocumentChangeFinalizedEventNotified.newCase(
-						(BaseDocumentChangeEvent)lastCommand, mStartTimestamp, this);
+				fireDocumentChangeFinalizedEvent((BaseDocumentChangeEvent) lastCommand);
+
+				DocumentChangeFinalizedEventNotified.newCase((BaseDocumentChangeEvent) lastCommand, mStartTimestamp,
+						this);
 			}
-		}
-		else {
+		} else {
 			fireCommandExecutedEvent(newCommand);
 			NonDocumentChangeCommandNotified.newCase(newCommand, mStartTimestamp, this);
 		}
 	}
-	
-	protected void maybeLog (Level aLevel, String aMessage, Object anObject) {
+
+	protected void maybeLog(Level aLevel, String aMessage, Object anObject) {
 		if (HelperConfigurationManagerFactory.getSingleton().isLogWorkspace()) {
-			log (workspaceLogger(), aLevel, aMessage, anObject);
+			log(workspaceLogger(), aLevel, aMessage, anObject);
 		}
 		if (HelperConfigurationManagerFactory.getSingleton().isLogProject()) {
 			log(projectLogger(), aLevel, aMessage, anObject);
 		}
 	}
-	protected void log (Logger aLogger, Level aLevel, String aMessage, Object anObject) {
+
+	protected void log(Logger aLogger, Level aLevel, String aMessage, Object anObject) {
 		if (aLogger == null) {
 			return;
 		}
 		aLogger.log(aLevel, aMessage, anObject);
-		
-		
-		
+
 	}
-/*
- * Get a concurrent modification event
- */
+
+	/*
+	 * Get a concurrent modification event
+	 */
 	public synchronized void recordCommand(final EHICommand newCommand) {
-//		System.out.println("Recording command:" + newCommand);
+		// System.out.println("Recording command:" + newCommand);
 		ReceivedCommand.newCase(newCommand, mStartTimestamp, this);
-		numReceivedCommands ++;
-		
+		numReceivedCommands++;
 
 		if (!mRecordCommands) {
-//			System.out.println("Ignoring command:" + newCommand);
+			// System.out.println("Ignoring command:" + newCommand);
 			IgnoredCommandAsRecordingSuspended.newCase(newCommand, mStartTimestamp, this);
 
 			return;
 		}
 		// long values cannot be null, but they are initialized by default to 0L
-//		if (newCommand.getTimestamp() == 0L) {
-//			long timestamp = Calendar.getInstance().getTime().getTime();
-//			timestamp -= mStartTimestamp;
-//			NewMacroCommand.newCase(newCommand.getName(), timestamp, this);
-//			newCommand.setTimestamp(timestamp);
-//			newCommand.setTimestamp2(timestamp);
-//		} else {
-//				NewMacroCommand.newCase(newCommand.getName(), newCommand.getTimestamp(), this);
-//				newCommand.setTimestamp(newCommand.getTimestamp() - mStartTimestamp);
-//				newCommand.setTimestamp2(newCommand.getTimestamp() - mStartTimestamp);
-//		}
+		// if (newCommand.getTimestamp() == 0L) {
+		// long timestamp = Calendar.getInstance().getTime().getTime();
+		// timestamp -= mStartTimestamp;
+		// NewMacroCommand.newCase(newCommand.getName(), timestamp, this);
+		// newCommand.setTimestamp(timestamp);
+		// newCommand.setTimestamp2(timestamp);
+		// } else {
+		// NewMacroCommand.newCase(newCommand.getName(),
+		// newCommand.getTimestamp(), this);
+		// newCommand.setTimestamp(newCommand.getTimestamp() - mStartTimestamp);
+		// newCommand.setTimestamp2(newCommand.getTimestamp() -
+		// mStartTimestamp);
+		// }
 		long timestamp = Calendar.getInstance().getTime().getTime();
 		timestamp -= mStartTimestamp;
-		
-//		NewMacroCommand.newCase(newCommand.getName(), mStartTimestamp, this);
+
+		// NewMacroCommand.newCase(newCommand.getName(), mStartTimestamp, this);
 		NewMacroCommand.newCase(newCommand.toString(), mStartTimestamp, this);
 		newCommand.setTimestamp(timestamp);
 		newCommand.setTimestamp2(timestamp);
@@ -1033,63 +1038,69 @@ public class EHEventRecorder {
 		// + "\ttimestamp: " + timestamp,
 		// EventLoggerConsole.Type_RecordingCommand);
 
-		final boolean isDocChange = (newCommand instanceof BaseDocumentChangeEvent);		
-		final LinkedList<EHICommand> docOrNormalCommands = isDocChange ? 
-				mDocumentChangeCommands : 
-					mNormalCommands;
+		final boolean isDocChange = (newCommand instanceof BaseDocumentChangeEvent);
+		final LinkedList<EHICommand> docOrNormalCommands = isDocChange ? mDocumentChangeCommands : mNormalCommands;
 		if (isDocChange) {
 			DocumentChangeCommandExecuted.newCase((BaseDocumentChangeEvent) newCommand, mStartTimestamp, this);
 		} else {
 			NonDocumentChangeCommandExecuted.newCase(newCommand, mStartTimestamp, this);
 		}
-//		System.out.println(" isDocChange" + isDocChange + " commandslist:" + docOrNormalCommands);
+		// System.out.println(" isDocChange" + isDocChange + " commandslist:" +
+		// docOrNormalCommands);
 
 		boolean combined = false;
-		final EHICommand lastCommand = docOrNormalCommands.size() > 0 ?
-				docOrNormalCommands.get(docOrNormalCommands.size() - 1) : 
-				null;
+		final EHICommand lastCommand = docOrNormalCommands.size() > 0
+				? docOrNormalCommands.get(docOrNormalCommands.size() - 1) : null;
 		try {
-		// See if combining with previous command is possible .
-		if (!isPredictionRelatedCommand(newCommand) && 
-				lastCommand != null
-				&& isCombineEnabled(newCommand, lastCommand, isDocChange)) {
-//			combined = lastCommand.combineWith(newCommand);
-			combined = AbstractCommand.combineWith((AbstractCommand) lastCommand, newCommand);
-			
-		}
+			// See if combining with previous command is possible .
+			if (!isPredictionRelatedCommand(newCommand) && lastCommand != null
+					&& isCombineEnabled(newCommand, lastCommand, isDocChange)) {
+				// combined = lastCommand.combineWith(newCommand);
+				combined = AbstractCommand.combineWith((AbstractCommand) lastCommand, newCommand);
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		System.out
-//				.println("Combining command:" + combined + " newCommand" + newCommand + " lastCommand " + lastCommand);
+		// System.out
+		// .println("Combining command:" + combined + " newCommand" + newCommand
+		// + " lastCommand " + lastCommand);
 		if (combined) {
 			CombinedCommand.newCase(newCommand.toString(), lastCommand.toString(), this);
 		}
 		// If combining has failed, just add it.
 		if (!combined) {
-//			System.out.println("Adding command:" + newCommand + " to both commands and mCommands");
-			// we do not add combined command to buffers as repeat count of lastcommand takes care of this info
-			// A timer determines if the combine is actually done or not, as it changes instance variables
+			// System.out.println("Adding command:" + newCommand + " to both
+			// commands and mCommands");
+			// we do not add combined command to buffers as repeat count of
+			// lastcommand takes care of this info
+			// A timer determines if the combine is actually done or not, as it
+			// changes instance variables
 			docOrNormalCommands.add(newCommand);
 			allDocAndNonDocCommands.add(newCommand);
-			AddedCommandToBuffers.newCase(newCommand, docOrNormalCommands.toString(), allDocAndNonDocCommands.toString(),  this);
+			AddedCommandToBuffers.newCase(newCommand, docOrNormalCommands.toString(),
+					allDocAndNonDocCommands.toString(), this);
 			notifyCommandAndDocChangeListeners(newCommand, lastCommand);
 			/*
 			 * The code below is old fluorite
 			 */
-//			if (newCommand instanceof EHBaseDocumentChangeEvent && !(newCommand instanceof EHFileOpenCommand)) {
-//				DocumentChangedEvent((EHBaseDocumentChangeEvent) newCommand);
-//
-//				if (lastCommand instanceof EHBaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
-//					fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent) lastCommand);
-//				}
-//			}
+			// if (newCommand instanceof EHBaseDocumentChangeEvent &&
+			// !(newCommand instanceof EHFileOpenCommand)) {
+			// DocumentChangedEvent((EHBaseDocumentChangeEvent) newCommand);
+			//
+			// if (lastCommand instanceof EHBaseDocumentChangeEvent &&
+			// lastCommand != mLastFiredDocumentChange) {
+			// fireDocumentChangeFinalizedEvent((EHBaseDocumentChangeEvent)
+			// lastCommand);
+			// }
+			// }
 
 		}
 
-//		if (mCommands.getFirst() != commands.getFirst()) {
-//			System.err.println("Commands and mcommands have diverged because we chnaged command type");
-//		}
+		// if (mCommands.getFirst() != commands.getFirst()) {
+		// System.err.println("Commands and mcommands have diverged because we
+		// chnaged command type");
+		// }
 
 		// moving to where the command i logged so that one can get the combined
 		// event
@@ -1097,33 +1108,47 @@ public class EHEventRecorder {
 		PendingCommandsLogBegin.newCase(docOrNormalCommands, this);
 		// Log to the file.
 		/*
-		 * Do not empty the current command list so that the last command can be combined with future commands
-		 * Do not empty list if current command type is the same  asprevious command type except the first time we run it
-		 * Rationale is that document change commands (e.g. insert) should trigger normal command (e.g move caret) logging
-		 * Vice versa also, combine a bunch of inserts until a move caret is detected
-
+		 * Do not empty the current command list so that the last command can be
+		 * combined with future commands Do not empty list if current command
+		 * type is the same asprevious command type except the first time we run
+		 * it Rationale is that document change commands (e.g. insert) should
+		 * trigger normal command (e.g move caret) logging Vice versa also,
+		 * combine a bunch of inserts until a move caret is detected
+		 * 
 		 * It seems first commands are doc change
 		 * 
-		 * First can get out of sync. So maybe we should flush the cache if the size gets too large
+		 * First can get out of sync. So maybe we should flush the cache if the
+		 * size gets too large
 		 */
-		while (docOrNormalCommands.size() > 1 && 
-				docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst()) {
-			final EHICommand firstCmd = docOrNormalCommands.getFirst();
-			CommandLoggingInitiated.newCase(firstCmd,mStartTimestamp, this);
-//			System.out.println("***Logging command" + firstCmd);
-			maybeLog(Level.FINE, null, firstCmd);
-//			LOGGER.log(Level.FINE, null, firstCmd);
-			// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
-			// what should be sent to prediction, not individual commands");
+		boolean isOutOfSync = docOrNormalCommands.size() >= HelperConfigurationManagerFactory.getSingleton()
+				.getSegmentLength();
+		// while (docOrNormalCommands.size() > 1 &&
+		// docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst())
+		// {
+		while (docOrNormalCommands.size() > 1
+				&& (docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst() || isOutOfSync)) {
+			try {
+				final EHICommand firstCmd = docOrNormalCommands.getFirst();
+				CommandLoggingInitiated.newCase(firstCmd, mStartTimestamp, this);
+				// System.out.println("***Logging command" + firstCmd);
+				maybeLog(Level.FINE, null, firstCmd);
+				// LOGGER.log(Level.FINE, null, firstCmd);
+				// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
+				// what should be sent to prediction, not individual commands");
 
-			// Remove the first item from the list
-			docOrNormalCommands.removeFirst();
-			allDocAndNonDocCommands.removeFirst();
-			RemovedCommandFromBuffers.newCase(firstCmd.toString(), docOrNormalCommands.toString(), allDocAndNonDocCommands.toString(), this);
-//			System.out.println("Giving command to pluginevent processor" + firstCmd);
-			ForwardedCommandToPredictor.newCase(firstCmd, mStartTimestamp, this);
+				// Remove the first item from the list
+				docOrNormalCommands.removeFirst();
+				allDocAndNonDocCommands.removeFirst();
+				RemovedCommandFromBuffers.newCase(firstCmd.toString(), docOrNormalCommands.toString(),
+						allDocAndNonDocCommands.toString(), this);
+				// System.out.println("Giving command to pluginevent processor"
+				// + firstCmd);
+				ForwardedCommandToPredictor.newCase(firstCmd, mStartTimestamp, this);
 
-			ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(firstCmd);
+				ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(firstCmd);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
 		PendingCommandsLogEnd.newCase(docOrNormalCommands, this);
@@ -1240,13 +1265,11 @@ public class EHEventRecorder {
 	public void setStartTimeStamp(long newVal) {
 		mStartTimestamp = newVal;
 	}
-	
 
 	public static String getUniqueMacroNameByTimestamp(long timestamp, boolean autosave) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
 		return "Log" + format.format(new Date(timestamp)) + (autosave ? "-Autosave" : "") + ".xml";
 	}
-	
 
 	public static Document createDocument(EHEvents events) {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();

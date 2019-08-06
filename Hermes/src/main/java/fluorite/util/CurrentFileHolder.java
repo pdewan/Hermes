@@ -11,6 +11,9 @@ public class CurrentFileHolder {
 	}
 
 	public static void setFile(IFile newVal) {
+		if (newVal == null) {
+			return;
+		}
 		file = newVal;
 	}
 
