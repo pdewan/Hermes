@@ -19,23 +19,14 @@
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.json" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.equinox.security"/>
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ecf"/>
-      <import plugin="org.eclipse.ecf.presence"/>
-      <import plugin="org.eclipse.ecf.presence.ui"/>
-      <import plugin="org.eclipse.ecf.provider"/>
-      <import plugin="org.eclipse.ecf.ui"/>
-      <import plugin="org.eclipse.ecf.provider.xmpp"/>
-      <import plugin="org.jivesoftware.smack"/>
-      <import plugin="org.eclipse.ecf.sharedobject"/>
-      <import plugin="org.eclipse.ecf.docshare"/>
+      
+
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.eclipse.text"/>
-      <import plugin="edu.cmu.scs.fluorite" version="0.11.0" match="greaterOrEqual"/>
       <import plugin="dayton.ellwanger.Hermes" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.ui.console"/>
@@ -48,39 +39,6 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="workspacelistener"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ECFChat"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="TimeTracker"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ConsoleListener"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="HelpView"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   
 
 </feature>

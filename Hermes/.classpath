@@ -33,5 +33,6 @@
 	<classpathentry kind="lib" path="lib/commons-configuration-1.9.jar"/>
 	<classpathentry kind="lib" path="lib/oeall22.jar" sourcepath="D:/dewan_backup/Java/util/src"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.27.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/json-20170516.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

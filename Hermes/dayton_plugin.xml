@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="dayton.ellwanger.hermes.connectionListener" name="Connection Listeners" schema="schema/connectionListener.exsd"/>
+   <extension-point id="dayton.ellwanger.subview" name="subview" schema="schema/dayton.ellwanger.subview.exsd"/>
+   <extension-point id="dayton.ellwanger.hermes.startup" name="Startup" schema="schema/dayton.ellwanger.hermes.startup.exsd"/>
+   <extension-point id="dayton.ellwanger.hermes.messagelistener" name="MessageListener" schema="schema/dayton.ellwanger.hermes.messagelistener.exsd"/>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="dayton.ellwanger.hermes.preferences.ui.PreferencePage"
+            id="hermes.preferences"
+            name="Hermes">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+         <category
+         	name="Hermes"
+         	id="hermes.viewCategory">
+         </category>
+         <view
+         	category="hermes.viewCategory"
+         	class="dayton.ellwanger.hermes.ui.StatusView"
+         	icon="icons/sample.gif"
+         	id="hermes.statusView"
+         	name="Hermes">
+         </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="dayton.ellwanger.hermes.HermesStartup">
+      </startup>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+          <initializer
+            class="fluorite.preferences.Initializer">
+           </initializer>
+   </extension>
+    <extension
+          point="org.eclipse.jdt.core.compilationParticipant">
+      <compilationParticipant
+            class="fluorite.recorders.EHCompilationParticipantRecorder"
+            id="hermes.EHCompilationParticipantRecorder"
+            modifiesEnvironment="true">
+      </compilationParticipant>
+   </extension>
+</plugin>

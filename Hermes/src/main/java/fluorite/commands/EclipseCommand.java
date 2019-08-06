@@ -311,7 +311,7 @@ public class EclipseCommand
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
 		if (cs == null) {
-			System.err.println("Null command service:" );
+			Tracer.info(this, "Null command service:" );
 			return "";
 		}
 //		Command command = cs.getCommand(mCommandId);
@@ -342,7 +342,7 @@ public class EclipseCommand
 	ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 			.getAdapter(ICommandService.class);
 	if (cs == null) {
-		System.err.println("Null command service:" );
+		Tracer.info(this, "Null command service:" );
 		return mCommandId;
 	}
 	Command command = cs.getCommand(mCommandId);
