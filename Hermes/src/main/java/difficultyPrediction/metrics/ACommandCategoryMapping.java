@@ -1,10 +1,14 @@
 package difficultyPrediction.metrics;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
+import util.models.HashcodeSet;
 //import bus.uigen.hermes.HermesObjectEditorProxy;
 /**
  * Super class of various mapping classes such as A1, A2, wtc
@@ -189,7 +193,7 @@ public abstract class ACommandCategoryMapping implements CommandCategoryMapping 
 	 * .
 	 */
 	public void addCommandToCategoryString (CategorizedCommand aCommand) {
-		List<CommandCategory> aCommandCategories = aCommand.getCategories();
+		Set<CommandCategory> aCommandCategories = aCommand.getCategories();
 		for (CommandCategory aCommandCategory:aCommandCategories) {
 		switch (aCommandCategory) {
 //		case SEARCH: 
@@ -273,41 +277,47 @@ public abstract class ACommandCategoryMapping implements CommandCategoryMapping 
 	/**
 	 * Convert a command name to a command category
 	 */
-	public List<CommandCategory> getCommandCategories(CommandName aCommandName) {
+	public Set<CommandCategory> getCommandCategories(CommandName aCommandName) {
 		int anIndex = aCommandName.ordinal();
 		return commandsToCategories[anIndex].getCategories();
 	}
 	/**
-	 * Convert a command ID to a command name
+	 * Convert a command ID to a command name with lower case
 	 */
 	@Override
-	public CommandName searchCommandName(String anID) {
+	public Set<CommandName> searchCommandName(String anID) {
+		Set<CommandName> retVal = new HashSet();
 		String aLowerCaseID = anID.toLowerCase();
 		CommandName[] aCommandNames = CommandName.values();
 		for (CommandName aCommandName:aCommandNames) {
 			String aCommandNameString = aCommandName.toString();
 			// A few commands start with lowecase, the atomic ones I guess
-			// ignore if command starts with lowe case
+			// ignore if command starts with lower case
 			if (Character.isUpperCase(aCommandNameString.charAt(0)))
 				continue;
 			if (aLowerCaseID.contains(aCommandNameString))
-				return aCommandName; 
+				retVal.add(aCommandName);
+//				return aCommandName; 
 			// editor contains edit but us debug command
 	//		autogen:::org.eclipse.jdt.debug.compilationuniteditor.breakpointruleractions/org.eclipse.jdt.debug.ui.actions.managebreakpointruleraction
 		}
-		return null;
+		return retVal;
 	}
-	protected List<CommandCategory> emptyCommandCategory = new ArrayList();
+	protected Set<CommandCategory> emptyCommandCategory = new HashSet();
 	/**
 	 * Given an ID return the commandName and then the commandCategory
 	 */
 	@Override
-	public List<CommandCategory> searchCommandCategories(String anID) {
-		CommandName aCommandName = searchCommandName(anID); // there can be multiple commandNames too
-		if (aCommandName == null) {
+	public Set<CommandCategory> searchCommandCategories(String anID) {
+		Set<CommandName> aCommandNames = searchCommandName(anID); // there can be multiple commandNames too
+		if (aCommandNames.isEmpty()) {
 			return emptyCommandCategory;
 		}
-		return getCommandCategories(aCommandName);
+		Set<CommandCategory> retVal = new HashSet();
+		for (CommandName aCommandName: aCommandNames) {
+			retVal.addAll(getCommandCategories(aCommandName));
+		}
+		return retVal;
 	}
 	/**
 	 * This is the method called to change the command to a different category

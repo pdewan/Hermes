@@ -1,6 +1,6 @@
 package difficultyPrediction.metrics;
 
-import java.util.List;
+import java.util.Set;
 
 public interface CommandCategoryMapping {
 
@@ -32,12 +32,12 @@ public interface CommandCategoryMapping {
 
 	String getNavigationCommands();
 
-	List<CommandCategory> getCommandCategories(CommandName aCommandName);
+	Set<CommandCategory> getCommandCategories(CommandName aCommandName);
 
-	CommandName searchCommandName(String anID);
+	Set<CommandName> searchCommandName(String anID);
 
 //	CommandCategory searchCommandCategory(String anID);
-	List<CommandCategory> searchCommandCategories(String anID);
+	Set<CommandCategory> searchCommandCategories(String anID);
 
 
 	String getFeatureName(CommandCategory aCommandCategory);

@@ -130,7 +130,7 @@ public class ALiveRatioFileGenerator extends ARatioFileGenerator implements Live
 	}
 
 	protected void appendPrologHeade(StringBuffer aStringBuffer) {
-		aStringBuffer.append("Id, Prediction, Date, File, StartTime, ElapsedTime, BusyTime, ");
+		aStringBuffer.append("Id,Prediction,Date,File,StartTime,ElapsedTime,BusyTime,Commands,");
 
 	}
 
@@ -143,8 +143,8 @@ public class ALiveRatioFileGenerator extends ARatioFileGenerator implements Live
 
 	protected void appendPrologPredictionAndRatios(StringBuffer aStringBuffer, RatioFeatures aRatioFeatures, String aStatus) {
 		aStringBuffer.append(ratioNumber + "," + aStatus + "," + toDate(aRatioFeatures.getUnixStartTime()) + ","
-				+ aRatioFeatures.getFileName() + ", " + aRatioFeatures.getUnixStartTime() + ", "
-				+ aRatioFeatures.getElapsedTime() + ", " + aRatioFeatures.getEstimatedBusyTime());
+				+ aRatioFeatures.getFileName() + "," + aRatioFeatures.getUnixStartTime() + ","
+				+ aRatioFeatures.getElapsedTime() + "," + aRatioFeatures.getEstimatedBusyTime() + "," + aRatioFeatures.getCommandString() + ",");
 
 	}
 	protected void appendPrologAggregateStatus(StringBuffer aStringBuffer, RatioFeatures aRatioFeatures, String aStatus) {

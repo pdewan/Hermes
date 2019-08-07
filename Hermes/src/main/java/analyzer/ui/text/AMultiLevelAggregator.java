@@ -20,6 +20,7 @@ import analyzer.extension.ARatioFileGenerator;
 import bus.uigen.OEFrame;
 //import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
+import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.DifficultyRobot;
 import difficultyPrediction.MultiLevelAggregator;
@@ -152,6 +153,9 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	@Override
     @Visible(false)
 	public void newCommand(EHICommand newCommand) {
+		if (!HelperConfigurationManagerFactory.getSingleton().isVisualizePredictions()) {
+			return;
+		}
 		// we wil get this as aggregated status as
 		// prediction command does not seem to be in sync wuth aggregated status
 		if (newCommand instanceof PredictionCommand && 

@@ -4,6 +4,9 @@ public enum CommandName {
 	BreakPointCommand,
 	ExceptionCommand,
 	RunCommand,
+	BuildStartEvent, // not mapped currently
+	ConsoleOutput, // not currently mapped
+	ConsoleInput, // not currently mapped
 	CompileWarning,
 	CompileError,
 	CopyCommand,
@@ -22,7 +25,8 @@ public enum CommandName {
 	UndoCommand,
 	MoveCaretCommand,
 	Exception,
-	edit,// this must be after delete and maybe even view, but Jason's scheme has it wrong
+	debug,
+	edit,// this must be after delete and maybe even view, but Jason's scheme has it wrong, making order irrelevant
 	delete,
 	view,
 	//For the google docs plugin

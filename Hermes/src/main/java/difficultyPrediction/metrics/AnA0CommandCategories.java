@@ -74,7 +74,8 @@ public class AnA0CommandCategories extends ACommandCategoryMapping{
 	private CommandName[] debugCategory = {
 			CommandName.BreakPointCommand,			
 			CommandName.ExceptionCommand,
-			CommandName.RunCommand,			
+			CommandName.RunCommand,		
+			CommandName.debug // added by PD
 	};
 	
 	private CommandName[] navigationCategory = {

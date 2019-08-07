@@ -2,6 +2,7 @@ package difficultyPrediction.metrics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import analyzer.TimeandEventBasedPercentage;
 import difficultyPrediction.APredictionParameters;
@@ -354,7 +355,7 @@ public class ATestRatioCalculator implements RatioCalculator {
 		for (int i = 0; i < userActions.size(); i++) {
 			int foo = 1;
 			EHICommand myEvent = userActions.get(i);
-			List<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
+			Set<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
 			for (CommandCategory aCommandCategory:aCommandCategories) {
 
 			switch(APredictionParameters.getInstance().getCommandClassificationScheme()) {

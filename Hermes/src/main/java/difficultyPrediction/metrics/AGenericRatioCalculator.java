@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 
@@ -243,7 +244,7 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		for (int i = 0; i < userActions.size(); i++) {
 			EHICommand myEvent = userActions.get(i);
 
-			List<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
+			Set<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
 			for (CommandCategory aCommandCategory : aCommandCategories) {
 				// if (aCommandCategory == null) {
 				// System.err.println ("Unclassified command:" + myEvent);
@@ -447,7 +448,7 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		return aRatioFeatures;
 	}
 
-	protected boolean isCountableEvent(List<CommandCategory> aCommandCategories) {
+	protected boolean isCountableEvent(Set<CommandCategory> aCommandCategories) {
 		for (CommandCategory aCommandCategory : aCommandCategories) {
 			if (relevantCommandCategoryList.contains(aCommandCategory))
 				return true;
@@ -530,14 +531,14 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 			segmentEndTime = userActions.get(userActions.size() - 1).getTimestamp();
 		}
 
-		List<CommandCategory> aPreviousCategories = emptyCommandCategories;
+		Set<CommandCategory> aPreviousCategories = emptyCommandCategories;
 		int aPreviousCategoriesIndex = 0;
 		int aPreviousCategoriesCount = 0;
 
 		for (int i = 0; i < userActions.size(); i++) {
 			EHICommand myEvent = userActions.get(i);
 
-			List<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
+			Set<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
 			if (aCommandCategories == null || aCommandCategories.isEmpty()) {
 				Tracer.info(this, "Unclassified command:" + myEvent);
 				continue;

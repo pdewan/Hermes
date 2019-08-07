@@ -1,7 +1,9 @@
 package difficultyPrediction.metrics;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.featureExtraction.RatioFeatures;
@@ -41,11 +43,50 @@ public interface RatioCalculator {
 	CommandCategory[] getComputedFeatures();
 
 	List<String> getComputedFeatureNames();
-	public static List<CommandCategory> toCommandCategories(EHICommand aCommand) {
+//	public static List<CommandCategory> toCommandCategories(EHICommand aCommand) {
+//		CommandCategoryMapping aCommandCategories = APredictionParameters.getInstance().
+//						getCommandClassificationScheme().
+//							getCommandCategoryMapping();
+//		String aCommandString = aCommand.getCommandType();
+//		if (aCommand instanceof CompilationCommand) {
+//			CompilationCommand command = (CompilationCommand)aCommand;
+//			if (!command.getIsWarning()) {
+//				return aCommandCategories.getCommandCategories(CommandName.CompileError);
+//			}
+//		}
+//		if (aCommand instanceof EclipseCommand) {
+//			aCommandString = ((EclipseCommand) aCommand).getCommandID();
+//			return aCommandCategories.searchCommandCategories(aCommandString);
+//			
+//		} else {
+//			try {
+//			CommandName aCommandName = CommandName.valueOf(aCommandString);
+//			return aCommandCategories.getCommandCategories(aCommandName);
+//			} catch (Exception e) {
+////				return CommandCategory.OTHER;
+//				return emptyCommandCategories;
+//			}
+////			return aCommandCategories.getCommandCategory(aCommandName)
+//		}
+//		
+//		
+//	}
+	public static Set<CommandCategory> toCommandCategories(EHICommand aCommand) {
+		List<CommandCategory> retVal;
 		CommandCategoryMapping aCommandCategories = APredictionParameters.getInstance().
 						getCommandClassificationScheme().
 							getCommandCategoryMapping();
+		
 		String aCommandString = aCommand.getCommandType();
+		CommandName aCommandName = null;
+		try {
+			 aCommandName = CommandName.valueOf(aCommandString);
+		}  catch (Exception e) {
+			// ugh this is not really an exception
+		}
+		if (aCommandName != null) {
+			return aCommandCategories.getCommandCategories(aCommandName);
+		}
 		if (aCommand instanceof CompilationCommand) {
 			CompilationCommand command = (CompilationCommand)aCommand;
 			if (!command.getIsWarning()) {
@@ -53,26 +94,24 @@ public interface RatioCalculator {
 			}
 		}
 		if (aCommand instanceof EclipseCommand) {
-			aCommandString = ((EclipseCommand) aCommand).getCommandID();
-			return aCommandCategories.searchCommandCategories(aCommandString);
-			
-		} else {
-			try {
-			CommandName aCommandName = CommandName.valueOf(aCommandString);
-			return aCommandCategories.getCommandCategories(aCommandName);
-			} catch (Exception e) {
-//				return CommandCategory.OTHER;
+			String aCommandId = ((EclipseCommand) aCommand).getCommandID();
+			if (!aCommandId.isEmpty()) {
+				return aCommandCategories.searchCommandCategories(aCommandId);
+			} else {
 				return emptyCommandCategories;
 			}
-//			return aCommandCategories.getCommandCategory(aCommandName)
-		}
+			
+//			return aCommandCategories.searchCommandCategories(aCommandId);
+			
+		} 
+		return aCommandCategories.searchCommandCategories(aCommandString);
 		
 		
 	}
-    static final List<CommandCategory> emptyCommandCategories= new ArrayList();
+    static final Set<CommandCategory> emptyCommandCategories= new HashSet();
 
 	public static List<String> getFeatureNames(EHICommand myEvent) {
-		List<CommandCategory> aCommandCategories = toCommandCategories(myEvent);
+		Set<CommandCategory> aCommandCategories = toCommandCategories(myEvent);
 		List<String> aFeatureNames = new ArrayList();
 		CommandCategoryMapping aCommandCategoryMapping = APredictionParameters.getInstance().
 				getCommandClassificationScheme().
