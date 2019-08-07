@@ -63,14 +63,14 @@ public abstract class ACommandCategoryMapping implements CommandCategoryMapping 
 	}
 	@Override
 
-	public CommandCategory[] getRelevantCommandCategories() {
+	public CommandCategory[] getOrderedRelevantCommandCategories() {
 		return CommandCategory.values();
 	}
 	String[] orderedRelevantCommandCategoryNames;
 	@Override
 	public String[] getOrderedRelevantFeatureNames() {
 		if (orderedRelevantCommandCategoryNames == null) {
-			CommandCategory[] aRelevantCommandCategories = getRelevantCommandCategories();
+			CommandCategory[] aRelevantCommandCategories = getOrderedRelevantCommandCategories();
 			orderedRelevantCommandCategoryNames = new String[aRelevantCommandCategories.length];
 			for (int i = 0; i < aRelevantCommandCategories.length; i++ ) {
 				orderedRelevantCommandCategoryNames[i] = getFeatureName(aRelevantCommandCategories[i]);

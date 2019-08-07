@@ -79,12 +79,12 @@ public interface RatioFeatures extends WebFeatures {
 	long getEstimatedBusyTime();	
 	void setPageVisits(List<PageVisit> aPageVisits);
 	List<PageVisit> getPageVisits();
-	void setNumPagesVisited(int aNumPages);
-	int getNumPagesVisited();
-	void setNumWebSearches(int aNumPages);
-	int getNumWebSearches();
-	void setMaxSearchLength(int newValue);
-	int getMaxSearchLength();
+	void setNumPagesVisited(double aNumPages);
+	double getNumPagesVisited();
+	void setNumWebSearches(double aNumPages);
+	double getNumWebSearches();
+	void setMaxSearchLength(double newValue);
+	double getMaxSearchLength();
 	String getFileName();
 	void setFileName(String newVal);
 	

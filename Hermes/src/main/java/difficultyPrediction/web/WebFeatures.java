@@ -78,12 +78,12 @@ public interface WebFeatures {
 //	long getEstimatedBusyTime();	
 	void setPageVisits(List<PageVisit> aPageVisits);
 	List<PageVisit> getPageVisits();
-	void setNumPagesVisited(int aNumPages);
-	int getNumPagesVisited();
-	void setNumWebSearches(int aNumPages);
-	int getNumWebSearches();
-	void setMaxSearchLength(int newValue);
-	int getMaxSearchLength();
+	void setNumPagesVisited(double aNumPages);
+	double getNumPagesVisited();
+	void setNumWebSearches(double aNumPages);
+	double getNumWebSearches();
+	void setMaxSearchLength(double newValue);
+	double getMaxSearchLength();
 //	String getFileName();
 //	void setFileName(String newVal);
 	
@@ -95,7 +95,7 @@ public interface WebFeatures {
 
 //	public static final String COMMAND_STRING = "commandString";
 	public static final String PAGE_VISITS = "pageVisits";
-	public static final String NUM_PAGES_VISITED = "numURLs";
+//	public static final String NUM_PAGES_VISITED = "numURLs";
 	public static final String NUM_SEARCHES = "numSearches";
 	public static final String MAX_SEARCH_LENGTH = "maxSearchLength";
 	

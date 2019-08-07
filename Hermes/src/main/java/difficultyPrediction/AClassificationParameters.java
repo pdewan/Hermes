@@ -22,7 +22,7 @@ public class AClassificationParameters implements ClassificationParameters {
 	ClassifierSpecification classifierSpecification;
 	OversampleSpecification oversampleSpecification;
 
-	String arffFileName;
+//	String arffFileName;
 	static OEFrame classificationFrame;
 //	static Object classificationFrame;
 
@@ -33,8 +33,8 @@ public class AClassificationParameters implements ClassificationParameters {
 	public AClassificationParameters() {
 		// arffFileName = new AFileSetterModel(JFileChooser.FILES_ONLY);
 		// arffFileName.setText(HelperConfigurationManagerFactory.getSingleton().getARFFFileName());
-		arffFileName = HelperConfigurationManagerFactory.getSingleton()
-				.getARFFFileName();
+//		arffFileName = HelperConfigurationManagerFactory.getSingleton()
+//				.getARFFFileName();
 	}
 
 	
@@ -87,7 +87,7 @@ public class AClassificationParameters implements ClassificationParameters {
 		// arffFileName =
 		// HelperConfigurationManagerFactory.getSingleton().getARFFFileName();
 		// }
-		return arffFileName;
+		return HelperConfigurationManagerFactory.getSingleton().getARFFFileName();
 	}
 
 	// @Visible(false)
@@ -128,7 +128,7 @@ public class AClassificationParameters implements ClassificationParameters {
 	}
 	@Override
 	public void setARFFFileName (String newVal) {
-		arffFileName = newVal;
+		HelperConfigurationManagerFactory.getSingleton().setARFFFileName(newVal);
 	}
 	
 	public static void main (String[] anArgs) {

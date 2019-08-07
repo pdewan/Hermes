@@ -125,6 +125,7 @@ public interface HelperConfigurationManager {
 	String getRecorderJavaPath();
 	String getPlayerJavaPath();
 	String getARFFFileName();
+	void setARFFFileName(String newVal);
 	ClassifierSpecification getClassifierSpecification();
 	OversampleSpecification getOversampleSpecification();
 

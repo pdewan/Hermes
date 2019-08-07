@@ -131,12 +131,13 @@ public class AnA0CommandCategories extends ACommandCategoryMapping{
 		categoriesToNames[CommandCategory.REMOVE_CLASS.ordinal()] = "removePercentage";
 		categoriesToNames[CommandCategory.REMOVE.ordinal()] = "removePercentage";	
 		categoriesToNames[CommandCategory.INSERT.ordinal()] = "insertPercentage";
+		categoriesToNames[CommandCategory.WEB_LINK_TIMES.ordinal()] = "webLinkTimes";
 //		categoriesToNames[CommandCategory.REMOVE.ordinal()] = "removeTextPercentage";
 
 	}
   
     @Override
-    public CommandCategory[] getRelevantCommandCategories() {
+    public CommandCategory[] getOrderedRelevantCommandCategories() {
 		return relevantCategoresA0;
 	}
  	

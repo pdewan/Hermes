@@ -65,7 +65,7 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
     }
     @Override
 	public String getARFFFileName() {
-    	return getStringProperty(DEFAULT_ARFF_FILE_LOCATION, DEFAULT_ARFF_FILE_LOCATION );
+    	return getStringProperty(ARFF_FILE, DEFAULT_ARFF_FILE_LOCATION );
 
 //		return staticConfiguration == null?DEFAULT_ARFF_FILE_LOCATION:staticConfiguration.getString(ARFF_FILE, DEFAULT_ARFF_FILE_LOCATION);
 	}
@@ -331,6 +331,10 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	@Override
 	public List<String> getNonTechnicalTerms() {
 		return getListProperty(NON_TECHNICAL_TERMS, DEFAULT_NON_TECHNICAL_TERMS);
+	}
+	@Override
+	public void setARFFFileName(String newVal) {
+		stringProperties.put(ARFF_FILE, newVal);
 	}
 	
 	

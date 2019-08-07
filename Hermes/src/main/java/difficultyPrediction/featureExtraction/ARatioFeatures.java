@@ -68,13 +68,13 @@ public class ARatioFeatures extends AWebFeatures implements RatioFeatures {
 	
 	private StuckPoint stuckPoint;
 	private StuckInterval stuckInterval;
-	protected CommandCategoryMapping commandCategoryMapping; 
+//	protected CommandCategoryMapping commandCategoryMapping; 
 //	static List<PageVisit> emptyPageVisits = new ArrayList();
 
 	public ARatioFeatures() {
-		commandCategoryMapping = APredictionParameters.getInstance().
-				getCommandClassificationScheme().
-					getCommandCategoryMapping();
+//		commandCategoryMapping = APredictionParameters.getInstance().
+//				getCommandClassificationScheme().
+//					getCommandCategoryMapping();
 		setCommandRate(0);
 		setCommandString("");
 		setDebugRate(0);

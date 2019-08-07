@@ -56,7 +56,7 @@ public interface CommandCategoryMapping {
 	/**
 	 * This will be the order of the command categories in the arff file
 	 */
-	CommandCategory[] getRelevantCommandCategories();
+	CommandCategory[] getOrderedRelevantCommandCategories();
 
 
 	String[] getOrderedRelevantFeatureNames();

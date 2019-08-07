@@ -41,7 +41,7 @@ public class AGenericRatioCalculator implements RatioCalculator {
 		// mapCommandCategoryToFeatureName();
 		commandCategoryMapping = APredictionParameters.getInstance().getCommandClassificationScheme()
 				.getCommandCategoryMapping();
-		relevantCommandCategoryList = Arrays.asList(commandCategoryMapping.getRelevantCommandCategories());
+		relevantCommandCategoryList = Arrays.asList(commandCategoryMapping.getOrderedRelevantCommandCategories());
 		idleTime = HelperConfigurationManagerFactory.getSingleton().getIdleTime();
 		AChromeHistoryAccessor.setTerms(
 				HelperConfigurationManagerFactory.getSingleton().getTechnicalTerms(),

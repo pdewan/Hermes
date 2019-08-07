@@ -42,9 +42,9 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 	}
 	
 	protected String wekaDataFileLocation() {
-//		 String aSpecifiedLocation = HelperConfigurationManagerFactory.getSingleton().getARFFFileName();
-//		 return aSpecifiedLocation;
-		return APredictionParameters.getInstance().getClassificationParameters().getARFFFileName();
+		 String aSpecifiedLocation = HelperConfigurationManagerFactory.getSingleton().getARFFFileName();
+		 return aSpecifiedLocation;
+//		return APredictionParameters.getInstance().getClassificationParameters().getARFFFileName();
 
 	}
 	

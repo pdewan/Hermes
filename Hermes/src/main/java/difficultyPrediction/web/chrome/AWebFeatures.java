@@ -53,13 +53,13 @@ public class AWebFeatures implements WebFeatures {
 	
 //	private StuckPoint stuckPoint;
 //	private StuckInterval stuckInterval;
-//	protected CommandCategoryMapping commandCategoryMapping; 
+	protected CommandCategoryMapping commandCategoryMapping; 
 	static List<PageVisit> emptyPageVisits = new ArrayList();
 
 	public AWebFeatures() {
-//		commandCategoryMapping = APredictionParameters.getInstance().
-//				getCommandClassificationScheme().
-//					getCommandCategoryMapping();
+		commandCategoryMapping = APredictionParameters.getInstance().
+				getCommandClassificationScheme().
+					getCommandCategoryMapping();
 //		setCommandRate(0);
 //		setCommandString("");
 //		setDebugRate(0);
@@ -400,33 +400,33 @@ public class AWebFeatures implements WebFeatures {
 	}
 
 	@Override
-	public void setNumPagesVisited(int aNumPages) {
-		featureNameToValue.put(NUM_PAGES_VISITED, aNumPages);
+	public void setNumPagesVisited(double aNumPages) {
+		featureNameToValue.put(commandCategoryMapping.getFeatureName(CommandCategory.WEB_LINK_TIMES), aNumPages);
 	}
 
 	@Override
-	public int getNumPagesVisited() {
-		return (int) featureNameToValue.get(NUM_PAGES_VISITED);
+	public double getNumPagesVisited() {
+		return (double) featureNameToValue.get(commandCategoryMapping.getFeatureName(CommandCategory.WEB_LINK_TIMES));
 	}
 
 	@Override
-	public void setNumWebSearches(int aNumPages) {
+	public void setNumWebSearches(double aNumPages) {
 		featureNameToValue.put(NUM_SEARCHES, aNumPages);
 
 	}
 
 	@Override
-	public int getNumWebSearches() {
-		return (int) featureNameToValue.get(NUM_SEARCHES);
+	public double getNumWebSearches() {
+		return (double) featureNameToValue.get(NUM_SEARCHES);
 	}
 
 	@Override
-	public void setMaxSearchLength(int newValue) {
+	public void setMaxSearchLength(double newValue) {
 		featureNameToValue.put(MAX_SEARCH_LENGTH, newValue);
 	}
 
 	@Override
-	public int getMaxSearchLength() {
+	public double getMaxSearchLength() {
 		return  (int) featureNameToValue.get(MAX_SEARCH_LENGTH);
 	}
 
