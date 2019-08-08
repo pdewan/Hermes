@@ -15,6 +15,7 @@ import org.eclipse.ui.part.ViewPart;
 
 //import context.saros.SarosAccessorFactory;
 import analyzer.ui.APredictionController;
+import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.DifficultyRobot;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.Status;
@@ -122,6 +123,7 @@ public class HelpViewPart extends ViewPart {
 				}
 			}
 		});
+		if (HelperConfigurationManagerFactory.getSingleton().isVisualizePredictions()) {
 		Button btnTestbed = new Button(parent, SWT.NONE);
 		FormData fd_btnTestbed = new FormData();
 		fd_btnTestbed.top = new FormAttachment(0, 124);
@@ -135,6 +137,7 @@ public class HelpViewPart extends ViewPart {
 //				LiveModePredictionConfigurer.visualizePrediction();
 			}
 		});
+		}
 		if (workspaceButtons) {
 		Button btnExportWorkspace = new Button(parent, SWT.NONE);
 		FormData fd_btnExportWorkspace = new FormData();

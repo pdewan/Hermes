@@ -336,6 +336,10 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	public void setARFFFileName(String newVal) {
 		stringProperties.put(ARFF_FILE, newVal);
 	}
+	@Override
+	public Boolean isLogMetrics() {
+		return getBooleanProperty(LOG_METRICS, DEFAULT_LOG_METRICS);
+	}
 	
 	
 	

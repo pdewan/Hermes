@@ -16,6 +16,8 @@ public interface HelperConfigurationManager {
 	    public static final String CLASSIFIER= "predictor.classifier";
 	    public static final String SHOW_REPLAYER = "showReplayer";
 	    public static final String VISUALIZE_PREDICTIONS = "visualizePredictions";
+	    public static final String LOG_METRICS = "logMetrics";
+
 	    public static final String TRACE_INFO = "traceInfo";
 	    public static final String LOG_WORKSPACE = "logWorksace";
 	    public static final String LOG_PRJECT = "logProject";
@@ -39,6 +41,7 @@ public interface HelperConfigurationManager {
 	    public static final String IDLE_TIME = "idleTime";
 	    public static final String TECHNICAL_TERMS = "technicalTerms";
 	    public static final String NON_TECHNICAL_TERMS = "nonTechnicalTerms";
+
   		
 
 	    
@@ -46,7 +49,7 @@ public interface HelperConfigurationManager {
 	    
 	    static Boolean DEFAULT_SHOW_REPLAYER = false;
 		static Boolean DEFAULT_VISUALIZE_PREDICTIONS = false;
-		public static final String DEFAULT_ARFF_FILE_LOCATION = "data/userStudy2010.arff";
+		public static final String DEFAULT_ARFF_FILE_LOCATION = "modelData/A0UserStudy2010.arff";
 		public static final ClassifierSpecification DEFAULT_CLASSIFIER_SPECIFICATION = ClassifierSpecification.J48;
 		public static final OversampleSpecification DEFAULT_OVERSAMPLE_SPECIFICATION = OversampleSpecification.SMOTE;
 		public static final CommandClassificationSchemeName DEFAULT_RATIO_SCHEME = CommandClassificationSchemeName.A1;
@@ -61,6 +64,8 @@ public interface HelperConfigurationManager {
 		 public static final int DEFAULT_STATUS_AGGREGATED = 5;
 		 public static final boolean DEFAULT_SHOW_ALL_STATUSES = false;
 		 public static final boolean DEFAULT_SHOW_STATUS_TRANSITIONS = true;
+		    public static final boolean DEFAULT_LOG_METRICS= true;
+
 
 		 
 		 public static final int DEFAULT_IDLE_TIME = 10000; //ms
@@ -131,6 +136,7 @@ public interface HelperConfigurationManager {
 
 	CommandClassificationSchemeName getCommandClassificationScheme();
      Boolean isVisualizePredictions() ;
+     Boolean isLogMetrics();
      
      Boolean getBooleanProperty(String aPropertyName, Boolean aDefaultValue);
      String getStringProperty(String aPropertyName, String aDefaultValue);

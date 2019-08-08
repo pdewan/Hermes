@@ -1,6 +1,7 @@
 package difficultyPrediction.metrics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -301,12 +302,19 @@ public abstract class ACommandCategoryMapping implements CommandCategoryMapping 
 			// editor contains edit but us debug command
 	//		autogen:::org.eclipse.jdt.debug.compilationuniteditor.breakpointruleractions/org.eclipse.jdt.debug.ui.actions.managebreakpointruleraction
 		}
+		if (retVal.equals(debugEditSet)) {
+			return debugSet; // there has to be a better way
+		}
 		return retVal;
 	}
 	protected Set<CommandCategory> emptyCommandCategory = new HashSet();
 	/**
 	 * Given an ID return the commandName and then the commandCategory
 	 */
+	protected CommandName[] debugEditArray = {CommandName.edit, CommandName.debug};
+	Set<CommandName> debugEditSet = new HashSet(Arrays.asList(debugEditArray));
+	protected CommandName[] debugArray = {CommandName.debug};
+	Set<CommandName> debugSet = new HashSet(Arrays.asList(debugArray));
 	@Override
 	public Set<CommandCategory> searchCommandCategories(String anID) {
 		Set<CommandName> aCommandNames = searchCommandName(anID); // there can be multiple commandNames too
