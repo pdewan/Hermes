@@ -38,6 +38,21 @@ public class APredictionManager implements PredictionManager {
 	public void setPredictionStrategy(PredictionManagerStrategy predictionStrategy) {
 		this.predictionStrategy = predictionStrategy;
 	}
+
+	@Override
+	public void modelBuilt(boolean newVal, Exception anException) {
+		if(mediator != null) {
+			mediator.predictionManager_modelBuilt(newVal, anException);
+		}
+		
+	}
+
+	@Override
+	public void predictionError(Exception e) {
+		if(mediator != null) {
+			mediator.predictionError(e);
+		}
+	}
 	
 	
 }

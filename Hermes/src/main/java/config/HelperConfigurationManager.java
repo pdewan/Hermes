@@ -13,6 +13,7 @@ public interface HelperConfigurationManager {
 	 public static final String RECORDER_JAVA = "recorder.javalocation";
 	    public static final String PLAYER_JAVA = "player.javalocation";
 	    public static final String ARFF_FILE= "predictor.arffLocation";
+	    public static final String ARFF_FILE_LOCATION_IS_ABSOLUTE= "predictor.arffLocationIsAbsolute";
 	    public static final String CLASSIFIER= "predictor.classifier";
 	    public static final String SHOW_REPLAYER = "showReplayer";
 	    public static final String VISUALIZE_PREDICTIONS = "visualizePredictions";
@@ -50,6 +51,7 @@ public interface HelperConfigurationManager {
 	    static Boolean DEFAULT_SHOW_REPLAYER = false;
 		static Boolean DEFAULT_VISUALIZE_PREDICTIONS = false;
 		public static final String DEFAULT_ARFF_FILE_LOCATION = "modelData/A0UserStudy2010.arff";
+		public static final boolean DEFAULT_ARFF_FILE_LOCATION_IS_ABOSOLUTE = false;
 		public static final ClassifierSpecification DEFAULT_CLASSIFIER_SPECIFICATION = ClassifierSpecification.J48;
 		public static final OversampleSpecification DEFAULT_OVERSAMPLE_SPECIFICATION = OversampleSpecification.SMOTE;
 		public static final CommandClassificationSchemeName DEFAULT_RATIO_SCHEME = CommandClassificationSchemeName.A1;
@@ -162,7 +164,8 @@ public interface HelperConfigurationManager {
 	List<String> getTechnicalTerms();
 	List<String> getNonTechnicalTerms();
 	List getListProperty(String aPropertyName, List aDefaultValue);
-
+	public boolean isARFFFileNameIsAbsolute() ;
+	public void setARFFFileNameIsAbsolute(boolean newVal) ;
 	  
 
 }

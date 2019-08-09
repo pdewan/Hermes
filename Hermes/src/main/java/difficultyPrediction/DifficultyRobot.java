@@ -43,6 +43,8 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 	RatioBasedFeatureExtractor featureExtractor;
 	PredictionManager predictionManager;
 	StatusManager statusManager;
+	boolean modelCannotBeBuilt = false;
+	boolean predictionError = false;
 //	private StatusInformation statusInformation;
 //	List<PluginEventListener> listeners = new ArrayList();
 	
@@ -100,6 +102,7 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 	public void featureExtractor_HandOffFeatures(RatioBasedFeatureExtractor extractor,
 			RatioFeatures details) {
 		Tracer.info(this, "difficultyRobot.featureExtractor");
+		
 //		statusInformation = new AStatusInformation();
 //		statusInformation.setEditRatio(details.getEditRatio());
 //	
@@ -111,6 +114,9 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 
 		notifyNewRatios(details);
 		AnAnalyzer.maybeRecordFeatures(details);
+		if (modelCannotBeBuilt || predictionError) {
+			return;
+		}
 
 //		this.predictionManager.getPredictionStrategy().predictSituation(details.getEditRatio(), details.getDebugRatio(), details.getNavigationRatio(), details.getFocusRatio(), details.getRemoveRatio());
 		this.predictionManager.getPredictionStrategy().predictSituation(details);
@@ -123,6 +129,7 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 	@Override
 	public void predictionManager_HandOffPrediction(PredictionManager manager,
 			APredictionManagerDetails details) {
+		
 		StatusAggregationStarted.newCase(this);
 		Tracer.info(this, "difficultyRobot.handOffPrediction");
 //		statusInformation.setPredictedClass("Prediction");
@@ -132,6 +139,9 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 //		statusInformation.setUserId(this.id);
 //		statusInformation.setUserName(this.id);
 		notifyNewStatus(details.predictionValue);
+		if (modelCannotBeBuilt || predictionError) {			
+			return;			
+		}
 		this.statusManager.strategy.aggregateStatuses(details.predictionValue);
 	}
 
@@ -140,12 +150,12 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 	public void statusManager_HandOffStatus(StatusManager manager,
 			StatusManagerDetails details) {
 		Tracer.info(this, "difficultyRobot.handOffStatus");
-		 StatusPrediction statusPrediction = new StatusPrediction();
-         statusPrediction.timeStamp = new Date(Calendar.getInstance().getTimeInMillis());
-         statusPrediction.prediction = details.predictionValue;
-         statusPrediction.userId = this.id;
-         statusPrediction.userName = this.id;
-         statusPrediction.statusKind = StatusKind.PREDICTION_MADE;
+//		 StatusPrediction statusPrediction = new StatusPrediction();
+//         statusPrediction.timeStamp = new Date(Calendar.getInstance().getTimeInMillis());
+//         statusPrediction.prediction = details.predictionValue;
+//         statusPrediction.userId = this.id;
+//         statusPrediction.userName = this.id;
+//         statusPrediction.statusKind = StatusKind.PREDICTION_MADE;
          // save to log below also results in a notification
          notifyNewAggregateStatus(details.predictionValue);
        
@@ -351,6 +361,23 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 		notifyNewManualStatus(aDififcultyCommand);
 		notifyNewManualStatus(aDififcultyCommand.getStatus().toString());
 		
+	}
+
+
+	@Override
+	public void predictionManager_modelBuilt(boolean newVal, Exception e) {
+		notifyModelBuilt(newVal, e);
+		if (!newVal) {
+			modelCannotBeBuilt = true;
+		}
+	}
+
+
+	@Override
+	public void predictionError(Exception e) {
+		notifyPredictionError(e);
+
+		predictionError = true;
 	}
 	
 }

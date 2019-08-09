@@ -17,12 +17,15 @@ public interface Mediator extends MediatorRegistrar {
 	public void eventAggregator_HandOffEvents(AnEventAggregator aggregator, AnEventAggregatorDetails details);
 //	public void featureExtractor_HandOffFeatures(RatioBasedFeatureExtractor extractor, AFeatureExtractorDetails details);
 	public void predictionManager_HandOffPrediction(PredictionManager manager, APredictionManagerDetails details);
+	public void predictionManager_modelBuilt(boolean newVal, Exception e);
+
 	public void statusManager_HandOffStatus(StatusManager manager, StatusManagerDetails details);
 	void featureExtractor_HandOffFeatures(RatioBasedFeatureExtractor extractor,
 			RatioFeatures details);
 	void manualStatusView_HandOffManualStatus(DifficultyCommand aDififcultyCommand);
 	void processEvent(EHICommand e);
 	public EventAggregator getEventAggregator();
+	void predictionError(Exception e) ;
 
 
 	public void setEventAggregator(EventAggregator eventAggregator) ;

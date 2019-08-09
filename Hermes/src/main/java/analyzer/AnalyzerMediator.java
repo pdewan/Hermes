@@ -319,6 +319,18 @@ public class AnalyzerMediator implements Mediator {
 		
 	}
 
+	@Override
+	public void predictionManager_modelBuilt(boolean newVal, Exception e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void predictionError(Exception e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

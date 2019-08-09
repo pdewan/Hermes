@@ -342,6 +342,16 @@ public class AMediatorRegistrar implements MediatorRegistrar {
 			aListener.newAggregatedStatus(StatusAggregationDiscreteChunks.statusStringToInt(aStatus));
 		}
 	}
+	public synchronized void  notifyModelBuilt(boolean newVal, Exception e) {
+		for (StatusListener aListener:statusListeners) {
+			aListener.modelBuilt(newVal, e);
+		}
+	}
+	public synchronized void  notifyPredictionError(Exception e) {
+		for (StatusListener aListener:statusListeners) {
+			aListener.predictionError(e);
+		}
+	}
 	
 	@Override
 	public synchronized void addPluginEventListener(PluginEventListener aListener){

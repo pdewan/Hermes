@@ -42,6 +42,36 @@ public class AnA1CommandCategories extends AnA0CommandCategories{
 			CommandName.delete,
 	};
 	
+	/*
+	@Attribute editOrInsertPercentage numeric
+	@Attribute debugPercentage numeric
+	@Attribute navigationPercentage numeric
+	@Attribute focusPercentage numeric
+	@Attribute removePercentage numeric
+	@Attribute stuck {YES,NO}
+	*/
+	protected CommandCategory[] relevantCategoresA1 = {
+ 			CommandCategory.INSERT, 
+ 			CommandCategory.DEBUG,
+ 			CommandCategory.NAVIGATION,
+ 			CommandCategory.FOCUS,
+ 			CommandCategory.REMOVE
+ 			
+ 	};
+	 @Override
+	    public CommandCategory[] getOrderedRelevantCommandCategories() {
+			return relevantCategoresA1;
+		}
+	 /**
+	     * These are the names in the  arff file header above
+	     */
+	 	protected void initializeCommandCategoryNames() {
+			super.initializeCommandCategoryNames();				
+			categoriesToNames[CommandCategory.INSERT.ordinal()] = "editOrInsertPercentage";
+			categoriesToNames[CommandCategory.NAVIGATION.ordinal()] = "navigationPercentage";
+
+		}
+	
 //	private CommandName[] additionsToDebugCategory = {
 //			CommandName.CompileError
 //	};

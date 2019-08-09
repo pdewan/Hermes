@@ -45,6 +45,7 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 	protected RatioFeatures lastRatioFeatures;
 	protected int ratioNumber = 0; // the superclass time line probbaly has this
 									// info derivable
+	protected boolean doNotWaitForPredictions = false;
 
 	public AMetricsFileGenerator() {
 //		if (DifficultyPredictionSettings.isReplayMode()) {
@@ -153,7 +154,7 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 
 	}
 	protected void appendPrologAggregateStatus(StringBuffer aStringBuffer, RatioFeatures aRatioFeatures, String aStatus) {
-		aStringBuffer.append("AS" + "," + aStatus + "," + toDate(aRatioFeatures.getUnixStartTime()) + ","
+		aStringBuffer.append( "," + aStatus + "," + toDate(aRatioFeatures.getUnixStartTime()) + ","
 				+ aRatioFeatures.getFileName() + ", " + aRatioFeatures.getUnixStartTime());
 
 	}
@@ -378,11 +379,14 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 
 		}
 	}
-
+	static final String emptyString = "";
 	@Override
 	public void newRatios(RatioFeatures newVal) {
 		lastRatioFeatures = newVal;
 		ratioNumber++;
+		if (doNotWaitForPredictions) {
+			fillValues(emptyString, null, null);
+		}
 		// if
 		// (HelperConfigurationManagerFactory.getSingleton().isSaveEachRatio())
 		// {
@@ -406,6 +410,8 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 
 	@Override
 	public void newStatus(String aStatus) {
+		if (doNotWaitForPredictions)
+			return;
 		fillValues(aStatus, null, null);
 	}
 
@@ -467,6 +473,24 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 //		}
 		fillValues(null, null, aCommand);
 
+	}
+
+	@Override
+	public void modelBuilt(boolean newVal, Exception e) {
+		if (!newVal) {
+			fillValues("", null, null); // get the last ratio
+			fillValues(null, e.getMessage(), null);
+			doNotWaitForPredictions = true;
+
+		}
+	}
+
+	@Override
+	public void predictionError(Exception e) {
+		fillValues("", null, null); // get the last ratio
+		fillValues(null, e.getMessage(), null);
+		doNotWaitForPredictions = true;
+		
 	}
 
 }

@@ -2,8 +2,11 @@ package difficultyPrediction.predictionManagement;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,15 +57,18 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 //		return j48Model;
 	}
 
-	private void buildClassifierModel() {
+	private void buildClassifierModel() throws Exception {
 		weka.core.Instances trainingSet;
 		URL url;
 
-		try {
+//		try {
 			//platform:/plugin/
 			InputStream inputStream;
 //			if (DifficultyPredictionSettings.isReplayMode()) {
-			if (DifficultyPredictionSettings.isReplayMode() || HermesActivator.getDefault() == null){
+			if (DifficultyPredictionSettings.isReplayMode() || HermesActivator.getDefault() == null ||
+					HelperConfigurationManagerFactory.getSingleton().isARFFFileNameIsAbsolute()
+					
+					){
 				inputStream = new FileInputStream( wekaDataFileLocation());
 			} else {
 //				Activator anActivator = fluorite.plugin.Activator.getDefault();
@@ -93,9 +99,9 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 			getClassifier().buildClassifier(trainingSet);
 			classifierBuilt.put(getClassifier(), true);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 	}
 	
@@ -169,10 +175,16 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 
 			// add the instance
 			testingSet.add(iExample);
-
+			
 			if (!isClassifierBuilt()) {
 				long startTime = System.currentTimeMillis();
-				buildClassifierModel();
+				try {
+					buildClassifierModel();
+				} catch (Exception e) {
+//					predictionManager.onPredictionHandOff(predictedValue);
+
+					e.printStackTrace();
+				}
 //				isClassifierModelBuilt = true;
 				Tracer.info(this, " Built  model in m:" + (System.currentTimeMillis() - startTime));
 
@@ -190,9 +202,13 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 
 		predictionManager.onPredictionHandOff(predictedValue);
 	}
+	protected boolean cannotBuildModel = false;
 	public void predictSituation(RatioFeatures aRatioFeatures) {
 //		String predictedValue = "NO";
 		String predictedValue = PROGRESS_PREDICTION;
+		if (cannotBuildModel) {
+			predictionManager.onPredictionHandOff(predictedValue);
+		}
 		weka.core.Attribute wekaAttributes[] = new weka.core.Attribute[relevantFeatureNames.length];
 		try {
 			for (int i = 0; i < relevantFeatureNames.length; i++) {
@@ -276,9 +292,21 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 
 			if (!isClassifierBuilt()) {
 				long startTime = System.currentTimeMillis();
+				try {
 				buildClassifierModel();
+				if (!isClassifierBuilt()) {
+					predictionManager.modelBuilt(false, null);
+				} else {
+					predictionManager.modelBuilt(true, null);
+					Tracer.info(this, " Built  model in m:" + (System.currentTimeMillis() - startTime));
+
+				}
+				} catch (Exception e) {
+					predictionManager.modelBuilt(false,e);
+					e.printStackTrace();
+					return;
+				}
 //				isClassifierModelBuilt = true;
-				Tracer.info(this, " Built  model in m:" + (System.currentTimeMillis() - startTime));
 
 				
 			}
@@ -289,6 +317,7 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 					(int) predictedClass);
 //			System.out.println("Predicted Value: " + predictedValue);
 		} catch (Exception e) {
+			predictionManager.predictionError(e);
 			e.printStackTrace();
 		}
 

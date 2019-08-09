@@ -336,6 +336,12 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	public void setARFFFileName(String newVal) {
 		stringProperties.put(ARFF_FILE, newVal);
 	}
+	public boolean isARFFFileNameIsAbsolute() {
+		return getBooleanProperty(ARFF_FILE_LOCATION_IS_ABSOLUTE, DEFAULT_ARFF_FILE_LOCATION_IS_ABOSOLUTE);
+	}
+	public void setARFFFileNameIsAbsolute(boolean newVal) {
+		booleanProperties.put(ARFF_FILE_LOCATION_IS_ABSOLUTE, newVal);
+	}
 	@Override
 	public Boolean isLogMetrics() {
 		return getBooleanProperty(LOG_METRICS, DEFAULT_LOG_METRICS);

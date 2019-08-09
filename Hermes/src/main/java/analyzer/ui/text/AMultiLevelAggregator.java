@@ -625,6 +625,20 @@ public class AMultiLevelAggregator implements MultiLevelAggregator{
 	}
 
 
+	@Override
+	public void modelBuilt(boolean newVal, Exception e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void predictionError(Exception e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	
 
 	
