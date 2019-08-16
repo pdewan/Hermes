@@ -4,6 +4,7 @@ Bundle-Name: TimeTracker
 Bundle-SymbolicName: TimeTracker;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: dayton.ellwanger.Hermes;bundle-version="1.0.0"
+Require-Bundle: dayton.ellwanger.Hermes;bundle-version="1.0.0",
+ org.json
 Import-Package: org.eclipse.ui,
  util.trace.hermes.timetracker

@@ -91,16 +91,20 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 		aPrintwriter.println(aStringBuffer);
 		aPrintwriter.flush();
 	}
-
+	protected Map<PrintWriter, File> outToFile = new HashMap<>();
 	protected PrintWriter createAndInitializsPrintWriter(String aFileName) {
 		try {
 			// if (workspaceOut == null) {
 			FileWriter fw = new FileWriter(aFileName, true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter anOut = new PrintWriter(bw);
+			File aFile = new File(aFileName);
+			outToFile.put(anOut, aFile);
 			// metricsStringBuffer.setLength(0);
 			// appendFeatureHeader(metricsStringBuffer);
 			logMetrics(anOut, headerStringBuffer);
+//			File aFile = new File(aFileName);
+//			outToFile.put(anOut, aFile);
 			// metricsStringBuffer.setLength(0);
 
 			// }
@@ -292,11 +296,20 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 		String aProjectName = aProject.getName();
 		PrintWriter aProjectOut = projectToPrintWriter.get(aProjectName);
 		if (aProjectOut == null) {
-			String aProjectFileName = projectMetricsFileName();
-			aProjectOut = createAndInitializsPrintWriter(aProjectFileName);
-			projectToPrintWriter.put(aProjectName, aProjectOut);
+			aProjectOut = createProjectOut(aProjectName);
+//			String aProjectFileName = projectMetricsFileName();
+//			aProjectOut = createAndInitializsPrintWriter(aProjectFileName);
+//			// let us do this each time since print writer may become stale
+//			projectToPrintWriter.put(aProjectName, aProjectOut);
 
 		}
+		return aProjectOut;
+	}
+	protected PrintWriter createProjectOut(String aProjectName) {
+		String aProjectFileName = projectMetricsFileName();
+		PrintWriter aProjectOut = createAndInitializsPrintWriter(aProjectFileName);
+		// let us do this each time since print writer may become stale
+		projectToPrintWriter.put(aProjectName, aProjectOut);
 		return aProjectOut;
 	}
 
@@ -349,9 +362,57 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 		if (anOut == null) {
 			return;
 		}
+		File aFile = outToFile.get(anOut);
+//		long aPostChangeTime = aFile.lastModified();
+//		if (aFile == null) {
+//			doLogMetrics(anOut, aStringBuffer);
+//			return;
+//		}
+		long aPreChangeTime = aFile.lastModified();
+//		anOut.println(aStringBuffer);
+//		anOut.flush();
+		doLogMetrics(anOut, aStringBuffer);
+		
+
+//		logMetrics(workspaceOut(), metricsStringBuffer);
+//		logMetrics(anOut, metricsStringBuffer);
+		long aPostChangeTime = aFile.lastModified();
+		if (aPostChangeTime == aPreChangeTime) {
+			handleStaleLogMetrics(anOut, aStringBuffer);
+		}
+	}
+	protected void doLogMetrics(PrintWriter anOut, StringBuffer aStringBuffer) {
+//		if (anOut == null) {
+//			return;
+//		}
+//		File aFile = outToFile.get(anOut);
+//		long aPostChangeTime = aFile.lastModified();
+//		long aPreChangeTime = aFile.lastModified();
 		anOut.println(aStringBuffer);
 		anOut.flush();
+		
 
+//		logMetrics(workspaceOut(), metricsStringBuffer);
+//		logMetrics(anOut, metricsStringBuffer);
+//		long aPostChangeTime = aFile.lastModified();
+//		if (aPostChangeTime == aPreChangeTime) {
+//			handleStaleLogMetrics(anOut, aStringBuffer);
+//		}
+	}
+	
+	protected void handleStaleLogMetrics(PrintWriter anOut, StringBuffer aStringBuffer) {
+		try {
+		if (anOut == workspaceOut) {
+			workspaceOut = null;
+			workspaceOut = workspaceOut();
+			doLogMetrics(anOut, aStringBuffer); // do not want infinite recursion
+		} else {
+			createProjectOut(CurrentProjectHolder.getProject().getName());
+			doLogMetrics(anOut, aStringBuffer);
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void fillValues(String aStatus, String anAggregateStatus, DifficultyCommand aManualStatus) {
@@ -373,8 +434,21 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 				appendPrologManualStatus(metricsStringBuffer, lastRatioFeatures, aManualStatus);
 
 			}
-			logMetrics(workspaceOut(), metricsStringBuffer);
-			logMetrics(projectOut(), metricsStringBuffer);
+			PrintWriter aWorkspaceOut = workspaceOut();
+			File aFile = outToFile.get(aWorkspaceOut);
+			long aPreChangeTime = aFile.lastModified();
+//			logMetrics(workspaceOut(), metricsStringBuffer);
+			logMetrics(aWorkspaceOut, metricsStringBuffer);
+			long aPostChangeTime = aFile.lastModified();
+			if (aPostChangeTime == aPreChangeTime) {
+				
+			}
+
+			PrintWriter aProjectOut = projectOut();
+
+//			logMetrics(projectOut(), metricsStringBuffer);
+			logMetrics(aProjectOut, metricsStringBuffer);
+
 			metricsStringBuffer.setLength(0); // twice for safety
 
 		}

@@ -15,7 +15,9 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -742,12 +744,14 @@ public class EHEventRecorder {
 	}
 
 	public static final String PROJECT_LOGGER_FILE_NAME = "Logs/Eclipse";
+	public static Map<Logger, File> loggerToFileName = new HashMap();
 
 	protected boolean initializeProjectLogger(IProject aProject, Logger aLogger) {
 		IPath aProjectLocation = aProject.getLocation();
 		File aProjectFileLocation = aProjectLocation.toFile();
 		File aLogFileLocation = new File(aProjectFileLocation, PROJECT_LOGGER_FILE_NAME);
 		File aCreatedFile = maybeCreateDirectory(aLogFileLocation, false);
+//		loggerToFileName.put(aLogger, aLogFileLocation);
 		if (aCreatedFile == null)
 			return false;
 		initializeLogger(aLogger, aCreatedFile);
@@ -817,6 +821,7 @@ public class EHEventRecorder {
 			handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
 
 			aLogger.addHandler(handler);
+			loggerToFileName.put(aLogger, outputFile);
 			LogHandlerBound.newCase(handler, this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -977,11 +982,16 @@ public class EHEventRecorder {
 	}
 
 	protected void maybeLog(Level aLevel, String aMessage, Object anObject) {
+		try {
 		if (HelperConfigurationManagerFactory.getSingleton().isLogWorkspace()) {
 			log(workspaceLogger(), aLevel, aMessage, anObject);
+//			System.out.println ("Current thread: " + Thread.currentThread() + " " + anObject);
 		}
 		if (HelperConfigurationManagerFactory.getSingleton().isLogProject()) {
 			log(projectLogger(), aLevel, aMessage, anObject);
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -989,8 +999,43 @@ public class EHEventRecorder {
 		if (aLogger == null) {
 			return;
 		}
+		File aFile = loggerToFileName.get(aLogger);
+		long aPreWriteTime = aFile.lastModified();
+		doLog(aLogger, aLevel, aMessage, anObject);
+		long aPostWriteTime = aFile.lastModified();
+		if (aPreWriteTime == aPostWriteTime) {
+			handleStaleLog(aLogger, aLevel, aMessage, anObject, aFile);
+		}
+	}
+	protected void doLog(Logger aLogger, Level aLevel, String aMessage, Object anObject) {
+//		if (aLogger == null) {
+//			return;
+//		}
+//		File aFile = loggerToFileName.get(aLogger);
+//		long aPreWriteTime = aFile.lastModified();
 		aLogger.log(aLevel, aMessage, anObject);
+		Handler[] aHandlers = aLogger.getHandlers();
+		for (Handler aHandler:aHandlers) {
+			aHandler.flush();
+			FileHandler aFileHandler = (FileHandler) aHandler;
+		}
+//		long aPostWriteTime = aFile.lastModified();
+//		if (aPreWriteTime == aPostWriteTime) {
+//			handleStaleLog(aLogger, aLevel, aMessage, anObject, aFile);
+//		}
 
+
+	}
+	
+	protected void handleStaleLog(Logger aLogger, Level aLevel, String aMessage, Object anObject, File aFile) {
+		Handler[] aHandlers = aLogger.getHandlers();
+
+		for (Handler aHandler:aHandlers) {
+			aLogger.removeHandler(aHandler);
+		}
+		initializeLogger(aLogger, aFile);
+		doLog(aLogger, aLevel, aMessage, anObject);
+		
 	}
 
 	/*

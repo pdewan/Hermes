@@ -189,7 +189,7 @@ public class FluoriteListener implements
 //			ConnectionManager.getInstance().sendMessage(messageData);
 //		}
 //	}
-	
+	// we wll have to handle this in Hermes as JSON object conflict occurs otherwise
 	public void sendSession(Date startDate, Date endDate) {
 		if(ConnectionManager.getInstance() != null) {
 			JSONObject messageData = new JSONObject();

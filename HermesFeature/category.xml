@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/HermesFeature_1.0.0.qualifier.jar" id="HermesFeature" version="1.0.0.qualifier">
+      <category name="HermesCategory"/>
+   </feature>
+   <category-def name="HermesCategory" label="Hermes">
+      <description>
+         Eclipse activity tracker and difficulty status inferer and setter
+      </description>
+   </category-def>
+</site>
