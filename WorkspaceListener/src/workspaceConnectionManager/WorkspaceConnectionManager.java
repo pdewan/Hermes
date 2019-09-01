@@ -1,12 +1,13 @@
 package workspaceConnectionManager;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.editors.text.EditorsUI;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+//import org.json.JSONArray;
+//import org.json.JSONException;
+//import org.json.JSONObject;
 
 import workspacelistener.Delta;
 import workspacelistener.NewFileContents;
@@ -14,6 +15,7 @@ import workspacelistener.WorkspaceFileListener;
 import workspacelistener.WorkspaceListener;
 import workspacelistener.ui.PrivacyView;
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
+import hermes.json.JSONProxy;
 import hermes.tags.Tags;
 import util.trace.hermes.workspacelistener.FileForwardedToConnectionManager;
 //import util.trace.messagebus.clients.JSONObjectForwardedToConnectionManager;
@@ -43,25 +45,61 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 		workspaceListener.addWorkspaceFileListener(this);
 		// WorkspaceListenerTraceUtility.setTracing();
 	}
-	public JSONObject toJSONContent(NewFileContents newFileContents) {
-
+//	public JSONObject toJSONContent(NewFileContents newFileContents) {
+//
+//		int privacySetting = EditorsUI.getPreferenceStore().getInt(PrivacyView.PRIVACY_PREFERENCE);
+//
+//		if (ConnectionManager.getInstance() != null) {
+//			JSONObject messageData = new JSONObject();
+//			try {
+//				messageData.put("type", "editorContents");
+////				messageData.put("filename", workspaceString + newFileContents.getFilePath());
+//				messageData.put(Tags.FILE_NAME, workspaceString + newFileContents.getFilePath());
+//				messageData.put(Tags.ABSOLUTE_FILE_NAME, workspacePath + newFileContents.getFilePath());
+//				messageData.put(Tags.RELATIVE_FILE_NAME, newFileContents.getFilePath());
+//				messageData.put("contents", newFileContents.getContents().replace('\r', ' '));
+//				messageData.put("isPublic", (privacySetting == 2));
+//				JSONArray tags = new JSONArray();
+////				tags.put("EDITOR_CONTENTS");
+//				tags.put(Tags.EDITOR_CONTENTS);
+//				messageData.put(Tags.TAGS_FIELD, tags);
+//				return messageData;
+//			} catch (Exception ex) {
+//				ex.printStackTrace();
+//				return null;
+//			}
+//		}
+//		return null;
+//	}
+	public Object[][] toJSONContent(NewFileContents newFileContents) {
+		
 		int privacySetting = EditorsUI.getPreferenceStore().getInt(PrivacyView.PRIVACY_PREFERENCE);
 
 		if (ConnectionManager.getInstance() != null) {
-			JSONObject messageData = new JSONObject();
+//			JSONObject messageData = new JSONObject();
 			try {
-				messageData.put("type", "editorContents");
-//				messageData.put("filename", workspaceString + newFileContents.getFilePath());
-				messageData.put(Tags.FILE_NAME, workspaceString + newFileContents.getFilePath());
-				messageData.put(Tags.ABSOLUTE_FILE_NAME, workspacePath + newFileContents.getFilePath());
-				messageData.put(Tags.RELATIVE_FILE_NAME, newFileContents.getFilePath());
-				messageData.put("contents", newFileContents.getContents().replace('\r', ' '));
-				messageData.put("isPublic", (privacySetting == 2));
-				JSONArray tags = new JSONArray();
+				Object[][] retVal = {
+						{"type", "editorContents"},
+						{Tags.FILE_NAME, workspaceString + newFileContents.getFilePath()},
+						{Tags.ABSOLUTE_FILE_NAME, workspacePath + newFileContents.getFilePath()},
+						{Tags.RELATIVE_FILE_NAME, newFileContents.getFilePath()},
+						{"contents", newFileContents.getContents().replace('\r', ' ')},
+						{"isPublic", (privacySetting == 2)}
+						
+				};
+				return retVal;
+//				messageData.put("type", "editorContents");
+////				messageData.put("filename", workspaceString + newFileContents.getFilePath());
+//				messageData.put(Tags.FILE_NAME, workspaceString + newFileContents.getFilePath());
+//				messageData.put(Tags.ABSOLUTE_FILE_NAME, workspacePath + newFileContents.getFilePath());
+//				messageData.put(Tags.RELATIVE_FILE_NAME, newFileContents.getFilePath());
+//				messageData.put("contents", newFileContents.getContents().replace('\r', ' '));
+//				messageData.put("isPublic", (privacySetting == 2));
+//				JSONArray tags = new JSONArray();
 //				tags.put("EDITOR_CONTENTS");
-				tags.put(Tags.EDITOR_CONTENTS);
-				messageData.put(Tags.TAGS_FIELD, tags);
-				return messageData;
+//				tags.put(Tags.EDITOR_CONTENTS);
+//				messageData.put(Tags.TAGS_FIELD, tags);
+//				return messageData;
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				return null;
@@ -69,20 +107,47 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 		}
 		return null;
 	}
-	public JSONObject toJSONDocumentChange(Delta fileDelta) {
+//	public JSONObject toJSONDocumentChange(Delta fileDelta) {
+//
+//
+//		if (ConnectionManager.getInstance() != null) {
+//			JSONObject messageData = new JSONObject();
+//			try {
+//				messageData.put("type", "editorDoc");
+//				messageData.put(Tags.RELATIVE_FILE_NAME, fileDelta.getFilePath());
+//				messageData.put(Tags.DOCUMENT_CHANGE, fileDelta.getChanges());
+//				JSONArray tags = new JSONArray();
+////				tags.put("EDITOR_CONTENTS");
+//				tags.put(Tags.DOCUMENT_CHANGE);
+//				messageData.put(Tags.TAGS_FIELD, tags);
+//				return messageData;
+//			} catch (Exception ex) {
+//				ex.printStackTrace();
+//				return null;
+//			}
+//		}
+//		return null;
+//	}
+	public Object[][] toJSONDocumentChange(Delta fileDelta) {
 
 
 		if (ConnectionManager.getInstance() != null) {
-			JSONObject messageData = new JSONObject();
+//			JSONObject messageData = new JSONObject();
+			
 			try {
-				messageData.put("type", "editorDoc");
-				messageData.put(Tags.RELATIVE_FILE_NAME, fileDelta.getFilePath());
-				messageData.put(Tags.DOCUMENT_CHANGE, fileDelta.getChanges());
-				JSONArray tags = new JSONArray();
-//				tags.put("EDITOR_CONTENTS");
-				tags.put(Tags.DOCUMENT_CHANGE);
-				messageData.put(Tags.TAGS_FIELD, tags);
-				return messageData;
+				Object[][] retVal = {
+						{"type", "editorDoc"},
+						{Tags.RELATIVE_FILE_NAME, fileDelta.getFilePath()},
+						{Tags.DOCUMENT_CHANGE, fileDelta.getChanges()}
+				};
+//				messageData.put("type", "editorDoc");
+//				messageData.put(Tags.RELATIVE_FILE_NAME, fileDelta.getFilePath());
+//				messageData.put(Tags.DOCUMENT_CHANGE, fileDelta.getChanges());
+//				JSONArray tags = new JSONArray();
+////				tags.put("EDITOR_CONTENTS");
+//				tags.put(Tags.DOCUMENT_CHANGE);
+//				messageData.put(Tags.TAGS_FIELD, tags);
+//				return messageData;
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				return null;
@@ -91,6 +156,33 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 		return null;
 	}
 
+//	@Override
+//	public void newFileContents(NewFileContents newFileContents) {
+//		int privacySetting = EditorsUI.getPreferenceStore().getInt(PrivacyView.PRIVACY_PREFERENCE);
+//		if (privacySetting == 0) {
+//			return;
+//		}
+//		if (ConnectionManager.getInstance() != null) {
+//			JSONObject messageData = new JSONObject();
+//			try {
+//				messageData.put("type", "editorContents");
+//				messageData.put("filename", workspaceString + newFileContents.getFilePath());
+//				messageData.put("contents", newFileContents.getContents().replace('\r', ' '));
+//				messageData.put("isPublic", (privacySetting == 2));
+//				JSONArray tags = new JSONArray();
+//				// tags.put("EDITOR_CONTENTS");
+//				tags.put(Tags.EDITOR_CONTENTS);
+//				messageData.put("tags", tags);
+//			} catch (Exception ex) {
+//				ex.printStackTrace();
+//			}
+//			FileForwardedToConnectionManager.newCase(this, messageData.toString());
+//			// JSONObjectForwardedToConnectionManager.newCase(this,
+//			// messageData.toString());
+//
+//			ConnectionManager.getInstance().sendMessage(messageData);
+//		}
+//	}
 	@Override
 	public void newFileContents(NewFileContents newFileContents) {
 		int privacySetting = EditorsUI.getPreferenceStore().getInt(PrivacyView.PRIVACY_PREFERENCE);
@@ -98,39 +190,62 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 			return;
 		}
 		if (ConnectionManager.getInstance() != null) {
-			JSONObject messageData = new JSONObject();
-			try {
-				messageData.put("type", "editorContents");
-				messageData.put("filename", workspaceString + newFileContents.getFilePath());
-				messageData.put("contents", newFileContents.getContents().replace('\r', ' '));
-				messageData.put("isPublic", (privacySetting == 2));
-				JSONArray tags = new JSONArray();
-				// tags.put("EDITOR_CONTENTS");
-				tags.put(Tags.EDITOR_CONTENTS);
-				messageData.put("tags", tags);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			FileForwardedToConnectionManager.newCase(this, messageData.toString());
+			Object[][] retVal = {
+					{"type", "editorContents"},
+					{"filename", workspaceString + newFileContents.getFilePath()},
+					{"contents", newFileContents.getContents().replace('\r', ' ')},
+					{"isPublic", (privacySetting == 2)},
+			};
+			JSONProxy.sendJSONObject(retVal, Tags.EDITOR_CONTENTS);
+//			JSONObject messageData = new JSONObject();
+//			try {
+//				messageData.put("type", "editorContents");
+//				messageData.put("filename", workspaceString + newFileContents.getFilePath());
+//				messageData.put("contents", newFileContents.getContents().replace('\r', ' '));
+//				messageData.put("isPublic", (privacySetting == 2));
+//				JSONArray tags = new JSONArray();
+//				// tags.put("EDITOR_CONTENTS");
+//				tags.put(Tags.EDITOR_CONTENTS);
+//				messageData.put("tags", tags);
+//			} catch (Exception ex) {
+//				ex.printStackTrace();
+//			}
+			FileForwardedToConnectionManager.newCase(this, Arrays.toString(retVal));
 			// JSONObjectForwardedToConnectionManager.newCase(this,
 			// messageData.toString());
 
-			ConnectionManager.getInstance().sendMessage(messageData);
+//			ConnectionManager.getInstance().sendMessage(messageData);
 		}
 	}
 
-	public void newJSONContent(JSONObject aJSONObject) {
+//	public void newJSONContent(JSONObject aJSONObject) {
+//		int privacySetting = EditorsUI.getPreferenceStore().getInt(PrivacyView.PRIVACY_PREFERENCE);
+//		if (privacySetting == 0 || aJSONObject == null) {
+//			return;
+//		}
+//		if (ConnectionManager.getInstance() != null) {
+//
+//			FileForwardedToConnectionManager.newCase(this, aJSONObject.toString());
+//			// JSONObjectForwardedToConnectionManager.newCase(this,
+//			// messageData.toString());
+//
+//			ConnectionManager.getInstance().sendMessage(aJSONObject);
+//		}
+//	}
+	
+	public void newJSONContent(Object[][] aPairs,  String... aTags) {
 		int privacySetting = EditorsUI.getPreferenceStore().getInt(PrivacyView.PRIVACY_PREFERENCE);
-		if (privacySetting == 0 || aJSONObject == null) {
+		if (privacySetting == 0 || aPairs == null || aPairs.length == 0) {
 			return;
 		}
 		if (ConnectionManager.getInstance() != null) {
 
-			FileForwardedToConnectionManager.newCase(this, aJSONObject.toString());
+			FileForwardedToConnectionManager.newCase(this, Arrays.toString(aPairs));
+			JSONProxy.sendJSONObject(aPairs, aTags);
 			// JSONObjectForwardedToConnectionManager.newCase(this,
 			// messageData.toString());
 
-			ConnectionManager.getInstance().sendMessage(aJSONObject);
+//			ConnectionManager.getInstance().sendMessage(aJSONObject);
 		}
 	}
 
@@ -152,6 +267,43 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 	// }
 	// }
 	// }
+//	@Override
+//	public void fileDelta(Delta fileDelta) {
+//		String aFileName = workspaceString + fileDelta.getFilePath();
+//		setActiveDocumentName(aFileName);
+//		if (ConnectionManager.getInstance() != null) {
+//			// DeltaContentSender cs =
+//			// pendingContentChanges.get(fileDelta.getFilePath());
+//			JSONContentSender aJSONContentSender = pendingJSONChanges.get(aFileName);
+//			NewFileContents aNewFileContents = new NewFileContents(fileDelta.getIFilePath(),
+//					fileDelta.getChanges().getDocument().get());
+//			JSONObject aJSONContent = toJSONContent(aNewFileContents);
+//			ConnectionManager.getInstance().notifyNewJSONMessage(aJSONContent);
+//			JSONObject aJSONFileDelta = toJSONDocumentChange(fileDelta);
+//			ConnectionManager.getInstance().notifyNewJSONMessage(aJSONFileDelta);
+//			if (aJSONContentSender == null) {
+//
+//				aJSONContentSender = new JSONContentSender(aJSONContent);
+//				// pendingContentChanges.put(fileDelta.getFilePath(), cs);
+//				pendingJSONChanges.put(aFileName, aJSONContentSender);
+//
+//				(new Thread(aJSONContentSender)).start();
+//			} else {
+//				// update existing runnable in caseprevious change has not gone
+//				aJSONContentSender.send = false;
+//				aJSONContentSender.jsonObject = aJSONContent;
+//			}
+//		}
+//	}
+	protected Object getValue(Object[][] aPairs, Object aKey) {
+		for (Object[] aPair:aPairs) {
+			if (aKey.equals(aPair[0])) {
+				return aPair[0];
+			}
+			
+		}
+		return null;
+	}
 	@Override
 	public void fileDelta(Delta fileDelta) {
 		String aFileName = workspaceString + fileDelta.getFilePath();
@@ -162,10 +314,13 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 			JSONContentSender aJSONContentSender = pendingJSONChanges.get(aFileName);
 			NewFileContents aNewFileContents = new NewFileContents(fileDelta.getIFilePath(),
 					fileDelta.getChanges().getDocument().get());
-			JSONObject aJSONContent = toJSONContent(aNewFileContents);
-			ConnectionManager.getInstance().notifyNewJSONMessage(aJSONContent);
-			JSONObject aJSONFileDelta = toJSONDocumentChange(fileDelta);
-			ConnectionManager.getInstance().notifyNewJSONMessage(aJSONFileDelta);
+			Object[][] aJSONContent = toJSONContent(aNewFileContents);
+//			ConnectionManager.getInstance().notifyNewJSONMessage(aJSONContent, Tags.EDITOR_CONTENTS);
+			JSONProxy.notifyNewJSONMessage(aJSONContent, Tags.EDITOR_CONTENTS);
+//			ConnectionManager.getInstance().notifyNewJSONMessage(aJSONContent);
+			Object[][] aJSONFileDelta = toJSONDocumentChange(fileDelta);
+			JSONProxy.notifyNewJSONMessage(aJSONFileDelta, Tags.DOCUMENT_CHANGE );
+//			ConnectionManager.getInstance().notifyNewJSONMessage(aJSONFileDelta);
 			if (aJSONContentSender == null) {
 
 				aJSONContentSender = new JSONContentSender(aJSONContent);
@@ -211,9 +366,9 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 
 		boolean send;
 		int sleepDelay = 500;
-		JSONObject jsonObject;
+		Object[][] jsonObject;
 
-		public JSONContentSender(JSONObject aJSONObject) {
+		public JSONContentSender(Object[][] aJSONObject) {
 			send = false;
 			jsonObject = aJSONObject;
 		}
@@ -232,8 +387,8 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 				}
 			}
 			try {
-				pendingJSONChanges.remove(jsonObject.get("filename"));
-			} catch (JSONException e) {
+				pendingJSONChanges.remove(getValue (jsonObject, "filename"));
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -243,6 +398,42 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 		}
 
 	}
+//	class JSONContentSender implements Runnable {
+//
+//		boolean send;
+//		int sleepDelay = 500;
+//		JSONObject jsonObject;
+//
+//		public JSONContentSender(JSONObject aJSONObject) {
+//			send = false;
+//			jsonObject = aJSONObject;
+//		}
+//
+//		// This loop should really be in connection manager. It should bufffe
+//		// changes and send periodically.
+//		// Or maybe here as some changes should be sent immediately
+//		// do we really need the pending changes?
+//		public void run() {
+//			while (!send) {
+//				send = true;
+//				try {
+//					Thread.sleep(sleepDelay);
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//				}
+//			}
+//			try {
+//				pendingJSONChanges.remove(jsonObject.get("filename"));
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			newJSONContent(jsonObject); // want to send the current one
+//			// newFileContents(new NewFileContents(fileDelta.getIFilePath(),
+//			// fileDelta.getChanges().getDocument().get()));
+//		}
+//
+//	}
 
 	public static String getActiveDocumentName() {
 		return activeDocumentName;

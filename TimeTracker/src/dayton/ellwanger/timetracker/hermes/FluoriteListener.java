@@ -3,10 +3,12 @@ package dayton.ellwanger.timetracker.hermes;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Date;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+//import org.json.JSONArray;
+//import org.json.JSONObject;
+import hermes.json.JSONProxy;
 
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
 import fluorite.model.EHEventRecorder;
@@ -191,26 +193,38 @@ public class FluoriteListener implements
 //	}
 	// we wll have to handle this in Hermes as JSON object conflict occurs otherwise
 	public void sendSession(Date startDate, Date endDate) {
-		if(ConnectionManager.getInstance() != null) {
-			JSONObject messageData = new JSONObject();
-			try {
-				messageData.put(START_TIME, activityStartTimestamp);
-				messageData.put(END_TIME, activityEndTimestamp);
-				messageData.put(NUM_DOC_CHANGES, numDocChanges);
-				messageData.put(NUM_COMMANDS, numCommands);
-				Tags.putTags(messageData, TIME_TRACKER);
-//				JSONArray tags = new JSONArray();
-//				tags.put(Tags.TIME_TRACKER);
-//				tags.put(hermes.tags.Tags.)
-//				messageData.put("tags", tags);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			TimeWorkedForwardedToConnectionManager.newCase(this, messageData.toString());
-//			JSONObjectForwardedToConnectionManager.newCase(this, messageData.toString());
-			ConnectionManager.getInstance().sendMessage(messageData);
-		}
+		Object[][] aPairs = {
+				{START_TIME,activityStartTimestamp},
+				{END_TIME, activityEndTimestamp},
+				{NUM_DOC_CHANGES, numDocChanges},
+				{NUM_COMMANDS, numCommands}					
+		};
+		JSONProxy.sendJSONObject(aPairs, TIME_TRACKER);
+		TimeWorkedForwardedToConnectionManager.newCase(this, Arrays.toString(aPairs));
+		
 	}
+//	// we wll have to handle this in Hermes as JSON object conflict occurs otherwise
+//		public void sendSession(Date startDate, Date endDate) {
+//			if(ConnectionManager.getInstance() != null) {
+//				JSONObject messageData = new JSONObject();
+//				try {
+//					messageData.put(START_TIME, activityStartTimestamp);
+//					messageData.put(END_TIME, activityEndTimestamp);
+//					messageData.put(NUM_DOC_CHANGES, numDocChanges);
+//					messageData.put(NUM_COMMANDS, numCommands);
+//					Tags.putTags(messageData, TIME_TRACKER);
+////					JSONArray tags = new JSONArray();
+////					tags.put(Tags.TIME_TRACKER);
+////					tags.put(hermes.tags.Tags.)
+////					messageData.put("tags", tags);
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//				}
+//				TimeWorkedForwardedToConnectionManager.newCase(this, messageData.toString());
+////				JSONObjectForwardedToConnectionManager.newCase(this, messageData.toString());
+//				ConnectionManager.getInstance().sendMessage(messageData);
+//			}
+//		}
 	
 	class IdleTimer implements Runnable {
 		
@@ -292,6 +306,12 @@ public class FluoriteListener implements
 			ActivityDetected.newCase(this, startTimestamp + lastCommandTimestamp);
 
 		}
+		
+	}
+
+	@Override
+	public void timestampReset(long aStartTimestamp) {
+		// TODO Auto-generated method stub
 		
 	}
 

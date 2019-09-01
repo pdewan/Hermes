@@ -1279,6 +1279,14 @@ public class EHUtilities /*extends Utilities*/{
 		return (aStartTimeStamp + aCommandTimestamp);
 	
 	}
+	
+	public static Date toDate (EHICommand aCommand) {
+//		long aStartTimeStamp = EHEventRecorder.getInstance().getStartTimestamp();
+//		long aTime = aStartTimeStamp + aCommandTimestamp;
+		date.setTime(aCommand.getStartTimestamp() + aCommand.getTimestamp());
+		return date;
+	}
+	
 
 	public static String persistCommand(Map<String, String> attrs,
 			Map<String, String> data, EHICommand command) {
@@ -1294,8 +1302,12 @@ public class EHUtilities /*extends Utilities*/{
 		// Add common attributes
 		attrs.put("__id", Integer.toString(command.getCommandIndex()));
 		attrs.put("_type", command.getCommandType());
+		attrs.put("starttimestamp", Long.toString(command.getStartTimestamp()));
+
 		attrs.put("timestamp", Long.toString(command.getTimestamp()));
-		Date aDate = toDate(command.getTimestamp());
+//		Date aDate = toDate(command.getTimestamp());
+		Date aDate = toDate(command);
+
 		attrs.put("date", aDate.toString());
 
 		if (command.getRepeatCount() > 1) {

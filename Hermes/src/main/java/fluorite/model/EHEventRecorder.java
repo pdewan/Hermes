@@ -151,6 +151,9 @@ public class EHEventRecorder {
 	private int mLastSelectionEnd;
 
 	private long mStartTimestamp;
+	protected long lastSuccessfulWriteTime;
+	public static final int IDLE_TIME = 1000*60*3; // 3 minutes
+
 
 	private boolean mStarted;
 	private boolean mAssistSession;
@@ -389,6 +392,12 @@ public class EHEventRecorder {
 			((RecorderListener) listenerObj).eventRecordingStarted(aStartTimestamp);
 		}
 	}
+	
+	public void notifyTimestampReset(long aStartTimestamp) {
+		for (Object listenerObj : recorderListener.getListeners()) {
+			((RecorderListener) listenerObj).timestampReset(aStartTimestamp);
+		}
+	}
 
 	public void notifyRecordingEnded() {
 		for (Object listenerObj : recorderListener.getListeners()) {
@@ -542,7 +551,11 @@ public class EHEventRecorder {
 	// PluginThreadCreated.newCase(difficultyPredictionThread.getName(), this);
 	// }
 	// }
+	protected void initTimestamp() {
+		mStartTimestamp = Calendar.getInstance().getTime().getTime();
+		lastSuccessfulWriteTime = mStartTimestamp;
 
+	}
 	public void initCommands() {
 		setPlugInMode(false);
 		MacroRecordingStarted.newCase(this);
@@ -552,7 +565,8 @@ public class EHEventRecorder {
 		mCurrentlyExecutingCommand = false;
 		Tracer.info(this, " Recording started");
 		mRecordCommands = true;
-		mStartTimestamp = Calendar.getInstance().getTime().getTime();
+//		mStartTimestamp = Calendar.getInstance().getTime().getTime();
+		initTimestamp();
 		ADifficultyPredictionPluginEventProcessor.getInstance().commandProcessingStarted();
 
 		// later commands
@@ -808,11 +822,11 @@ public class EHEventRecorder {
 		}
 	}
 
-	protected void initializeLogger(Logger aLogger, File logLocation) {
+	protected void initializeLogger(Logger aLogger, File logDirectory) {
 		aLogger.setLevel(Level.FINE);
 		File outputFile = null;
 		try {
-			outputFile = new File(logLocation,
+			outputFile = new File(logDirectory,
 					EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
 			LogFileCreated.newCase(outputFile.getName(), this);
 
@@ -994,17 +1008,23 @@ public class EHEventRecorder {
 			e.printStackTrace();
 		}
 	}
-
+	protected boolean hasBeenIdle(long aCurrentTimeStamp) {
+		return (aCurrentTimeStamp - lastSuccessfulWriteTime) > IDLE_TIME;
+	}
 	protected void log(Logger aLogger, Level aLevel, String aMessage, Object anObject) {
 		if (aLogger == null) {
 			return;
 		}
-		File aFile = loggerToFileName.get(aLogger);
+ 		File aFile = loggerToFileName.get(aLogger);
 		long aPreWriteTime = aFile.lastModified();
 		doLog(aLogger, aLevel, aMessage, anObject);
 		long aPostWriteTime = aFile.lastModified();
-		if (aPreWriteTime == aPostWriteTime) {
-			handleStaleLog(aLogger, aLevel, aMessage, anObject, aFile);
+		if ((aPreWriteTime == aPostWriteTime)) {
+			if (hasBeenIdle(aPostWriteTime)) {
+				handleStaleLog(aLogger, aLevel, aMessage, anObject, aFile);
+			}		
+		} else {
+			lastSuccessfulWriteTime = aPostWriteTime;
 		}
 	}
 	protected void doLog(Logger aLogger, Level aLevel, String aMessage, Object anObject) {
@@ -1032,8 +1052,13 @@ public class EHEventRecorder {
 
 		for (Handler aHandler:aHandlers) {
 			aLogger.removeHandler(aHandler);
+			aHandler.close();			
 		}
-		initializeLogger(aLogger, aFile);
+//		mStartTimestamp = System.currentTimeMillis();
+		initTimestamp();
+		notifyTimestampReset(getStartTimestamp());
+		AbstractCommand.resetCommandID();
+		initializeLogger(aLogger, aFile.getParentFile());
 		doLog(aLogger, aLevel, aMessage, anObject);
 		
 	}
@@ -1071,6 +1096,7 @@ public class EHEventRecorder {
 
 		// NewMacroCommand.newCase(newCommand.getName(), mStartTimestamp, this);
 		NewMacroCommand.newCase(newCommand.toString(), mStartTimestamp, this);
+		newCommand.setStartTimestamp(mStartTimestamp);
 		newCommand.setTimestamp(timestamp);
 		newCommand.setTimestamp2(timestamp);
 		// NewMacroCommand.newCase(newCommand.getName(),

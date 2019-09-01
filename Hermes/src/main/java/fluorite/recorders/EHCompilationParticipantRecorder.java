@@ -965,5 +965,10 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		flushPendingCommands();
 				
 	}
+	@Override
+	public void timestampReset(long aStartTimestamp) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

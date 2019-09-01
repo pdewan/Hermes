@@ -414,7 +414,9 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 
 			int anElapsedTime = (int) (segmentEndTime - segmentStartTime);
 			aRatioFeatures.setSavedTimeStamp(segmentEndTime);
-			aRatioFeatures.setUnixStartTime(EHUtilities.toAbsoluteTime(segmentStartTime));
+//			aRatioFeatures.setUnixStartTime(EHUtilities.toAbsoluteTime(segmentStartTime));
+			aRatioFeatures.setUnixStartTime(segmentStartTime);
+
 			double aSegmentTimePeriodSecs = anElapsedTime / 1000;
 			aRatioFeatures.setElapsedTime(anElapsedTime);
 			if (anElapsedTime > idleTime) {
@@ -527,8 +529,8 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 
 		segmentSize = userActions.size();
 		if (segmentSize > 0) {
-			segmentStartTime = userActions.get(0).getTimestamp();
-			segmentEndTime = userActions.get(userActions.size() - 1).getTimestamp();
+			segmentStartTime = userActions.get(0).getTimestamp() + userActions.get(0).getStartTimestamp();
+			segmentEndTime = userActions.get(userActions.size() - 1).getTimestamp() + userActions.get(userActions.size() - 1).getStartTimestamp()  ;
 		}
 
 		Set<CommandCategory> aPreviousCategories = emptyCommandCategories;

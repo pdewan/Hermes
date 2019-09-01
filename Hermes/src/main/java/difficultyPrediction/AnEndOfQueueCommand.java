@@ -182,4 +182,16 @@ public class AnEndOfQueueCommand implements EHICommand {
 //		
 //	}
 
+	@Override
+	public void setStartTimestamp(long timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getStartTimestamp() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

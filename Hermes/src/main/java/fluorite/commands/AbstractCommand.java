@@ -88,6 +88,7 @@ public abstract class AbstractCommand implements
 
 	private long mTimestamp;
 	private long mTimestamp2;
+	private long startTimestamp;
 
 	private int mRepeatCount;
 	private int mCommandIndex;
@@ -121,6 +122,9 @@ public abstract class AbstractCommand implements
 		if ((attr = commandElement.getAttributeNode("timestamp")) != null) {
 			mTimestamp = Long.parseLong(attr.getValue());
 		}
+		if ((attr = commandElement.getAttributeNode("starttimestamp")) != null) {
+			startTimestamp = Long.parseLong(attr.getValue());
+		}
 		
 		if ((attr = commandElement.getAttributeNode("repeat")) != null) {
 			mRepeatCount = Integer.parseInt(attr.getValue());
@@ -145,6 +149,14 @@ public abstract class AbstractCommand implements
 		}
 	}
 
+	public void setStartTimestamp(long timestamp) {
+		startTimestamp = timestamp;
+	}
+
+	public long getStartTimestamp() {
+		return startTimestamp;
+	}
+	
 	public void setTimestamp(long timestamp) {
 		mTimestamp = timestamp;
 	}

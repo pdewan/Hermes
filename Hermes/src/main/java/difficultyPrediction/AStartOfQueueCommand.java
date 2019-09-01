@@ -155,6 +155,18 @@ public class AStartOfQueueCommand implements EHICommand {
 		return null;
 	}
 
+	@Override
+	public void setStartTimestamp(long timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getStartTimestamp() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 //	@Override
 //	public boolean combineWith(EHICommand arg0) {
 //		// TODO Auto-generated method stub

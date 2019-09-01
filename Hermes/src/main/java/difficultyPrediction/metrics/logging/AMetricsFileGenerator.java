@@ -46,6 +46,7 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 	protected int ratioNumber = 0; // the superclass time line probbaly has this
 									// info derivable
 	protected boolean doNotWaitForPredictions = false;
+	protected long lastSuccessfulWriteTime;
 
 	public AMetricsFileGenerator() {
 //		if (DifficultyPredictionSettings.isReplayMode()) {
@@ -59,6 +60,7 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 		DifficultyRobot.getInstance().addRatioFeaturesListener(this);
 
 		DifficultyRobot.getInstance().addStatusListener(this);
+		EHEventRecorder.getInstance().addRecorderListener(this);
 
 	}
 
@@ -100,6 +102,7 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 			PrintWriter anOut = new PrintWriter(bw);
 			File aFile = new File(aFileName);
 			outToFile.put(anOut, aFile);
+			lastSuccessfulWriteTime = System.currentTimeMillis();
 			// metricsStringBuffer.setLength(0);
 			// appendFeatureHeader(metricsStringBuffer);
 			logMetrics(anOut, headerStringBuffer);
@@ -357,7 +360,9 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 	// protected boolean headerSaved = false;
 	StringBuffer metricsStringBuffer = new StringBuffer();
 	StringBuffer headerStringBuffer = new StringBuffer();
-
+	protected boolean hasBeenIdle(long aCurrentTimeStamp) {
+		return (aCurrentTimeStamp - lastSuccessfulWriteTime) > EHEventRecorder.IDLE_TIME;
+	}
 	protected void logMetrics(PrintWriter anOut, StringBuffer aStringBuffer) {
 		if (anOut == null) {
 			return;
@@ -368,7 +373,7 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 //			doLogMetrics(anOut, aStringBuffer);
 //			return;
 //		}
-		long aPreChangeTime = aFile.lastModified();
+		long aPreWriteTime = aFile.lastModified();
 //		anOut.println(aStringBuffer);
 //		anOut.flush();
 		doLogMetrics(anOut, aStringBuffer);
@@ -376,10 +381,14 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 
 //		logMetrics(workspaceOut(), metricsStringBuffer);
 //		logMetrics(anOut, metricsStringBuffer);
-		long aPostChangeTime = aFile.lastModified();
-		if (aPostChangeTime == aPreChangeTime) {
-			handleStaleLogMetrics(anOut, aStringBuffer);
-		}
+		long aPostWriteTime = aFile.lastModified();
+		if ((aPreWriteTime == aPostWriteTime)) {
+			if (hasBeenIdle(aPostWriteTime)) {
+				handleStaleLogMetrics(anOut, aStringBuffer);
+			}		
+		} else {
+			lastSuccessfulWriteTime = aPostWriteTime;
+		}		
 	}
 	protected void doLogMetrics(PrintWriter anOut, StringBuffer aStringBuffer) {
 //		if (anOut == null) {
@@ -564,6 +573,25 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 		fillValues("", null, null); // get the last ratio
 		fillValues(null, e.getMessage(), null);
 		doNotWaitForPredictions = true;
+		
+	}
+
+	@Override
+	public void eventRecordingStarted(long aStartTimestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void eventRecordingEnded() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void timestampReset(long aStartTimestamp) {
+		workspaceOut = null;
+		projectToPrintWriter.clear();
 		
 	}
 

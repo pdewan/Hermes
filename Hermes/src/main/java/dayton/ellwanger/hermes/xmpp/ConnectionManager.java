@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.ExtensionManager;
 import dayton.ellwanger.hermes.preferences.Preferences;
+import hermes.json.JSONProxy;
 import hermes.tags.Tags;
 import util.trace.xmpp.XMPPPacketSent;
 
@@ -285,6 +286,10 @@ public class ConnectionManager implements
 	}
 //	public boolean matchesTag(Pattern aTagsPattern, String tag) {
 //		return (aTagsPattern == null) ? false : aTagsPattern.matcher(tag).matches();
+//	}
+//	public void notifyNewJSONMessage(Object[][] aPairs, String ...aTags) {
+//		JSONObject aJSONObject = JSonProxy.toJSONObject(aPairs, aTags);
+//		notifyNewJSONMessage(aJSONObject);
 //	}
 	@Override
 	public void notifyNewJSONMessage(JSONObject aJSONObject) {

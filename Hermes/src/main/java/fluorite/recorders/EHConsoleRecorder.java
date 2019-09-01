@@ -202,4 +202,10 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 		
 	}
 
+	@Override
+	public void timestampReset(long aStartTimestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

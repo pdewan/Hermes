@@ -32,11 +32,16 @@ public interface EHICommand /*extends ICommand*/ {
 	public String getCategory();
 
 	public String getCategoryID();
+	
+	public void setStartTimestamp(long timestamp);
+
+	public long getStartTimestamp();
 
 	public void setTimestamp(long timestamp);
 
 	public long getTimestamp();
-
+	
+	
 	public void setTimestamp2(long timestamp);
 
 	public long getTimestamp2();

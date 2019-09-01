@@ -34,7 +34,9 @@ public interface Tags {
 	 public static void putTags(JSONObject aMessageData, String... aTags) {
 		 try {
 			JSONArray aJSONArray = new JSONArray(aTags);
-			aMessageData.put("tags", aJSONArray);
+//			aMessageData.put("tags", aJSONArray);
+			aMessageData.put(TAGS_FIELD, aJSONArray);
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
