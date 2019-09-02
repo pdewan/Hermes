@@ -140,6 +140,7 @@ public class WorkspaceConnectionManager implements WorkspaceFileListener {
 						{Tags.RELATIVE_FILE_NAME, fileDelta.getFilePath()},
 						{Tags.DOCUMENT_CHANGE, fileDelta.getChanges()}
 				};
+				return retVal;
 //				messageData.put("type", "editorDoc");
 //				messageData.put(Tags.RELATIVE_FILE_NAME, fileDelta.getFilePath());
 //				messageData.put(Tags.DOCUMENT_CHANGE, fileDelta.getChanges());
