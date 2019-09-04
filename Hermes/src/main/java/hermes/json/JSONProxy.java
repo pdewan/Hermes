@@ -15,6 +15,9 @@ import org.json.JSONObject;
 public class JSONProxy {
 	
 	   public static JSONObject toJSONObject(Object[][] aPairs, String ...aTags) {
+		   if (aPairs == null) {
+			   return null;
+		   }
 			JSONObject messageData = new JSONObject();
 				for (Object[] aPair:aPairs) {
 					messageData.put((String) aPair[0], aPair[1]);
