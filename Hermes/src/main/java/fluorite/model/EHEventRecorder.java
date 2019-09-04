@@ -821,6 +821,32 @@ public class EHEventRecorder {
 			e.printStackTrace();
 		}
 	}
+//	private void initializeLogger() {
+//		// setLogLevel(Level.FINE);
+//		// LOGGER.setLevel(Level.FINE);
+//
+//		File outputFile = null;
+//		try {
+//			File aLogFileLocation = getWorkspaceLogLocation();
+//			File aCreatedFile = maybeCreateDirectory(aLogFileLocation, true);
+//			if (aCreatedFile == null)
+//				return;
+//			initializeLogger(workspaceLogger(), aCreatedFile);
+//			// return true;
+//
+//			// initializeLogger(workspaceLogger(), outputFile);
+//			// LogFileCreated.newCase(outputFile.getName(), this);
+//			//
+//			// FileHandler handler = new FileHandler(outputFile.getPath());
+//			// handler.setEncoding("UTF-8");
+//			// handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
+//			//
+//			// LOGGER.addHandler(handler);
+//			// LogHandlerBound.newCase(handler, this);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	protected void initializeLogger(Logger aLogger, File logDirectory) {
 		aLogger.setLevel(Level.FINE);
@@ -829,6 +855,23 @@ public class EHEventRecorder {
 			outputFile = new File(logDirectory,
 					EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
 			LogFileCreated.newCase(outputFile.getName(), this);
+			initializeLoggerFile(aLogger, outputFile);
+//			FileHandler handler = new FileHandler(outputFile.getPath());
+//			handler.setEncoding("UTF-8");
+//			handler.setFormatter(new EHXMLFormatter(getStartTimestamp()));
+//
+//			aLogger.addHandler(handler);
+//			loggerToFileName.put(aLogger, outputFile);
+//			LogHandlerBound.newCase(handler, this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	protected void initializeLoggerFile(Logger aLogger, File outputFile) {
+		aLogger.setLevel(Level.FINE);
+		try {
+			
 
 			FileHandler handler = new FileHandler(outputFile.getPath());
 			handler.setEncoding("UTF-8");
@@ -1058,7 +1101,7 @@ public class EHEventRecorder {
 		initTimestamp();
 		notifyTimestampReset(getStartTimestamp());
 		AbstractCommand.resetCommandID();
-		initializeLogger(aLogger, aFile.getParentFile());
+		initializeLoggerFile(aLogger, aFile.getParentFile());
 		doLog(aLogger, aLevel, aMessage, anObject);
 		
 	}
