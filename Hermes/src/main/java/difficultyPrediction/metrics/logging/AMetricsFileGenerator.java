@@ -172,7 +172,8 @@ public class AMetricsFileGenerator implements MetricsFileGenerator {
 		long aCurrentTime = aDifficultyCommand.getTimestamp() + EHEventRecorder.getInstance().getStartTimestamp();
 		String aStatusString = toString(aDifficultyCommand);
 		aStringBuffer.append("MS" + "," + aStatusString + "," + toDate(aCurrentTime) + ","
-				+ aRatioFeatures.getFileName() + ", " + aCurrentTime);
+//				+ aRatioFeatures.getFileName() + ", " + 
+				+ aCurrentTime);
 
 	}
 
