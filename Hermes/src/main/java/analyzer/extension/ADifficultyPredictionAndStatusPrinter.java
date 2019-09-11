@@ -18,12 +18,19 @@ public class ADifficultyPredictionAndStatusPrinter extends ABasicStoredDataStati
 	}
 
 	public static final String DIFFICULTY_FIlE_NAME = "allInteractiveDifficulties.csv";
+	public static final String DIFFICULTY_FIlE_SUFFIX = "InteractiveDifficulties.csv";
+
 	protected String outputFileName;
 	protected File outputFile;
 	public static final String HEADER = " ";
 	protected String computeOutputFileName() {
 //		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
 		return  analyzer.getParticipantsFolderName() + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
+
+	}
+	protected String computeOutputFileName(String anID) {
+//		return  AnAnalyzer.PARTICIPANT_DIRECTORY + AnAnalyzer.OUTPUT_DATA + DIFFICULTY_FIlE_NAME;
+		return  analyzer.getParticipantsFolderName() + AnAnalyzer.OUTPUT_DATA + anID + DIFFICULTY_FIlE_SUFFIX;
 
 	}
 	protected void maybeWriteHeader() {
@@ -73,11 +80,13 @@ public class ADifficultyPredictionAndStatusPrinter extends ABasicStoredDataStati
 	public void newParticipant(String anId, String aFolder) {
 		super.newParticipant(anId, aFolder);
 		if (!isWriteFile()) return;
-		if (AnAnalyzer.ALL_PARTICIPANTS.equals(anId)) {
+//		if (AnAnalyzer.ALL_PARTICIPANTS.equals(anId)) {
 
 			// if (DifficultyPredictionSettings.isNewRatioFiles() &&
 			// AnAnalyzer.ALL_PARTICIPANTS.equals(anId)) {
-			outputFileName = computeOutputFileName();
+//			outputFileName = computeOutputFileName();
+			outputFileName = computeOutputFileName(anId);
+
 			// writeFile = true;
 			outputFile = new File(outputFileName);
 //			if (!outputFile.exists()) {
@@ -89,7 +98,7 @@ public class ADifficultyPredictionAndStatusPrinter extends ABasicStoredDataStati
 				}
 //			}
 //			maybeWriteHeader();
-		}
+//		}
 		try {
 			Common.appendText(outputFile, "Participant:" + anId);
 		} catch (IOException e) {
