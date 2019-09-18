@@ -76,7 +76,8 @@ Bundle-ClassPath: .,
  lib/commons-logging-1.1.1.jar,
  lib/org.eclipse.jdt.junit-3.3.2.jar,
  lib/sqlite-jdbc-3.27.2.1.jar,
- lib/json-20170516.jar
+ lib/json-20170516.jar,
+ lib/diff_match_patch-current.jar
 Bundle-Activator: dayton.ellwanger.hermes.HermesActivator
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.debug.ui,
