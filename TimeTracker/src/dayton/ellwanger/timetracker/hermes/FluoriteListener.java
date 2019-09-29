@@ -6,13 +6,10 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Date;
 
-//import org.json.JSONArray;
-//import org.json.JSONObject;
-import hermes.json.JSONProxy;
-
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EclipseEventListener;
+import hermes.proxy.JSONProxy;
 import hermes.tags.Tags;
 import util.trace.hermes.timetracker.ActivityDetected;
 import util.trace.hermes.timetracker.ActivitySessionEnded;

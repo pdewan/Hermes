@@ -1,4 +1,4 @@
-package hermes.json;
+package hermes.proxy;
 
 import java.util.Date;
 

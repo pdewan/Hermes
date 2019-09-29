@@ -15,7 +15,7 @@ import workspacelistener.WorkspaceFileListener;
 import workspacelistener.WorkspaceListener;
 import workspacelistener.ui.PrivacyView;
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
-import hermes.json.JSONProxy;
+import hermes.proxy.JSONProxy;
 import hermes.tags.Tags;
 import util.trace.hermes.workspacelistener.FileForwardedToConnectionManager;
 //import util.trace.messagebus.clients.JSONObjectForwardedToConnectionManager;
