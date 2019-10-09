@@ -3,7 +3,9 @@ package fluorite.commands;
 import org.eclipse.ui.IEditorPart;
 
 public class FileOpenCommandFactorySelector {
-	static FileOpenCommandFactory fileOpenCommandFactory = new AFileOpenCommandFactory();
+//	static FileOpenCommandFactory fileOpenCommandFactory = new AFileOpenCommandFactory();
+	static FileOpenCommandFactory fileOpenCommandFactory = new ADiffBasedFileOpenCommandFactory();
+
 
 	public static FileOpenCommandFactory getFileOpenCommandFactory() {
 		return fileOpenCommandFactory;
