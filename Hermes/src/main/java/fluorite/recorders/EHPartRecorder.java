@@ -11,6 +11,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 
 import fluorite.commands.FileOpenCommand;
+import fluorite.commands.FileOpenCommandFactorySelector;
 import fluorite.model.FileSnapshotManager;
 import fluorite.util.EHUtilities;
 import util.trace.workbench.PartActivated;
@@ -105,7 +106,9 @@ public class EHPartRecorder extends EHBaseRecorder implements IPartListener {
 //				e.printStackTrace();
 			}
 			
-			FileOpenCommand newFoc = new FileOpenCommand(editor);
+//			FileOpenCommand newFoc = new FileOpenCommand(editor);
+			FileOpenCommand newFoc = FileOpenCommandFactorySelector.createFileOpemCommand(editor);
+
 			getRecorder().recordCommand(newFoc);
 			getRecorder().fireActiveFileChangedEvent(newFoc);
 		}
