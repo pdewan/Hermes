@@ -27,7 +27,6 @@ import org.json.JSONObject;
 
 import dayton.ellwanger.hermes.ExtensionManager;
 import dayton.ellwanger.hermes.preferences.Preferences;
-import hermes.proxy.JSONProxy;
 import hermes.tags.Tags;
 import util.trace.xmpp.XMPPPacketSent;
 

@@ -65,7 +65,7 @@ public interface HelperConfigurationManager {
 		 public static final int DEFAULT_STARUP_LAG = 50;
 		 public static final int DEFAULT_STATUS_AGGREGATED = 5;
 		 public static final boolean DEFAULT_SHOW_ALL_STATUSES = false;
-		 public static final boolean DEFAULT_SHOW_STATUS_TRANSITIONS = true;
+		 public static final boolean DEFAULT_SHOW_STATUS_TRANSITIONS = false;
 		    public static final boolean DEFAULT_LOG_METRICS= true;
 
 
