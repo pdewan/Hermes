@@ -1,9 +1,14 @@
 package fluorite.util;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -119,6 +124,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDE;
@@ -393,6 +399,7 @@ public class EHUtilities /*extends Utilities*/{
 		    desc.setLocation(path1);
 		    setJavaNature(desc);
 		    setJavaBuilderName(desc);
+		    
 		    
 //		    ICommand[] buildSpec = desc.getBuildSpec();
 //		    ICommand command = desc.newCommand();
@@ -783,7 +790,18 @@ public class EHUtilities /*extends Utilities*/{
 	}
 	public static void  openEditorInUIThread(IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
-		 openEditorInUIThread(aFile);
+		
+		StringBuilder sb = new StringBuilder();
+		try (BufferedReader  br = new BufferedReader (new InputStreamReader(aFile.getContents()))) {
+			while (br.ready()) {
+				sb.append(br.readLine());
+			}
+		} catch (IOException | CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		openEditorInUIThread(aFile);
 	}
 	public static void  openEditor(String aProjectName, String aFileName) {
 		IProject aProject = getProject(aProjectName);
@@ -845,6 +863,16 @@ public class EHUtilities /*extends Utilities*/{
 		});
 		
 	}
+	
+	public static void openEditorSynchronous(IProject aProject, String aFileName) {
+		IFile aFile = aProject.getFile(aFileName);
+		getDisplay().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				openAndRegisterEditor(aFile);
+			}
+		});
+	}
 	public static void positionCursorInSeparateThread(StyledText aText, int anOffset) { 
 		executor().submit(() -> {
 			positionCursorInUIThread(aText, anOffset);
@@ -863,6 +891,19 @@ public class EHUtilities /*extends Utilities*/{
 //		newThread.start();
 		
 	}
+
+	public static void positionCursorSynchronous(StyledText aText, int anOffset) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				aText.setCaretOffset(anOffset);
+			}
+		});
+	}
+	
 	public static void positionCursorInUIThread(StyledText aText, int anOffset) {
 		if (getDisplay() == null) {
 			return;
@@ -915,6 +956,17 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
+	public static void saveTextSynchronous(ITextEditor anEditor) {
+		if (getDisplay() == null) {
+			return;
+		}
+		getDisplay().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				anEditor.doSave(nullProgressMonitor);
+			}
+		});
+	}
 	public static void openEditorInUIThread(IFile aFile) {
 		
 		if (getDisplay() == null) {
@@ -940,7 +992,12 @@ public class EHUtilities /*extends Utilities*/{
 //		   IMarker marker = file.createMarker(IMarker.TEXT);
 //		   marker.setAttributes(map);
 //		   page.openEditor(marker); //2.1 API
+//		if(file.getName().endsWith(".java")) {
 			IEditorPart retVal = IDE.openEditor(page, file); //3.0 API
+//		} else {
+//			IEditorPart retVal = IDE.openEditor(page, file, "org.eclipse.ui.DefaultTextEditor"); //3.0 API
+//		}
+//			IEditorPart retVal = IDE.openEditor(page, file, EditorsUI.DEFAULT_TEXT_EDITOR_ID); //3.0 API
 			page.activate(retVal);
 			if (retVal instanceof ITextEditor) {
 				fileToEditor.put(file, (ITextEditor) retVal);	
