@@ -1,6 +1,8 @@
 package fluorite.commands;
 
 import java.util.Map;
+
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
 import fluorite.commands.FileOpenCommand;
@@ -20,8 +22,17 @@ public class DiffBasedFileOpenCommand extends FileOpenCommand {
 	private String diff;
 
 	private void addDiff(IEditorPart editor) {
+		if (editor == null) {
+			return;
+		}
 		String filePath = getFilePath();
-		String content = EHUtilities.getDocument(editor).get();
+		IDocument aDocument = EHUtilities.getDocument(editor);
+		if (aDocument == null) {
+			return;
+		}
+//		String content = EHUtilities.getDocument(editor).get();
+		String content = aDocument.get();
+
 //		calcNumericalValues(content);
 		String oldContent = DiffBasedFileSnapshotManager.getInstance().getSnapshot(filePath);
 		if (oldContent == null) {
