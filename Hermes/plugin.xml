@@ -56,4 +56,12 @@
             modifiesEnvironment="true">
       </compilationParticipant>
    </extension>
+    <extension
+          id="product"
+          point="org.eclipse.core.runtime.products">
+       <product
+             application="org.eclipse.ant.core.antRunner"
+             name="HermesProduct">
+       </product>
+    </extension>
 </plugin>
