@@ -4,6 +4,7 @@ package util.trace.hermes.workspacelistener;
 
 import config.HelperConfigurationManagerFactory;
 import util.trace.ImplicitKeywordKind;
+import util.trace.Traceable;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 
@@ -14,6 +15,8 @@ public class WorkspaceListenerTraceUtility {
 	public static void setTracing() {
 //		Tracer.showInfo(true);
 		Boolean aShowInfo = HelperConfigurationManagerFactory.getSingleton().isTraceInfo();
+		Traceable.setDefaultInstantiate(HelperConfigurationManagerFactory.getSingleton().isInstantiateTracerClass());
+
 		Tracer.showInfo(aShowInfo);
 		Tracer.setDisplayThreadName(false); 
 		TraceableInfo.setPrintTraceable(true);

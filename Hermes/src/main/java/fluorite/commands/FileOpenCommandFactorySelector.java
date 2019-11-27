@@ -2,12 +2,21 @@ package fluorite.commands;
 
 import org.eclipse.ui.IEditorPart;
 
+import config.HelperConfigurationManagerFactory;
+
 public class FileOpenCommandFactorySelector {
 //	static FileOpenCommandFactory fileOpenCommandFactory = new AFileOpenCommandFactory();
-	static FileOpenCommandFactory fileOpenCommandFactory = new ADiffBasedFileOpenCommandFactory();
+//	static FileOpenCommandFactory fileOpenCommandFactory = new ADiffBasedFileOpenCommandFactory();
 
+	static FileOpenCommandFactory fileOpenCommandFactory = null;
 
 	public static FileOpenCommandFactory getFileOpenCommandFactory() {
+		if (fileOpenCommandFactory == null) {
+			Boolean diffLoggedFiles = HelperConfigurationManagerFactory.getSingleton().isDiffLoggedFiles();
+			fileOpenCommandFactory = diffLoggedFiles?
+					new ADiffBasedFileOpenCommandFactory():
+				    new AFileOpenCommandFactory();
+		}
 		return fileOpenCommandFactory;
 	}
 
@@ -16,6 +25,6 @@ public class FileOpenCommandFactorySelector {
 	}
 
 	public static FileOpenCommand createFileOpemCommand (IEditorPart editor) {
-		return fileOpenCommandFactory.createFileOpemCommand(editor);
+		return getFileOpenCommandFactory().createFileOpemCommand(editor);
 	}
 }

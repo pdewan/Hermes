@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -120,7 +122,8 @@ public class EHEventRecorder {
 	public static final String UserMacroCategoryName = "User defined editor macros";
 	public static final String AnnotationCategory = "Annotation";
 	public static final String AnnotationCategoryID = "eventlogger.category.annotation";
-	public static final String DocumentChangeCategory = "Every document changes";
+//	public static final String DocumentChangeCategory = "Every document changes";
+	public static final String DocumentChangeCategory = "DocumentChange";
 	public static final String DocumentChangeCategoryID = "eventlogger.category.documentChange";
 	public static final String DifficultyCategory = "Difficulty";
 	public static final String DifficultyCategoryID = "eventerlogger.category.Difficulty";
@@ -142,6 +145,9 @@ public class EHEventRecorder {
 	private LinkedList<EHICommand> allDocAndNonDocCommands;
 	private LinkedList<EHICommand> mNormalCommands;
 	private LinkedList<EHICommand> mDocumentChangeCommands;
+	public static int MAX_PENDING_LOGGED_COMMANDS = 256;
+	protected BlockingQueue<EHICommand> loggableCommandQueue = new ArrayBlockingQueue<>(MAX_PENDING_LOGGED_COMMANDS);
+	protected Thread commandLoggingThread;
 	private boolean mCurrentlyExecutingCommand;
 	private boolean mRecordCommands = false;
 	private IAction mSavedFindAction;
@@ -149,7 +155,8 @@ public class EHEventRecorder {
 	private int mLastCaretOffset;
 	private int mLastSelectionStart;
 	private int mLastSelectionEnd;
-
+	protected long lastCommandTimeStamp;
+	protected int commandFlushTime;
 	private long mStartTimestamp;
 	protected long lastSuccessfulWriteTime;
 	public static final int IDLE_TIME = 1000*60*3; // 3 minutes
@@ -250,8 +257,26 @@ public class EHEventRecorder {
 		mTimer = new Timer();
 
 		mScheduledTasks = new ArrayList<Runnable>();
+		commandFlushTime = HelperConfigurationManagerFactory.getSingleton().getCommandFlushTime();
+//		if (HelperConfigurationManagerFactory.getSingleton().isSeparateLoggingThreads() && commandLoggingThread == null) {
+//			commandLoggingThread= new Thread(()->processLoggableCommandsAsync());
+//			int aPriority = HelperConfigurationManagerFactory.getSingleton().getLoggingThreadPriority();
+//			commandLoggingThread.setPriority(aPriority);
+//			commandLoggingThread.setName("Command Logging Thread");
+//			commandLoggingThread.start();
+//		}
 
 		// statusPredictor = new DifficultyRobot("");
+	}
+	
+	protected synchronized void createCommandLoggingThread() {
+//		if (HelperConfigurationManagerFactory.getSingleton().isSeparateLoggingThreads() && commandLoggingThread == null) {
+			commandLoggingThread= new Thread(()->processLoggableCommandsAsync());
+			int aPriority = HelperConfigurationManagerFactory.getSingleton().getLoggingThreadPriority();
+			commandLoggingThread.setPriority(aPriority);
+			commandLoggingThread.setName("Command Logging Thread");
+			commandLoggingThread.start();
+//		}
 	}
 
 	public void setCurrentlyExecutingCommand(boolean executingCommand) {
@@ -1023,18 +1048,18 @@ public class EHEventRecorder {
 		if (newCommand instanceof BaseDocumentChangeEvent) {
 			if (!(newCommand instanceof FileOpenCommand)) {
 				fireDocumentChangedEvent((BaseDocumentChangeEvent) newCommand);
-				DocumentChangeCommandNotified.newCase((BaseDocumentChangeEvent) newCommand, mStartTimestamp, this);
+				DocumentChangeCommandNotified.newCase((BaseDocumentChangeEvent) newCommand, numReceivedCommands, mStartTimestamp, this);
 			}
 
 			if (lastCommand instanceof BaseDocumentChangeEvent && lastCommand != mLastFiredDocumentChange) {
 				fireDocumentChangeFinalizedEvent((BaseDocumentChangeEvent) lastCommand);
 
-				DocumentChangeFinalizedEventNotified.newCase((BaseDocumentChangeEvent) lastCommand, mStartTimestamp,
+				DocumentChangeFinalizedEventNotified.newCase((BaseDocumentChangeEvent) lastCommand,numReceivedCommands, mStartTimestamp,
 						this);
 			}
 		} else {
 			fireCommandExecutedEvent(newCommand);
-			NonDocumentChangeCommandNotified.newCase(newCommand, mStartTimestamp, this);
+			NonDocumentChangeCommandNotified.newCase(newCommand, numReceivedCommands, mStartTimestamp, this);
 		}
 	}
 
@@ -1105,18 +1130,135 @@ public class EHEventRecorder {
 		doLog(aLogger, aLevel, aMessage, anObject);
 		
 	}
+	/*
+	 * Do not empty the current command list so that the last command can be
+	 * combined with future commands Do not empty list if current command
+	 * type is the same asprevious command type except the first time we run
+	 * it Rationale is that document change commands (e.g. insert) should
+	 * trigger normal command (e.g move caret) logging Vice versa also,
+	 * combine a bunch of inserts until a move caret is detected
+	 * 
+	 * It seems first commands are doc change
+	 * 
+	 * First can get out of sync. So maybe we should flush the cache if the
+	 * size gets too large
+	 */
+	public synchronized void processPendingCombinableCommandsSerial(LinkedList<EHICommand> docOrNormalCommands, long timestamp) {
+		PendingCommandsLogBegin.newCase(docOrNormalCommands, this);
+
+		boolean isOutOfSync = docOrNormalCommands.size() >= HelperConfigurationManagerFactory.getSingleton()
+				.getSegmentLength();
+		boolean isFlushCommandList = 
+		numReceivedCommands > 1 && (timestamp - lastCommandTimeStamp) > commandFlushTime;
+lastCommandTimeStamp = timestamp;	
+		// while (docOrNormalCommands.size() > 1 &&
+		// docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst())
+		// {
+		while (docOrNormalCommands.size() > 1
+				&& (docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst() || isOutOfSync || isFlushCommandList)) {
+			try {
+				final EHICommand firstCmd = docOrNormalCommands.getFirst();
+//				CommandLoggingInitiated.newCase(firstCmd, numReceivedCommands, mStartTimestamp, this);
+				// System.out.println("***Logging command" + firstCmd);
+				maybeLog(Level.FINE, null, firstCmd);
+				// LOGGER.log(Level.FINE, null, firstCmd);
+				// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
+				// what should be sent to prediction, not individual commands");
+
+				// Remove the first item from the list
+				docOrNormalCommands.removeFirst();
+				allDocAndNonDocCommands.removeFirst();
+				RemovedCommandFromBuffers.newCase(firstCmd.toString(), docOrNormalCommands.toString(),
+						allDocAndNonDocCommands.toString(), this);
+				// System.out.println("Giving command to pluginevent processor"
+				// + firstCmd);
+//				ForwardedCommandToPredictor.newCase(firstCmd, numReceivedCommands, mStartTimestamp, this);
+
+//				ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(firstCmd);
+				processLoggableCommand(firstCmd);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		PendingCommandsLogEnd.newCase(docOrNormalCommands, this);
+		RecordedCommandsCleared.newCase(docOrNormalCommands, this);
+	}
+	protected  void processLoggableCommandsAsync() {
+		while (true) {
+			try {
+				EHICommand aNextCommand = loggableCommandQueue.take();
+				processLoggableCommand(aNextCommand);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	protected void processLoggableCommand(EHICommand aCommand) {
+		maybeLog(Level.FINE, null, aCommand);
+		CommandLoggingInitiated.newCase(aCommand, numReceivedCommands, mStartTimestamp, this);
+
+		ForwardedCommandToPredictor.newCase(aCommand, numReceivedCommands, mStartTimestamp, this);
+		ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(aCommand);
+
+
+		
+
+	}
+	public synchronized void processPendingCombinableCommandsAsync(LinkedList<EHICommand> docOrNormalCommands, long timestamp) {
+		PendingCommandsLogBegin.newCase(docOrNormalCommands, this);
+
+		boolean isOutOfSync = docOrNormalCommands.size() >= HelperConfigurationManagerFactory.getSingleton()
+				.getSegmentLength();
+		boolean isFlushCommandList = 
+		numReceivedCommands > 1 && (timestamp - lastCommandTimeStamp) > commandFlushTime;
+lastCommandTimeStamp = timestamp;	
+		// while (docOrNormalCommands.size() > 1 &&
+		// docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst())
+		// {
+		while (docOrNormalCommands.size() > 1
+				&& (docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst() || isOutOfSync || isFlushCommandList)) {
+			try {
+				final EHICommand firstCmd = docOrNormalCommands.getFirst();
+				CommandLoggingInitiated.newCase(firstCmd, numReceivedCommands, mStartTimestamp, this);
+				// System.out.println("***Logging command" + firstCmd);
+//				maybeLog(Level.FINE, null, firstCmd);
+				// LOGGER.log(Level.FINE, null, firstCmd);
+				// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
+				// what should be sent to prediction, not individual commands");
+
+				// Remove the first item from the list
+				docOrNormalCommands.removeFirst();
+				allDocAndNonDocCommands.removeFirst();
+				RemovedCommandFromBuffers.newCase(firstCmd.toString(), docOrNormalCommands.toString(),
+						allDocAndNonDocCommands.toString(), this);
+				// System.out.println("Giving command to pluginevent processor"
+				// + firstCmd);
+//				ForwardedCommandToPredictor.newCase(firstCmd, numReceivedCommands, mStartTimestamp, this);
+
+//				ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(firstCmd);
+				loggableCommandQueue.offer(firstCmd);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		PendingCommandsLogEnd.newCase(docOrNormalCommands, this);
+		RecordedCommandsCleared.newCase(docOrNormalCommands, this);
+	}
 
 	/*
 	 * Get a concurrent modification event
 	 */
 	public synchronized void recordCommand(final EHICommand newCommand) {
 		// System.out.println("Recording command:" + newCommand);
-		ReceivedCommand.newCase(newCommand, mStartTimestamp, this);
+		ReceivedCommand.newCase(newCommand, numReceivedCommands, mStartTimestamp, this);
 		numReceivedCommands++;
 
 		if (!mRecordCommands) {
 			// System.out.println("Ignoring command:" + newCommand);
-			IgnoredCommandAsRecordingSuspended.newCase(newCommand, mStartTimestamp, this);
+			IgnoredCommandAsRecordingSuspended.newCase(newCommand,numReceivedCommands, mStartTimestamp, this);
 
 			return;
 		}
@@ -1136,7 +1278,11 @@ public class EHEventRecorder {
 		// }
 		long timestamp = Calendar.getInstance().getTime().getTime();
 		timestamp -= mStartTimestamp;
-
+		
+//		boolean isFlushCommandList = 
+//				numReceivedCommands > 1 && (timestamp - lastCommandTimeStamp) > commandFlushTime;
+//		lastCommandTimeStamp = timestamp;		
+		
 		// NewMacroCommand.newCase(newCommand.getName(), mStartTimestamp, this);
 		NewMacroCommand.newCase(newCommand.toString(), mStartTimestamp, this);
 		newCommand.setStartTimestamp(mStartTimestamp);
@@ -1155,9 +1301,9 @@ public class EHEventRecorder {
 		final boolean isDocChange = (newCommand instanceof BaseDocumentChangeEvent);
 		final LinkedList<EHICommand> docOrNormalCommands = isDocChange ? mDocumentChangeCommands : mNormalCommands;
 		if (isDocChange) {
-			DocumentChangeCommandExecuted.newCase((BaseDocumentChangeEvent) newCommand, mStartTimestamp, this);
+			DocumentChangeCommandExecuted.newCase((BaseDocumentChangeEvent) newCommand, numReceivedCommands, mStartTimestamp, this);
 		} else {
-			NonDocumentChangeCommandExecuted.newCase(newCommand, mStartTimestamp, this);
+			NonDocumentChangeCommandExecuted.newCase(newCommand, numReceivedCommands, mStartTimestamp, this);
 		}
 		// System.out.println(" isDocChange" + isDocChange + " commandslist:" +
 		// docOrNormalCommands);
@@ -1210,6 +1356,14 @@ public class EHEventRecorder {
 			// }
 
 		}
+		if (HelperConfigurationManagerFactory.getSingleton().isSeparateLoggingThreads()) {
+			if (commandLoggingThread == null)
+				createCommandLoggingThread();
+			processPendingCombinableCommandsAsync(docOrNormalCommands, timestamp);
+
+		} else {
+			processPendingCombinableCommandsSerial(docOrNormalCommands, timestamp);
+		}
 
 		// if (mCommands.getFirst() != commands.getFirst()) {
 		// System.err.println("Commands and mcommands have diverged because we
@@ -1219,7 +1373,7 @@ public class EHEventRecorder {
 		// moving to where the command i logged so that one can get the combined
 		// event
 		// ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(newCommand);
-		PendingCommandsLogBegin.newCase(docOrNormalCommands, this);
+//		PendingCommandsLogBegin.newCase(docOrNormalCommands, this);
 		// Log to the file.
 		/*
 		 * Do not empty the current command list so that the last command can be
@@ -1234,39 +1388,42 @@ public class EHEventRecorder {
 		 * First can get out of sync. So maybe we should flush the cache if the
 		 * size gets too large
 		 */
-		boolean isOutOfSync = docOrNormalCommands.size() >= HelperConfigurationManagerFactory.getSingleton()
-				.getSegmentLength();
+//		boolean isOutOfSync = docOrNormalCommands.size() >= HelperConfigurationManagerFactory.getSingleton()
+//				.getSegmentLength();
 		// while (docOrNormalCommands.size() > 1 &&
 		// docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst())
 		// {
-		while (docOrNormalCommands.size() > 1
-				&& (docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst() || isOutOfSync)) {
-			try {
-				final EHICommand firstCmd = docOrNormalCommands.getFirst();
-				CommandLoggingInitiated.newCase(firstCmd, mStartTimestamp, this);
-				// System.out.println("***Logging command" + firstCmd);
-				maybeLog(Level.FINE, null, firstCmd);
-				// LOGGER.log(Level.FINE, null, firstCmd);
-				// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
-				// what should be sent to prediction, not individual commands");
-
-				// Remove the first item from the list
-				docOrNormalCommands.removeFirst();
-				allDocAndNonDocCommands.removeFirst();
-				RemovedCommandFromBuffers.newCase(firstCmd.toString(), docOrNormalCommands.toString(),
-						allDocAndNonDocCommands.toString(), this);
-				// System.out.println("Giving command to pluginevent processor"
-				// + firstCmd);
-				ForwardedCommandToPredictor.newCase(firstCmd, mStartTimestamp, this);
-
-				ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(firstCmd);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		}
-		PendingCommandsLogEnd.newCase(docOrNormalCommands, this);
-		RecordedCommandsCleared.newCase(docOrNormalCommands, this);
+		
+//		while (docOrNormalCommands.size() > 1
+//				&& (docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst() || isOutOfSync || isFlushCommandList)) {
+//			try {
+//				final EHICommand firstCmd = docOrNormalCommands.getFirst();
+//				CommandLoggingInitiated.newCase(firstCmd, numReceivedCommands, mStartTimestamp, this);
+//				// System.out.println("***Logging command" + firstCmd);
+//				maybeLog(Level.FINE, null, firstCmd);
+//				// LOGGER.log(Level.FINE, null, firstCmd);
+//				// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
+//				// what should be sent to prediction, not individual commands");
+//
+//				// Remove the first item from the list
+//				docOrNormalCommands.removeFirst();
+//				allDocAndNonDocCommands.removeFirst();
+//				RemovedCommandFromBuffers.newCase(firstCmd.toString(), docOrNormalCommands.toString(),
+//						allDocAndNonDocCommands.toString(), this);
+//				// System.out.println("Giving command to pluginevent processor"
+//				// + firstCmd);
+//				ForwardedCommandToPredictor.newCase(firstCmd, numReceivedCommands, mStartTimestamp, this);
+//
+//				ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(firstCmd);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//
+//		}
+//		PendingCommandsLogEnd.newCase(docOrNormalCommands, this);
+//		RecordedCommandsCleared.newCase(docOrNormalCommands, this);
+		
+		
 
 		if (!isAsyncFireEvent())
 			return;
@@ -1292,8 +1449,7 @@ public class EHEventRecorder {
 
 			mDocChangeTimerTask = new TimerTask() {
 				public void run() {
-					// System.out.println("NEW THREAD! THIS MAY BE THE ISSUE
-					// WITH PERFOMANCE");
+					 System.out.println(Thread.currentThread() + "NEW THREAD! THIS MAY BE THE ISSUE	 WITH PERFOMANCE");
 					mDocChangeCombinable = false;
 					// System.out.println("COMBINABLE: FALSE");
 
@@ -1304,6 +1460,8 @@ public class EHEventRecorder {
 						if (lastCommand != null && lastCommand != mLastFiredDocumentChange) {
 							Display.getDefault().asyncExec(new Runnable() {
 								public void run() {
+									 System.out.println(Thread.currentThread() + "Fire doc change finalize");
+
 									fireDocumentChangeFinalizedEvent((BaseDocumentChangeEvent) lastCommand);
 								}
 							});

@@ -6,7 +6,9 @@ import fluorite.commands.EHICommand;
 
 public interface DifficultyPredictionRunnable extends Runnable {
 	final String DIFFICULTY_PREDICTION_THREAD_NAME = "Difficulty Prediction Thread";
-	final int DIFFICULTY_PREDICTION_THREAD_PRIORITY = Thread.NORM_PRIORITY - 1;
+//	final int DIFFICULTY_PREDICTION_THREAD_PRIORITY = Thread.NORM_PRIORITY - 1;
+	final int DEFAULT_DIFFICULTY_PREDICTION_THREAD_PRIORITY = Thread.MIN_PRIORITY;
+
 //	public BlockingQueue<ICommand> getPendingCommands() ;
 	public Mediator getMediator() ;
 	public ToolTip getBallonTip();
