@@ -71,14 +71,14 @@ public interface HelperConfigurationManager {
 		public static final String DEFAULT_JAVA_PATH = "java";
 		 public static final boolean DEFAULT_TRACE_INFO = false;
 		 public static final boolean DEFAULT_INSTANTIATE_TRACER_CLASSES= false;
-		 public static final boolean DEFAULT_ASYNC_FIRE_EVENT = true;
+		 public static final boolean DEFAULT_ASYNC_FIRE_EVENT = false;
 
 
 
 		 public static final boolean DEFAULT_LOG_WORKSPACE = true;
 		 public static final boolean DEFAULT_LOG_PROJECT = true;
 		 public static final boolean DEFAULT_DIFF_LOG_FILES = true;
-		 public static final boolean DEFAULT_SEPARATE_LOGGING_THREAD = false;
+		 public static final boolean DEFAULT_SEPARATE_LOGGING_THREAD = true;
 
 
 		 public static final boolean DEFAULT_SAVE_EACH_RATIO = true;
@@ -92,7 +92,7 @@ public interface HelperConfigurationManager {
 
 		 
 		 public static final int DEFAULT_IDLE_TIME = 10000; //ms
-		 public static final int DEFAULT_COMMAND_FLUSH_TIME = 200; //ms
+		 public static final int DEFAULT_COMMAND_FLUSH_TIME = 1000; //ms
 
 		 public static final String[]  DEFAULT_TECHNICAL_TERMS_ARRAY = {
 				 	"\\.edu/", 

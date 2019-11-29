@@ -3,6 +3,7 @@ package fluorite.commands;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorPart;
@@ -97,7 +98,9 @@ public abstract class AbstractCommand implements
 	private boolean mTopBottomLinesRecorded;
 	private int mTopLineNumber;
 	private int mBottomLineNumber;
+	protected IProject project;
 
+	
 	public String persist() {
 		return EHUtilities.persistCommand(getAttributesMap(), getDataMap(), this);
 	}
@@ -299,4 +302,13 @@ public abstract class AbstractCommand implements
 		return (int) (getTimestamp() - o.getTimestamp());
 		
 	}
+	@Override
+	public IProject getProject() {
+		return project;
+	}
+	@Override
+	public void setProject(IProject project) {
+		this.project = project;
+	}
+
 }

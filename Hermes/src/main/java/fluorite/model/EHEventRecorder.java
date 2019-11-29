@@ -234,6 +234,24 @@ public class EHEventRecorder {
 		}
 		return aLogger;
 	}
+	protected Logger projectLogger(EHICommand aCommand) {
+		IProject aProject = aCommand.getProject();
+		if (aProject == null) {
+			return null;
+		}
+		String aProjectName = aProject.getName();
+		Logger aLogger = projectToLogger.get(aProjectName);
+		if (aLogger == null) {
+			aLogger = Logger.getLogger(aProjectName);
+			boolean aSuccess = initializeProjectLogger(aProject, aLogger);
+			if (aSuccess) {
+				projectToLogger.put(aProjectName, aLogger);
+			} else {
+				return null;
+			}
+		}
+		return aLogger;
+	}
 
 	public static EHEventRecorder getInstance() {
 		if (instance == null) {
@@ -1076,6 +1094,19 @@ public class EHEventRecorder {
 			e.printStackTrace();
 		}
 	}
+	protected void maybeLog(EHICommand aCommand, Level aLevel, String aMessage, Object anObject) {
+		try {
+		if (HelperConfigurationManagerFactory.getSingleton().isLogWorkspace()) {
+			log(workspaceLogger(), aLevel, aMessage, anObject);
+//			System.out.println ("Current thread: " + Thread.currentThread() + " " + anObject);
+		}
+		if (HelperConfigurationManagerFactory.getSingleton().isLogProject()) {
+			log(projectLogger(aCommand), aLevel, aMessage, anObject);
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	protected boolean hasBeenIdle(long aCurrentTimeStamp) {
 		return (aCurrentTimeStamp - lastSuccessfulWriteTime) > IDLE_TIME;
 	}
@@ -1158,9 +1189,10 @@ lastCommandTimeStamp = timestamp;
 				&& (docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst() || isOutOfSync || isFlushCommandList)) {
 			try {
 				final EHICommand firstCmd = docOrNormalCommands.getFirst();
+				firstCmd.setProject(EHUtilities.getAndStoreCurrentProject());
 //				CommandLoggingInitiated.newCase(firstCmd, numReceivedCommands, mStartTimestamp, this);
 				// System.out.println("***Logging command" + firstCmd);
-				maybeLog(Level.FINE, null, firstCmd);
+				maybeLog(firstCmd, Level.FINE, null, firstCmd);
 				// LOGGER.log(Level.FINE, null, firstCmd);
 				// System.out.println ("LOGGING COMMAND:" + firstCmd + " THIS is
 				// what should be sent to prediction, not individual commands");
@@ -1196,7 +1228,7 @@ lastCommandTimeStamp = timestamp;
 		
 	}
 	protected void processLoggableCommand(EHICommand aCommand) {
-		maybeLog(Level.FINE, null, aCommand);
+		maybeLog(aCommand, Level.FINE, null, aCommand);
 		CommandLoggingInitiated.newCase(aCommand, numReceivedCommands, mStartTimestamp, this);
 
 		ForwardedCommandToPredictor.newCase(aCommand, numReceivedCommands, mStartTimestamp, this);
@@ -1238,6 +1270,7 @@ lastCommandTimeStamp = timestamp;
 //				ForwardedCommandToPredictor.newCase(firstCmd, numReceivedCommands, mStartTimestamp, this);
 
 //				ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(firstCmd);
+				firstCmd.setProject(EHUtilities.getAndStoreCurrentProject());
 				loggableCommandQueue.offer(firstCmd);
 			} catch (Exception e) {
 				e.printStackTrace();
