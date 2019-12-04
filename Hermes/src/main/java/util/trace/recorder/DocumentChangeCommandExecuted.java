@@ -4,14 +4,14 @@ import fluorite.commands.BaseDocumentChangeEvent;
 import util.trace.Tracer;
 
 public class DocumentChangeCommandExecuted extends ICommandInfo{
-	public DocumentChangeCommandExecuted(String aMessage, BaseDocumentChangeEvent aCommand, long aStartTimeStamp,  Object aFinder) {
+	public DocumentChangeCommandExecuted(String aMessage, BaseDocumentChangeEvent aCommand, int aCommandNumber, long aStartTimeStamp,  Object aFinder) {
 		 super(aMessage, aCommand, aStartTimeStamp, aFinder);
 	}	
     
-    public static DocumentChangeCommandExecuted newCase (String aMessage, BaseDocumentChangeEvent aCommand, long aStartTimeStamp,  Object aFinder) {
+    public static DocumentChangeCommandExecuted newCase (String aMessage, BaseDocumentChangeEvent aCommand, int aCommandNumber, long aStartTimeStamp,  Object aFinder) {
 
     	if (shouldInstantiate(DocumentChangeCommandExecuted.class)) {
-    	DocumentChangeCommandExecuted retVal = new DocumentChangeCommandExecuted(aMessage, aCommand, aStartTimeStamp, aFinder);
+    	DocumentChangeCommandExecuted retVal = new DocumentChangeCommandExecuted(aMessage, aCommand,  aCommandNumber, aStartTimeStamp, aFinder);
     	retVal.announce();
     	return retVal;
     	}
@@ -21,9 +21,9 @@ public class DocumentChangeCommandExecuted extends ICommandInfo{
 
     	return null;
     }
-    public static DocumentChangeCommandExecuted newCase (BaseDocumentChangeEvent aCommand, long aStartTimestamp,  Object aFinder) {
-    	String aMessage = toString(aCommand, aStartTimestamp);
-    	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
+    public static DocumentChangeCommandExecuted newCase (BaseDocumentChangeEvent aCommand, int aCommandNumber, long aStartTimestamp,  Object aFinder) {
+    	String aMessage = toString(aCommand,  aCommandNumber, aStartTimestamp);
+    	return newCase(aMessage, aCommand,  aCommandNumber, aStartTimestamp, aFinder);
 
     }
 }

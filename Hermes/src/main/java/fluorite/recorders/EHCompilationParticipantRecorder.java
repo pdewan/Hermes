@@ -303,6 +303,9 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		System.out.println(String.format("%32s", Integer.toBinaryString(anInt)).replace(' ', '0'));
 	}
 	protected void processDelta(IJavaElementDelta aDelta) {
+		if (aDelta == null) {
+			return;
+		}
 		int aFlags = aDelta.getFlags();
 		if ((aFlags & aDelta.F_FINE_GRAINED) != 0) {
 			lastDeltaKind = DeltaKind.EDIT;

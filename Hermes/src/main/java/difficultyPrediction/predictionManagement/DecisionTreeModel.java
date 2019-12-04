@@ -115,6 +115,11 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 			double navigationRatio, double focusRatio, double deleteRatio) {
 //		String predictedValue = "NO";
 		String predictedValue = PROGRESS_PREDICTION;
+		boolean makePrediction = HelperConfigurationManagerFactory.getSingleton().isMakePredictions();
+
+		if (!makePrediction || cannotBuildModel) {
+			predictionManager.onPredictionHandOff(predictedValue);
+		}
 		try {
 			// Declare five numeric attributes
 			weka.core.Attribute searchPercentageAttribute = new weka.core.Attribute(
@@ -206,7 +211,9 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 	public void predictSituation(RatioFeatures aRatioFeatures) {
 //		String predictedValue = "NO";
 		String predictedValue = PROGRESS_PREDICTION;
-		if (cannotBuildModel) {
+		boolean makePrediction = HelperConfigurationManagerFactory.getSingleton().isMakePredictions();
+
+		if (!makePrediction || cannotBuildModel) {
 			predictionManager.onPredictionHandOff(predictedValue);
 		}
 		weka.core.Attribute wekaAttributes[] = new weka.core.Attribute[relevantFeatureNames.length];

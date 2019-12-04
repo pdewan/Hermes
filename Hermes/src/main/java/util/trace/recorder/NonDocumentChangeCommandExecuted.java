@@ -4,14 +4,14 @@ import fluorite.commands.EHICommand;
 import util.trace.Tracer;
 
 public class NonDocumentChangeCommandExecuted extends ICommandInfo{
-	public NonDocumentChangeCommandExecuted(String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+	public NonDocumentChangeCommandExecuted(String aMessage, EHICommand aCommand, int aCommandNumber, long aStartTimeStamp,  Object aFinder) {
 		 super(aMessage, aCommand, aStartTimeStamp, aFinder);
 	}	
     
-    public static NonDocumentChangeCommandExecuted newCase (String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+    public static NonDocumentChangeCommandExecuted newCase (String aMessage, EHICommand aCommand, int aCommandNumber, long aStartTimeStamp,  Object aFinder) {
 
     	if (shouldInstantiate(NonDocumentChangeCommandExecuted.class)) {
-    	NonDocumentChangeCommandExecuted retVal = new NonDocumentChangeCommandExecuted(aMessage, aCommand, aStartTimeStamp, aFinder);
+    	NonDocumentChangeCommandExecuted retVal = new NonDocumentChangeCommandExecuted(aMessage, aCommand,  aCommandNumber, aStartTimeStamp, aFinder);
     	retVal.announce();
     	return retVal;
     	}
@@ -21,9 +21,9 @@ public class NonDocumentChangeCommandExecuted extends ICommandInfo{
 
     	return null;
     }
-    public static NonDocumentChangeCommandExecuted newCase (EHICommand aCommand, long aStartTimestamp,  Object aFinder) {
-    	String aMessage = toString(aCommand, aStartTimestamp);
-    	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
+    public static NonDocumentChangeCommandExecuted newCase (EHICommand aCommand, int aCommandNumber, long aStartTimestamp,  Object aFinder) {
+    	String aMessage = toString(aCommand,  aCommandNumber, aStartTimestamp);
+    	return newCase(aMessage, aCommand,  aCommandNumber, aStartTimestamp, aFinder);
 
     }
 }

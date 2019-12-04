@@ -10,6 +10,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.core.runtime.Platform;
 
+import difficultyPrediction.DifficultyPredictionRunnable;
 import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.metrics.CommandClassificationSchemeName;
 import difficultyPrediction.predictionManagement.ClassifierSpecification;
@@ -225,6 +226,26 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 //		return getStaticConfiguration().getBoolean(SHOW_PREDICTION_CONTROLLER, null);
 	}
 	@Override
+	public Integer getDifficultyThreadPriority() {
+		return getIntegerProperty(DIFFICULTY_THREAD_PRIORITY, DifficultyPredictionRunnable.DEFAULT_DIFFICULTY_PREDICTION_THREAD_PRIORITY);
+
+	}
+	@Override
+	public Integer getLoggingThreadPriority() {
+		return getIntegerProperty(LOGGING_THREAD_PRIORITY, DifficultyPredictionRunnable.DEFAULT_DIFFICULTY_PREDICTION_THREAD_PRIORITY);
+
+	}
+	@Override
+	public Boolean isSeparateLoggingThreads() {
+		return getBooleanProperty(SEPARATE_LOGGING_THREAD, DEFAULT_SEPARATE_LOGGING_THREAD);
+
+	}
+	@Override
+	public Boolean isMakePredictions() {
+		return getBooleanProperty(MAKE_PREDICTIONS, DEFAULT_MAKE_PREDICTIONS);
+//		return getStaticConfiguration().getBoolean(SHOW_PREDICTION_CONTROLLER, null);
+	}
+	@Override
 	public Boolean isShowReplayer() {
 		return getBooleanProperty(SHOW_REPLAYER, DEFAULT_SHOW_REPLAYER);
 
@@ -271,16 +292,28 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 		return getBooleanProperty(TRACE_INFO, DEFAULT_TRACE_INFO);
 	}
 	@Override
+	public Boolean isAsyncFireEvent() {
+		return getBooleanProperty(ASYNC_FIRE_EVENT, DEFAULT_ASYNC_FIRE_EVENT);
+	}
+	@Override
+	public Boolean isInstantiateTracerClass() {
+		return getBooleanProperty(INSTANTIATE_TRACER_CLASSSES, DEFAULT_INSTANTIATE_TRACER_CLASSES);
+	}
+	@Override
 	public Boolean isLogWorkspace() {
 		return getBooleanProperty(LOG_WORKSPACE, DEFAULT_LOG_WORKSPACE);
 	}
 	@Override
 	public Boolean isLogProject() {
-		return getBooleanProperty(LOG_PRJECT, DEFAULT_LOG_PROJECT);
+		return getBooleanProperty(LOG_PROJECT, DEFAULT_LOG_PROJECT);
 	}
 	@Override
 	public Boolean isLogRatio() {
 		return getBooleanProperty(SAVE_EACH_RATIO, DEFAULT_SAVE_EACH_RATIO);
+	}
+	@Override
+	public Boolean isDiffLoggedFiles() {
+		return getBooleanProperty(DIFF_LOGGED_FILES, DEFAULT_DIFF_LOG_FILES);
 	}
 	@Override
 	public Integer getSegmentLength() {
@@ -323,6 +356,10 @@ public class AHelperConfigurationManager implements HelperConfigurationManager {
 	@Override
 	public int getIdleTime() {
 		return getIntegerProperty(IDLE_TIME, DEFAULT_IDLE_TIME);
+	}
+	@Override
+	public int getCommandFlushTime() {
+		return getIntegerProperty(COMMAND_FLUSH_TIME, DEFAULT_COMMAND_FLUSH_TIME);
 	}
 	@Override
 	public List<String> getTechnicalTerms() {

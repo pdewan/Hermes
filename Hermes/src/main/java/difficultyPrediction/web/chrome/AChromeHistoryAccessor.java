@@ -306,6 +306,9 @@ public class AChromeHistoryAccessor {
 	public static void processURLs(WebFeatures aWebFeatures) {
 		
 		try {
+			if (aWebFeatures == null) {
+				return;
+			}
 			initializeSource();
 			long aUnixStartTime = aWebFeatures.getUnixStartTime();
 			if (!hasSourceChanged(aUnixStartTime))

@@ -2,6 +2,7 @@ package fluorite.commands;
 
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -61,4 +62,8 @@ public interface EHICommand /*extends ICommand*/ {
 	public boolean combineWith(EHICommand anotherCommand);
 
 	public String getCommandTag();
+
+	IProject getProject();
+
+	void setProject(IProject project);
 }

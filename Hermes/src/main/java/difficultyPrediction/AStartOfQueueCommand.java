@@ -2,6 +2,7 @@ package difficultyPrediction;
 
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -165,6 +166,18 @@ public class AStartOfQueueCommand implements EHICommand {
 	public long getStartTimestamp() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public IProject getProject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProject(IProject project) {
+		// TODO Auto-generated method stub
+		
 	}
 
 //	@Override

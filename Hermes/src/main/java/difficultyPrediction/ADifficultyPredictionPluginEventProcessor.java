@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.PlatformUI;
 
 import config.FactorySingletonInitializer;
+import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.extension.ADifficultyPredictionRegistry;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
@@ -121,9 +122,15 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 //			pendingPredictionCommands = difficultyPredictionRunnable.getPendingCommands();
 			difficultyPredictionThread = new Thread(difficultyPredictionRunnable);
 			difficultyPredictionThread.setName(DifficultyPredictionRunnable.DIFFICULTY_PREDICTION_THREAD_NAME);
-			difficultyPredictionThread.setPriority(Math.min(
-					Thread.currentThread().getPriority(),
-					DifficultyPredictionRunnable.DIFFICULTY_PREDICTION_THREAD_PRIORITY));
+//			int aPriority = Math.min(
+//					Thread.currentThread().getPriority(),
+//					HelperConfigurationManagerFactory.getSingleton().getDifficultyThreadPriority());
+			int aPriority = 
+					HelperConfigurationManagerFactory.getSingleton().getDifficultyThreadPriority();
+			difficultyPredictionThread.setPriority(aPriority);		
+//			difficultyPredictionThread.setPriority(Math.min(
+//					Thread.currentThread().getPriority(),
+//					DifficultyPredictionRunnable.DEFAULT_DIFFICULTY_PREDICTION_THREAD_PRIORITY));
 			difficultyPredictionThread.start();
 			PluginThreadCreated.newCase(difficultyPredictionThread.getName(), this);
 			}

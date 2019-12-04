@@ -4,6 +4,7 @@ package util.trace.hermes.timetracker;
 
 import config.HelperConfigurationManagerFactory;
 import util.trace.ImplicitKeywordKind;
+import util.trace.Traceable;
 import util.trace.TraceableInfo;
 import util.trace.Tracer;
 //import util.trace.xmpp.XMPPPacketReceived;
@@ -15,8 +16,10 @@ public class TimeTrackerTraceUtility {
 	public static void setTracing() {
 		Boolean aShowInfo = HelperConfigurationManagerFactory.getSingleton().isTraceInfo();
 		Tracer.showInfo(aShowInfo);
+		Traceable.setDefaultInstantiate(HelperConfigurationManagerFactory.getSingleton().isInstantiateTracerClass());
+
 //		Tracer.showInfo(true);
-		Tracer.setDisplayThreadName(false); 
+		Tracer.setDisplayThreadName(true); 
 		TraceableInfo.setPrintTraceable(true);
 		TraceableInfo.setPrintSource(true);
 		Tracer.setImplicitPrintKeywordKind(ImplicitKeywordKind.OBJECT_CLASS_NAME);	

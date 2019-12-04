@@ -16,11 +16,11 @@ public class ICommandInfo extends TraceableInfo{
 	}
 	
 	
-    public static String toString(EHICommand aCommand, long aStartTimeStamp) {
+    public static String toString(EHICommand aCommand, int aCommandNumber, long aStartTimeStamp) {
     	long timestamp = Calendar.getInstance().getTime().getTime();
 		timestamp -= aStartTimeStamp;
     	return  
-    				aCommand + "(" + aStartTimeStamp + "," + timestamp + ")";
+    				aCommandNumber + ":" + aCommand + "(" + aStartTimeStamp + "," + timestamp + ")";
     				
     }
     

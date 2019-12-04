@@ -4,14 +4,14 @@ import fluorite.commands.EHICommand;
 import util.trace.Tracer;
 
 public class IgnoredCommandAsRecordingSuspended extends ICommandInfo{
-	public IgnoredCommandAsRecordingSuspended(String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+	public IgnoredCommandAsRecordingSuspended(String aMessage, EHICommand aCommand, int aCommandNumber, long aStartTimeStamp,  Object aFinder) {
 		 super(aMessage, aCommand, aStartTimeStamp, aFinder);
 	}	
     
-    public static IgnoredCommandAsRecordingSuspended newCase (String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+    public static IgnoredCommandAsRecordingSuspended newCase (String aMessage, EHICommand aCommand, int aCommandNumber, long aStartTimeStamp,  Object aFinder) {
 
     	if (shouldInstantiate(IgnoredCommandAsRecordingSuspended.class)) {
-    	IgnoredCommandAsRecordingSuspended retVal = new IgnoredCommandAsRecordingSuspended(aMessage, aCommand, aStartTimeStamp, aFinder);
+    	IgnoredCommandAsRecordingSuspended retVal = new IgnoredCommandAsRecordingSuspended(aMessage, aCommand,  aCommandNumber, aStartTimeStamp, aFinder);
     	retVal.announce();
     	return retVal;
     	}
@@ -21,9 +21,9 @@ public class IgnoredCommandAsRecordingSuspended extends ICommandInfo{
 
     	return null;
     }
-    public static IgnoredCommandAsRecordingSuspended newCase (EHICommand aCommand, long aStartTimestamp,  Object aFinder) {
-    	String aMessage = toString(aCommand, aStartTimestamp);
-    	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
+    public static IgnoredCommandAsRecordingSuspended newCase (EHICommand aCommand, int aCommandNumber, long aStartTimestamp,  Object aFinder) {
+    	String aMessage = toString(aCommand,  aCommandNumber, aStartTimestamp);
+    	return newCase(aMessage, aCommand,  aCommandNumber, aStartTimestamp, aFinder);
 
     }
 }

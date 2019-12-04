@@ -16,13 +16,22 @@ public interface HelperConfigurationManager {
 	    public static final String ARFF_FILE_LOCATION_IS_ABSOLUTE= "predictor.arffLocationIsAbsolute";
 	    public static final String CLASSIFIER= "predictor.classifier";
 	    public static final String SHOW_REPLAYER = "showReplayer";
+	    public static final String MAKE_PREDICTIONS = "makePredictions";
+	    public static final String SEPARATE_LOGGING_THREAD = "separateLoggingThread";
+	    public static final String DIFFICULTY_THREAD_PRIORITY = "difficultyThreadPriority";
+	    public static final String LOGGING_THREAD_PRIORITY = "loggingThreadPriority";
+
+
 	    public static final String VISUALIZE_PREDICTIONS = "visualizePredictions";
 	    public static final String LOG_METRICS = "logMetrics";
+	    public static final String ASYNC_FIRE_EVENT = "asyncFireEvent";
 
 	    public static final String TRACE_INFO = "traceInfo";
+	    public static final String INSTANTIATE_TRACER_CLASSSES = "instantiateTracerClasses";
+
 	    public static final String LOG_WORKSPACE = "logWorksace";
-	    public static final String LOG_PRJECT = "logProject";
-	    
+	    public static final String LOG_PROJECT = "logProject";
+	    public static final String DIFF_LOGGED_FILES = "diffLoggedFiles";
 
 
 	    public static final String CONFIG_DIR = "config";
@@ -40,6 +49,8 @@ public interface HelperConfigurationManager {
 	    public static final String SHOW_STATUS_TRANSITIONS = "showStatusTransitions";
 
 	    public static final String IDLE_TIME = "idleTime";
+	    public static final String  COMMAND_FLUSH_TIME = "commandFlushTime";
+
 	    public static final String TECHNICAL_TERMS = "technicalTerms";
 	    public static final String NON_TECHNICAL_TERMS = "nonTechnicalTerms";
 
@@ -50,6 +61,8 @@ public interface HelperConfigurationManager {
 	    
 	    static Boolean DEFAULT_SHOW_REPLAYER = false;
 		static Boolean DEFAULT_VISUALIZE_PREDICTIONS = false;
+		static Boolean DEFAULT_MAKE_PREDICTIONS = true;
+
 		public static final String DEFAULT_ARFF_FILE_LOCATION = "modelData/A0UserStudy2010.arff";
 		public static final boolean DEFAULT_ARFF_FILE_LOCATION_IS_ABOSOLUTE = false;
 		public static final ClassifierSpecification DEFAULT_CLASSIFIER_SPECIFICATION = ClassifierSpecification.J48;
@@ -57,9 +70,17 @@ public interface HelperConfigurationManager {
 		public static final CommandClassificationSchemeName DEFAULT_RATIO_SCHEME = CommandClassificationSchemeName.A1;
 		public static final String DEFAULT_JAVA_PATH = "java";
 		 public static final boolean DEFAULT_TRACE_INFO = false;
+		 public static final boolean DEFAULT_INSTANTIATE_TRACER_CLASSES= false;
+		 public static final boolean DEFAULT_ASYNC_FIRE_EVENT = false;
+
+
 
 		 public static final boolean DEFAULT_LOG_WORKSPACE = true;
 		 public static final boolean DEFAULT_LOG_PROJECT = true;
+		 public static final boolean DEFAULT_DIFF_LOG_FILES = true;
+		 public static final boolean DEFAULT_SEPARATE_LOGGING_THREAD = true;
+
+
 		 public static final boolean DEFAULT_SAVE_EACH_RATIO = true;
 		 public static final int DEFAULT_SEGMENT_LENGTH = 25;
 		 public static final int DEFAULT_STARUP_LAG = 50;
@@ -71,6 +92,8 @@ public interface HelperConfigurationManager {
 
 		 
 		 public static final int DEFAULT_IDLE_TIME = 10000; //ms
+		 public static final int DEFAULT_COMMAND_FLUSH_TIME = 1000; //ms
+
 		 public static final String[]  DEFAULT_TECHNICAL_TERMS_ARRAY = {
 				 	"\\.edu/", 
 				 	" [Cc][Ss]",
@@ -166,6 +189,14 @@ public interface HelperConfigurationManager {
 	List getListProperty(String aPropertyName, List aDefaultValue);
 	public boolean isARFFFileNameIsAbsolute() ;
 	public void setARFFFileNameIsAbsolute(boolean newVal) ;
+	Boolean isInstantiateTracerClass();
+	Boolean isAsyncFireEvent();
+	Boolean isMakePredictions();
+	Integer getDifficultyThreadPriority();
+	Integer getLoggingThreadPriority();
+	Boolean isDiffLoggedFiles();
+	int getCommandFlushTime();
+	Boolean isSeparateLoggingThreads();
 	  
 
 }

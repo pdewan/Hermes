@@ -8,7 +8,7 @@ public class ForwardedCommandToPredictor extends ICommandInfo{
 		 super(aMessage, aCommand, aStartTimeStamp, aFinder);
 	}	
     
-    public static ForwardedCommandToPredictor newCase (String aMessage, EHICommand aCommand, long aStartTimeStamp,  Object aFinder) {
+    public static ForwardedCommandToPredictor newCase (String aMessage, EHICommand aCommand, int aCommandNumber, long aStartTimeStamp,  Object aFinder) {
 
     	if (shouldInstantiate(ForwardedCommandToPredictor.class)) {
     	ForwardedCommandToPredictor retVal = new ForwardedCommandToPredictor(aMessage, aCommand, aStartTimeStamp, aFinder);
@@ -21,9 +21,9 @@ public class ForwardedCommandToPredictor extends ICommandInfo{
 
     	return null;
     }
-    public static ForwardedCommandToPredictor newCase (EHICommand aCommand, long aStartTimestamp,  Object aFinder) {
-    	String aMessage = toString(aCommand, aStartTimestamp);
-    	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
+    public static ForwardedCommandToPredictor newCase (EHICommand aCommand, int aCommandNumber, long aStartTimestamp,  Object aFinder) {
+    	String aMessage = toString(aCommand,  aCommandNumber, aStartTimestamp);
+    	return newCase(aMessage, aCommand,  aCommandNumber, aStartTimestamp, aFinder);
 
     }
 }

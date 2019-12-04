@@ -21,8 +21,8 @@ public class DocumentChangeFinalizedEventNotified extends ICommandInfo{
 
     	return null;
     }
-    public static DocumentChangeFinalizedEventNotified newCase (BaseDocumentChangeEvent aCommand, long aStartTimestamp,  Object aFinder) {
-    	String aMessage = toString(aCommand, aStartTimestamp);
+    public static DocumentChangeFinalizedEventNotified newCase (BaseDocumentChangeEvent aCommand, int aCommandNumber, long aStartTimestamp,  Object aFinder) {
+    	String aMessage = toString(aCommand,  aCommandNumber, aStartTimestamp);
     	return newCase(aMessage, aCommand, aStartTimestamp, aFinder);
 
     }
