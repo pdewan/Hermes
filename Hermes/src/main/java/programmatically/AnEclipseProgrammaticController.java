@@ -1,6 +1,7 @@
 package programmatically;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -61,6 +62,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
+import bus.uigen.widgets.swt.Canvas;
 import difficultyPrediction.DifficultyPredictionSettings;
 import fluorite.commands.FindCommand;
 import fluorite.util.EHUtilities;
@@ -109,8 +111,12 @@ IJavaBreakpointListener
 			
 
 	};
-	protected String getProjectLocation() {
-		return Paths.get(EHUtilities.getWorkspaceRoot().toString() , "DummyProject").toString();
+	public String getProjectLocation() {
+		if (lastManipulatedProject == null) {
+			getOrCreatePredefinedProject();
+		}
+		return lastManipulatedProject.getLocation().toString();
+//		return Paths.get(EHUtilities.getWorkspaceRoot().toString() , "DummyProject").toString();
 	}
 	public AnEclipseProgrammaticController() {
 //		listenToCommands();
@@ -213,13 +219,14 @@ IJavaBreakpointListener
 //		lastEditor = EHUtilities.openEditor(lastProject, aFileName);
 //		
 //	}
-	protected void openEditor(String aFileName) {
+	public void openEditor(String aFileName) { // was protected
 		if (lastManipulatedProject == null) {
 			getOrCreatePredefinedProject();
 //			return;
 		}
 		
-	 EHUtilities.openEditorFromSeparateThread(lastManipulatedProject, aFileName);
+//		EHUtilities.openEditorFromSeparateThread(lastManipulatedProject, aFileName);
+		EHUtilities.openEditorSynchronous(lastManipulatedProject, aFileName);
 		
 	}
 //	protected void openEditorFromSeparateThread(String aFileName) {
@@ -298,14 +305,16 @@ IJavaBreakpointListener
 			return;
 		}
 //		lastTextEditor.selectAndReveal(anOffset, aLength);
-		EHUtilities.positionCursorInSeparateThread(lastStyledText, anOffset);
+		EHUtilities.positionCursorSynchronous(lastStyledText, anOffset);
+//		EHUtilities.positionCursorInSeparateThread(lastStyledText, anOffset);
 	}
 	public void saveTextInCurrentEditor() {
 		setTextEditorDataStructures();
 		if (lastTextEditor == null) {
 			return;
 		}
-		EHUtilities.saveTextInSeparateThread(lastTextEditor);
+		EHUtilities.saveTextSynchronous(lastTextEditor);
+//		EHUtilities.saveTextInSeparateThread(lastTextEditor);
 //		lastTextEditor.doSave(new NullProgressMonitor());
 	}
 	public void createLaunchConfiguration() {
@@ -367,12 +376,19 @@ IJavaBreakpointListener
 			lastJavaElement =JavaCore.create(lastFile);
 //			lastCompilationUnit = JavaCore.createCompilationUnitFrom(lastFile);
 			lastCompilationUnit = (ICompilationUnit) lastJavaElement;
-			
-			try {
-				lastSourceType =  lastCompilationUnit.getTypes()[0];
-			} catch (JavaModelException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			// don't look for java source type if not Java
+			if (lastCompilationUnit != null) {
+				try {
+					IType[] types = lastCompilationUnit.getTypes();
+					if (types.length == 0) {
+						lastSourceType = null;
+					} else {
+						lastSourceType =  types[0];
+					}
+				} catch (JavaModelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			
@@ -419,18 +435,337 @@ IJavaBreakpointListener
 //		 //.this.findAndSelectInRange(modelOffset, findString, searchForward, caseSensitive, wholeWord, range.getOffset(), range.getLength(), regExSearch);
 //		
 //	}
+	
+	public void scrollUp(int n) {
+		keyPress(38, n);
+	}
+	
+	public void scrollDown(int n) {
+		keyPress(40, n);
+	}
+	
+	public void scrollLeft(int n) {
+		keyPress(37, n);
+	}
+	
+	public void scrollRight(int n) {
+		keyPress(39, n);
+	}
+	
+	public void scrollHome() {
+		keyPress(36, 1);
+	}
+
+	public void scrollEnd() {
+		keyPress(35, 1);
+	}
+
+	public void delete(int n) {
+		keyPress(46, n);
+	}
+
+	public void backspace(int n) {
+		keyPress(8, n);
+	}
+	
+	
+	/**
+	 * Up = 38
+	 * Down = 40
+	 * Left = 37
+	 * Right = 39
+	 * Home = 36
+	 * End = 35
+	 * Delete = 46
+	 * Backspace = 8
+	 * 
+	 * @param code key to signal
+	 * @param count times pressed
+	 */
+	private void keyPress(int code, int count) {
+		StyledText text = EHUtilities.getStyledText(lastEditor);
+		Method windowProc;
+		try {
+			windowProc = org.eclipse.swt.widgets.Canvas.class.getDeclaredMethod("windowProc", long.class, int.class, long.class, long.class);
+			windowProc.setAccessible(true);
+			EHUtilities.getDisplay().syncExec(new Runnable() {
+			    public void run() {
+			    	try {
+						windowProc.invoke(text, 0, 256, code, count);
+						windowProc.invoke(text, 0, 257, code, count);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    }
+			});
+		} catch (NoSuchMethodException | SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Up = 38
+	 * Down = 40
+	 * Left = 37
+	 * Right = 39
+	 * Home = 36
+	 * End = 35
+	 * Delete = 46
+	 * Backspace = 8
+	 * 
+	 * @param code key to signal
+	 * @param count times pressed
+	 */
+	private void keyCharPress(int code, int count) {
+		StyledText text = EHUtilities.getStyledText(lastEditor);
+		Method windowProc;
+		try {
+			windowProc = org.eclipse.swt.widgets.Canvas.class.getDeclaredMethod("windowProc", long.class, int.class, long.class, long.class);
+			windowProc.setAccessible(true);
+			EHUtilities.getDisplay().syncExec(new Runnable() {
+			    public void run() {
+			    	try {
+//						windowProc.invoke(text, 0, 256, code, count);
+						windowProc.invoke(text, 0, 258, code, count);
+//						windowProc.invoke(text, 0, 257, code, count);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    }
+			});
+		} catch (NoSuchMethodException | SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	public void insertStringAtCaretMixedInput(String aString) {
+		setTextEditorDataStructures();
+		try {
+			StyledText text = EHUtilities.getStyledText(lastEditor);
+			Method windowProc = org.eclipse.swt.widgets.Canvas.class.getDeclaredMethod("windowProc", long.class, int.class, long.class, long.class);
+			windowProc.setAccessible(true);
+			ITextEditor editor = lastTextEditor;
+			IDocument doc = lastDocument;
+			
+			int start = 0;
+			int end = aString.length();
+//			while(end < aString.length()) {
+//				char curChar = aString.charAt(end);
+//				boolean doNewline = false;
+//				if (curChar == '\r') {
+//					doNewline = true;
+//				} else if (curChar == '\n') {
+//					doNewline = true;
+//				}
+//				
+//				if (doNewline) {
+//					Integer startInteger = start;
+//					Integer endInteger = end;
+//					EHUtilities.getDisplay().syncExec(new Runnable() {
+//						@Override
+//						public void run() {
+////							IDocument doc = lastTextEditor.getDocumentProvider().getDocument(lastTextEditor);
+//							StyledText text = EHUtilities.getStyledText(editor);
+//							int offset = text.getCaretOffset();
+//							try {
+//								doc.replace(offset, 0, aString.substring(startInteger, endInteger));
+//								text.setCaretOffset(offset + endInteger - startInteger);
+//							} catch (BadLocationException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//						}
+//					});
+//					EHUtilities.getDisplay().syncExec(new Runnable() {
+//						@Override
+//						    public void run() {
+//								try {
+//									windowProc.invoke(text, 0, 258, '\n', 1);
+//								} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}
+//						    }
+//						});
+//
+//					end++;
+//					if (curChar == '\r' && end < aString.length()) {
+//						curChar = aString.charAt(end);
+//						if (curChar == '\n') {
+//							end ++;
+//						}
+//					}
+//					start = end;
+//				} else {
+//					end ++;
+//				}
+//			}
+			if (start != end) {
+				Integer startInteger = start;
+				Integer endInteger = end;
+
+				System.out.println("*** BEFORE INSERT");
+				EHUtilities.getDisplay().syncExec(new Runnable() {
+					@Override
+					public void run() {
+//						IDocument doc = lastTextEditor.getDocumentProvider().getDocument(lastTextEditor);
+						StyledText text = EHUtilities.getStyledText(editor);
+						int offset = text.getCaretOffset();
+						try {
+							String toInsert = aString.substring(startInteger, endInteger);
+							System.out.println("*** ADDING STRING: " + toInsert);
+							doc.replace(offset, 0, toInsert);
+							text.setCaretOffset(offset + endInteger - startInteger);
+						} catch (BadLocationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				System.out.println("*** AFTER INSERT");
+			}
+			
+//			int anOffset = lastDocument.search(0, "for", true, true, true);
+//			int anOffset = lastStyledText.getCaretOffset();
+//			ITextEditor editor = lastTextEditor;
+//			IDocument doc = lastDocument;
+//			StyledText text = EHUtilities.getStyledText(lastEditor);
+//			Method windowProc = org.eclipse.swt.widgets.Canvas.class.getDeclaredMethod("windowProc", long.class, int.class, long.class, long.class);
+//			windowProc.setAccessible(true);
+//			EHUtilities.getDisplay().syncExec(new Runnable() {
+//			    public void run() {
+//			    	for (char c : aString.toCharArray()) {
+//			    		if (c == '\r') {
+//			    			continue;
+//			    		}
+//				    	try {
+////				    		windowProc.invoke(text, 0, 256, c, 1);
+////							windowProc.invoke(text, 0, 257, c, 1);
+//							windowProc.invoke(text, 0, 258, c, 1);
+//						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//				    }
+//				}
+//			});
+//			aString.chars().forEach(c -> {
+//				try {
+//					windowProc.invoke(text, 921060, 258, c, 1);
+//				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			});
+//			EHUtilities.getDisplay().asyncExec(new Runnable() {
+//				@Override
+//				public void run() {
+////					IDocument doc = lastTextEditor.getDocumentProvider().getDocument(lastTextEditor);
+//					StyledText text = EHUtilities.getStyledText(editor);
+//					int offset = text.getCaretOffset();
+//					try {
+//						doc.replace(offset, 0, aString);
+//					} catch (BadLocationException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+//			EHUtilities.insertTextAfterCursorInSeparateThread(lastStyledText, aString);
+//			lastStyledText.replaceTextRange(anOffset, 0, "for {\n");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
 	public void insertStringAtCaret(String aString) {
+		insertStringAtCaretMixedInput(aString);
+		/*
 		setTextEditorDataStructures();
 		try {
 //			int anOffset = lastDocument.search(0, "for", true, true, true);
 //			int anOffset = lastStyledText.getCaretOffset();
-			EHUtilities.insertTextAfterCursorInSeparateThread(lastStyledText, aString);
+//			ITextEditor editor = lastTextEditor;
+//			IDocument doc = lastDocument;
+			StyledText text = EHUtilities.getStyledText(lastEditor);
+			Method windowProc = org.eclipse.swt.widgets.Canvas.class.getDeclaredMethod("windowProc", long.class, int.class, long.class, long.class);
+			windowProc.setAccessible(true);
+			EHUtilities.getDisplay().syncExec(new Runnable() {
+			    public void run() {
+			    	for (char c : aString.toCharArray()) {
+			    		if (c == '\r') {
+			    			continue;
+			    		}
+				    	try {
+//				    		windowProc.invoke(text, 0, 256, c, 1);
+//							windowProc.invoke(text, 0, 257, c, 1);
+							windowProc.invoke(text, 0, 258, c, 1);
+						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				    }
+				}
+			});
+//			aString.chars().forEach(c -> {
+//				try {
+//					windowProc.invoke(text, 921060, 258, c, 1);
+//				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			});
+//			EHUtilities.getDisplay().asyncExec(new Runnable() {
+//				@Override
+//				public void run() {
+////					IDocument doc = lastTextEditor.getDocumentProvider().getDocument(lastTextEditor);
+//					StyledText text = EHUtilities.getStyledText(editor);
+//					int offset = text.getCaretOffset();
+//					try {
+//						doc.replace(offset, 0, aString);
+//					} catch (BadLocationException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+//			EHUtilities.insertTextAfterCursorInSeparateThread(lastStyledText, aString);
 //			lastStyledText.replaceTextRange(anOffset, 0, "for {\n");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
+		*/
 	}
+	
+	public void insertAtLocation(String aString, int loc) {
+		setTextEditorDataStructures();
+		
+		ITextEditor editor = lastTextEditor;
+		StyledText text = EHUtilities.getStyledText(editor);
+		
+		EHUtilities.getDisplay().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				int offset = text.getCaretOffset();
+				
+				int finalOffset =  offset;
+				if (loc < offset) {
+					finalOffset += aString.length();
+				}
+				
+				positionCursorInCurrentEditor(loc);
+				insertStringAtCaret(aString);
+				positionCursorInCurrentEditor(finalOffset);
+			}
+		});
+	}
+	
 //	@Visible(false)
 	public void replaceTextInCurrentEditor (int anOffset, int aLength, String aText) {
 //		lastEditor = EHUtilities.getCurrentEditorPart();
@@ -448,14 +783,32 @@ IJavaBreakpointListener
 		if (lastDocument == null) {
 			return;
 		}
+
+		IDocument doc = lastDocument;//lastTextEditor.getDocumentProvider().getDocument(lastTextEditor);
+		EHUtilities.getDisplay().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					doc.replace(anOffset, aLength, aText);
+				} catch (BadLocationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		
-		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
-		   try {
-			lastDocument.replace(anOffset, aLength, aText);
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		StyledText text = EHUtilities.getStyledText(lastTextEditor);
+//		if (text != null) {
+//			EHUtilities.replaceTextInSeparateThread(text, anOffset, aLength, aText);
+//		} else {
+//		   lastDocument = lastDocumentProvider.getDocument(lastTextEditor.getEditorInput());
+//		   try {
+//			   lastDocument.replace(anOffset, aLength, aText);
+//			} catch (BadLocationException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		
 	}
 	public void executeCommand(String aCommandName) {
