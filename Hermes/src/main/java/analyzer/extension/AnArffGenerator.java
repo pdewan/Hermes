@@ -56,7 +56,7 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 	//path to save the arff file to. Include the .arff extension
 	private String path;
 	//Buffered writer for writing out to the arff file
-	private ArffWriter arffWriter;
+	protected ArffWriter arffWriter;
 
 
 	//set to keep
@@ -214,7 +214,7 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 	}
 
 	/**Generate the @relation, @attribute header for arff files*/
-	private void generateArffHeader() {
+	protected void generateArffHeader() {
 		arffWriter.writeRelation(RELATION).writeNewLine();
 
 		//write all features out

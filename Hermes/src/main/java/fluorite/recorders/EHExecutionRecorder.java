@@ -305,6 +305,9 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 		try {
 //			Refactoring refactor =	descriptor.createRefactoringContext(new RefactoringStatus()).getRefactoring();
 		Refactoring refactor = descriptor.createRefactoring(new RefactoringStatus());
+		if (refactor == null) {
+			return;
+		}
 		try {
 		refactor.checkInitialConditions(null);
 		} catch (Exception e) {
@@ -317,8 +320,12 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 			int i = 5;
 		}
 		if (refactor instanceof RenameRefactoring ) {
+			try {
 	    	RenameRefactoring aRenameRefactoring = (RenameRefactoring) refactor;
 	    	RenameFieldProcessor aRenameFieldProcessor = (RenameFieldProcessor) aRenameRefactoring.getProcessor();
+			} catch (Exception e) {
+//				e.printStackTrace();
+			}
 		}		
 //		Change change = refactor.createChange(new NullProgressMonitor());
 		Change aChange = refactor.createChange(null);
@@ -357,7 +364,7 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 //		    System.out.println("Edit: " + edit);
 //		}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		
 	}

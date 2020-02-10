@@ -53,12 +53,12 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	protected Map<String, ParticipantTimeLine> participantToTimeLine = new HashMap();
 
 	String currentParticipant;
-	long currentTime;
-	long startTime;
+	protected long currentTime;
+	protected long startTime;
 	WebLink lastWebLink;
 	Integer lastPrediction = 0;
 	Integer lastCorrection = 0;
-	ParticipantTimeLine participantTimeLine;
+	protected ParticipantTimeLine participantTimeLine;
 	
 	public ARatioFileGenerator(Analyzer a) {
 		this.analyzer=a;
@@ -478,7 +478,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	// participantTimeLine.getWebLinks().add(null);
 	// }
 	// }
-	void insertEntriesForPreviousTimeStamp() {
+	protected void insertEntriesForPreviousTimeStamp() {
 		if (participantTimeLine.getTimeStampList().size() == 0) // no previous
 																// time stamp
 			return;
