@@ -216,6 +216,9 @@ public class AWebFeatures implements WebFeatures {
 //
 //	}
 	public long getElapsedTime() {
+		if (featureNameToValue == null) {
+			return -1;
+		}
 		return (Long) featureNameToValue.get(ELAPSED_TIME) ;
 
 //		return savedTimeStamp;
