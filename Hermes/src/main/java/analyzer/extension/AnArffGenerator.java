@@ -101,7 +101,7 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 		if(!all) {
 			if(anId.equals("All") && aFolder==null ) {
 				//set path
-				this.path=((AnAnalyzer) this.analyzer).getOutputDirectory()+"/all.arff";
+				this.path=((Analyzer) this.analyzer).getOutputDirectory()+"/all.arff";
 				this.all=true;
 
 				//else it is individual filess

@@ -410,6 +410,7 @@ public class AnAnalyzer implements Analyzer {
 			final Runnable aRunnable = new Runnable() {
 				public void run() {
 					doLoadLogs();
+					System.out.println("Logs loaded");
 				}
 			};
 			Thread aThread = (new Thread(aRunnable));

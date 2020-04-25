@@ -528,6 +528,8 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		// System.out.println ("New date:" + new Date(startTime));
 
 		RatioFeatures aRatioFetaures = new ARatioFeatures();
+		aRatioFetaures.setSavedTimeStamp(0);
+		System.out.println("new time stamp:" + aStartTimeStamp);
 		newRatios(aRatioFetaures);
 
 	}
