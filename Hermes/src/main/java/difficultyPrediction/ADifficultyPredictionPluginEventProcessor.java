@@ -116,9 +116,13 @@ public class ADifficultyPredictionPluginEventProcessor implements DifficultyPred
 //			difficultyPredictionRunnable = new ADifficultyPredictionRunnable();
 			boolean difficultyPredictionRunnableExists = ADifficultyPredictionRunnable.difficultyPredictionRunnableExists();
 			difficultyPredictionRunnable = ADifficultyPredictionRunnable.getOrCreateInstance();
-			if (difficultyPredictionRunnableExists) {
+			if (difficultyPredictionRunnableExists &&  !(DifficultyPredictionSettings.isReplayMode()) ) {
 				return; // no need to create thread as plugin has the thread
 			}
+			if (difficultyPredictionThread != null && difficultyPredictionThread.isAlive()) { // do we really need this
+				return;
+			}
+			
 //			pendingPredictionCommands = difficultyPredictionRunnable.getPendingCommands();
 			difficultyPredictionThread = new Thread(difficultyPredictionRunnable);
 			difficultyPredictionThread.setName(DifficultyPredictionRunnable.DIFFICULTY_PREDICTION_THREAD_NAME);

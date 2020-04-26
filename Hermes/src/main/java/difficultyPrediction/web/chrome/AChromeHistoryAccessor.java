@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.web.WebFeatures;
 
 /**
@@ -304,7 +305,9 @@ public class AChromeHistoryAccessor {
 	}
 	
 	public static void processURLs(WebFeatures aWebFeatures) {
-		
+		if (DifficultyPredictionSettings.isReplayMode()) {
+			return; // we have t look at stored web accesses
+		}
 		try {
 			if (aWebFeatures == null) {
 				return;

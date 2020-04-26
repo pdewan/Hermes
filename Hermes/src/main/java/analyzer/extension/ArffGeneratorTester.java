@@ -41,12 +41,12 @@ public class ArffGeneratorTester {
 		analyzer.getAnalyzerParameters().replayLogs();
 	}
 	public static  void main (String[] args) {
-		String[] aUserNames = {"16", "17", "18", "19", "20", "21", "22", "23", "24", "26", "27", "28", "29", "30", "31", "32", "33"};
+//		String[] aUserNames = {"16", "17", "18", "19", "20", "21", "22", "23", "24", "26", "27", "28", "29", "30", "31", "32", "33"};
 //		createRatios();
 //		for (String aUserName:aUserNames)
 //			useNilsCode(aUserName);
 //		}
-	useNilsCode("16");
+	useNilsCode("All");
 	}
 
 }
