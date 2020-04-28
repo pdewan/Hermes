@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Date;
 import java.util.Map;
 
 import analyzer.AParticipantTimeLine;
@@ -32,6 +33,7 @@ import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
  */
 public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerator{
 	public static final String DEFAULT_ARFF_PATH="data/userStudy";
+	boolean processStuckData = true;
 
 	//name of relation to be printed as @relation tag
 	public static final String RELATION="programmer-weka.filters.supervised.instance.SMOTE-C0-K5-P100.0-S1-weka.filters.supervised.instance.SMOTE-C0-K5-P100.0-S1-weka.filters.supervised.instance.SMOTE-C0-K5-P100.0-S1-weka.filters.supervised.instance.SMOTE-C0-K5-P100.0-S1";
@@ -125,6 +127,10 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 	/***/
 	@Override
 	public void finishParticipant(String aId, String aFolder) {
+		if (processStuckData) {
+			//add the stuck point data to the arff file
+			super.addStuckData(super.participantTimeLine);
+		}
 		System.out.println("***EXTENSION Participant "+aId+"Completed");
 
 		
@@ -155,8 +161,10 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 
 	/**Prep arff file method, called by newParticipant Method*/
 	private void prep() {
-		//add the stuck point data to the arff file
-		//super.addStuckData(super.participantTimeLine);
+//		if (processStuckData) {
+//		//add the stuck point data to the arff file
+//		super.addStuckData(super.participantTimeLine);
+//		}
 		
 		//create a new bufferedwriter, with a different path
 
@@ -255,6 +263,13 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 		for(int i=0;i<p.getDebugList().size();i++) {
 			//get the correct numerical representation of predicition
 			long prediction=p.getPredictionCorrections().get(i)<0? p.getPredictions().get(i):p.getPredictionCorrections().get(i);
+			StuckPoint aStuckPoint = p.getStuckPoint().get(i);
+			StuckInterval aStuckInterval = p.getStuckInterval().get(i);
+			if (aStuckPoint != null || aStuckInterval != null) {
+				long aTime = p.getTimeStampList().get(i);
+				Date aDate = new Date(aTime);
+				System.out.println (aDate.toString() + ":found non null stuck point or stuck interval " + aStuckPoint + " " + aStuckInterval);
+			}
 			
 			arffWriter.writeData(
 //					prediction==0? "NO":"YES", 

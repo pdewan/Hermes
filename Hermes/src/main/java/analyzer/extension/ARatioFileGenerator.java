@@ -213,6 +213,10 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		if (analyzer.getStuckIntervalMap().get(participant) != null) {
 			for (StuckInterval i : analyzer.getStuckIntervalMap().get(
 					participant)) {
+//				Date aDate = i.getDate();
+//				int anHour = aDate.getHours();
+//				int aMInute = aDate.getMinutes();
+				
 				interval.add(i);
 
 			}

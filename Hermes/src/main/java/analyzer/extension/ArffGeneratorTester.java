@@ -25,6 +25,21 @@ public class ArffGeneratorTester {
 		analyzer.getAnalyzerParameters().setMakePredictions(true);		
 		analyzer.getAnalyzerParameters().replayLogs();
 	}
+	public static void useKevinCode(String aUserName) {
+		Analyzer analyzer = new AnAnalyzer();
+		AnArffGenerator arffGenerator = new AnArffGenerator(analyzer);
+		analyzer.addAnalyzerListener(arffGenerator);
+//		AnalyzerFactories.setParticipantTimeLineFactory(new ANilsParticipantTimeLineFactory());		
+		analyzer.loadDirectory();
+		analyzer.getAnalyzerParameters().getParticipants().setValue(aUserName);	
+
+//		analyzer.getAnalyzerParameters().getParticipants().setValue("All");	
+//		analyzer.getAnalyzerParameters().getParticipants().setValue("17");		
+
+		DifficultyPredictionSettings.setReplayMode(true);
+		analyzer.getAnalyzerParameters().setMakePredictions(true);		
+		analyzer.getAnalyzerParameters().replayLogs();
+	}
 	public static void createRatios() {
 		Analyzer analyzer = new AnAnalyzer();
 		RatioFileGenerator aRatioFileGenerator = new ARatioFileGenerator();
@@ -46,7 +61,8 @@ public class ArffGeneratorTester {
 //		for (String aUserName:aUserNames)
 //			useNilsCode(aUserName);
 //		}
-	useNilsCode("All");
+		useNilsCode("16");
+//		useKevinCode("16");
 	}
 
 }
