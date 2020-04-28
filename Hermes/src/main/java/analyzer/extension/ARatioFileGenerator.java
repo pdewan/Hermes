@@ -201,6 +201,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	// Add in the stuck interval and the stuck point data
 	public void addStuckData(ParticipantTimeLine l) {
+//		l.setAggregateStatistics();
 
 		String participant = this.currentParticipant;
 
@@ -268,6 +269,25 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		}
 
 	}
+	protected void addFillDataToStuckPointsAndIntervals(ParticipantTimeLine l) {
+		
+		int aNumEntries = l.getNumElements();
+		if (l.getStuckPoint().size() > 0) {
+			return;
+		}
+			StuckInterval[] stuckinterval_filler = new StuckInterval[aNumEntries];
+			Arrays.fill(stuckinterval_filler, null);
+
+			l.getStuckInterval().addAll(Arrays.asList(stuckinterval_filler));
+			StuckPoint[] stuckpoint_filler = new StuckPoint[aNumEntries];
+			Arrays.fill(stuckpoint_filler, null);
+
+			l.getStuckPoint().addAll(Arrays.asList(stuckpoint_filler));
+
+	
+
+		
+	}
 
 	/**
 	 * Insert the Stuckpoint/stuckinterval from the priority queue q into the
@@ -277,6 +297,44 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	 * @param q
 	 */
 	private void fillPoints(ParticipantTimeLine l, Queue<? extends Comparable> q) {
+		addFillDataToStuckPointsAndIntervals(l);
+		List<Long> times = l.getTimeStampList();
+		Class<?> c = q.peek() != null ? q.peek().getClass() : null;
+
+		int diff_interval = Integer.MAX_VALUE;
+		long aLastTime = 0;
+		for (int i = 0; i < times.size() && !q.isEmpty(); i++) {
+		
+			long time = times.get(i);
+
+
+//			long intervalTime = getTimeValueMilli((q.peek() instanceof StuckPoint) ? ((StuckPoint) q
+//					.peek()).getDate().getTime() : ((StuckInterval) q.peek())
+//					.getDate().getTime());
+			long intervalTime = normalizeTime(l, (q.peek() instanceof StuckPoint) ? ((StuckPoint) q
+					.peek()).getDate().getTime() : ((StuckInterval) q.peek())
+					.getDate().getTime());
+			
+			if (aLastTime == 0) {
+				aLastTime = time;
+				continue;
+			}
+			if (intervalTime >= aLastTime && intervalTime < time ) {
+				Comparable o = q.poll();
+				if (o instanceof StuckPoint) {
+					l.getStuckPoint().set(i-1, (StuckPoint) o);
+				}
+				if (o instanceof StuckInterval) {
+					l.getStuckInterval().set(i-1, (StuckInterval) o);
+				}
+			}
+			aLastTime = time;
+
+		}
+
+	}
+	
+	private void fillPointsKevin(ParticipantTimeLine l, Queue<? extends Comparable> q) {
 
 		List<Long> times = l.getTimeStampList();
 		Class<?> c = q.peek() != null ? q.peek().getClass() : null;
@@ -284,10 +342,15 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		int diff_interval = Integer.MAX_VALUE;
 		for (int i = 0; i < times.size() && !q.isEmpty(); i++) {
 			long time = getTimeValueMilli(times.get(i));
+//			long time = getHoursMinutesSeconds(times.get(i));
+
 
 			long intervalTime = getTimeValueMilli((q.peek() instanceof StuckPoint) ? ((StuckPoint) q
 					.peek()).getDate().getTime() : ((StuckInterval) q.peek())
 					.getDate().getTime());
+//			long intervalTime = normalizeTime(l, (q.peek() instanceof StuckPoint) ? ((StuckPoint) q
+//					.peek()).getDate().getTime() : ((StuckInterval) q.peek())
+//					.getDate().getTime());
 
 			int diff = (int) Math.abs(intervalTime - time);
 
@@ -318,6 +381,30 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 			}
 
 		}
+
+	}
+	
+	private long normalizeTime(ParticipantTimeLine aTimestamp, long milli) {
+		Date aDate = new Date(milli);
+		int anYear = aDate.getYear();
+		if (anYear != 70) {
+			return milli;
+		}
+
+			Date aStartDate = new Date (aTimestamp.getStartTimestamp());
+			int aMonth = aStartDate.getMonth();
+			int aDay = aStartDate.getDate();
+			anYear = aStartDate.getYear();
+		
+		int anHours = aDate.getHours();
+		int aMinutes = aDate.getMinutes();
+		int aSeconds = aDate.getSeconds();
+		
+		
+		
+		Date aReturnDate = new Date(anYear, aMonth, aDay, anHours, aMinutes, aSeconds);
+		return aReturnDate.getTime();
+		
 
 	}
 

@@ -9,6 +9,12 @@ import analyzer.extension.StuckInterval;
 import analyzer.extension.StuckPoint;
 
 public class AParticipantTimeLine implements ParticipantTimeLine {
+	long starTimestamp;
+
+
+	long lastTimestamp;
+	long duration;
+	int numElements;
 	private List<Double> editList=new ArrayList<>();
 	
 	private List<Double> insertionList = new ArrayList<Double>();
@@ -332,6 +338,39 @@ public class AParticipantTimeLine implements ParticipantTimeLine {
 		else return statusIntToString(anIntStatus);
 
 		
+		
+		
+	}
+	@Override
+	public long getDuration() {
+		return duration;
+	}
+	@Override
+	public long getStartTimestamp() {
+		return starTimestamp;
+	}
+	@Override
+	public long getEndTimestamp() {
+		return lastTimestamp;
+	}
+	@Override
+	public int getNumElements() {
+		return numElements;
+	}
+	@Override
+	public void setAggregateStatistics() {
+		if (timeStampList == null) {
+			System.err.println("Null time stamp list");
+			return;
+		}
+		if (timeStampList.size() == 0) {
+			System.err.println("empty timeStamp list");
+			return;
+		}
+		numElements = timeStampList.size();
+		starTimestamp = timeStampList.get(0);
+		lastTimestamp = timeStampList.get(timeStampList.size() - 1);
+		duration = lastTimestamp - starTimestamp;
 		
 		
 	}

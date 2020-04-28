@@ -87,5 +87,15 @@ public interface ParticipantTimeLine {
 
 	int getWebLinksAfter(int aCurrentIndex);
 
+	long getDuration();
+
+	long getStartTimestamp();
+
+	long getEndTimestamp();
+
+	int getNumElements();
+
+	void setAggregateStatistics();
+
 	
 }

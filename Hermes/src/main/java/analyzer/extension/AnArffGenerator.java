@@ -127,6 +127,8 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 	/***/
 	@Override
 	public void finishParticipant(String aId, String aFolder) {
+		super.participantTimeLine.setAggregateStatistics();
+
 		if (processStuckData) {
 			//add the stuck point data to the arff file
 			super.addStuckData(super.participantTimeLine);
@@ -269,6 +271,7 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 				long aTime = p.getTimeStampList().get(i);
 				Date aDate = new Date(aTime);
 				System.out.println (aDate.toString() + ":found non null stuck point or stuck interval " + aStuckPoint + " " + aStuckInterval);
+				prediction = 1;
 			}
 			
 			arffWriter.writeData(
