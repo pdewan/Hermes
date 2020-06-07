@@ -7,22 +7,14 @@ public /**Just a container class to hold each instance and its predicted class
  * @author wangk1
  *
  */
-class PredictedInstance{
+class WangPredictedInstance{
 	private Instance instance;
-	public double prediction;
-	public double classification;
-	public long time;
+	private double prediction;
 
-	public PredictedInstance(Instance i, double prediction) {
+	public WangPredictedInstance(Instance i, double prediction) {
 		this.instance=i;
 		this.prediction=prediction;
 
-	}
-	
-	public PredictedInstance(double classification, double prediction, long time) {
-		this.time = time;
-		this.classification = classification;
-		this.prediction = prediction;
 	}
 
 	public Instance getInstance() {

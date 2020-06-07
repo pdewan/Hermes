@@ -1558,6 +1558,12 @@ public class ANilsAnalyzer implements Analyzer {
 		propertyChangeSupport.addPropertyChangeListener(arg0);
 
 	}
+	public ArrayList<String> toIgnore = new ArrayList<String>();
+
+	public ArrayList<String> getIdsToIgnore(){
+	return toIgnore;
+	}
+
 
 	@Visible(false)
 	public static void main(String[] args) {

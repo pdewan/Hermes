@@ -28,6 +28,10 @@ public class APredictionTracker implements PredictionTracker{
 	private Instances testing;
 
 	private J48 classifier;
+	// added by Ben
+	public APredictionTracker() {
+		
+	}
 
 	public APredictionTracker(String trainFile, String testFile) {
 		this.trainFile=trainFile;

@@ -10,6 +10,7 @@ import analyzer.extension.StuckPoint;
 
 public class AParticipantTimeLine implements ParticipantTimeLine {
 	long starTimestamp;
+	public String id;
 
 
 	long lastTimestamp;
