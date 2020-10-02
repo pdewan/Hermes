@@ -64,6 +64,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.internal.compiler.env.ISourceField;
 import org.eclipse.jdt.internal.core.LocalVariable;
+import org.eclipse.jdt.internal.ui.JavaPlugin;
 
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.ISourceRange;
@@ -141,6 +142,9 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
 import org.eclipse.ltk.core.refactoring.participants.ResourceChangeChecker;
 import org.eclipse.ltk.core.refactoring.participants.ValidateEditChecker;
+
+import org.eclipse.jdt.ui.IWorkingCopyManager;
+
 
 //import edu.cmu.scs.fluorite.util.Utilities;
 import fluorite.commands.EclipseCommand;
@@ -956,6 +960,18 @@ public class EHUtilities /*extends Utilities*/{
 			}
 		});
 	}
+//	public static void saveTextSynchronous(ITextEditor anEditor) {
+//		if (getDisplay() == null) {
+//			return;
+//		}
+//		getDisplay().syncExec(new Runnable() {
+//			@Override
+//			public void run() {
+//				anEditor.doSave(nullProgressMonitor);
+//			}
+//		});
+//	}
+	// From merged code
 	public static void saveTextSynchronous(ITextEditor anEditor) {
 		if (getDisplay() == null) {
 			return;
@@ -963,6 +979,14 @@ public class EHUtilities /*extends Utilities*/{
 		getDisplay().syncExec(new Runnable() {
 			@Override
 			public void run() {
+				IWorkingCopyManager manager= JavaPlugin.getDefault().getWorkingCopyManager();
+				ICompilationUnit unit= manager.getWorkingCopy(anEditor.getEditorInput());
+				try {
+					unit.becomeWorkingCopy(nullProgressMonitor);
+				} catch (JavaModelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				anEditor.doSave(nullProgressMonitor);
 			}
 		});

@@ -9,7 +9,8 @@ import org.w3c.dom.NodeList;
 
 public class ExceptionCommand extends OutputProduced implements EHICommand {
 	public static final String XML_Exception_Tag = "exceptionString";
-
+	public static final String XML_Language_Tag = "language";
+	protected String language;
 //	public static final String XML_Output_Tag = "outputString";
 //	
 	public ExceptionCommand()
@@ -17,9 +18,10 @@ public class ExceptionCommand extends OutputProduced implements EHICommand {
 		
 	}
 	
-	public ExceptionCommand(String aText)
+	public ExceptionCommand(String aText, String language)
 	{
 		super(aText);
+		this.language = language;
 //		outputText = aText;
 	}
 	
@@ -54,7 +56,8 @@ public class ExceptionCommand extends OutputProduced implements EHICommand {
 		Map<String, String> dataMap = new HashMap<String, String>();
 		if (outputText != null)
 			dataMap.put(XML_Exception_Tag, outputText);
-
+		if (language != null) 
+			dataMap.put(XML_Language_Tag, language);
 		return dataMap;
 	}
 	
@@ -68,6 +71,12 @@ public class ExceptionCommand extends OutputProduced implements EHICommand {
 		if ((nodeList = commandElement.getElementsByTagName(XML_Exception_Tag)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			outputText =textNode.getTextContent();
+		}
+		if ((nodeList = commandElement.getElementsByTagName(XML_Language_Tag)).getLength() > 0) {
+			Node textNode = nodeList.item(0);
+			language =textNode.getTextContent();
+		} else {
+			language = "java";
 		}
 	}
 

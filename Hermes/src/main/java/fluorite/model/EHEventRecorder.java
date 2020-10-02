@@ -1233,10 +1233,10 @@ lastCommandTimeStamp = timestamp;
 
 		ForwardedCommandToPredictor.newCase(aCommand, numReceivedCommands, mStartTimestamp, this);
 		ADifficultyPredictionPluginEventProcessor.getInstance().newCommand(aCommand);
-
-
 		
-
+		
+		
+		
 	}
 	public synchronized void processPendingCombinableCommandsAsync(LinkedList<EHICommand> docOrNormalCommands, long timestamp) {
 		PendingCommandsLogBegin.newCase(docOrNormalCommands, this);
@@ -1245,7 +1245,7 @@ lastCommandTimeStamp = timestamp;
 				.getSegmentLength();
 		boolean isFlushCommandList = 
 		numReceivedCommands > 1 && (timestamp - lastCommandTimeStamp) > commandFlushTime;
-lastCommandTimeStamp = timestamp;	
+		lastCommandTimeStamp = timestamp;	
 		// while (docOrNormalCommands.size() > 1 &&
 		// docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst())
 		// {
@@ -1344,6 +1344,7 @@ lastCommandTimeStamp = timestamp;
 		boolean combined = false;
 		final EHICommand lastCommand = docOrNormalCommands.size() > 0
 				? docOrNormalCommands.get(docOrNormalCommands.size() - 1) : null;
+		mDocChangeCombinable = true;
 		try {
 			// See if combining with previous command is possible .
 			if (!isPredictionRelatedCommand(newCommand) && lastCommand != null

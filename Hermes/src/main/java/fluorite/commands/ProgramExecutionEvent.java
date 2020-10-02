@@ -220,6 +220,17 @@ public class ProgramExecutionEvent
 //		if ((attr = commandElement.getAttributeNode("projectName")) != null) {
 //			mProjectName = attr.getValue();
 //		}
+		
+		if ((attr = commandElement.getAttributeNode("type")) != null ) {
+			if (attr.getValue().equals("Run")) {
+				mDebug = false;
+				mRun = true;
+			}
+			if (attr.getValue().equals("Debug")) {
+				mDebug = true;
+				mRun = false;
+			}
+		}
 	}
 	public String toString() {
 		String retVal = numEvents <= 1? 

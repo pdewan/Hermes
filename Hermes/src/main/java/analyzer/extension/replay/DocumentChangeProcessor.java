@@ -25,6 +25,7 @@ public class DocumentChangeProcessor {
 	private static final String DELETE_CHANGE = "Delete";
 	private static final String REPLACE_CHANGE = "Replace";
 	private static final String FILE_OPEN_COMMAND = "FileOpenCommand";
+	private static final String DIFF_BASSED_FILE_OPEN_COMMAND = "DiffBasedFileOpenCommand"; 
 
 	private static final String TEXT_ELEMENT = "text";
 	private static final String INSERTED_TEXT_ELEMENT = "insertedText";
@@ -63,7 +64,7 @@ public class DocumentChangeProcessor {
 				processDeleteChange(change);
 			} else if (REPLACE_CHANGE.equals(change.getCommandType())) {
 				processReplaceChange(change);
-			} else if (FILE_OPEN_COMMAND.equals(change.getCommandType())){
+			} else if (FILE_OPEN_COMMAND.equals(change.getCommandType()) || DIFF_BASSED_FILE_OPEN_COMMAND.equals(change.getCommandType())){
 				processFileOpenCommand(change);
 			} else {
 				System.out.println("Unprocessed change type: " + change.getCommandType());
@@ -250,32 +251,33 @@ public class DocumentChangeProcessor {
 
 		boolean newFile = false;
 		IEditorPart editor = EHUtilities.getActiveEditor();
-		if (!files.contains(realPath)) {
-			newFile = true;
-			try {
+		try {
+			if (!files.contains(realPath)) {
+				newFile = true;
 				Files.deleteIfExists(realPath);
 				files.add(realPath);
 				Files.createDirectories(realPath.getParent());
 				Files.createFile(realPath);
-				if (data.containsKey(SNAPSHOT_ELEMENT)) {
-					String snapshot = data.get(SNAPSHOT_ELEMENT);
-					System.out.println("=== BEGIN CONTENTS ===");
-					System.out.println(snapshot);
-					System.out.println("=== END CONTENTS ===");
-					Map<String, String> attrs = change.getAttributesMap();
-					String docLengthStr = attrs.get(DOC_LENGTH_ATTR);
-					try {
-						int docLength = Integer.parseInt(docLengthStr);
-						snapshot = fixNewlines(snapshot, docLength);
-						Files.write(realPath, snapshot.getBytes(Charset.forName("UTF-8")));
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
 			}
+			if (data.containsKey(SNAPSHOT_ELEMENT)) {
+				String snapshot = data.get(SNAPSHOT_ELEMENT);
+				System.out.println("=== BEGIN CONTENTS ===");
+				System.out.println(snapshot);
+				System.out.println("=== END CONTENTS ===");
+				Map<String, String> attrs = change.getAttributesMap();
+				String docLengthStr = attrs.get(DOC_LENGTH_ATTR);
+				try {
+					int docLength = Integer.parseInt(docLengthStr);
+					snapshot = fixNewlines(snapshot, docLength);
+					Files.write(realPath, snapshot.getBytes(Charset.forName("UTF-8")));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		StringBuilder sb = new StringBuilder();

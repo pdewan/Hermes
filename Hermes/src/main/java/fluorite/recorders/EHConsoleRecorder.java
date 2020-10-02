@@ -2,6 +2,7 @@ package fluorite.recorders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocumentListener;
@@ -14,6 +15,7 @@ import fluorite.commands.ConsoleInput;
 import fluorite.commands.ConsoleOutput;
 import fluorite.commands.ExceptionCommand;
 import fluorite.commands.ProgramExecutionEvent;
+import fluorite.commands.RunCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.model.EclipseEventListener;
 
@@ -27,7 +29,10 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 	protected List<String> currentConsoleContents = new ArrayList<>();
 	protected List<String> previousConsoleContents = new ArrayList<>();
 	protected StringBuffer consoleString = new StringBuffer();
-	
+	protected String lastConsoleOutput = null;
+	private final Pattern javaExceptionPattern = Pattern.compile(".+Exception[^\\n]++(\\s+at .++)+");
+	private final static Pattern prologExceptionPattern = Pattern.compile("(ERROR:[^\\n]++\\n)+(\\^\\s+Call:.*\\n?)?");
+
 	public EHConsoleRecorder() {
 		EHEventRecorder.getInstance().addEclipseEventListener(this);
 
@@ -120,16 +125,23 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 							
 						}
 						
+						//distinguish sys.out and sys.err
 						
-						if (event.getText().toLowerCase().contains("exception"))
+						if (javaExceptionPattern.matcher(event.getText()).find())
 						{
-							getRecorder().recordCommand(new ExceptionCommand(inputOrOutputUnit));
+							getRecorder().recordCommand(new ExceptionCommand(inputOrOutputUnit, "java"));
+							currentConsoleContents.add(inputOrOutputUnit);
+							consoleString.append(inputOrOutputUnit);
+							return;
+						} else if (prologExceptionPattern.matcher(event.getText()).find()) {
+							getRecorder().recordCommand(new ExceptionCommand(inputOrOutputUnit, "prolog"));
 							currentConsoleContents.add(inputOrOutputUnit);
 							consoleString.append(inputOrOutputUnit);
 							return;
 						}
 						// this is regular output
-						getRecorder().recordCommand(new ConsoleOutput(inputOrOutputUnit));
+						getRecorder().recordCommand(new ConsoleOutput(inputOrOutputUnit, lastConsoleOutput));
+						lastConsoleOutput = inputOrOutputUnit;
 						currentConsoleContents.add(inputOrOutputUnit);
 						consoleString.append(inputOrOutputUnit);
 
@@ -184,7 +196,8 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 
 	@Override
 	public void commandExecuted(String aCommandName, long aTimestamp) {
-		if (aCommandName.equals(ProgramExecutionEvent.class.getSimpleName())) {
+//		if (aCommandName.equals(ProgramExecutionEvent.class.getSimpleName())) {
+		if (aCommandName.equals(RunCommand.class.getSimpleName())) {
 			newRunCommand();
 		}
 		

@@ -1102,7 +1102,32 @@ public class AnAnalyzer implements Analyzer {
 		List<String> participantFiles = MainConsoleUI.getFilesForFolder(folder);
 		System.out.println("Particpant " + aFolderName + " has "
 				+ participantFiles.size() + " file(s)");
-
+		//Ken's code to recognize student project
+		if (fullName.contains("helper-config"+File.separator+"Student Project")) {
+			List<String> logFile = new Vector<>();
+			for (String string : participantFiles) {
+				if (string.endsWith("log.xml")) {
+					logFile.add(string);
+				}
+			}
+			participantFiles = logFile;
+		} else {
+			String largestFileName = "";
+			String secondLargestFileName = "";
+			for (int i = 0; i < participantFiles.size(); i++) {
+				String aFileName = participantFiles.get(i);
+				if (aFileName.compareTo(largestFileName) > 0) {
+					secondLargestFileName = largestFileName;
+					largestFileName = aFileName;
+				} else if (aFileName.compareTo(secondLargestFileName) > 0) {
+					secondLargestFileName = aFileName;
+				}
+			}
+			participantFiles.remove(largestFileName);
+			participantFiles.remove(secondLargestFileName);
+		}
+		// end ken's code
+		
 		for (int i = 0; i < participantFiles.size(); i++) {
 //			String aFileName = fullName + participantFiles.get(i);
 			String aFileName = Paths.get(fullName, participantFiles.get(i)).toString();
