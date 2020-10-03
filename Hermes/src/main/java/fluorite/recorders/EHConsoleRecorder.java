@@ -30,8 +30,8 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 	protected List<String> previousConsoleContents = new ArrayList<>();
 	protected StringBuffer consoleString = new StringBuffer();
 	protected String lastConsoleOutput = null;
-	private final Pattern javaExceptionPattern = Pattern.compile(".+Exception[^\\n]++(\\s+at .++)+");
-	private final static Pattern prologExceptionPattern = Pattern.compile("(ERROR:[^\\n]++\\n)+(\\^\\s+Call:.*\\n?)?");
+	private final Pattern javaExceptionPattern = Pattern.compile(".+Exception[^\\n]?(((?!Exception)[\\s\\S])*)(\\s+at .++)+(\\nCaused by:.*\\n(\\s+at .++)+)?");
+	private final Pattern prologExceptionPattern = Pattern.compile("(ERROR:[^\\n]++\\n)+(\\^\\s+Call:.*\\n?)?");
 
 	public EHConsoleRecorder() {
 		EHEventRecorder.getInstance().addEclipseEventListener(this);
