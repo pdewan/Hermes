@@ -34,6 +34,13 @@
             name="DifficultyStatus"
             restorable="true">
          </view>
+          <view
+         	category="hermes.viewCategory"
+         	class="analyzer.extension.replayView.ReplayView"
+         	icon="icons/sample.gif"
+         	id="hermes.replayView"
+         	name="ReplayView">
+         </view>
          
    </extension>
    <extension
