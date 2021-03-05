@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,8 +41,19 @@ public class HTTPRequest {
 			os.write("\r\n".getBytes());
 			conn.setConnectTimeout(timeout);
 			conn.setReadTimeout(timeout);
-
+			
+//			MessageConsoleStream out = HelpView.findConsole("debugRequestHelp").newMessageStream();
+//			try {
+//				out.println("sending request = " + body.toString(4));
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			
 			status = conn.getResponseCode();
+			
+//			out.println("status code = " + status);
+			
 			if (status > 299) {
 				reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
 				while ((line = reader.readLine()) != null) {

@@ -1,11 +1,11 @@
 package dayton.ellwanger.helpbutton.exceptionMatcher;
 
 public class JavaExceptoinMatcher extends ExceptionMatcher{
-	private final static String regex = ".+Exception[^\\n]?(((?!Exception)[\\s\\S])*)(\\s+at .++)+(\\nCaused by:.*\\n(\\s+at .++)+)?";
+	private final static String ERROR = ".+Exception[^\\n]?(((?!Exception)[\\s\\S])*)(\\s+at .++)+(\\nCaused by:.*\\n(\\s+at .++)+)?";
 	private static JavaExceptoinMatcher instance;
 
 	private JavaExceptoinMatcher() {
-		super(regex);
+		super(ERROR);
 	}
 	
 	public static JavaExceptoinMatcher getInstance() {

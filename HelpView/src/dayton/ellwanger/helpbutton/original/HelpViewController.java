@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import dayton.ellwanger.hermes.xmpp.ConnectionManager;
 import util.trace.hermes.helpbutton.DifficultyUpdateForwardedToConnectionManager;
 import util.trace.hermes.helpbutton.HelpInformationForwardedToConnectionManager;
-import workspaceConnectionManager.WorkspaceConnectionManager;
+//import workspaceConnectionManager.WorkspaceConnectionManager;
 
 public class HelpViewController implements HelpListener {
 
@@ -24,7 +24,8 @@ public class HelpViewController implements HelpListener {
 				JSONArray tags = new JSONArray();
 				tags.put("HELP_MESSAGE");
 				messageData.put("tags", tags);
-				messageData.put("filename", WorkspaceConnectionManager.getActiveDocumentName());
+				// removed dependency on workspace listener
+//				messageData.put("filename", WorkspaceConnectionManager.getActiveDocumentName());
 			} catch (JSONException ex) {
 				ex.printStackTrace();
 			}

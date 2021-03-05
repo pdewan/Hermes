@@ -9,7 +9,8 @@ public enum CommandClassificationSchemeName {
 	A2("leaveoneouta2/", new AnA2CommandCategories()),
 	A3("leaveoneouta3/", new AnA3CommandCategories() ),
 	A4("leaveoneouta4/", new AnA4CommandCategories()),
-	A0Web ("webedit/", new AnA0WebCommandCategories());
+	A0Web ("webedit/", new AnA0WebCommandCategories()),
+	A1Web("webA1", new AnA1WebCommandCategories());
 	
 	private String dir;
 	protected CommandCategoryMapping initialMapping;

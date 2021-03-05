@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 import dayton.ellwanger.helpbutton.exceptionMatcher.ExceptionMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.JavaExceptoinMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.PrologExceptionMatcher;
+import dayton.ellwanger.helpbutton.exceptionMatcher.SMLExceptionMatcher;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferencePage;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferences;
 import fluorite.commands.EHICommand;
@@ -95,6 +98,9 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 		case "python":
 			em = JavaExceptoinMatcher.getInstance();
 			break;
+		case "SML":
+			em = SMLExceptionMatcher.getInstance();
+			break;
 		default:
 			em = JavaExceptoinMatcher.getInstance();
 			break;
@@ -109,6 +115,8 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 	@Override
 	public JSONObject requestHelp(String email, String course, String assign, String errorType, String errorMessage, String problem, String term, int difficulty, String helpText, String requestID, String output, String language) throws IOException {
 		try {
+//			MessageConsoleStream out = view.findConsole("debugRequestHelp").newMessageStream();
+//			out.println("requesting help");
 			JSONObject helpRequest = new JSONObject();
 			JSONObject code = new JSONObject();
 			helpRequest.put("code", code);
@@ -127,6 +135,7 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 			helpRequest.put("email", email);
 			helpRequest.put("request-id", "");
 			helpRequest.put("output", output);
+//			out.println("project path = " + getCurrentProjectPath());
 			File src = new File(getCurrentProjectPath() + File.separator + "Logs" + File.separator + "srcOld");
 			if (!src.exists() || numCommand > 50) {
 				src = new File(getCurrentProjectPath() + File.separator + "Logs" + File.separator + "src");
@@ -134,57 +143,64 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 			if (!src.exists()) {
 				src = findSourceFolder(new File(getCurrentProjectPath()), EditorsUI.getPreferenceStore().getString(HelpPreferences.LANGUAGE));
 			}
-			List<String> filePaths = new ArrayList<>();
-			List<String> relevantFilePaths = new ArrayList<>();
-			findSourceFiles(src, filePaths, language);
-			if (calculateSize(src) < 900*1024) {
-				for (String filePath : filePaths) {
-					File file = new File(filePath);
-					code.put(file.getName(), readFile(file));
-				}
-				addHistory(code, calculateSize(src));
-			} else if (errorMessage.indexOf("\r\n\t") >= 0) {
-				String stackTrace = errorMessage.substring(errorMessage.indexOf("\r\n\t"));
-				while (stackTrace.indexOf(".java") >= 0) {
-					String fileName = stackTrace.substring(stackTrace.lastIndexOf('(')+1, stackTrace.lastIndexOf(".java")+5);
-					for (String file : filePaths) {
-						if (file.contains(fileName)) {
-							relevantFilePaths.add(file);
-							filePaths.remove(file);
+//			out.println("src = " + src);
+			if (src != null) {
+				List<String> filePaths = new ArrayList<>();
+				List<String> relevantFilePaths = new ArrayList<>();
+				findSourceFiles(src, filePaths, language);
+//				out.println("source files found");
+				if (calculateSize(src) < 900*1024) {
+					for (String filePath : filePaths) {
+						File file = new File(filePath);
+						code.put(file.getName(), readFile(file));
+					}
+					addHistory(code, calculateSize(src));
+				} else if (errorMessage.indexOf("\r\n\t") >= 0) {
+					String stackTrace = errorMessage.substring(errorMessage.indexOf("\r\n\t"));
+					while (stackTrace.indexOf(".java") >= 0) {
+						String fileName = stackTrace.substring(stackTrace.lastIndexOf('(')+1, stackTrace.lastIndexOf(".java")+5);
+						for (String file : filePaths) {
+							if (file.contains(fileName)) {
+								relevantFilePaths.add(file);
+								filePaths.remove(file);
+								break;
+							}
+						}
+						stackTrace = stackTrace.substring(0, stackTrace.lastIndexOf('('));
+					}
+					long size = 0;
+					for (String filePath : relevantFilePaths) {
+						File file = new File(filePath);
+						size += file.length();
+						if (size > 900) {
 							break;
 						}
+						code.put(file.getName(), readFile(file));
 					}
-					stackTrace = stackTrace.substring(0, stackTrace.lastIndexOf('('));
-				}
-				long size = 0;
-				for (String filePath : relevantFilePaths) {
-					File file = new File(filePath);
-					size += file.length();
-					if (size > 900) {
-						break;
+					addHistory(code, size);
+				} else {
+					long size = addHistory(code, 0);
+					for (String filePath : filePaths) {
+						File file = new File(filePath);
+						if (code.has(file.getName())) {
+							continue;
+						}
+						size += file.length();
+						if (size > 900) {
+							break;
+						}
+						code.put(file.getName(), readFile(file));
 					}
-					code.put(file.getName(), readFile(file));
-				}
-				addHistory(code, size);
-			} else {
-				long size = addHistory(code, 0);
-				for (String filePath : filePaths) {
-					File file = new File(filePath);
-					if (code.has(file.getName())) {
-						continue;
-					}
-					size += file.length();
-					if (size > 900) {
-						break;
-					}
-					code.put(file.getName(), readFile(file));
 				}
 			}
+//			out.println("source files add to json object, sending request");
 			JSONObject response = HTTPRequest.post(helpRequest, requestHelpURL);
 			if (response == null) {
+//				out.println("response is null");
 				recordRequestHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, "", false, difficulty);
 				throw new IOException();
 			}
+//			out.println("received response from server: " + response.toString(4));
 			helpRequest.put("request-id", response.get("request-id"));
 			recordRequestHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, "", true, difficulty);
 			view.addPendingRequest(helpRequest);
@@ -262,7 +278,7 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 				}
 			}catch (JSONException e) {
 			}
-			String id = response.getJSONObject("input").getJSONObject("body").getString("request-id");
+			String id = response.getString("request-id");
 			helpRequest.put("request-id", id);
 			helpRequest.put("help", help);
 			recordGetHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, help.toString(4), true);
@@ -275,7 +291,7 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 			view.removePendingRequest(id);
 			new Thread(()->{
 				try {
-					String requestId = response.getJSONObject("input").getJSONObject("body").getString("request-id");
+					String requestId = response.getString("request-id");
 					String rid = requestId.substring(requestId.lastIndexOf('.')+1);
 					File[] files = view.getPendingFolder().listFiles(new FilenameFilter() {
 						public boolean accept(File dir, String name) {
@@ -308,8 +324,10 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 	}
 
 	private void findSourceFiles(File file, List<String> files, String language){
+//		view.findConsole("debugRequestHelp").newMessageStream().println("finding " + language + " files from " + file);
 		if (file.isDirectory()) {
 			for (File file2 : file.listFiles()) {
+//				view.findConsole("debugRequestHelp").newMessageStream().println("finding " + language + " files from " + file2);
 				findSourceFiles(file2, files, language);
 			}
 		} else {
@@ -326,6 +344,11 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 				break;
 			case "prolog":
 				if (file.getName().toLowerCase().endsWith(".pl")) {
+					files.add(file.getAbsolutePath());
+				}
+				break;
+			case "SML":
+				if (file.getName().toLowerCase().endsWith(".sml")) {
 					files.add(file.getAbsolutePath());
 				}
 				break;
@@ -597,6 +620,8 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 				return name.endsWith(".pl");
 			case "python":
 				return name.endsWith(".py");
+			case "SML":
+				return name.endsWith(".sml");
 			default:
 				return false;
 			}

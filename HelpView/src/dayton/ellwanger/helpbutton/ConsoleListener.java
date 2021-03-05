@@ -40,7 +40,7 @@ public class ConsoleListener extends EHConsoleRecorder {
 	public void consolesAdded(IConsole[] consoles) {
 		for (int i = 0; i < consoles.length; i++)
 		{
-			if (consoles[i] instanceof TextConsole)
+			if (consoles[i] instanceof TextConsole && !consoles[i].getName().equals("debugRequestHelp"))
 			{
 				TextConsole textConsole = (TextConsole) consoles[i];
 				IDocumentListener consoleDocumentListener = new IDocumentListener()

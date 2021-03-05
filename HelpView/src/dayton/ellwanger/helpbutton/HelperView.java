@@ -28,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class HelperView extends ViewPart implements SubView {
+public class HelperView extends ViewPart {
 
 	private HelperListener helperListener;
 	private Text message;

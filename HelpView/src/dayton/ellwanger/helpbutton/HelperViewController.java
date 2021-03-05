@@ -80,7 +80,12 @@ public class HelperViewController implements HelperListener{
 
 	public void createProject(JSONObject request) {
 //		JSONObject request = view.getSelectedRequest();
-		if (request == null) {
+		try {
+			if (request == null || request.getJSONObject("code") == null) {
+				return;
+			}
+		} catch (JSONException e1) {
+			e1.printStackTrace();
 			return;
 		}
 		new Thread(new Runnable() {

@@ -56,7 +56,8 @@ public class HelpPreferencePage extends PreferencePage {
 											   {"10", "10"}};
 	public static final String[][] LANGUAGES = {{"java", "java"},
 												{"python", "python"},
-												{"prolog", "prolog"}};
+												{"prolog", "prolog"},
+												{"SML", "SML"}};
 	
 	public boolean performOk() {
 		boolean result = super.performOk();

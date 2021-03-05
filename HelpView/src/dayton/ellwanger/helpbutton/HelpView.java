@@ -25,12 +25,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.ViewPart;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dayton.ellwanger.helpbutton.exceptionMatcher.JavaExceptoinMatcher;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferencePage;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferences;
 import dayton.ellwanger.hermes.SubView;
@@ -41,7 +47,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class HelpView extends ViewPart implements SubView, PreferencesListener {
+public class HelpView extends ViewPart implements PreferencesListener {
 
 	private HelpListener helpListener;
 	private Text message;
@@ -302,6 +308,12 @@ public class HelpView extends ViewPart implements SubView, PreferencesListener {
 							errorMessagelbl.setText("");
 						}
 						break;
+					case "SML":
+						if (ex.indexOf("\n") > 0) {
+							errorMessagelbl.setText(ex.substring(ex.indexOf("\n")+1).replace("\r\n", ""));
+						} else {
+							errorMessagelbl.setText("");
+						}
 					default:
 						break;
 					}
@@ -569,6 +581,8 @@ public class HelpView extends ViewPart implements SubView, PreferencesListener {
 		requestHelpButton.setLayoutData(gd_requestHelpButton);
 		requestHelpButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+//				MessageConsoleStream out = findConsole("debugRequestHelp").newMessageStream();
+//				out.println("Request Help Pressed");
 				if (termCombo.getText().equals("")) {
 					popupMessage("Error", "Please select a term.");
 				} else if (courseCombo.getText().equals("")) {
@@ -583,7 +597,9 @@ public class HelpView extends ViewPart implements SubView, PreferencesListener {
 					popupMessage("Error", "Please describe the difficulty you are facing.");
 				} else {
 					try {
+//						out.println("all checks are good");
 						if (helpListener != null) {
+//							out.println("help listener is not null");
 							int index = errorCombo.getSelectionIndex();
 							JSONObject request = null;
 							if (index < exceptions.size()) {
@@ -785,6 +801,7 @@ public class HelpView extends ViewPart implements SubView, PreferencesListener {
 			languageCombo.add(HelpPreferencePage.LANGUAGES[i][0]);
 			if (HelpPreferencePage.LANGUAGES[i][0].equals(EditorsUI.getPreferenceStore().getString(HelpPreferences.LANGUAGE))) {
 				languageCombo.select(i);
+				helpListener.setExceptionMatcher(languageCombo.getText());
 			}
 		}
 	}
@@ -858,7 +875,12 @@ public class HelpView extends ViewPart implements SubView, PreferencesListener {
 //				}
 				break;
 			case "prolog":
-				errorCombo.add(exception.substring(exception.indexOf(":")+1, exception.indexOf("\n")));
+				if (exception.contains("\n")) errorCombo.add(exception.substring(exception.indexOf(":")+1, exception.indexOf("\n")));
+				else errorCombo.add(exception.substring(exception.indexOf(":")+1));
+				break;
+			case "SML":
+				if (exception.contains("\n")) errorCombo.add(exception.substring(exception.indexOf("Error:")+7, exception.indexOf("\n")));
+				else errorCombo.add(exception.substring(exception.indexOf("Error:")+7));
 				break;
 			default:
 				break;
@@ -976,5 +998,19 @@ public class HelpView extends ViewPart implements SubView, PreferencesListener {
 
 	public void preferencesUpdated() {
 		populateParams();
+	}
+
+
+	public static MessageConsole findConsole(String name) {
+		ConsolePlugin plugin = ConsolePlugin.getDefault();
+		IConsoleManager conMan = plugin.getConsoleManager();
+		IConsole[] existing = conMan.getConsoles();
+		for (int i = 0; i < existing.length; i++)
+			if (name.equals(existing[i].getName()))
+				return (MessageConsole) existing[i];
+		//no console found, so create a new one
+		MessageConsole myConsole = new MessageConsole(name, null);
+		conMan.addConsoles(new IConsole[]{myConsole});
+		return myConsole;
 	}
 }
