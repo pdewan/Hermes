@@ -72,11 +72,32 @@ public class HelperViewController implements HelperListener{
 				throw new IOException(message);
 			}
 //			System.out.println(response.toString(4));
-			view.populateRequestCombo(response);
+//			view.populateRequestCombo(filter(response, term, course, assign, problem, regex, language));
+			view.populateRequestCombo(response.getJSONArray("requests"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
+	
+//	private JSONArray filter(JSONObject response, String term, String course, String assign, String problem, String regex, String language) {
+//		JSONArray retVal = new JSONArray();
+//		try {
+//			JSONArray requests = response.getJSONArray("requests");
+//			for (int i = 0; i < requests.length(); i++) {
+//				JSONObject request = requests.getJSONObject(i);
+//				if ((term.isEmpty() || request.getString("term").equalsIgnoreCase(term)) 
+//				 && (course.isEmpty() || request.getString("course").equalsIgnoreCase(course))
+//				 && (assign.isEmpty() || request.getString("assignment").equalsIgnoreCase(assign))
+//				 && (problem.isEmpty() || request.getString("problem").equalsIgnoreCase(problem))
+//				 && (language.isEmpty() || request.getString("language").equalsIgnoreCase(language))) {
+//					retVal.put(request);
+//				}
+//			}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+//		return retVal;
+//	}
 
 	public void createProject(JSONObject request) {
 //		JSONObject request = view.getSelectedRequest();
@@ -143,9 +164,12 @@ public class HelperViewController implements HelperListener{
 							log.setLastModified(Long.parseLong(startTimestamp));
 						} else {
 							String text = code.getString(fileName);
-							String pkg = text.substring(text.indexOf("package")+7, text.indexOf(";")).trim().replace(".", File.separator);
-							File pkgFolder = new File(src.getPath()+File.separator+pkg);
-							pkgFolder.mkdirs();
+							File pkgFolder = src;
+							if (text.indexOf("package") >= 0) {
+								String pkg = text.substring(text.indexOf("package")+7, text.indexOf(";")).trim().replace(".", File.separator);
+								pkgFolder = new File(src.getPath()+File.separator+pkg);
+								pkgFolder.mkdirs();
+							}
 							File file = new File(pkgFolder.getPath()+File.separator+fileName);
 							if (file.exists()) {
 								file.delete();

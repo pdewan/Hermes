@@ -5,21 +5,21 @@ import java.util.Map;
 
 import hermes.proxy.Diff_Match_Patch_Proxy;
 
-public class ConsoleOutput extends OutputProduced implements EHICommand {
+public class ConsoleOutputCommand extends OutputProduced implements EHICommand {
 
 //	public static final String XML_Output_Tag = "outputString";
 //	
 	protected String lastOutput = null; 
 	protected String diff = "null";
 	protected boolean overflow = false;
-	protected static int limit = 50;
+	protected static int limit = 200;
 	
-	public ConsoleOutput(){}
+	public ConsoleOutputCommand(){}
 	
-	public ConsoleOutput(String aText, String lastOutput){
+	public ConsoleOutputCommand(String aText, String lastOutput){
 //		super(aText);
-//		outputText = boundInfiniteLoop(aText);
-		outputText = aText;
+		outputText = boundInfiniteLoop(aText);
+//		outputText = aText;
 		this.lastOutput = lastOutput; 
 		if (lastOutput != null) {
 			diff = Diff_Match_Patch_Proxy.diffString(lastOutput, aText);
@@ -34,10 +34,10 @@ public class ConsoleOutput extends OutputProduced implements EHICommand {
 		String[] strings = s.split("\r\n",limit+1);
 		if (strings.length == 201) {
 			overflow = true;
-			StringBuilder sb = new StringBuilder();
+			String first200Lines = "";
 			for(int i = 0; i < limit; i++)
-				sb.append("\r\n" + strings[i]);
-			return sb.append("\r\n\tExceeding " + limit + " lines, infinite loop suspected, output ignored.").toString();
+				first200Lines = first200Lines + "\r\n" + strings[i];
+			return first200Lines + "\r\n\tExceeding " + limit + " lines, infinite loop suspected, output ignored.";
 		}
 		return s;
 	}

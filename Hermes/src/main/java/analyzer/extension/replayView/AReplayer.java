@@ -3,15 +3,16 @@ package analyzer.extension.replayView;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -29,11 +30,15 @@ import fluorite.commands.EclipseCommand;
 import fluorite.commands.ExceptionCommand;
 import fluorite.commands.FileOpenCommand;
 import fluorite.commands.Insert;
+import fluorite.commands.LocalCheckCommand;
 import fluorite.commands.MoveCaretCommand;
+import fluorite.commands.PauseCommand;
 import fluorite.commands.Replace;
 import fluorite.commands.RunCommand;
 import fluorite.commands.SelectTextCommand;
 import fluorite.commands.ShellCommand;
+import fluorite.commands.WebCommand;
+import fluorite.model.EHEventRecorder;
 import fluorite.util.EHUtilities;
 import programmatically.AnEclipseProgrammaticController;
 
@@ -67,6 +72,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 	private List<List<String>> newFiles = null; 
 	private List<List<String>> deletedFiles = null; 
 	private List<List<String>> refactorRecords = null;
+	private static final long PAUSE = 5*60*1000;
 
 
 	public AReplayer(Analyzer anAnalyzer) {
@@ -77,12 +83,71 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 	}
 
 	public List<List<EHICommand>> replayLogs(String projectPath, Analyzer analyzer){
-		refineLogFiles(projectPath);
-		nestedCommands = analyzer.convertXMLLogToObjects(projectPath+File.separator+"Logs"+File.separator+"Eclipse");
-//		buildRefactorRecord(projectPath);
-		i = nestedCommands.size()-1;
-		j = nestedCommands.get(i).size()-1;
+		File logFolder = new File(projectPath, "Logs"+File.separator+"Eclipse");
+		if (!logFolder.exists()) {
+			System.out.println("No logs found for project " + projectPath);
+		}
+		File[] logFiles = logFolder.listFiles(File::isDirectory);
+		if (logFiles != null && logFiles.length > 0) {
+			logFolder = logFiles[0];
+		} 
+		if (logFolder.getName().equals("Eclipse")) {
+			refineLogFiles(logFolder.getPath());
+		}
+		nestedCommands = analyzer.convertXMLLogToObjects(logFolder.getPath());
+		sortNestedCommands(nestedCommands);
+		buildRefactorRecord(projectPath);
+		if (nestedCommands.isEmpty()) {
+			i = 0;
+			j = 0;
+		} else {
+			i = nestedCommands.size()-1;
+			if (nestedCommands.get(i).isEmpty()) {
+				j = 0;
+			} else {
+				j = nestedCommands.get(i).size()-1;
+			}
+		}
 		return nestedCommands;
+	}
+	
+	protected void sortNestedCommands(List<List<EHICommand>> nestedCommands){
+		for (int i = 0; i < nestedCommands.size(); i++) {
+			List<EHICommand> commands = nestedCommands.get(i);
+			if (commands == null || commands.size() < 2) {
+				nestedCommands.remove(i);
+				i--;
+			} else if (commands.size() > 2) {
+				sortCommands(commands, 0, commands.size()-1);
+			}
+		}
+	}
+	
+	private void sortCommands(List<EHICommand> commands, int start, int end){
+		for(int i = 0; i < commands.size(); i++) {
+			if (commands.get(i) == null) {
+				commands.remove(i);
+				i--;
+			}
+		}
+		EHICommand command = null;
+		long cur = 0;
+		for(int i = 2; i < commands.size(); i++) {
+			command = commands.get(i);
+			cur = command.getStartTimestamp()+command.getTimestamp();
+			int j = i-1;
+			while (j > 1){
+				if (commands.get(j).getStartTimestamp() + commands.get(j).getTimestamp() > cur) {
+					j--;
+				} else {
+					break;
+				}
+			}
+			if (j < i-1) {
+				commands.remove(i);
+				commands.add(j+1, command);
+			}
+		}
 	}
 
 	public void createMetrics(String projectPath) {
@@ -128,20 +193,10 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 
 	private static final String XML_FILE_ENDING = "\r\n</Events>"; 
 
-	public void refineLogFiles(String projectPath){
-		String logPath = projectPath + File.separator + "Logs" + File.separator + "Eclipse";
+	public void refineLogFiles(String logPath){
 		try {
 			File logDirectory = new File(logPath);
-			File currentLCKFile = null;
-			for (File file : logDirectory.listFiles()) {
-				if (file.getPath().contains(".lck")) {
-					if (currentLCKFile == null) {
-						currentLCKFile = file;
-					} else if (file.getName().compareTo(currentLCKFile.getName()) > 0) {
-						currentLCKFile = file;
-					}
-				}
-			}
+			File currentLCKFile = new File(logDirectory, EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHEventRecorder.class.getName())).getName()+".lck");
 			for (File file : logDirectory.listFiles()) {
 				if (!file.getPath().contains(".lck") && !currentLCKFile.getPath().contains(file.getPath())) {
 					BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -208,7 +263,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			currentProjectPath = getCurrentProjectPath();
 			replayLogs(currentProjectPath, analyzer);
 			createMetrics(currentProjectPath);
-			createFileLogs(currentProjectPath);
+//			createFileLogs(currentProjectPath);
 			outer: 
 				for(int n = nestedCommands.size()-1; n >= 0; n--) {
 					for(int m = nestedCommands.get(n).size()-1; m >= 0; m--) {
@@ -218,6 +273,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 							String path = currentFile.getDataMap().get("filePath");
 							PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
 							editor = EHUtilities.getActiveEditor();
+							filej = m;
 							break outer;
 						}
 					}
@@ -240,28 +296,28 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 					}
 				}
 			}
+			totalExceptions = currentExceptions;
 			i = nestedCommands.size() - 1;
 			j = nestedCommands.get(i).size() - 1;
 //			EHICommand startCommand = nestedCommands.get(i).get(j);
 //			difficultyTime = startCommand.getTimestamp()+startCommand.getStartTimestamp() == 0? startCommand.getTimestamp2():startCommand.getTimestamp()+startCommand.getStartTimestamp();
-			new Thread(new Runnable() {
-				public void run() {
-					for (List<EHICommand> commands : nestedCommands) {
-						for (EHICommand command : commands) {
-							if (command instanceof ExceptionCommand) {
-								totalExceptions++;
-							}
-						}
-					}
-				}
-			}).start();
 		} else {
 			IEditorPart currentEditor = EHUtilities.getActiveEditor();
-			if (editor == null || !editor.equals(currentEditor)) {
+			if (editor == null || !editor.equals(currentEditor) || currentFile != null) {
 				String path = currentFile.getDataMap().get("filePath");
-				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+				if (path.contains("src")) {
+					PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+				}
 				editor = EHUtilities.getActiveEditor();
 			}
+		}
+	}
+	
+	public void maybeAddToCommandList(EHICommand command) {
+		if (command instanceof WebCommand || command instanceof ExceptionCommand || 
+			command instanceof ConsoleOutput || command instanceof PauseCommand || 
+			command instanceof LocalCheckCommand) {
+			commandList.add(command);
 		}
 	}
 
@@ -277,7 +333,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 					return null;
 				}
 			}
-			return backEdit(Integer.parseInt(numStep)*30);
+			return backEdit(Integer.parseInt(numStep));
 		case ReplayView.ONE_MINUTE:
 			for (int a = 0; a < numStep.length(); a++) {
 				if (!Character.isDigit(numStep.charAt(a))) {
@@ -315,23 +371,308 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		case ReplayView.DIFFICULTY:
 		case ReplayView.DIFFICULTY_TO_NO_DIFFICULTY:
 			return backToDifficulty();
-		case ReplayView.NEW_FILE:
-			return backToNewFile();
-		case ReplayView.DELETE_FILE:
-			return backToDeleteFile();
-		case ReplayView.REFACTOR:
-			return backToRefactor();
+//		case ReplayView.NEW_FILE:
+//			return backToNewFile();
+//		case ReplayView.DELETE_FILE:
+//			return backToDeleteFile();
+//		case ReplayView.REFACTOR:
+//			return backToRefactor();
 		case ReplayView.OPEN_FILE:
 			return backToOpenFile();
 		case ReplayView.SAVE:
 			return backToSave();
+		case ReplayView.PAUSE:
+			for (int a = 0; a < numStep.length(); a++) {
+				if (!Character.isDigit(numStep.charAt(a))) {
+					JOptionPane.showMessageDialog(null, "Please enter a positive integer", "ParseException", JOptionPane.INFORMATION_MESSAGE);
+					return null;
+				}
+			}
+			return backToPause(Integer.parseInt(numStep));
+		case ReplayView.WEB:
+			return backToWeb();
 		}
 		commandList.clear();
 		return commandList;
 	}
+	public ArrayList<EHICommand> backToWeb(){
+		forwarded = false;
+		int insertLength = 0;
+		int caretOffset = -1;
+		outer:
+			for(; i >= 0; i--) {
+				if (i >= nestedCommands.size()) {
+					i = nestedCommands.size()-1;
+				}
+				List<EHICommand> commands = nestedCommands.get(i);
+				if (j >= commands.size()) {
+					j = commands.size()-1;
+				}
+				insertLength = 0;
+				caretOffset = -1;
+				for(; j >=0; j--) {
+					EHICommand command = commands.get(j);
+					maybeAddToCommandList(command);
+					if (command instanceof FileOpenCommand && command.equals(currentFile)) {
+						commandList.add(command);
+						int m = j-1;
+						inner:
+							for(int n = i; n >= 0; n--) {
+								for(; m >= 0; m--) {
+									if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
+										currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
+										fileChanged = true;
+
+										filej = m;
+										break inner;
+									}
+								}
+								if (n > 0) {
+									m = nestedCommands.get(n-1).size()-1;
+								}
+							}
+					}
+					if (command instanceof Insert) {
+						String insertedText = command.getDataMap().get("text");
+						if (insertedText != null && !replacedString.equals(trimNewLine(insertedText))) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof Replace) {
+						if (command.getDataMap().get("insertedText") != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = command.getDataMap().get("insertedText").length();
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								replacedString = trimNewLine(command.getDataMap().get("deletedText"));
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
+						if (insertLength > 0) 
+							commandList.add(command);
+					}
+					if (command instanceof WebCommand) {
+						j--;
+						break outer;
+					}
+					if (command instanceof ExceptionCommand) {
+						currentExceptions--;
+					}
+				}
+				if (i != 0) {
+					j = nestedCommands.get(i-1).size()-1;
+				}
+			}
+		backed = true;
+		if (fileChanged) {
+			String path = currentFile.getDataMap().get("filePath");
+			if (!path.contains("src") || !(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
+				j--;
+				return commandList;
+			}
+			PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+			editor = EHUtilities.getActiveEditor();
+			fileChanged = false;
+		}
+		PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
+		return commandList;
+	}
+
+	public ArrayList<EHICommand> backToPause(int time){
+		forwarded = false;
+		int insertLength = 0;
+		int caretOffset = -1;
+		outer:
+			for(; i >= 0; i--) {
+				if (i >= nestedCommands.size()) {
+					i = nestedCommands.size()-1;
+				}
+				List<EHICommand> commands = nestedCommands.get(i);
+				if (j >= commands.size()) {
+					j = commands.size()-1;
+				}
+				insertLength = 0;
+				caretOffset = -1;
+				for(; j >=0; j--) {
+					EHICommand command = commands.get(j);
+					maybeAddToCommandList(command);
+					if (command instanceof FileOpenCommand && command.equals(currentFile)) {
+						commandList.add(command);
+						int m = j-1;
+						inner:
+							for(int n = i; n >= 0; n--) {
+								for(; m >= 0; m--) {
+									if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
+										currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
+										fileChanged = true;
+
+										filej = m;
+										break inner;
+									}
+								}
+								if (n > 0) {
+									m = nestedCommands.get(n-1).size()-1;
+								}
+							}
+					}
+					if (command instanceof Insert) {
+						String insertedText = command.getDataMap().get("text");
+						if (insertedText != null && !replacedString.equals(trimNewLine(insertedText))) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof Replace) {
+						if (command.getDataMap().get("insertedText") != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = command.getDataMap().get("insertedText").length();
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								replacedString = trimNewLine(command.getDataMap().get("deletedText"));
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
+						if (insertLength > 0) 
+							commandList.add(command);
+					}
+					if (command instanceof PauseCommand) {
+//						commandList.add(command);
+						int pause = Integer.parseInt(command.getDataMap().get("pause"));
+						if (pause/1000 >= time) {
+							j--;
+							break outer;
+						}
+					}
+					if (command instanceof ExceptionCommand) {
+						currentExceptions--;
+					}
+				}
+				if (i != 0) {
+					j = nestedCommands.get(i-1).size()-1;
+				}
+			}
+		backed = true;
+		if (fileChanged) {
+			String path = currentFile.getDataMap().get("filePath");
+			if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
+				j--;
+				return commandList;
+			}
+			PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+			editor = EHUtilities.getActiveEditor();
+			fileChanged = false;
+		}
+		PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
+		return commandList;
+	}
 
 	public ArrayList<EHICommand> backToLocalCheck(){
-		return null;
+		forwarded = false;
+		int insertLength = 0;
+		int caretOffset = -1;
+		outer:
+			for(; i >= 0; i--) {
+				if (i >= nestedCommands.size()) {
+					i = nestedCommands.size()-1;
+				}
+				List<EHICommand> commands = nestedCommands.get(i);
+				if (j >= commands.size()) {
+					j = commands.size()-1;
+				}
+				insertLength = 0;
+				caretOffset = -1;
+				for(; j >=0; j--) {
+					EHICommand command = commands.get(j);
+					maybeAddToCommandList(command);
+					if (command instanceof FileOpenCommand && command.equals(currentFile)) {
+						commandList.add(command);
+						int m = j-1;
+						inner:
+							for(int n = i; n >= 0; n--) {
+								for(; m >= 0; m--) {
+									if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
+										currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
+										fileChanged = true;
+
+										filej = m;
+										break inner;
+									}
+								}
+								if (n > 0) {
+									m = nestedCommands.get(n-1).size()-1;
+								}
+							}
+					}
+					if (command instanceof Insert) {
+						String insertedText = command.getDataMap().get("text");
+						if (insertedText != null && !replacedString.equals(trimNewLine(insertedText))) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof Replace) {
+						if (command.getDataMap().get("insertedText") != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = command.getDataMap().get("insertedText").length();
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								replacedString = trimNewLine(command.getDataMap().get("deletedText"));
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
+						if (insertLength > 0) 
+							commandList.add(command);
+					}
+					if (command instanceof LocalCheckCommand) {
+						j--;
+						break outer;
+					}
+					if (command instanceof ExceptionCommand) {
+						currentExceptions--;
+					}
+				}
+				if (i != 0) {
+					j = nestedCommands.get(i-1).size()-1;
+				}
+			}
+		backed = true;
+		if (fileChanged) {
+			String path = currentFile.getDataMap().get("filePath");
+			if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
+				j--;
+				return commandList;
+			}
+			PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+			editor = EHUtilities.getActiveEditor();
+			fileChanged = false;
+		}
+		PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
+		return commandList;
 	}
 
 	public ArrayList<EHICommand> backToRun(){
@@ -352,212 +693,16 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				caretOffset = -1;
 				for(; j >=0; j--) {
 					EHICommand command = commands.get(j);
+					maybeAddToCommandList(command);
 					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Run")) {
+						commandList.add(command);
 						hitRun = true;
 					}
 					if (hitRun && !(command instanceof RunCommand)) {
 						break outer;
 					}
 					if (command instanceof FileOpenCommand && command.equals(currentFile)) {
-						int m = j-1;
-						inner:
-							for(int n = i; n >= 0; n--) {
-								for(; m >= 0; m--) {
-									if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
-										currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
-										fileChanged = true;
-										filej = m;
-										break inner;
-									}
-								}
-								if (n > 0) {
-									m = nestedCommands.get(n-1).size()-1;
-								}
-							}
-					}
-					if (command instanceof Insert) {
-						String insertedText = command.getDataMap().get("text");
-						if (insertedText != null && !replacedString.equals(trimNewLine(insertedText))) {
-							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
-							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
-							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
-								caretOffset = tempCaretOffset;
-								insertLength += tempLength;
-								commandList.add(command);
-							}  
-						}
-					}
-					if (command instanceof Replace) {
-						if (command.getDataMap().get("insertedText") != null) {
-							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
-							int tempLength = command.getDataMap().get("insertedText").length();
-							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
-								replacedString = trimNewLine(command.getDataMap().get("deletedText"));
-								caretOffset = tempCaretOffset;
-								insertLength += tempLength;
-								commandList.add(command);
-							}  
-						}
-					}
-					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
-						//					if (insertLength > 0) 
 						commandList.add(command);
-					}
-					if (command instanceof ExceptionCommand) {
-						commandList.add(command);
-						currentExceptions--;
-					}
-					if (command instanceof ConsoleOutput) {
-						commandList.add(command);
-					}
-
-				}
-				if (i != 0) {
-					j = nestedCommands.get(i-1).size()-1;
-				}
-			}
-		backed = true;
-		if (hitRun) {
-			if (fileChanged) {
-				String path = currentFile.getDataMap().get("filePath");
-				if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
-					return commandList;
-				}
-				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
-				editor = EHUtilities.getActiveEditor();
-				fileChanged = false;
-			}
-			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
-			return commandList;
-
-		}
-		return null;
-	}
-
-	public ArrayList<EHICommand> backToDebug(){
-		forwarded = false;
-		boolean hitDebug = false;
-		int insertLength = 0;
-		int caretOffset = -1;
-		outer:
-			for(; i >= 0; i--) {
-				if (i >= nestedCommands.size()) {
-					i = nestedCommands.size()-1;
-				}
-				List<EHICommand> commands = nestedCommands.get(i);
-				if (j >= commands.size()) {
-					j = commands.size()-1;
-				}
-				insertLength = 0;
-				caretOffset = -1;
-				for(; j >=0; j--) {
-					EHICommand command = commands.get(j);
-					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Debug")) {
-						hitDebug = true;
-					}
-					if (hitDebug && !(command instanceof RunCommand)) {
-						break outer;
-					}
-					if (command instanceof FileOpenCommand && command.equals(currentFile)) {
-						int m = j-1;
-						inner:
-							for(int n = i; n >= 0; n--) {
-								for(; m >= 0; m--) {
-									if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
-										currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
-										fileChanged = true;
-										filej = m;
-										break inner;
-									}
-								}
-								if (n > 0) {
-									m = nestedCommands.get(n-1).size()-1;
-								}
-							}
-					}
-					if (command instanceof Insert) {
-						String insertedText = command.getDataMap().get("text");
-						if (insertedText != null && !replacedString.equals(trimNewLine(insertedText))) {
-							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
-							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
-							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
-								caretOffset = tempCaretOffset;
-								insertLength += tempLength;
-								commandList.add(command);
-							}  
-						}
-					}
-					if (command instanceof Replace) {
-						if (command.getDataMap().get("insertedText") != null) {
-							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
-							int tempLength = command.getDataMap().get("insertedText").length();
-							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
-								replacedString = trimNewLine(command.getDataMap().get("deletedText"));
-								caretOffset = tempCaretOffset;
-								insertLength += tempLength;
-								commandList.add(command);
-							}  
-						}
-					}
-					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
-						//					if (insertLength > 0) 
-						commandList.add(command);
-					}
-					if (command instanceof ExceptionCommand) {
-						commandList.add(command);
-						currentExceptions--;
-					}
-					if (command instanceof ConsoleOutput) {
-						commandList.add(command);
-					}
-				}
-				if (i != 0) {
-					j = nestedCommands.get(i-1).size()-1;
-				}
-			}
-		backed = true;
-		if (hitDebug) {
-			if (fileChanged) {
-				String path = currentFile.getDataMap().get("filePath");
-				if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
-					return commandList;
-				}
-				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
-				editor = EHUtilities.getActiveEditor();
-				fileChanged = false;
-			}
-			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
-			return commandList;
-
-		}
-		return null;
-	}
-
-	public ArrayList<EHICommand> backToCompile(){
-		forwarded = false;
-		boolean hitRun = false;
-		int insertLength = 0;
-		int caretOffset = -1;
-		outer:
-			for(; i >= 0; i--) {
-				if (i >= nestedCommands.size()) {
-					i = nestedCommands.size()-1;
-				}
-				List<EHICommand> commands = nestedCommands.get(i);
-				if (j >= commands.size()) {
-					j = commands.size()-1;
-				}
-				insertLength = 0;
-				caretOffset = -1;
-				for(; j >=0; j--) {
-					EHICommand command = commands.get(j);
-					if (command instanceof RunCommand) {
-						hitRun = true;
-					}
-					if (hitRun && !(command instanceof RunCommand)) {
-						break outer;
-					}
-					if (command instanceof FileOpenCommand && command.equals(currentFile)) {
 						int m = j-1;
 						inner:
 							for(int n = i; n >= 0; n--) {
@@ -603,11 +748,204 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 							commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
-						commandList.add(command);
 						currentExceptions--;
 					}
-					if (command instanceof ConsoleOutput) {
+
+				}
+				if (i != 0) {
+					j = nestedCommands.get(i-1).size()-1;
+				}
+			}
+		backed = true;
+		if (hitRun) {
+			if (fileChanged) {
+				String path = currentFile.getDataMap().get("filePath");
+				if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
+					return commandList;
+				}
+				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+				editor = EHUtilities.getActiveEditor();
+				fileChanged = false;
+			}
+			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
+			return commandList;
+
+		}
+		return commandList;
+	}
+
+	public ArrayList<EHICommand> backToDebug(){
+		forwarded = false;
+		boolean hitDebug = false;
+		int insertLength = 0;
+		int caretOffset = -1;
+		outer:
+			for(; i >= 0; i--) {
+				if (i >= nestedCommands.size()) {
+					i = nestedCommands.size()-1;
+				}
+				List<EHICommand> commands = nestedCommands.get(i);
+				if (j >= commands.size()) {
+					j = commands.size()-1;
+				}
+				insertLength = 0;
+				caretOffset = -1;
+				for(; j >=0; j--) {
+					EHICommand command = commands.get(j);
+					maybeAddToCommandList(command);
+					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Debug")) {
 						commandList.add(command);
+						hitDebug = true;
+					}
+					if (hitDebug && !(command instanceof RunCommand)) {
+						break outer;
+					}
+					if (command instanceof FileOpenCommand && command.equals(currentFile)) {
+						commandList.add(command);
+						int m = j-1;
+						inner:
+							for(int n = i; n >= 0; n--) {
+								for(; m >= 0; m--) {
+									if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
+										currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
+										fileChanged = true;
+										filej = m;
+										break inner;
+									}
+								}
+								if (n > 0) {
+									m = nestedCommands.get(n-1).size()-1;
+								}
+							}
+					}
+					if (command instanceof Insert) {
+						String insertedText = command.getDataMap().get("text");
+						if (insertedText != null && !replacedString.equals(trimNewLine(insertedText))) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof Replace) {
+						if (command.getDataMap().get("insertedText") != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = command.getDataMap().get("insertedText").length();
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								replacedString = trimNewLine(command.getDataMap().get("deletedText"));
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
+						if (insertLength > 0) 
+							commandList.add(command);
+					}
+					if (command instanceof ExceptionCommand) {
+						currentExceptions--;
+					}
+				}
+				if (i != 0) {
+					j = nestedCommands.get(i-1).size()-1;
+				}
+			}
+		backed = true;
+		if (hitDebug) {
+			if (fileChanged) {
+				String path = currentFile.getDataMap().get("filePath");
+				if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
+					return commandList;
+				}
+				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+				editor = EHUtilities.getActiveEditor();
+				fileChanged = false;
+			}
+			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
+			return commandList;
+
+		}
+		return commandList;
+	}
+
+	public ArrayList<EHICommand> backToCompile(){
+		forwarded = false;
+		boolean hitRun = false;
+		int insertLength = 0;
+		int caretOffset = -1;
+		outer:
+			for(; i >= 0; i--) {
+				if (i >= nestedCommands.size()) {
+					i = nestedCommands.size()-1;
+				}
+				List<EHICommand> commands = nestedCommands.get(i);
+				if (j >= commands.size()) {
+					j = commands.size()-1;
+				}
+				insertLength = 0;
+				caretOffset = -1;
+				for(; j >=0; j--) {
+					EHICommand command = commands.get(j);
+					maybeAddToCommandList(command);
+					if (command instanceof RunCommand) {
+						commandList.add(command);
+						hitRun = true;
+					}
+					if (hitRun && !(command instanceof RunCommand)) {
+						break outer;
+					}
+					if (command instanceof FileOpenCommand && command.equals(currentFile)) {
+						commandList.add(command);
+						int m = j-1;
+						inner:
+							for(int n = i; n >= 0; n--) {
+								for(; m >= 0; m--) {
+									if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
+										currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
+										fileChanged = true;
+										filej = m;
+										break inner;
+									}
+								}
+								if (n > 0) {
+									m = nestedCommands.get(n-1).size()-1;
+								}
+							}
+					}
+					if (command instanceof Insert) {
+						String insertedText = command.getDataMap().get("text");
+						if (insertedText != null && !replacedString.equals(trimNewLine(insertedText))) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof Replace) {
+						if (command.getDataMap().get("insertedText") != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = command.getDataMap().get("insertedText").length();
+							if (caretOffset == -1 || (tempCaretOffset < caretOffset && tempCaretOffset + tempLength >= caretOffset)) {
+								replacedString = trimNewLine(command.getDataMap().get("deletedText"));
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							}  
+						}
+					}
+					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
+						if (insertLength > 0) 
+							commandList.add(command);
+					}
+					if (command instanceof ExceptionCommand) {
+						currentExceptions--;
 					}
 				}
 				if (i != 0) {
@@ -629,7 +967,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			return commandList;
 
 		}
-		return null;
+		return commandList;
 	}
 
 	public ArrayList<EHICommand> backToDifficulty(){
@@ -666,6 +1004,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				caretOffset = -1;
 				for(; j >=0; j--) {
 					EHICommand command = commands.get(j);
+					maybeAddToCommandList(command);
 					if (command == null) {
 						continue;
 					}
@@ -724,11 +1063,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 							commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
-						commandList.add(command);
 						currentExceptions--;
-					}
-					if (command instanceof ConsoleOutput) {
-						commandList.add(command);
 					}
 				}
 
@@ -779,7 +1114,9 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						continue;
 					}
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || 
+							command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -822,7 +1159,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						break outer;
 					} 
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -877,7 +1215,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						continue;
 					}
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -920,7 +1259,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						break outer;
 					} 
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -1016,7 +1356,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						break outer;
 					} 
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -1107,13 +1448,14 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 					}
 					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("org.eclipse.ui.file.save")) {
 						j--;
+						commandList.add(command);
 						break outer;
 					}
 					if (command instanceof ExceptionCommand) {
 						commandList.add(command);
 						currentExceptions--;
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -1138,6 +1480,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 
 	public ArrayList<EHICommand> backToOpenFile(){
 		forwarded = false;
+//		EHICommand newFileComand = null;
 		outer:
 			for(; i >= 0; i--) {
 				if (i >= nestedCommands.size()) {
@@ -1149,15 +1492,18 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				}
 				for(; j >=0; j--) {
 					EHICommand command = commands.get(j);
-					if (command instanceof FileOpenCommand && !command.equals(currentFile)) {
+					if (command instanceof FileOpenCommand /*&& !command.equals(currentFile)*/) {
 						currentFile = (FileOpenCommand)command;
 						fileChanged = true;
 						filej = j;
 						j--;
+//						newFileComand = command;
+						commandList.add(command);
 						break outer;
 					}
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -1169,26 +1515,31 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 					j = nestedCommands.get(i-1).size()-1;
 				}
 			}
+//		if (newFileComand != null) {
+//			commandList.add(newFileComand);
+//		}
 		backed = true;
 		if (fileChanged) {
 			String path = currentFile.getDataMap().get("filePath");
 			if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
 				j--;
-				return backToOpenFile();
+//				return backToOpenFile();
+				return commandList;
 			}
 			PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
 			editor = EHUtilities.getActiveEditor();
 			fileChanged = false;
 			return commandList;
 		}
-		return null;
+		return commandList;
 	}
 
 	public ArrayList<EHICommand> backEdit(int limit) {
-		if (forwarded) {
-			forwarded = false;
-			backEdit(limit);
-		}
+//		if (forwarded) {
+//			forwarded = false;
+//			backEdit(limit);
+//		}
+		int num = 0;
 		for(; i >= 0; i--) {
 			if (i >= nestedCommands.size()) {
 				i = nestedCommands.size()-1;
@@ -1202,9 +1553,10 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			for(; j >=0; j--) {
 				EHICommand command = commands.get(j);
 				if (command instanceof FileOpenCommand && command.equals(currentFile)) {
-					if (insertLength > 0) {
-						break;
-					}
+//					if (num > 0) {
+//						num = limit;
+//						break;
+//					}
 					int m = j-1;
 					outer:
 						for(int n = i; n >= 0; n--) {
@@ -1224,6 +1576,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				}
 				if (command instanceof Insert) {
 					String insertedText = command.getDataMap().get("text");
+					num++;
 					if (insertedText != null && !replacedString.equals(trimNewLine(insertedText))) {
 						int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
 						int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
@@ -1231,11 +1584,14 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 							caretOffset = tempCaretOffset;
 							insertLength += tempLength;
 							commandList.add(command);
-						} else 
-							break;
+						}
+//						} else 
+//							break;
 					}
+					
 				}
 				if (command instanceof Replace) {
+					num++;
 					if (command.getDataMap().get("insertedText") != null) {
 						int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
 						int tempLength = command.getDataMap().get("insertedText").length();
@@ -1244,40 +1600,44 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 							caretOffset = tempCaretOffset;
 							insertLength += tempLength;
 							commandList.add(command);
-						} else 
-							break;
+						} 
+//						else 
+//							break;
 					}
+					
 				}
 				if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
 					commandList.add(command);
-					if (insertLength < 0) {
-						j--;
-						//						commandList.clear();
-						return backEdit(limit);
-					}
+					insertLength--;
+//					if (insertLength < 0) {
+//						j--;
+//						//						commandList.clear();
+//						return backEdit(limit);
+//					}
+					num++;
 				}
 				if (command instanceof ExceptionCommand) {
 					commandList.add(command);
 					currentExceptions--;
 				}
-				if (command instanceof ConsoleOutput) {
+				if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 					commandList.add(command);
 				}
-				if (insertLength > limit) {
+				if (num >= limit) {
 					j--;
 					break;
 				}
 			}
-			if (insertLength > 0) {
+			if (num >= limit) {
 				backed = true;
 				if (fileChanged) {
 					String path = currentFile.getDataMap().get("filePath");
 					if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
 						j--;
-						if (limit-insertLength <= 0) {
+//						if (limit-insertLength <= 0) {
 							return commandList;
-						}
-						return backEdit(limit-insertLength);
+//						}
+//						return backEdit(limit-insertLength);
 					}
 					PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
 					editor = EHUtilities.getActiveEditor();
@@ -1290,7 +1650,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				j = nestedCommands.get(i-1).size()-1;
 			}
 		}
-		return null;
+		return commandList;
 	}
 
 	public ArrayList<EHICommand> backByTime(long backTime) {
@@ -1326,8 +1686,9 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 							commandList.add(command);
 						} 
 						if(command instanceof Insert || command instanceof Replace || command instanceof ExceptionCommand ||
-								(command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS")) 
-								|| command instanceof Delete || command instanceof ConsoleOutput) {
+								(command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS")) || 
+								command instanceof Delete || command instanceof ConsoleOutput || command instanceof LocalCheckCommand || 
+								command instanceof PauseCommand || command instanceof WebCommand) {
 							commandList.add(command);
 						}
 						if (command instanceof ExceptionCommand) {
@@ -1514,19 +1875,19 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 					if (command instanceof ExceptionCommand) {
 						currentExceptions--;
 						j--;
-						if (j < commands.size()) {
-							i--;
-							if (i >= 0) {
-								j = nestedCommands.get(i).size()-1;
-							} else {
-								j = 0;
-							}
-
-						}
+//						if (j < commands.size()) {
+//							i--;
+//							if (i >= 0) {
+//								j = nestedCommands.get(i).size()-1;
+//							} else {
+//								j = 0;
+//							}
+//
+//						}
 						commandList.add(command);
 						break outer2;
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -1538,8 +1899,13 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		backed = true;
 		if (fileChanged) {
 			String path = currentFile.getDataMap().get("filePath");
-			if (new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists()) {
+			if (path.contains("src") && new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists()) {
+//				String projectName = currentProjectPath.substring(currentProjectPath.lastIndexOf(File.separator)+1);
+//				path = path.substring(path.lastIndexOf(projectName));
+//				path = path.substring(path.indexOf(File.separator)+1);
+//				PROGRAMATIC_CONTROLLER.openEditor(path);
 				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+//				currentProjectPath = "";
 				editor = EHUtilities.getActiveEditor();
 				fileChanged = false;
 			}
@@ -1613,6 +1979,9 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 							}  
 						}
 					}
+					if (command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
+						
+					}
 					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
 						if (insertLength > 0) 
 							commandList.add(command);
@@ -1667,7 +2036,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 					return null;
 				}
 			}
-			return forwardEdit(Integer.parseInt(numStep)*30);
+			return forwardEdit(Integer.parseInt(numStep));
 		case ReplayView.ONE_MINUTE:
 			for (int a = 0; a < numStep.length(); a++) {
 				if (!Character.isDigit(numStep.charAt(a))) {
@@ -1700,29 +2069,367 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			return forwardToRun();
 		case ReplayView.DEBUG:
 			return forwardToDebug();
-		case ReplayView.COMPILE:
-			return forwardToCompile();
+//		case ReplayView.COMPILE:
+//			return forwardToCompile();
 		case ReplayView.DIFFICULTY:
 			return forwardToDifficulty();
 		case ReplayView.DIFFICULTY_TO_NO_DIFFICULTY:
 			return forwardToNoDifficulty();
-		case ReplayView.NEW_FILE:
-			return forwardToNewFile();
-		case ReplayView.DELETE_FILE:
-			return forwardToDeleteFile();
-		case ReplayView.REFACTOR:
-			return forwardToRefactor();
+//		case ReplayView.NEW_FILE:
+//			return forwardToNewFile();
+//		case ReplayView.DELETE_FILE:
+//			return forwardToDeleteFile();
+//		case ReplayView.REFACTOR:
+//			return forwardToRefactor();
 		case ReplayView.OPEN_FILE:
 			return forwardToOpenFile();
-		case ReplayView.SAVE:
-			return forwardToSave();
+//		case ReplayView.SAVE:
+//			return forwardToSave();
+		case ReplayView.PAUSE:
+			for (int a = 0; a < numStep.length(); a++) {
+				if (!Character.isDigit(numStep.charAt(a))) {
+					JOptionPane.showMessageDialog(null, "Please enter a positive integer", "ParseException", JOptionPane.INFORMATION_MESSAGE);
+					return null;
+				}
+			}
+			return forwardToPause(Integer.parseInt(numStep));
+		case ReplayView.WEB:
+			return forwardToWeb();
 		}
-		commandList.clear();
+//		commandList.clear();
+		return commandList;
+	}
+	
+	public ArrayList<EHICommand> forwardToWeb(){
+		backed = false;
+
+		int insertLength = 0;
+		int caretOffset = -1;
+
+		outer:
+			for(; i < nestedCommands.size(); i++) {
+				if (i >= nestedCommands.size()) {
+					return commandList;
+				}
+				List<EHICommand> commands = nestedCommands.get(i);
+				if (j >= commands.size()) {
+					i++;
+					if (i >= nestedCommands.size()) {
+						return commandList;
+					}
+					j = 0;
+				}
+				insertLength = 0;
+				caretOffset = -1;
+				String insertedString = "";
+				for(; j < commands.size(); j++) {
+					EHICommand command = commands.get(j);
+					if (command instanceof FileOpenCommand) {
+						commandList.add(command);
+						currentFile = (FileOpenCommand)command;
+						fileChanged = true;
+						insertLength = 0;
+						caretOffset = -1;
+						insertedString = "";
+						
+						filej = j;
+					}
+					if (command instanceof Insert) {
+						String insertedText = command.getDataMap().get("text");
+						if (insertedText != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
+							if (caretOffset == -1) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								insertedString = trimNewLine(insertedText);
+								commandList.add(command);
+							} else if (caretOffset <= tempCaretOffset && caretOffset + insertLength >= tempCaretOffset) {
+								insertLength += tempLength;
+								insertedString = trimNewLine(insertedText);
+								commandList.add(command);
+							} 
+						}
+					}
+					if (command instanceof Replace) {
+						if (command.getDataMap().get("insertedText") != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = command.getDataMap().get("insertedText").length();
+							if (caretOffset == -1) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							} else if (caretOffset <= tempCaretOffset && caretOffset + insertLength >= tempCaretOffset) {
+								if (trimNewLine(command.getDataMap().get("deletedText")).equals(insertedString)) {
+									insertLength -= command.getDataMap().get("deletedText").length();
+								}
+								insertLength += tempLength;
+								commandList.add(command);
+							} 
+						}
+					}
+					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
+						if (insertLength > 0) 
+							commandList.add(command);
+					}
+					if (command instanceof WebCommand) {
+						commandList.add(command);
+						j++;
+						if (j >= commands.size()) {
+							i++;
+							j = 0;
+						}
+						break outer;
+					}
+					if (command instanceof ExceptionCommand) {
+						currentExceptions++;
+						commandList.add(command);
+					}
+					if (command instanceof ConsoleOutput || command instanceof PauseCommand || command instanceof LocalCheckCommand) {
+						commandList.add(command);
+					}
+				}
+				if (i < nestedCommands.size()-1) {
+					j = 0;
+				}
+			}
+
+		forwarded = true;
+		if (fileChanged) {
+			String path = currentFile.getDataMap().get("filePath");
+			if (path.contains("src") && new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists()) {
+				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+				editor = EHUtilities.getActiveEditor();
+				fileChanged = false;
+			}
+		}
+		if (insertLength > 0 & caretOffset >= 0) {
+			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
+		}
 		return commandList;
 	}
 	
 	public ArrayList<EHICommand> forwardToLocalCheck(){
-		return null;
+		backed = false;
+
+		int insertLength = 0;
+		int caretOffset = -1;
+
+		outer:
+			for(; i < nestedCommands.size(); i++) {
+				if (i >= nestedCommands.size()) {
+					return commandList;
+				}
+				List<EHICommand> commands = nestedCommands.get(i);
+				if (j >= commands.size()) {
+					i++;
+					if (i >= nestedCommands.size()) {
+						return commandList;
+					}
+					j = 0;
+				}
+				insertLength = 0;
+				caretOffset = -1;
+				String insertedString = "";
+				for(; j < commands.size(); j++) {
+					EHICommand command = commands.get(j);
+					if (command instanceof FileOpenCommand) {
+						commandList.add(command);
+						currentFile = (FileOpenCommand)command;
+						fileChanged = true;
+						insertLength = 0;
+						caretOffset = -1;
+						insertedString = "";
+						
+						filej = j;
+					}
+					if (command instanceof Insert) {
+						String insertedText = command.getDataMap().get("text");
+						if (insertedText != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
+							if (caretOffset == -1) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								insertedString = trimNewLine(insertedText);
+								commandList.add(command);
+							} else if (caretOffset <= tempCaretOffset && caretOffset + insertLength >= tempCaretOffset) {
+								insertLength += tempLength;
+								insertedString = trimNewLine(insertedText);
+								commandList.add(command);
+							} 
+						}
+					}
+					if (command instanceof Replace) {
+						if (command.getDataMap().get("insertedText") != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = command.getDataMap().get("insertedText").length();
+							if (caretOffset == -1) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							} else if (caretOffset <= tempCaretOffset && caretOffset + insertLength >= tempCaretOffset) {
+								if (trimNewLine(command.getDataMap().get("deletedText")).equals(insertedString)) {
+									insertLength -= command.getDataMap().get("deletedText").length();
+								}
+								insertLength += tempLength;
+								commandList.add(command);
+							} 
+						}
+					}
+					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
+						if (insertLength > 0) 
+							commandList.add(command);
+					}
+					if (command instanceof LocalCheckCommand) {
+						commandList.add(command);
+						j++;
+						if (j >= commands.size()) {
+							i++;
+							j = 0;
+						}
+						break outer;
+					}
+					if (command instanceof ExceptionCommand) {
+						currentExceptions++;
+						commandList.add(command);
+					}
+					if (command instanceof ConsoleOutput || command instanceof PauseCommand || command instanceof WebCommand) {
+						commandList.add(command);
+					}
+				}
+				if (i < nestedCommands.size()-1) {
+					j = 0;
+				}
+			}
+
+		forwarded = true;
+		if (fileChanged) {
+			String path = currentFile.getDataMap().get("filePath");
+			if (new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists()) {
+				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+				editor = EHUtilities.getActiveEditor();
+				fileChanged = false;
+			}
+		}
+		if (insertLength > 0 & caretOffset >= 0) {
+			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
+		}
+		return commandList;
+	}
+	
+	public ArrayList<EHICommand> forwardToPause(int time){
+		backed = false;
+
+		int insertLength = 0;
+		int caretOffset = -1;
+
+		outer:
+			for(; i < nestedCommands.size(); i++) {
+				if (i >= nestedCommands.size()) {
+					return commandList;
+				}
+				List<EHICommand> commands = nestedCommands.get(i);
+				if (j >= commands.size()) {
+					i++;
+					if (i >= nestedCommands.size()) {
+						return commandList;
+					}
+					j = 0;
+				}
+				insertLength = 0;
+				caretOffset = -1;
+				String insertedString = "";
+				for(; j < commands.size(); j++) {
+					EHICommand command = commands.get(j);
+					maybeAddToCommandList(command);
+					if (command instanceof FileOpenCommand) {
+						currentFile = (FileOpenCommand)command;
+						fileChanged = true;
+						insertLength = 0;
+						caretOffset = -1;
+						insertedString = "";
+						commandList.add(command);
+						filej = j;
+					}
+					if (command instanceof Insert) {
+						String insertedText = command.getDataMap().get("text");
+						if (insertedText != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = Integer.parseInt(command.getAttributesMap().get("length"));
+							if (caretOffset == -1) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								insertedString = trimNewLine(insertedText);
+								commandList.add(command);
+							} else if (caretOffset <= tempCaretOffset && caretOffset + insertLength >= tempCaretOffset) {
+								insertLength += tempLength;
+								insertedString = trimNewLine(insertedText);
+								commandList.add(command);
+							} 
+						}
+					}
+					if (command instanceof Replace) {
+						if (command.getDataMap().get("insertedText") != null) {
+							int tempCaretOffset = Integer.parseInt(command.getAttributesMap().get("offset"));
+							int tempLength = command.getDataMap().get("insertedText").length();
+							if (caretOffset == -1) {
+								caretOffset = tempCaretOffset;
+								insertLength += tempLength;
+								commandList.add(command);
+							} else if (caretOffset <= tempCaretOffset && caretOffset + insertLength >= tempCaretOffset) {
+								if (trimNewLine(command.getDataMap().get("deletedText")).equals(insertedString)) {
+									insertLength -= command.getDataMap().get("deletedText").length();
+								}
+								insertLength += tempLength;
+								commandList.add(command);
+							} 
+						}
+					}
+					if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
+						if (insertLength > 0) 
+							commandList.add(command);
+					}
+					if (command instanceof PauseCommand) {
+//						j++;
+//						commandList.add(command);
+//						if (j >= commands.size()) {
+//							i++;
+//							j = 0;
+//						}
+						int pause = Integer.parseInt(command.getDataMap().get("pause"));
+						if (pause/1000 >= time) {
+							j++;
+							break outer;
+						}
+//						break outer;
+					}
+					if (command instanceof ExceptionCommand) {
+						currentExceptions++;
+//						commandList.add(command);
+					}
+//					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof WebCommand) {
+//						commandList.add(command);
+//					}
+				}
+				if (i < nestedCommands.size()-1) {
+					j = 0;
+				}
+			}
+
+		forwarded = true;
+		if (fileChanged) {
+			String path = currentFile.getDataMap().get("filePath");
+			if (new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists()) {
+				PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+				editor = EHUtilities.getActiveEditor();
+				fileChanged = false;
+			}
+		}
+		if (insertLength > 0 & caretOffset >= 0) {
+			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
+		}
+		return commandList;
 	}
 
 	public ArrayList<EHICommand> forwardToRun(){
@@ -1749,6 +2456,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				for(; j < commands.size(); j++) {
 					EHICommand command = commands.get(j);
 					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Run")) {
+						commandList.add(command);
 						hitRun = true;
 					}
 					if (hitRun && !(command instanceof RunCommand)) {
@@ -1760,7 +2468,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						insertedString = "";
 						insertLength = 0;
 						caretOffset = -1;
-						
+						commandList.add(command);
 						filej = j;
 					}
 					if (command instanceof Insert) {
@@ -1805,7 +2513,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						currentExceptions++;
 						commandList.add(command);
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -1825,7 +2533,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
 			return commandList;
 		}
-		return null;
+		return commandList;
 	}
 
 	public ArrayList<EHICommand> forwardToDebug(){
@@ -1853,6 +2561,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				for(; j < commands.size(); j++) {
 					EHICommand command = commands.get(j);
 					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Debug")) {
+						commandList.add(command);
 						hitDebug = true;
 					}
 					if (hitDebug && !(command instanceof RunCommand)) {
@@ -1909,7 +2618,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						currentExceptions++;
 						commandList.add(command);
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -1929,7 +2638,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
 			return commandList;
 		}
-		return null;
+		return commandList;
 	}
 
 	public ArrayList<EHICommand> forwardToCompile(){
@@ -1956,6 +2665,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				for(; j < commands.size(); j++) {
 					EHICommand command = commands.get(j);
 					if (command instanceof RunCommand) {
+						commandList.add(command);
 						hitRun = true;
 					}
 					if (hitRun && !(command instanceof RunCommand)) {
@@ -2012,7 +2722,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						currentExceptions++;
 						commandList.add(command);
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -2033,7 +2743,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			PROGRAMATIC_CONTROLLER.selectTextInCurrentEditor(caretOffset, insertLength+1);
 			return commandList;
 		}
-		return null; 	}
+		return commandList; 	
+	}
 
 	public ArrayList<EHICommand> forwardToDifficulty(){
 		previousTime = currentTime;
@@ -2136,7 +2847,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						currentExceptions++;
 						commandList.add(command);
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -2262,7 +2973,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						currentExceptions++;
 						commandList.add(command);
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -2315,7 +3026,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						continue;
 					}
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -2358,7 +3070,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						break outer;
 					} 
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -2418,7 +3131,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						continue;
 					}
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -2462,7 +3176,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						break outer;
 					} 
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -2516,7 +3231,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						continue;
 					}
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -2559,7 +3275,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						break outer;
 					} 
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -2605,10 +3322,12 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						
 						filej = j;
 						j++;
+						commandList.add(command);
 						break outer;
 					}
 					if (command instanceof Insert || command instanceof Replace || command instanceof Delete || 
-							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof ConsoleOutput) {
+							command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || 
+							command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 					if (command instanceof ExceptionCommand) {
@@ -2663,7 +3382,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						insertLength = 0;
 						caretOffset = -1;
 						insertedString = "";
-						
+						commandList.add(command);
 						filej = j;
 					}
 					if (command instanceof Insert) {
@@ -2716,7 +3435,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						currentExceptions++;
 						commandList.add(command);
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -2741,10 +3460,11 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 	}
 
 	public ArrayList<EHICommand> forwardEdit(int limit) {
-		if (backed) {
-			backed = false;
-			forwardEdit(limit);
-		}
+//		if (backed) {
+//			backed = false;
+//			forwardEdit(limit);
+//		}
+		int num = 0;
 		for(; i < nestedCommands.size(); i++) {
 			if (i >= nestedCommands.size()) {
 				return commandList;
@@ -2768,7 +3488,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 					insertedString = "";
 					insertLength = 0;
 					caretOffset = -1;
-					
+					commandList.add(command);
 					filej = j;
 				}
 				if (command instanceof Insert) {
@@ -2788,6 +3508,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						} else
 							break;
 					}
+					num++;
 				}
 				if (command instanceof Replace) {
 					if (command.getDataMap().get("insertedText") != null) {
@@ -2806,37 +3527,40 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						} else 
 							break;
 					}
+					num++;
 				}
 				if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS") || command instanceof Delete) {
-					if (insertLength > 0) 
+//					if (insertLength > 0) 
 						commandList.add(command);
-					else {
-						j++;
-						return forwardEdit(limit);
-					}
+						insertLength--;
+//					else {
+//						j++;
+//						return forwardEdit(limit);
+//					}
+						num++;
 				}
 				if (command instanceof ExceptionCommand) {
 					currentExceptions++;
 					commandList.add(command);
 				}
-				if (command instanceof ConsoleOutput) {
+				if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 					commandList.add(command);
 				}
-				if (insertLength > limit) {
+				if (num >= limit) {
 					j++;
 					break;
 				}
 			}
-			if (insertLength > 0) {
+			if (num >= limit) {
 				forwarded = true;
 				if (fileChanged) {
 					String path = currentFile.getDataMap().get("filePath");
 					if (!(new File(getCurrentProjectPath() + path.substring(path.lastIndexOf(File.separator + "src"))).exists())) {
 						j++;
-						if (limit-insertLength <= 0) {
+//						if (limit-insertLength <= 0) {
 							return commandList;
-						}
-						return forwardEdit(limit-insertLength);
+//						}
+//						return forwardEdit(limit-insertLength);
 					}
 					PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
 					editor = EHUtilities.getActiveEditor();
@@ -2847,7 +3571,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			}
 			j = 0;
 		}
-		return null;
+		return commandList;
 	}
 
 	public ArrayList<EHICommand> forwardByTime(long forwardTime) {
@@ -2879,18 +3603,20 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 							}
 						}
 						if (command.getTimestamp() - startTime > forwardTime) {
+							commandList.add(command);
 							break outer;
 						} 
 						if(command instanceof FileOpenCommand) {
 							currentFile = (FileOpenCommand)command;
 							fileChanged = true;
 							commandList.add(command);
-							
+							commandList.add(command);
 							filej = j;
 						} 
 						if(command instanceof Insert || command instanceof Replace || command instanceof ExceptionCommand ||
-								(command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS")) 
-								|| command instanceof Delete || command instanceof ConsoleOutput) {
+								(command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS")) || 
+								command instanceof Delete || command instanceof ConsoleOutput || command instanceof LocalCheckCommand || 
+								command instanceof PauseCommand || command instanceof WebCommand) {
 							commandList.add(command);
 						}
 						if (command instanceof ExceptionCommand) {
@@ -3018,7 +3744,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						insertLength = 0;
 						caretOffset = -1;
 						insertedString = "";
-						
+						commandList.add(command);
 						filej = j;
 					}
 					if (command instanceof Insert) {
@@ -3069,7 +3795,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						commandList.add(command);
 						break outer;
 					}
-					if (command instanceof ConsoleOutput) {
+					if (command instanceof ConsoleOutput || command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
 						commandList.add(command);
 					}
 				}
@@ -3121,6 +3847,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 					if (command instanceof FileOpenCommand) {
 						currentFile = (FileOpenCommand)command;
 						fileChanged = true;
+						filej = j;
 						insertLength = 0;
 						caretOffset = -1;
 						insertedString = "";
@@ -3167,6 +3894,9 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						currentExceptions++;
 						commandList.add(command);
 					}
+					if (command instanceof LocalCheckCommand || command instanceof PauseCommand || command instanceof WebCommand) {
+						commandList.add(command);
+					}
 					if (command instanceof ConsoleOutput) {
 						commandList.add(command);
 						j++;
@@ -3176,6 +3906,15 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 						}
 						break outer;
 					}
+//					if (command instanceof RunCommand) {
+//						commandList.add(command);
+//						j++;
+//						if (j >= commands.size()) {
+//							i++;
+//							j = 0;
+//						}
+//						break outer;
+//					}
 				}
 				if (i < nestedCommands.size()-1) {
 					j = 0;
@@ -3209,6 +3948,9 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 
 	private String getCurrentProjectPath(){
 		IProject currentProject = EHUtilities.getCurrentProject();
+		if (currentProject == null) {
+			return "";
+		}
 		return currentProject.getLocation().toOSString();
 //		return projectPath.replace('/', '\\');
 	}
@@ -3224,9 +3966,22 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		int selectedLength = 1;
 		replayedFile = currentFile.getDataMap().get("snapshot");
 		if (replayedFile == null) {
-			return retval;
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(new File(currentProjectPath + File.separator + filePath.substring(filePath.indexOf("src")))));
+				StringBuffer sb = new StringBuffer();
+				String nextLine = null;
+				while ((nextLine = br.readLine()) != null) {
+					sb.append(nextLine+"\r\n");
+				}
+				replayedFile = sb.toString();
+				br.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		retval[1] = replayedFile;
+//		retval[1] = replayedFile;
 		List<EHICommand> commands = nestedCommands.get(i);
 		for (int j2 = filej; j2 <= j; j2++) {
 			if (j2 >= commands.size()) {
@@ -3251,8 +4006,8 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				selectedLength = 1;
 			}
 			if (command instanceof EclipseCommand && ((EclipseCommand)command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS")) {
-				if (replayedFile.length() < caretOffset+selectedLength) {
-					replayedFile = replayedFile.substring(0, caretOffset);
+				if (replayedFile.length() < caretOffset-selectedLength) {
+//					replayedFile = replayedFile.substring(0, caretOffset);
 				} else {
 					replayedFile = replayedFile.substring(0, caretOffset) + replayedFile.substring(caretOffset+selectedLength);
 				}
@@ -3273,66 +4028,307 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				caretOffset = Integer.parseInt(command.getAttributesMap().get("start"));
 			}
 		}
+		retval[1] = replayedFile;
 		return retval;
 	}
 
-	private void calculateTotalTimeSpent(){
+//	private void calculateTotalTimeSpent(){
+//		long projectTime = 0;
+//		for(int k = 0; k < nestedCommands.size(); k++) {
+//			List<EHICommand> commands = nestedCommands.get(k);
+//			long timestamp1 = commands.get(1).getTimestamp();
+//			EHICommand command2 = commands.get(commands.size()-1);
+//			int offset = 1;
+//			while (command2 == null) {
+//				offset++;
+//				command2 = commands.get(commands.size() - offset);
+//			}
+//			long timestamp2 = command2.getTimestamp();
+//			projectTime += timestamp2 - timestamp1;
+//		}
+//		totalTimeSpent = projectTime;
+//	}
+	protected void calculateTotalTimeSpent(){
 		long projectTime = 0;
 		for(int k = 0; k < nestedCommands.size(); k++) {
 			List<EHICommand> commands = nestedCommands.get(k);
-			long timestamp1 = commands.get(1).getTimestamp();
-			EHICommand command2 = commands.get(commands.size()-1);
-			int offset = 1;
-			while (command2 == null) {
-				offset++;
-				command2 = commands.get(commands.size() - offset);
+			if (commands.size() == 0) {
+				continue;
 			}
-			long timestamp2 = command2.getTimestamp();
+			int j = 0;
+			for(; j < commands.size(); j++) {
+//				if (!(commands.get(j) instanceof LocalCheckCommand) && (commands.get(j).getStartTimestamp() > 0 || commands.get(j).getTimestamp() > 0)) {
+//					break;
+//				}
+				if (commands.get(j).getStartTimestamp() > 0 || commands.get(j).getTimestamp() > 0) {
+					break;
+				}
+			}
+			long timestamp1 = commands.get(j).getTimestamp() + commands.get(j).getStartTimestamp();
+			EHICommand command2 = commands.get(commands.size()-1);
+			long timestamp2 = command2.getStartTimestamp() + command2.getTimestamp();
 			projectTime += timestamp2 - timestamp1;
 		}
-		totalTimeSpent = projectTime;
+		totalTimeSpent = projectTime - restTime(10*60*1000);
 	}
 
+	protected long restTime(long time, int i2, int j2) {
+		long restTime = 0;
+		for (int i = 0; i <= i2; i++) {
+			List<EHICommand> commands = nestedCommands.get(i);
+			for (int j = 0; j < (i==i2?j2:commands.size()-1); j++) {
+				EHICommand command = commands.get(j);
+				if (command instanceof PauseCommand) {
+					long pause = Long.parseLong(command.getDataMap().get("pause"));
+					if (pause > time) {
+						restTime += pause;
+					}
+				}
+			}
+		}
+		return restTime;
+	}
+	
+	protected long restTime(long time) {
+		long restTime = 0;
+		for (List<EHICommand> commands : nestedCommands) {
+			for (EHICommand command : commands) {
+				if (command instanceof PauseCommand) {
+					long pause = Long.parseLong(command.getDataMap().get("pause"));
+					if (pause > time) {
+						restTime += pause;
+					}
+				}
+			}
+		}
+		return restTime;
+	}
+	
 	public String getTotalTimeSpent(){
 		calculateTotalTimeSpent();
 		return convertToHourMinuteSecond(totalTimeSpent);
 	}
+	
+	public String getWorkTime(String path) {
+		long workTime = 0;
+		if (nestedCommands == null || !path.equals(currentProjectPath)) {
+			currentProjectPath = path;
+			if (currentProjectPath.isEmpty()) {
+				return "Cannot find current project, open a file in the project and try again";
+			}
+			replayLogs(currentProjectPath, analyzer);
+		}
+		for(int i = 0; i < nestedCommands.size(); i++) {
+			List<EHICommand> commands = nestedCommands.get(i);
+			if (commands.size() == 0) {
+				continue;
+			}
+			int j = 0;
+			for(; j < commands.size(); j++) {
+				if (commands.get(j).getStartTimestamp() > 0 || commands.get(j).getTimestamp() > 0) {
+					break;
+				}
+			}
+			long timestamp1 = commands.get(j).getTimestamp() + commands.get(j).getStartTimestamp();
+			EHICommand command2 = commands.get(commands.size()-1);
+			long timestamp2 = command2.getStartTimestamp() + command2.getTimestamp();
+			workTime += timestamp2 - timestamp1;
+		}
+		List<EHICommand> commands = EHEventRecorder.getInstance().getCommands();
+		int end = commands.size();
+		if (end > 0) {
+			int j = 0;
+			for(; j < end; j++) {
+				EHICommand command = commands.get(j);
+				IProject project = command.getProject();
+				if (project != null && path.equals(project.getLocation().toOSString()) && (command.getStartTimestamp() > 0 || command.getTimestamp() > 0)) {
+					break;
+				}
+			}
+			long timestamp1 = commands.get(j).getTimestamp() + commands.get(j).getStartTimestamp();
+			EHICommand command2 = commands.get(end-1);
+			long timestamp2 = command2.getStartTimestamp() + command2.getTimestamp();
+			workTime += timestamp2 - timestamp1;
+		}
+		return convertToHourMinuteSecond(workTime-restTime(commands, end, PAUSE, path));
+	}
+	
+	public long restTime(List<EHICommand> commands, int end, long time, String path) {
+		long restTime = 0;
+		for (List<EHICommand> commandList : nestedCommands) {
+			for (EHICommand command : commandList) {
+				if (command instanceof PauseCommand) {
+					long pause = Long.parseLong(command.getDataMap().get("pause"));
+					if (pause > time) {
+						restTime += pause;
+					}
+				}
+			}
+		}
+		long last = 0;
+		for (int i = 0; i < end; i++) {
+			EHICommand command = commands.get(i);
+			IProject project = command.getProject();
+			if (project == null || !path.equals(project.getLocation().toOSString())) {
+				continue;
+			}
+			if (last == 0) {
+				last = command.getStartTimestamp() + command.getTimestamp();
+			} else {
+				long current = command.getStartTimestamp() + command.getTimestamp();
+				long pause = current - last;
+				if (pause > time) {
+					restTime += pause; 
+				}
+				last = current;
+			}
+//			if (command instanceof PauseCommand) {
+//				long pause = Long.parseLong(command.getDataMap().get("pause"));
+//				if (pause > time) {
+//					restTime += pause;
+//				}
+//			}
+		}
+		return restTime;
+	}
+	
+	public String getWallTime(String path) {
+		long wallTime = 0;
+//		EHICommand c1 = null;
+//		EHICommand c2 = null;
+		if (nestedCommands == null || !path.equals(currentProjectPath)) {
+			currentProjectPath = path;
+			if (currentProjectPath.isEmpty()) {
+				return "Cannot find current project, open a file in the project and try again";
+			}
+			replayLogs(currentProjectPath, analyzer);
+		}
+		List<EHICommand> commands = EHEventRecorder.getInstance().getCommands();
+		int end = commands.size();
+		long startTime = 0;
+		long endTime = 0;
+
+		//start Time
+		if (nestedCommands.size() > 0) {
+			for (int i = 0; i < nestedCommands.get(0).size(); i++) {
+				EHICommand command = nestedCommands.get(0).get(i);
+				startTime = command.getStartTimestamp() + command.getTimestamp();
+				if (startTime > 0) {
+					break;
+				}
+			}
+//			if (end > 0) {
+//				c2 = commands.get(end-1);
+//			} else {
+//				commands = nestedCommands.get(nestedCommands.size()-1);
+//				c2 = commands.get(commands.size()-1);
+//			}
+		} else if (end > 0){
+			for (int i = 0; i < end; i++) {
+				EHICommand command = commands.get(i);
+				IProject project = command.getProject();
+				if (project != null && path.equals(project.getLocation().toOSString())) {
+					startTime = command.getStartTimestamp() + command.getTimestamp();
+					if (startTime > 0) {
+						break;
+					}
+				}
+			}
+//			c2 = commands.get(end-1);
+		} 
+		if (startTime == 0) {
+			return "0";
+		}
+		//end time
+		if (end > 0) {
+			for (int i = end - 1; i >= 0; i--) {
+				EHICommand command = commands.get(i);
+				IProject project = command.getProject();
+				if (project != null && project.getLocation().toOSString().equals(currentProjectPath)) {
+					endTime = command.getStartTimestamp() + command.getTimestamp();
+					if (endTime > 0) {
+						break;
+					}
+				}
+			}
+		} else if (nestedCommands.size() > 0) {
+			for (int i = nestedCommands.size() - 1; i >= 0; i--) {
+				List<EHICommand> commands2 = nestedCommands.get(i);
+				if (commands2.size() > 0) {
+					for (int j = commands2.size() - 1; j >= 0; j--) {
+						EHICommand command = commands2.get(j);
+						endTime = command.getStartTimestamp() + command.getTimestamp();
+						if (endTime > 0) {
+							break;
+						}
+					}
+				}
+			}
+		}
+		if (endTime == 0) {
+			return "0";
+		}
+		
+		wallTime = endTime - startTime;
+		return convertToHourMinuteSecond(wallTime);
+	}
 
 	public void calculateCurrentTimeSpent() {
-		if (changeByTime && currentTimeSpent <= 0) {
-			currentTimeSpent = 0;
-			return;
-		}
+//		if (changeByTime && currentTimeSpent <= 0) {
+//			currentTimeSpent = 0;
+//			return;
+//		}
+//		long projectTime = 0;
+//		if (i >= nestedCommands.size()) {
+//			i = nestedCommands.size() - 1;
+//			j = nestedCommands.get(i).size() - 1;
+//		} else if (i < 0) {
+//			i = 0;
+//			j = 0;
+//		}
+//		if (j >= nestedCommands.get(i).size()) {
+//			j = nestedCommands.get(i).size() - 1;
+//		} else if (j < 0) {
+//			j = 0;
+//		}
+//		System.out.println("\n\ni = " + i + "\nj = " + j + "\n\n");
+//		for(int k = 0; k < i; k++) {
+//			List<EHICommand> commands = nestedCommands.get(k);
+//			long timestamp1 = commands.get(1).getTimestamp();
+//			EHICommand command2 = commands.get(commands.size()-1);
+//			int offset = 1;
+//			while (command2 == null) {
+//				offset++;
+//				command2 = commands.get(commands.size() - offset);
+//			}
+//			long timestamp2 = command2.getTimestamp();
+//			projectTime += timestamp2 - timestamp1;
+//		}
+//		projectTime += nestedCommands.get(i).get(j).getTimestamp() - nestedCommands.get(i).get(0).getTimestamp();
+//		if (changeByTime && currentTimeSpent <= projectTime) 
+//			return;
+//		currentTimeSpent = projectTime;
 		long projectTime = 0;
-		if (i >= nestedCommands.size()) {
-			i = nestedCommands.size() - 1;
-			j = nestedCommands.get(i).size() - 1;
-		} else if (i < 0) {
-			i = 0;
-			j = 0;
-		}
-		if (j >= nestedCommands.get(i).size()) {
-			j = nestedCommands.get(i).size() - 1;
-		} else if (j < 0) {
-			j = 0;
-		}
-		System.out.println("\n\ni = " + i + "\nj = " + j + "\n\n");
-		for(int k = 0; k < i; k++) {
+		for(int k = 0; k <= i; k++) {
 			List<EHICommand> commands = nestedCommands.get(k);
-			long timestamp1 = commands.get(1).getTimestamp();
-			EHICommand command2 = commands.get(commands.size()-1);
-			int offset = 1;
-			while (command2 == null) {
-				offset++;
-				command2 = commands.get(commands.size() - offset);
+			if (commands.size() == 0) {
+				continue;
 			}
-			long timestamp2 = command2.getTimestamp();
+			int j = 0;
+			for(; j < (k==i?this.j:commands.size()); j++) {
+				if (commands.get(j).getStartTimestamp() > 0 || commands.get(j).getTimestamp() > 0) {
+					break;
+				}
+//				if (!(commands.get(j) instanceof LocalCheckCommand) && (commands.get(j).getStartTimestamp() > 0 || commands.get(j).getTimestamp() > 0)) {
+//					break;
+//				}
+			}
+			long timestamp1 = commands.get(j).getTimestamp() + commands.get(j).getStartTimestamp();
+			EHICommand command2 = commands.get(k==i?this.j:commands.size()-1);
+			long timestamp2 = command2.getStartTimestamp() + command2.getTimestamp();
 			projectTime += timestamp2 - timestamp1;
 		}
-		projectTime += nestedCommands.get(i).get(j).getTimestamp() - nestedCommands.get(i).get(0).getTimestamp();
-		if (changeByTime && currentTimeSpent <= projectTime) 
-			return;
-		currentTimeSpent = projectTime;
+		currentTimeSpent = projectTime - restTime(20*60*1000, i, j);
 	}
 
 	public String getCurrentTimeSpent() {
@@ -3536,5 +4532,20 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+
+	public void cleanup() {
+		if (i >= nestedCommands.size()) {
+			i = nestedCommands.size()-1;
+			j = nestedCommands.get(i).size()-1;
+		} else if (i < 0) {
+			i = 0;
+			j = 0;
+		} else if (j >= nestedCommands.get(i).size()) {
+			j = nestedCommands.get(i).size()-1;
+		} else if (j < 0) {
+			j = 0;
+		}
+		
 	}
 }

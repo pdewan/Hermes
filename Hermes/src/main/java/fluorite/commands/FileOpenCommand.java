@@ -27,6 +27,8 @@ BaseDocumentChangeEvent
 //FileOpenCommand
 implements EHICommand {
 	
+	protected static final String[] EXTENSIONS = {".java", ".pl", ".py", ".sml"};
+	
 	public FileOpenCommand() {
 	}
 
@@ -50,7 +52,7 @@ implements EHICommand {
 				calcNumericalValues(content);
 
 				// Snapshot
-				if (!FileSnapshotManager.getInstance().isSame(mFilePath,
+				if (record() && !FileSnapshotManager.getInstance().isSame(mFilePath,
 						content)) {
 					mSnapshot = content;
 					FileSnapshotManager.getInstance().updateSnapshot(mFilePath,
@@ -62,6 +64,15 @@ implements EHICommand {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	protected boolean record() {
+		for (String ext : EXTENSIONS) {
+			if (mFilePath.endsWith(ext)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private String mFilePath;

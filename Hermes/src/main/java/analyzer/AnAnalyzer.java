@@ -732,7 +732,7 @@ public class AnAnalyzer implements Analyzer {
 
 			// List<ICommand> commands = reader.readAll(participantDirectory
 			// + participantFiles.get(i));
-			System.out.println("Reading " + aFileName);
+//			System.out.println("Reading " + aFileName);
 			processBrowserHistoryOfFile(aFileName);
 			//
 
@@ -770,7 +770,7 @@ public class AnAnalyzer implements Analyzer {
 
 			// List<ICommand> commands = reader.readAll(participantDirectory
 			// + participantFiles.get(i));
-			System.out.println("Reading " + aFileName);
+//			System.out.println("Reading " + aFileName);
 			storeBrowserHistoryOfFile(aFileName);
 			//
 
@@ -1103,41 +1103,41 @@ public class AnAnalyzer implements Analyzer {
 		System.out.println("Particpant " + aFolderName + " has "
 				+ participantFiles.size() + " file(s)");
 		//Ken's code to recognize student project
-		if (fullName.contains("helper-config"+File.separator+"Student Project")) {
-			List<String> logFile = new Vector<>();
-			for (String string : participantFiles) {
-				if (string.endsWith("log.xml")) {
-					logFile.add(string);
-				}
-			}
-			participantFiles = logFile;
-		} else {
-			String largestFileName = "";
-			String secondLargestFileName = "";
-			for (int i = 0; i < participantFiles.size(); i++) {
-				String aFileName = participantFiles.get(i);
-				if (aFileName.compareTo(largestFileName) > 0) {
-					secondLargestFileName = largestFileName;
-					largestFileName = aFileName;
-				} else if (aFileName.compareTo(secondLargestFileName) > 0) {
-					secondLargestFileName = aFileName;
-				}
-			}
-			participantFiles.remove(largestFileName);
-			participantFiles.remove(secondLargestFileName);
-		}
+		String currentFileName = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHEventRecorder.class.getName())).getName();
+//		if (fullName.contains("helper-config"+File.separator+"Student Project")) {
+//			List<String> logFile = new Vector<>();
+//			for (String string : participantFiles) {
+//				if (string.endsWith("log.xml")) {
+//					logFile.add(string);
+//				}
+//			}
+//			participantFiles = logFile;
+//		} else if (!fullName.contains("ExperimentalData")){
+//			String largestFileName = "";
+//			String secondLargestFileName = "";
+//			for (int i = 0; i < participantFiles.size(); i++) {
+//				String aFileName = participantFiles.get(i);
+//				if (aFileName.compareTo(largestFileName) > 0) {
+//					secondLargestFileName = largestFileName;
+//					largestFileName = aFileName;
+//				} else if (aFileName.compareTo(secondLargestFileName) > 0) {
+//					secondLargestFileName = aFileName;
+//				}
+//			}
+//			participantFiles.remove(largestFileName);
+//			participantFiles.remove(secondLargestFileName);
+//		}
 		// end ken's code
 		
 		for (int i = 0; i < participantFiles.size(); i++) {
 //			String aFileName = fullName + participantFiles.get(i);
 			String aFileName = Paths.get(fullName, participantFiles.get(i)).toString();
 
-			if (!aFileName.endsWith(".xml"))
+			if (!aFileName.endsWith(".xml") || aFileName.contains(currentFileName))
 				continue;
-
 			// List<ICommand> commands = reader.readAll(participantDirectory
 			// + participantFiles.get(i));
-			System.out.println("Reading " + aFileName);
+//			System.out.println("Reading " + aFileName);
 			// List<ICommand> commands;
 			try {
 //				List<EHICommand> commands = reader.readAll(aFileName);
@@ -1146,6 +1146,7 @@ public class AnAnalyzer implements Analyzer {
 				listOfListOFcommands.add(commands);
 
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("Could not read file" + aFileName + e);
 
 			}
@@ -1202,8 +1203,8 @@ public class AnAnalyzer implements Analyzer {
 	public void setDifficultyEventProcessor(
 			DifficultyPredictionPluginEventProcessor difficultyEventProcessor) {
 		this.difficultyEventProcessor = difficultyEventProcessor;
-	}
 
+	}
 	@Override
 	@Visible(false)
 	public void addAnalyzerListener(AnalyzerListener aListener) {

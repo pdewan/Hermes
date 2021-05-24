@@ -3,43 +3,19 @@ package fluorite.commands;
 import java.util.HashMap;
 import java.util.Map;
 
-import hermes.proxy.Diff_Match_Patch_Proxy;
-
-public class ConsoleOutput extends OutputProduced implements EHICommand {
+public class EHExceptionCommand extends OutputProduced implements EHICommand {
 
 //	public static final String XML_Output_Tag = "outputString";
 //	
-	protected String lastOutput = null; 
-	protected String diff = "null";
-	protected boolean overflow = false;
-	protected static int limit = 50;
-	
-	public ConsoleOutput(){}
-	
-	public ConsoleOutput(String aText, String lastOutput){
-//		super(aText);
-//		outputText = boundInfiniteLoop(aText);
-		outputText = aText;
-		this.lastOutput = lastOutput; 
-		if (lastOutput != null) {
-			diff = Diff_Match_Patch_Proxy.diffString(lastOutput, aText);
-		}
+	public EHExceptionCommand()
+	{
+		
 	}
 	
-	public static void setLimit(int i){
-		limit = i;
-	}
-	
-	protected String boundInfiniteLoop(String s) {
-		String[] strings = s.split("\r\n",limit+1);
-		if (strings.length == 201) {
-			overflow = true;
-			StringBuilder sb = new StringBuilder();
-			for(int i = 0; i < limit; i++)
-				sb.append("\r\n" + strings[i]);
-			return sb.append("\r\n\tExceeding " + limit + " lines, infinite loop suspected, output ignored.").toString();
-		}
-		return s;
+	public EHExceptionCommand(String aText)
+	{
+		super(aText);
+//		outputText = aText;
 	}
 	
 //	protected String outputText;
@@ -63,24 +39,11 @@ public class ConsoleOutput extends OutputProduced implements EHICommand {
 	public Map<String, String> getAttributesMap() {
 		// TODO Auto-generated method stub
 		Map<String, String> attrMap = new HashMap<String, String>();
-		attrMap.put("type", "ConsoleOutput");
+		attrMap.put("type", "Exception");
 		//attrMap.put("text", mExceptionText);
-//		attrMap.put("output", outputText);
-		attrMap.put("overflow", overflow+"");
 		return attrMap;
 	}
 
-	public Map<String, String> getDataMap() {
-		Map<String, String> dataMap = super.getDataMap();
-		if (diff != null) {
-			dataMap.put("diff", diff);
-		} else {
-			dataMap.put("diff", "null");
-		}
-		
-		return dataMap;			
-	}
-	
 //	@Override
 //	public Map<String, String> getDataMap() {
 //		Map<String, String> dataMap = new HashMap<String, String>();
@@ -106,13 +69,13 @@ public class ConsoleOutput extends OutputProduced implements EHICommand {
 	@Override
 	public String getCommandType() {
 		// TODO Auto-generated method stub
-		return "ConsoleOutput";
+		return "EHExceptionCommand";
 	}
 
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "ConsoleOutput";
+		return "EHException";
 	}
 
 //	@Override
@@ -138,6 +101,4 @@ public class ConsoleOutput extends OutputProduced implements EHICommand {
 //		// TODO Auto-generated method stub
 //		return false;
 //	}
-
-
 }

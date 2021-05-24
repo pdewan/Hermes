@@ -1,33 +1,50 @@
 package analyzer.extension.replayView;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Slider;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.ViewPart;
-
+import dayton.ellwanger.hermes.preferences.Preferences;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
-
-import dayton.ellwanger.hermes.SubView;
 import difficultyPrediction.DifficultyPredictionSettings;
+import fluorite.commands.ConsoleOutput;
+import fluorite.commands.Delete;
 import fluorite.commands.EHICommand;
 import fluorite.commands.EclipseCommand;
-
+import fluorite.commands.ExceptionCommand;
+import fluorite.commands.FileOpenCommand;
+import fluorite.commands.Insert;
+import fluorite.commands.LocalCheckCommand;
+import fluorite.commands.MoveCaretCommand;
+import fluorite.commands.PauseCommand;
+import fluorite.commands.Replace;
+import fluorite.commands.RunCommand;
+import fluorite.commands.ShellCommand;
+import fluorite.commands.ShowStatCommand;
+import fluorite.commands.WebCommand;
+import fluorite.model.EHEventRecorder;
+import fluorite.util.EHUtilities;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.custom.CTabFolder;
@@ -39,17 +56,14 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-public class ReplayView extends ViewPart implements SubView{
+public class ReplayView extends ViewPart {
 	ReplayListener replayListener;
-	Label timeSpentLabel;
 	Composite commandListComposite;
 	Composite parent;
 	ScrolledComposite scrolledComposite;
 	private ScrolledComposite sc_1;
 	Slider timeline;
 	Composite forwardBackComposite;
-	Label exceptionLabel;
-	Label totalTimeSpentLabel;
 	Combo stepSelector;
 	Label commandLabel;
 	Label lblFile;
@@ -60,7 +74,7 @@ public class ReplayView extends ViewPart implements SubView{
 	public final static String FIX = "Fix";
 	public final static String EXCEPTION_TO_FIX = "Exception->Fix";
 	public final static String LOCALCHECKS = "Localchecks";
-	public final static String NEW_FILE = "New file";
+//	public final static String NEW_FILE = "New file";
 	public final static String RUN = "Run";
 	public final static String DEBUG = "Debug";
 	public final static String OPEN_FILE = "Open file";
@@ -68,15 +82,24 @@ public class ReplayView extends ViewPart implements SubView{
 	public final static String DIFFICULTY_TO_NO_DIFFICULTY = "Difficulty->no difficulty";
 	public final static String COMPILE = "Compile";
 	public final static String SAVE = "Save";
-	public final static String DELETE_FILE = "Delete file";
-	public final static String REFACTOR = "Refactor";
+//	public final static String DELETE_FILE = "Delete file";
+//	public final static String REFACTOR = "Refactor";
+	public final static String PAUSE = "Pause";
+	public final static String WEB = "Web";
 	public final static String[] METRICS = {"Prediction", "Date", "File", "BusyTime", "Web Page"};
-	private String[] steps = {EDIT, ONE_MINUTE, ONE_HOUR, EXCEPTION, EXCEPTION_TO_FIX, FIX, LOCALCHECKS, 
-					  NEW_FILE, DELETE_FILE, REFACTOR, OPEN_FILE, RUN, DEBUG, DIFFICULTY, DIFFICULTY_TO_NO_DIFFICULTY, COMPILE, SAVE};
+	private final static String[] steps = {EDIT, ONE_MINUTE, ONE_HOUR, EXCEPTION, EXCEPTION_TO_FIX, FIX, LOCALCHECKS, 
+//					  NEW_FILE, DELETE_FILE, REFACTOR, 
+					  OPEN_FILE, RUN, DEBUG, 
+//					  DIFFICULTY, DIFFICULTY_TO_NO_DIFFICULTY, 
+//					  COMPILE, SAVE, 
+					  PAUSE, WEB};
+	public final static String WORKTIME = "Work Time";
+	public final static String WALLTIME = "Wall Time";
+	public final static long ONE_MIN = 60000;
+	private final static String[] TIME = {WORKTIME, WALLTIME}; 
+	private static final String NOT_CONNECTED = "Not connected to server.\nTo connect to server, go to Preference->Hermes->Hermes Help->Check Connect to Server.";
 	private CTabFolder tabFolder;
 	private CTabItem tabItem;
-	private Composite composite_2;
-	private Label lblTotalExceptions;
 	private TabFolder tabFolder2;
 	private TabItem commandsTab;
 	private TabItem metricsTab;
@@ -84,6 +107,12 @@ public class ReplayView extends ViewPart implements SubView{
 	private Table MetricTable;
 	private TableColumn[] tableColumns = new TableColumn[5];
 	private Text text;
+	boolean showPause = false;
+	private Button btnShowPause;
+	private Combo timeCombo;
+	private Label timelbl;
+	private Button btnExport;
+//	private Timer timer;
 	
 //	public void addReplayListener(ReplayListener replayListener){
 //		replayListeners.add(replayListener);
@@ -95,6 +124,7 @@ public class ReplayView extends ViewPart implements SubView{
 	
 	public ReplayView() {
 		replayListener = new ReplayViewController(this);
+//		timer = new Timer();
 	}
 	
 	@Override
@@ -121,44 +151,64 @@ public class ReplayView extends ViewPart implements SubView{
 		forwardBackComposite.setLayout(rl_forwardBackComposite);
 		
 		Composite forwardBackTimelineComposite = new Composite(forwardBackComposite, SWT.NONE);
-		GridData gd_forwardBackTimelineComposite = new GridData(3424, 80);
+		GridData gd_forwardBackTimelineComposite = new GridData(541, -1);
 		gd_forwardBackTimelineComposite.horizontalAlignment = SWT.FILL;
 		gd_forwardBackTimelineComposite.verticalAlignment = SWT.TOP;
-		gd_forwardBackTimelineComposite.grabExcessHorizontalSpace = true;
 		forwardBackTimelineComposite.setLayoutData(gd_forwardBackTimelineComposite);
 		forwardBackTimelineComposite.setBackground(backgroundColor);
-		forwardBackTimelineComposite.setLayout(new GridLayout());
+		GridLayout gl_forwardBackTimelineComposite = new GridLayout();
+		gl_forwardBackTimelineComposite.numColumns = 2;
+		forwardBackTimelineComposite.setLayout(gl_forwardBackTimelineComposite);
 		
-		totalTimeSpentLabel= new Label(forwardBackTimelineComposite, SWT.NONE);
-		totalTimeSpentLabel.setBackground(backgroundColor);
-		totalTimeSpentLabel.setText("Total Time Spent : ");
+		timeCombo = new Combo(forwardBackTimelineComposite, SWT.READ_ONLY);
+		GridData gd_timeCombo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_timeCombo.widthHint = 86;
+		timeCombo.setLayoutData(gd_timeCombo);
+		timeCombo.setItems(TIME);
+		timeCombo.select(0);
+		timeCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER)) {
+					String text = timeCombo.getText();
+					String path = getCurrentProjectPath();
+					new Thread(()->{
+						replayListener.updateTimeSpent(path, text);
+						EHEventRecorder.getInstance().recordCommand(new ShowStatCommand(text));
+					}).start();
+				} else {
+					JOptionPane optionPane = new JOptionPane(NOT_CONNECTED, JOptionPane.WARNING_MESSAGE);
+					JDialog dialog = optionPane.createDialog("ERROR");
+					dialog.setAlwaysOnTop(true);
+					dialog.setVisible(true);
+				}
+//				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+//					public void run() {
+						
+//					}
+//				});
+//				String text = timeCombo.getText();
+//				replayListener.updateTimeSpent(text);
+//				EHEventRecorder.getInstance().recordCommand(new ShowStatCommand(text));
+			}
+		});
 		
-		timeSpentLabel = new Label(forwardBackTimelineComposite, SWT.NONE);
-		GridData gd_timeSpentLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_timeSpentLabel.widthHint = 897;
-		timeSpentLabel.setLayoutData(gd_timeSpentLabel);
-		timeSpentLabel.setBackground(backgroundColor);
-		timeSpentLabel.setText("Current Time Spent : ");
+//		timer.schedule(new TimerTask() {
+//			public void run() {
+//				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+//					public void run() {
+//						//exception, may due to Eclipse versions
+//						try {
+//							replayListener.updateTimeSpent(timeCombo.getText());
+//						} catch (Exception e) {
+//							// TODO: handle exception
+//						}
+//					}
+//				});
+//			}
+//		}, ONE_MIN, ONE_MIN);
 		
-		composite_2 = new Composite(forwardBackTimelineComposite, SWT.NONE);
-		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		composite_2.setLayout(new GridLayout(11, false));
-		
-		exceptionLabel = new Label(composite_2, SWT.NONE);
-		exceptionLabel.setBackground(backgroundColor);
-		exceptionLabel.setText("Current Exceptions: ");
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		
-		lblTotalExceptions = new Label(composite_2, SWT.NONE);
-		lblTotalExceptions.setText("Total Exceptions:");
+		timelbl = new Label(forwardBackTimelineComposite, SWT.NONE);
+		timelbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		tabFolder2 = new TabFolder(forwardBackComposite, SWT.NONE);
 		GridData gd_tabFolder2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
@@ -228,7 +278,22 @@ public class ReplayView extends ViewPart implements SubView{
 		
 		Composite composite_1 = new Composite(timelineComposite, SWT.NONE);
 		composite_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
-		composite_1.setLayout(new GridLayout(4, false));
+		composite_1.setLayout(new GridLayout(7, false));
+		
+		btnExport = new Button(composite_1, SWT.NONE);
+		GridData gd_btnExport = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_btnExport.widthHint = 70;
+		btnExport.setLayoutData(gd_btnExport);
+		btnExport.setText("Export");
+		btnExport.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+//				String path = getCurrentProjectPath();
+				IProject project = EHUtilities.getCurrentProject();
+				new Thread(()->{
+					replayListener.zipCurrentProject(project);
+				}).start();
+			}
+		});
 		
 		Button backButton = new Button(composite_1, SWT.PUSH);
 		GridData gd_backButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
@@ -256,6 +321,18 @@ public class ReplayView extends ViewPart implements SubView{
 		forwardButton.setBackground(backgroundColor);
 		forwardButton.setText("Forward");
 		
+		btnShowPause = new Button(composite_1, SWT.CHECK);
+		btnShowPause.setText("Show Pause");
+		new Label(composite_1, SWT.NONE);
+		btnShowPause.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				showPause = !showPause;
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		
 		tabFolder = new CTabFolder(parent, SWT.BORDER);
 		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_tabFolder.widthHint = 1046;
@@ -280,28 +357,39 @@ public class ReplayView extends ViewPart implements SubView{
 	@Override
 	public void setFocus() {}
 
-	public void updateTimeSpent(String totalTime, String currentTime) {
-		totalTimeSpentLabel.setText("Total Time Spent: " + totalTime);
-		timeSpentLabel.setText("Current Time Spent: " + currentTime);
-		totalTimeSpentLabel.requestLayout();
-		timeSpentLabel.requestLayout();
-	}
+//	public void updateTimeSpent(String totalTime, String currentTime) {
+//		totalTimeSpentLabel.setText("Total Time Spent: " + totalTime);
+//		timeSpentLabel.setText("Current Time Spent: " + currentTime);
+//		totalTimeSpentLabel.requestLayout();
+//		timeSpentLabel.requestLayout();
+//	}
+//	
+//	public void updateNumOfExceptions(int numOfCurrentExceptions, int numOfTotalExceptions) {
+//		exceptionLabel.setText("Current Exceptions: " + numOfCurrentExceptions);
+//		lblTotalExceptions.setText("Total Exceptions: " + numOfTotalExceptions);
+//	}
 	
-	public void updateNumOfExceptions(int numOfCurrentExceptions, int numOfTotalExceptions) {
-		exceptionLabel.setText("Current Exceptions: " + numOfCurrentExceptions);
-		lblTotalExceptions.setText("Total Exceptions: " + numOfTotalExceptions);
-	}
-	
-	public void createForwardCommandList(ArrayList<EHICommand> commandList) {
+	public void createForwardCommandList(List<EHICommand> commandList) {
 		createCommandLabel(commandList, false);
 		sc_1.setContent(commandLabel);
 		sc_1.setMinSize(commandLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 	
-	public void createBackCommandList(ArrayList<EHICommand> commandList) {
+	public void createBackCommandList(List<EHICommand> commandList) {
 		createCommandLabel(commandList, true);
 		sc_1.setContent(commandLabel);
 		sc_1.setMinSize(commandLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+	}
+	
+	public void updateTimeSpent(String time) {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				timelbl.setText(time);
+				parent.layout(true);
+			}
+		});
+//		timelbl.setText(time);
+//		parent.layout(true);
 	}
 	
 	public void updateReplayedFile(String[] text) {
@@ -361,7 +449,6 @@ public class ReplayView extends ViewPart implements SubView{
 							d = new SimpleDateFormat("E MMM dd HH:mm:ss zz yyyy").parse(list2.get(i));
 							text = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(d)+"\t";
 						} catch (ParseException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					} 
@@ -380,81 +467,94 @@ public class ReplayView extends ViewPart implements SubView{
 		}
 	}
 	
-	private void createCommandLabel(ArrayList<EHICommand> commandList, boolean back) {
+	private void createCommandLabel(List<EHICommand> commandList, boolean back) {
 		if (commandList == null) {
 			return;
 		}
-		String commandType;
-		String text = "";
+		StringBuffer text = new StringBuffer();
 		if (back) {
 			for(int i = commandList.size()-1; i >= 0; i--) {
-				EHICommand command = commandList.get(i);
-				if (command instanceof EclipseCommand) 
-					commandType = "Delete previous";
-				else
-					commandType = command.getCommandType();
-				switch (commandType) {
-				case "Insert":
-					text += commandType + " \"" + command.getDataMap().get("text") + "\" at " + command.getAttributesMap().get("offset") + "\n";
-					break;
-				case "Replace":
-					text += commandType + " \"" + command.getDataMap().get("deletedText") + "\" by \"" + command.getDataMap().get("insertedText") +"\" at " + command.getAttributesMap().get("offset") + "\n";
-					break;
-				case "Delete":
-					text += commandType + " \"" + command.getDataMap().get("text") + "\" at " + command.getAttributesMap().get("offset") + "\n";
-					break;
-				case "Delete previous":
-					text += commandType + " character or selected text\n";
-					break;
-				case "ExceptionCommand":
-					text += "Exception: \"" + command.getDataMap().get("exceptionString") + "\"\n";
-					break;
-				case "ConsoleOutput":
-					text += "Console Output: \"" + command.getDataMap().get("outputString") + "\"\n";
-					break;
-				default:
-					break;
-				}	
+				appendLabel(text, commandList.get(i));
 			}
 		} else {
 			for(int i = 0; i < commandList.size(); i++) {
-				EHICommand command = commandList.get(i);
-				if (command instanceof EclipseCommand) 
-					commandType = "Delete previous";
-				else
-					commandType = command.getCommandType();
-				switch (commandType) {
-				case "Insert":
-					text += commandType + " \"" + command.getDataMap().get("text") + "\" at " + command.getAttributesMap().get("offset") + "\n";
-					break;
-				case "Replace":
-					text += commandType + " \"" + command.getDataMap().get("deletedText") + "\" by \"" + command.getDataMap().get("insertedText") +"\" at " + command.getAttributesMap().get("offset") + "\n";
-					break;
-				case "Delete":
-					text += commandType + " \"" + command.getDataMap().get("text") + "\" at " + command.getAttributesMap().get("offset") + "\n";
-					break;
-				case "Delete previous":
-					text += commandType + " character of selected text\n";
-					break;
-				case "ExceptionCommand":
-					text += "Exception: \"" + command.getDataMap().get("exceptionString") + "\"\n";
-					break;
-				case "ConsoleOutput":
-					text += "Console Output: \"" + command.getDataMap().get("outputString") + "\"\n";
-					break;
-				default:
-					break;
-				}	
+				appendLabel(text, commandList.get(i));
 			}
 		}
-		commandLabel.setText(text);
-		commandLabel.setSize(1080, 50*commandList.size());
+		commandLabel.setText(text.toString());
+		((ScrolledComposite)commandLabel.getParent()).setMinSize(new Point(text.length(), text.length()));;
 		commandLabel.requestLayout();
+		commandLabel.getParent().getParent().redraw();
+	}
+	
+	public void appendLabel(StringBuffer text, EHICommand command) {
+		try {
+			if (command instanceof EclipseCommand) text.append("Deleted previous character\n");
+			if (command instanceof Insert) text.append(command.getCommandType() + " \"" + command.getDataMap().get("text") + "\" at " + command.getAttributesMap().get("offset") + "\n");
+			if (command instanceof Replace)	text.append(command.getCommandType() + " \"" + command.getDataMap().get("deletedText") + "\" by \"" + command.getDataMap().get("insertedText") +"\" at " + command.getAttributesMap().get("offset") + "\n");
+			if (command instanceof Delete) text.append(command.getCommandType() + " \"" + command.getDataMap().get("text") + "\" at " + command.getAttributesMap().get("offset") + "\n");
+			if (command instanceof ExceptionCommand) text.append("Exception: \"" + command.getDataMap().get("exceptionString") + "\"\n");
+			if (command instanceof ConsoleOutput) text.append("Console Output: \"" + command.getDataMap().get("outputString") + "\"\n");
+			if (command instanceof FileOpenCommand) text.append("Opened File " + command.getDataMap().get("filePath").substring(command.getDataMap().get("filePath").indexOf("src")) + "\n"); 
+			if (command instanceof WebCommand) {
+					openWebsite(command);
+					text.append("Web Access: " + command.getAttributesMap().get("type") + " keyword = " + command.getDataMap().get("keyword") + " URL = " + command.getDataMap().get("URL")+"\n");
+				}
+			if (showPause && command instanceof PauseCommand) text.append("Pause for " + command.getDataMap().get("pause")  +"ms\n");
+			if (command instanceof LocalCheckCommand) text.append("LocalCheck Testcase: " + command.getDataMap().get("testcase") + " " + command.getDataMap().get("type")+"\n");
+			if (command instanceof MoveCaretCommand) text.append("Move Caret to position" + command.getAttributesMap().get("caretOffset"));
+			if (command instanceof ShellCommand) {
+				if (command.getAttributesMap().get("type").equals("ECLIPSE_LOST_FOCUS")) text.append("Eclipse Lost Focus\n");
+				if (command.getAttributesMap().get("type").equals("ECLIPSE_GAINED_FOCUS")) text.append("Eclipse Gained Focus\n");
+			}
+			if (command instanceof RunCommand) {
+				if (command.getAttributesMap().get("type").equals("Run")) text.append("Run Project\n");
+				if (command.getAttributesMap().get("type").equals("Debug")) text.append("Debug Project\n");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public void openWebsite(EHICommand command) {
+		try {
+			String os = System.getProperty("os.name").toLowerCase();
+			Runtime rt = Runtime.getRuntime();
+			String url = command.getDataMap().get("URL");
+			if (os.indexOf("win") >= 0) {
+				rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+			}
+			if (os.indexOf("mac") >= 0) {
+				rt.exec("open" + url);
+			}
+			if (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0) {
+				String[] browsers = { "epiphany", "firefox", "mozilla", "konqueror", "netscape", "opera", "links", "lynx" };
+				StringBuffer cmd = new StringBuffer();
+				for (int i = 0; i < browsers.length; i++) {
+					if(i == 0) {
+						cmd.append(String.format("%s \"%s\"", browsers[i], url));
+					} else {
+						cmd.append(String.format(" || %s \"%s\"", browsers[i], url));
+					}
+				}
+				rt.exec(new String[] { "sh", "-c", cmd.toString() });
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateTimeline(int index) {
 		timeline.setSelection(index);
 		timeline.requestLayout();
+	}
+	
+	private String getCurrentProjectPath(){
+		IProject currentProject = EHUtilities.getCurrentProject();
+		if (currentProject == null) {
+			return "";
+		}
+		return currentProject.getLocation().toOSString();
 	}
 	
 	public void setReplayListener(ReplayListener rl) {

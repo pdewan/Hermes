@@ -1,6 +1,7 @@
 package fluorite.model;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,14 +57,19 @@ import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import analyzer.extension.timerTasks.ANotificationBalloon;
+import analyzer.extension.timerTasks.ChromeHistoryLogger;
+import analyzer.extension.timerTasks.LogSender;
 import config.HelperConfigurationManagerFactory;
 import dayton.ellwanger.hermes.HermesActivator;
+import dayton.ellwanger.hermes.preferences.Preferences;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
 import fluorite.actions.FindAction;
 import fluorite.commands.AbstractCommand;
@@ -73,6 +79,7 @@ import fluorite.commands.FileOpenCommand;
 import fluorite.commands.FindCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.MoveCaretCommand;
+import fluorite.commands.PauseCommand;
 import fluorite.commands.PredictionCommand;
 import fluorite.commands.SelectTextCommand;
 import fluorite.plugin.EHActivator;
@@ -145,6 +152,7 @@ public class EHEventRecorder {
 	private LinkedList<EHICommand> allDocAndNonDocCommands;
 	private LinkedList<EHICommand> mNormalCommands;
 	private LinkedList<EHICommand> mDocumentChangeCommands;
+	private ArrayList<EHICommand> allCommands;
 	public static int MAX_PENDING_LOGGED_COMMANDS = 256;
 	protected BlockingQueue<EHICommand> loggableCommandQueue = new ArrayBlockingQueue<>(MAX_PENDING_LOGGED_COMMANDS);
 	protected Thread commandLoggingThread;
@@ -213,8 +221,12 @@ public class EHEventRecorder {
 	// PredictorThreadOption predictorThreadOption =
 	// PredictorThreadOption.SINGLE_THREAD;
 
+	private EHICommand lastCommand;
+//	private List<EHICommand> commandsToSend = new ArrayList<>();
+	
 	private final static Logger LOGGER = Logger.getLogger(EHEventRecorder.class.getName());
 	protected Map<String, Logger> projectToLogger = new HashMap<>();
+//	private ANotificationBalloon notificationBalloon = ANotificationBalloon.getInstance();
 
 	protected Logger projectLogger() {
 		IProject aProject = EHUtilities.getAndStoreCurrentProject();
@@ -605,6 +617,7 @@ public class EHEventRecorder {
 		allDocAndNonDocCommands = new LinkedList<EHICommand>();
 		mNormalCommands = new LinkedList<EHICommand>();
 		mDocumentChangeCommands = new LinkedList<EHICommand>();
+		allCommands = new ArrayList<>();
 		mCurrentlyExecutingCommand = false;
 		Tracer.info(this, " Recording started");
 		mRecordCommands = true;
@@ -623,7 +636,7 @@ public class EHEventRecorder {
 		// .getBoolean(Initializer.Pref_CombineCommands));
 		// setCombineTimeThreshold(prefStore
 		// .getInt(Initializer.Pref_CombineTimeThreshold));
-
+		
 		mStarted = true;
 		notifyRecordingStarted(mStartTimestamp);
 
@@ -642,6 +655,8 @@ public class EHEventRecorder {
 	public void start() {
 		initCommands();
 		setPlugInMode(true);
+		//Ken's code to init timer tasks (send log, web log...)
+		initTimerTasks();
 		// FactoriesSelector.configureFactories();
 		// MacroRecordingStarted.newCase(this);
 		// EventLoggerConsole.getConsole().writeln("***Started macro recording",
@@ -714,6 +729,12 @@ public class EHEventRecorder {
 			runnable.run();
 		}
 
+	}
+	
+	protected void initTimerTasks() {
+		ANotificationBalloon.getInstance().schedule(getTimer(), getCommands());
+		LogSender.getInstance().schedule(getTimer(), getCommands());
+		ChromeHistoryLogger.getInstance().schedule(getTimer(), getStartTimestamp());
 	}
 
 	private final static String ICON_PATH = "icons/spy.png";
@@ -1146,6 +1167,27 @@ public class EHEventRecorder {
 
 	}
 	
+	public void flushAndStopLogging(IProject project) {
+		Logger logger = Logger.getLogger(project.getName());
+		for (Handler fh : logger.getHandlers()) {
+			fh.flush();
+			logger.removeHandler(fh);
+			fh.close();
+		}
+	}
+	
+	public void continueLogging(IProject project) {
+		Logger logger = Logger.getLogger(project.getName());
+		File logDirectory = loggerToFileName.get(logger).getParentFile();
+//		setStartTimeStamp(System.currentTimeMillis());
+//		File outputFile = new File(logDirectory,
+//				EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
+		File outputFile = new File(logDirectory,
+				EHEventRecorder.getUniqueMacroNameByTimestamp(System.currentTimeMillis(), false));
+		LogFileCreated.newCase(outputFile.getName(), this);
+		initializeLoggerFile(logger, outputFile);
+	}
+	
 	protected void handleStaleLog(Logger aLogger, Level aLevel, String aMessage, Object anObject, File aFile) {
 		Handler[] aHandlers = aLogger.getHandlers();
 
@@ -1284,6 +1326,8 @@ lastCommandTimeStamp = timestamp;
 	/*
 	 * Get a concurrent modification event
 	 */
+	
+	
 	public synchronized void recordCommand(final EHICommand newCommand) {
 		// System.out.println("Recording command:" + newCommand);
 		ReceivedCommand.newCase(newCommand, numReceivedCommands, mStartTimestamp, this);
@@ -1321,6 +1365,8 @@ lastCommandTimeStamp = timestamp;
 		newCommand.setStartTimestamp(mStartTimestamp);
 		newCommand.setTimestamp(timestamp);
 		newCommand.setTimestamp2(timestamp);
+		
+
 		// NewMacroCommand.newCase(newCommand.getName(),
 		// newCommand.getTimestamp(), this);
 		// newCommand.setTimestamp(newCommand.getTimestamp() - mStartTimestamp);
@@ -1370,8 +1416,12 @@ lastCommandTimeStamp = timestamp;
 			// lastcommand takes care of this info
 			// A timer determines if the combine is actually done or not, as it
 			// changes instance variables
+			maybeAddRestCommand(newCommand, mStartTimestamp+timestamp);
 			docOrNormalCommands.add(newCommand);
 			allDocAndNonDocCommands.add(newCommand);
+			//Ken's code to add commands to a list and add rest command
+			allCommands.add(newCommand);
+			//End Ken's code
 			AddedCommandToBuffers.newCase(newCommand, docOrNormalCommands.toString(),
 					allDocAndNonDocCommands.toString(), this);
 			notifyCommandAndDocChangeListeners(newCommand, lastCommand);
@@ -1523,7 +1573,25 @@ lastCommandTimeStamp = timestamp;
 			mNormalCommandCombinable = true;
 		}
 	}
+	
+	public List<EHICommand> getCommands(){
+		return allCommands;
+	}
 
+	private void maybeAddRestCommand(EHICommand next, long timestamp) {
+		if (next instanceof PauseCommand) {
+			return;
+		}
+		long s = 1000;
+		if (lastCommand != null) {
+			long rest = timestamp-lastCommand.getStartTimestamp()-lastCommand.getTimestamp();
+			if (rest >= s) {
+				PauseCommand rCommnad = new PauseCommand(lastCommand, next, rest);
+				recordCommand(rCommnad);
+			}
+		}
+		lastCommand = next;
+	}
 	// public void changeStatusInHelpView(PredictionCommand predictionCommand) {
 	// String status = "";
 	// switch (predictionCommand.getPredictionType()) {

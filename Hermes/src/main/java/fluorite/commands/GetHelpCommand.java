@@ -10,7 +10,7 @@ import org.w3c.dom.NodeList;
 
 import fluorite.model.EHEventRecorder;
 
-public class GetHelpCommand extends AbstractCommand{
+public class GetHelpCommand extends AbstractCommand implements EHICommand{
 	private String email, course, assign, errorType, errorMessage, problem, term, requestID, output, help;
 	private boolean success;
 	private static final String XML_EMAIL = "email";
@@ -117,28 +117,32 @@ public class GetHelpCommand extends AbstractCommand{
 		if ((nodeList = commandElement.getElementsByTagName(XML_ERRORMESSAGE)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			errorMessage =textNode.getTextContent();
-		}if ((nodeList = commandElement.getElementsByTagName(XML_ERRORTYPE)).getLength() > 0) {
+		}
+		if ((nodeList = commandElement.getElementsByTagName(XML_ERRORTYPE)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			errorType = textNode.getTextContent();
 		}
 		if ((nodeList = commandElement.getElementsByTagName(XML_HELP)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			help =textNode.getTextContent();
-		}if ((nodeList = commandElement.getElementsByTagName(XML_ID)).getLength() > 0) {
+		}
+		if ((nodeList = commandElement.getElementsByTagName(XML_ID)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			requestID = textNode.getTextContent();
 		}
 		if ((nodeList = commandElement.getElementsByTagName(XML_OUTPUT)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			output =textNode.getTextContent();
-		}if ((nodeList = commandElement.getElementsByTagName(XML_PROBLEM)).getLength() > 0) {
+		}
+		if ((nodeList = commandElement.getElementsByTagName(XML_PROBLEM)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			problem = textNode.getTextContent();
 		}
 		if ((nodeList = commandElement.getElementsByTagName(XML_SUCCESS)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			success = Boolean.getBoolean(textNode.getTextContent());
-		}if ((nodeList = commandElement.getElementsByTagName(XML_TERM)).getLength() > 0) {
+		}
+		if ((nodeList = commandElement.getElementsByTagName(XML_TERM)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			term = textNode.getTextContent();
 		}

@@ -2,7 +2,6 @@ package dayton.ellwanger.helpbutton;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -10,25 +9,19 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import dayton.ellwanger.helpbutton.exceptionMatcher.ExceptionMatcher;
-import dayton.ellwanger.helpbutton.exceptionMatcher.JavaExceptoinMatcher;
+import dayton.ellwanger.helpbutton.exceptionMatcher.JavaExceptionMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.PrologExceptionMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.SMLExceptionMatcher;
-import dayton.ellwanger.helpbutton.preferences.HelpPreferencePage;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferences;
 import fluorite.commands.EHICommand;
 import fluorite.commands.FileOpenCommand;
@@ -44,13 +37,17 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 	//	private static final String testURL = "http://localhost:12345";
 	private static final String getHelpURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/V2/get-available-help";
 	private static final String requestHelpURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/V2/request-help";
-	private static final String reportURL = "http://localhost:12345";
+//	private static final String reportURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/cyverse/add-cyverse-log";
 //	private final Pattern exceptionPattern = Pattern.compile(".+Exception[^\\n]++(\\s+at .++)+");
 //	private List<ExceptionMatcher> exceptionMatchers = new ArrayList<>();
 	private HelpView view;
 	private int numCommand = 0;
-	private static final int commandLim = 100;
+	private static final int COMMAND_LIM = 100;
 	private ExceptionMatcher em;
+//	private static final String LOG_FILE_PATH = "LogProjPath";
+//	private static final String NUM_COMMANDS_SENT = "numCommandsSent";
+//	private ArrayBlockingQueue<EHICommand> commandsToSend;
+//	private List<EHICommand> commandsToSend2;
 	
 	public HelpViewController(HelpView view) {
 		this.view = view;
@@ -59,6 +56,13 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 		setExceptionMatcher(EditorsUI.getPreferenceStore().getString(HelpPreferences.LANGUAGE));
 		ConsoleListener.getInstance().addListener(this);
 		EHEventRecorder.getInstance().addEclipseEventListener(this);
+//		commandsToSend = EHEventRecorder.getInstance().getCommandsToSend();
+//		commandsToSend2 = new ArrayList<>();
+//		new Thread(new Runnable() {
+//			public void run() {
+//				sendLogToServer();
+//			}
+//		}).start();
 	}
 
 	public void exceptionEvent(String output){
@@ -90,19 +94,19 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 	public void setExceptionMatcher(String language) {
 		switch (language) {
 		case "java":
-			em = JavaExceptoinMatcher.getInstance();
+			em = JavaExceptionMatcher.getInstance();
 			break;
 		case "prolog":
 			em = PrologExceptionMatcher.getInstance();
 			break;
 		case "python":
-			em = JavaExceptoinMatcher.getInstance();
+			em = JavaExceptionMatcher.getInstance();
 			break;
 		case "SML":
 			em = SMLExceptionMatcher.getInstance();
 			break;
 		default:
-			em = JavaExceptoinMatcher.getInstance();
+			em = JavaExceptionMatcher.getInstance();
 			break;
 		}
 	}
@@ -480,7 +484,7 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 				temp.delete();
 				return size;
 			}
-			int num = numCommand > commandLim/2? numCommand : numCommand + commandLim;
+			int num = numCommand > COMMAND_LIM/2? numCommand : numCommand + COMMAND_LIM;
 			temp.delete();
 			List<File> modifiedFiles = new ArrayList<>(); 
 			JSONArray history = new JSONArray();
@@ -531,6 +535,10 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 	}
 	
 	private String getCurrentProjectPath(){
+		IProject project = EHUtilities.getCurrentProject();
+		if (project == null) {
+			return "";
+		}
 		return EHUtilities.getCurrentProject().getLocation().toOSString();
 	}
 	
@@ -572,9 +580,9 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 	@Override
 	public void commandExecuted(String aCommandName, long aTimestamp) {
 		// TODO Auto-generated method stub
-		if (aCommandName.equals("ShellCommand")) {
-			return;
-		}
+//		if (aCommandName.equals("ShellCommand")) {
+//			return;
+//		}
 		createSnapshot();
 	}
 
@@ -590,14 +598,18 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 		createSnapshot();
 	}
 	
-	private void createSnapshot() {
+	private synchronized void createSnapshot() {
 		numCommand++;
-		if (numCommand == commandLim) {
+		if (numCommand == COMMAND_LIM) {
 			numCommand = 0;
 			new Thread(()->{
-				File src = findSourceFolder(new File(getCurrentProjectPath()), EditorsUI.getPreferenceStore().getString(HelpPreferences.LANGUAGE));
-				File snapshot = new File(getCurrentProjectPath()+File.separator+"Logs"+File.separator+"src");
-				File snapshotOld = new File(getCurrentProjectPath()+File.separator+"Logs"+File.separator+"srcOld");
+				String projectPath = getCurrentProjectPath();
+				if (projectPath.isEmpty()) {
+					return;
+				}
+				File src = findSourceFolder(new File(projectPath), EditorsUI.getPreferenceStore().getString(HelpPreferences.LANGUAGE));
+				File snapshot = new File(projectPath+File.separator+"Logs"+File.separator+"src");
+				File snapshotOld = new File(projectPath+File.separator+"Logs"+File.separator+"srcOld");
 				if (snapshot.exists()) {
 					if (snapshotOld.exists()) {
 						deleteFolder(snapshot);
@@ -605,7 +617,7 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 					cloneFolder(snapshot, snapshot.getPath(), snapshotOld.getPath());
 				}
 				cloneFolder(src, src.getPath(), snapshot.getPath());
-				sendLogToServer();
+//				sendLogToServer();
 			}).start();
 		}
 	}
@@ -641,70 +653,50 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 		return null;
 	}
 	
-	private void sendLogToServer() {
-		File log = new File(getCurrentProjectPath()+File.separator+"Logs"+File.separator+"Eclipse");
-		if (!log.exists()) {
-			return;
-		}
-		File[] logs = log.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.endsWith(".xml");
-			}
-		});
-		if (logs.length == 0) {
-			return;
-		}
-		File currentLog = logs[0];
-		for (File file : logs) {
-			if (file.lastModified() > currentLog.lastModified()) {
-				currentLog = file;
-			}
-		}
-		try {
-			File temp = new File(log, "temp2.xml");
-			copyFiles(currentLog, temp);
-			List<EHICommand> commands;
-			try {
-				commands = new EHLogReader().readAll(temp.getPath());
-			} catch (NullPointerException e) {
-				temp.delete();
-				return;
-			}
-			temp.delete();
-			JSONArray history = new JSONArray();
-			List<EHICommand> filteredCommand = new ArrayList<>();
-			JSONObject report = new JSONObject();
-			JSONObject code = new JSONObject();
-			report.put("code", code);
-			report.put("language", "java");
-			report.put("environment", "ecipse");
-			code.put("log", history);
-			int size = report.length();
-			int lim = commands.size() - commandLim;
-			for (int i = commands.size()-1; i >= lim; i--) {
-				EHICommand command = commands.get(i);
-				if (command instanceof ShellCommand) {
-					if (lim > 0) {
-						lim--;
-					}
-					continue;
-				}
-				size += command.persist().length();
-				if (size > 900 * 1024) {
-					break;
-				}
-				filteredCommand.add(command);
-			}
-			for (int i = filteredCommand.size() - 1; i >= 0; i--) {
-				history.put(filteredCommand.get(i).persist());
-			}
-			HTTPRequest.post(report, reportURL);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void sendLogToServer() {
+//		String storedLogFilePath = EditorsUI.getPreferenceStore().getString(LOG_FILE_PATH);
+//		int numCommandsSent = EditorsUI.getPreferenceStore().getInt(NUM_COMMANDS_SENT);
+//		if (new File(storedLogFilePath).exists()) {
+//			sendLog(new EHLogReader().readAll(storedLogFilePath), numCommandsSent, storedLogFilePath);
+//		}
+//		
+//		File log = new File(getCurrentProjectPath()+File.separator+"Logs"+File.separator+"Eclipse");
+//		if (!log.exists()) {
+//			log.mkdirs();
+//		}
+//		
+//		File[] logs = log.listFiles(new FilenameFilter() {
+//			public boolean accept(File dir, String name) {
+//				return name.endsWith(".xml");
+//			}
+//		});
+//		
+//		File currentLog = null;
+//		String logFilePath = "";
+//
+//		if (logs.length != 0) {
+//			currentLog = logs[0];
+//			for (File file : logs) {
+//				if (file.lastModified() > currentLog.lastModified()) {
+//					currentLog = file;
+//				}
+//			}
+//			logFilePath = currentLog.getPath();
+//		}
+//		EditorsUI.getPreferenceStore().putValue(LOG_FILE_PATH, logFilePath);
+//		EditorsUI.getPreferenceStore().putValue(NUM_COMMANDS_SENT, "0");
+//
+//		while (true) {
+//			try {
+//				commandsToSend2.add(commandsToSend.take());
+//			} catch (InterruptedException e1) {
+//				e1.printStackTrace();
+//			}
+//			if (commandsToSend2.size() >= 100) {
+//				sendLog(commandsToSend2, numCommand, logFilePath);
+//			}
+//		}
+//	}
 	
 	private void cloneFolder(File source, String sourcePath, String destPath){
 		try {
@@ -732,6 +724,40 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 		}
 		folder.delete();
 	}
+	
+//	private List<JSONObject> sendLog(List<EHICommand> commands, int numCommandsSent, String logFileName) {
+//		try {
+//			while(numCommandsSent < commands.size()) {
+//				JSONObject log = new JSONObject();
+//				JSONObject report = new JSONObject();
+//				report.put("log_id", logFileName);
+//				try {
+//					report.put("machine_id", NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress());
+//				}catch (NoSuchElementException | SocketException e) {
+//					report.put("machine_id", "No Network Card Found");
+//				}
+//				report.put("log_type", "eclipse");
+//				report.put("course_id", EditorsUI.getPreferenceStore().getString(HelpPreferences.COURSE));
+//				report.put("log", log);
+//				int size = report.length();
+//				String commandText = "";
+//				for (int i = numCommandsSent; i < commands.size(); i++, numCommandsSent++) {
+//					EHICommand command = commands.get(i);
+//					String s = command.persist();
+//					size += s.length();
+//					commandText += s;
+//					if (size > 900 * 1024) {
+//						break;
+//					}
+//				}
+//				log.put("json", commandText);
+//				HTTPRequest.post(report, reportURL);
+//			}
+//		} catch (JSONException e) {
+//			// TODO: handle exception
+//		}
+//		return null;
+//	}
 }
 
 

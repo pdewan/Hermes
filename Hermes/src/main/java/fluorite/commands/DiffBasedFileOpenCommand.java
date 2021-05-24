@@ -34,7 +34,9 @@ public class DiffBasedFileOpenCommand extends FileOpenCommand {
 	
 	public DiffBasedFileOpenCommand(IEditorPart editor) {
 		super(editor);
-		addDiff(editor);
+		if (record()) {
+			addDiff(editor);
+		}
 //		updateProjectStructure();
 	}
 	

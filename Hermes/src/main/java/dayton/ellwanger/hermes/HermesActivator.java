@@ -6,10 +6,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.progress.UIJob;
 import org.osgi.framework.BundleContext;
 
+import analyzer.extension.timerTasks.LogSender;
+import dayton.ellwanger.hermes.preferences.Preferences;
 import fluorite.model.EHEventRecorder;
 import fluorite.plugin.EHActivator;
 import fluorite.preferences.Initializer;
@@ -74,6 +77,10 @@ public class HermesActivator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		//Ken's code to send commands to server before closing Eclipse 
+		if (EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER)) {
+			LogSender.getInstance().stop();
+		}
 		plugin = null;
 		super.stop(context);
 	}

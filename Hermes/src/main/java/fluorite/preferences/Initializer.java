@@ -1,7 +1,10 @@
 package fluorite.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.ui.editors.text.EditorsUI;
 
+import analyzer.extension.timerTasks.LogSender;
+import dayton.ellwanger.hermes.preferences.Preferences;
 import fluorite.plugin.EHActivator;
 import util.trace.Tracer;
 
@@ -102,6 +105,10 @@ public class Initializer extends AbstractPreferenceInitializer {
                         .setDefault(Pref_FindWholeWord, false);
         EHActivator.getDefault().getPreferenceStore()
                         .setDefault(Pref_FindRegExp, false);
+        EditorsUI.getPreferenceStore().setDefault(Preferences.CONNECT_TO_SERVER, true);
+		EditorsUI.getPreferenceStore().setDefault(Preferences.SHOW_STATUS_NOTIFICATION, true);
+		EditorsUI.getPreferenceStore().setDefault(LogSender.COURSE_ID, "COMP301");
+		EditorsUI.getPreferenceStore().setDefault("term", "2021 Summer");
 }
 
 }

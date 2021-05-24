@@ -21,6 +21,9 @@ public class Preferences {
 	public static final String SECURITY = "security";
 	public static final String CREATE = "create";
 	public static final String AUTOLOGIN = "autologin";
+	public static final String CONNECT_TO_SERVER =  "connect to server";
+	public static final String SHOW_STATUS_NOTIFICATION = "show status notification";
+
 	
 	
 	private static Preferences instance;

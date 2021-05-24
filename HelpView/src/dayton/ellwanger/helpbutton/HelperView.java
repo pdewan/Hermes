@@ -1,5 +1,9 @@
 package dayton.ellwanger.helpbutton;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +23,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import dayton.ellwanger.helpbutton.preferences.HelpPreferencePage;
 import dayton.ellwanger.hermes.SubView;
+import difficultyPrediction.ADifficultyPredictionRunnable;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
@@ -61,6 +66,11 @@ public class HelperView extends ViewPart {
 //	private static final String[] COMP411ASSIGNMENTS = {"Assignment1", "Assignment2", "Assignment3", "Assignment4"};
 //	private static final String[][] ASSIGNMENTS = {COMP401ASSIGNMENTS, COMP410ASSIGNMENTS, COMP411ASSIGNMENTS};
 //	private static final String[] PROBLEMS = {"1", "2", "3", "4"};
+	private File pendingFolder = new File(System.getProperty("user.home") + File.separator + "helper-config"
+			+ File.separator + "Help" + File.separator + "Pending");
+	private File repliedFolder = new File(System.getProperty("user.home") + File.separator + "helper-config"
+			+ File.separator + "Help" + File.separator + "Replied");
+	
 	private Text regexText;
 	private Text output;
 	private Label lblLanguage;
@@ -134,14 +144,13 @@ public class HelperView extends ViewPart {
 		lblFTerm.setAlignment(SWT.RIGHT);
 
 		termCombo = new Combo(filterComposite, SWT.READ_ONLY);
-		termCombo.setItems(new String[] { "comp401", "comp410", "comp411" });
 		termCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		termCombo.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				populateCourseCombo();
-			}
-		});
-		populateTermCombo();
+//		termCombo.addSelectionListener(new SelectionAdapter() {
+//			public void widgetSelected(SelectionEvent e) {
+//				populateCourseCombo();
+//			}
+//		});
+//		populateTermCombo();
 
 		Label lblFCourse = new Label(filterComposite, SWT.NONE);
 		GridData gd_lblFCourse = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
@@ -151,13 +160,12 @@ public class HelperView extends ViewPart {
 		lblFCourse.setAlignment(SWT.RIGHT);
 
 		courseCombo = new Combo(filterComposite, SWT.READ_ONLY);
-		courseCombo.setItems(new String[] { "comp401", "comp410", "comp411" });
 		courseCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		courseCombo.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				populateAssignCombo();
-			}
-		});
+//		courseCombo.addSelectionListener(new SelectionAdapter() {
+//			public void widgetSelected(SelectionEvent e) {
+//				populateAssignCombo();
+//			}
+//		});
 
 		Label lblFAssign = new Label(filterComposite, SWT.NONE);
 		GridData gd_lblFAssign = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
@@ -168,11 +176,11 @@ public class HelperView extends ViewPart {
 
 		assignCombo = new Combo(filterComposite, SWT.READ_ONLY);
 		assignCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		assignCombo.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				populateProblemCombo();
-			}
-		});
+//		assignCombo.addSelectionListener(new SelectionAdapter() {
+//			public void widgetSelected(SelectionEvent e) {
+//				populateProblemCombo();
+//			}
+//		});
 
 		Label lblFProblem = new Label(filterComposite, SWT.NONE);
 		lblFProblem.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -188,7 +196,7 @@ public class HelperView extends ViewPart {
 
 		languageCombo = new Combo(filterComposite, SWT.READ_ONLY);
 		languageCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		populateLanguageCombo();
+//		populateLanguageCombo();
 
 		Label lblFRegex = new Label(filterComposite, SWT.NONE);
 		lblFRegex.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -408,7 +416,8 @@ public class HelperView extends ViewPart {
 					try {
 						if (helperListener != null) {
 							helperListener.reply(reply.getText(), emailText.getText(), pwText.getText(),
-									requests.get(index).getString("_id"));
+//									requests.get(index).getString("_id"));
+									requests.get(index).getString("request-id"));
 						}
 						popupMessage("Info", "Reply Sent");
 					} catch (IOException e2) {
@@ -418,6 +427,7 @@ public class HelperView extends ViewPart {
 					}
 
 				}
+				ADifficultyPredictionRunnable.getOrCreateInstance().asyncShowStatusInBallonTip("Popup"+System.currentTimeMillis());
 			}
 		});
 		replyButton.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
@@ -476,7 +486,7 @@ public class HelperView extends ViewPart {
 		btnNext.setLayoutData(gd_btnNext);
 		btnNext.setText("Next");
 		btnNext.setEnabled(false);
-
+		populateParams();
 		new HelperViewController(this);
 	}
 
@@ -512,12 +522,58 @@ public class HelperView extends ViewPart {
 		}
 	}
 
-	public void populateRequestCombo(JSONObject response) {
+	public void populateParams() {
+//		try {
+//			JSONObject response = HTTPRequest.post(new JSONObject().put("parameter", ""), getParamURL);
+//			JSONArray param = response.getJSONArray("parameter");
+//			System.out.println(response.toString(4));
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+		populateTermCombo();
+		populateCourseCombo();
+		populateAssignCombo();
+		populateProblemCombo();
+		populateLanguageCombo();
+	}
+	
+	public void populateRequestCombo(JSONArray requests) {
 		try {
 //			System.out.println(response.toString(4));
 			this.requests.clear();
 			requestCombo.removeAll();
-			JSONArray requests = response.getJSONArray("requests");
+			
+			
+//			try {
+//				for (File file : pendingFolder.listFiles(new FilenameFilter() {
+//					@Override
+//					public boolean accept(File dir, String name) {
+//						return name.toLowerCase().endsWith(".json");
+//					}
+//				})) {
+//					StringBuilder sb = new StringBuilder();
+//					String line;
+//					BufferedReader reader = new BufferedReader(new FileReader(file));
+//
+//					while ((line = reader.readLine()) != null) {
+//						sb.append(line);
+//					}
+//
+//					reader.close();
+//					JSONObject request = new JSONObject(sb.toString());
+//					if (request.getString("language").equals(languageCombo.getText())) {
+//						requests.add(request);
+//						requestCombo.add(request.getString("request-id"));
+//					}
+//				}
+//			} catch (Exception e) {
+//				// TODO: handle exception
+//				e.printStackTrace();
+//			}
+			
+			
+			
+//			JSONArray requests = re sponse.getJSONArray("requests");
 			for (int i = 0; i < requests.length(); i++) {
 				this.requests.add(requests.getJSONObject(i));
 				requestCombo.add(requests.getJSONObject(i).getString("_id"));
@@ -557,18 +613,32 @@ public class HelperView extends ViewPart {
 			lblSErrorType.setText(request.getString("error-type"));
 			lblSErrorMessage.setText(request.getString("error-message"));
 			lblProblem.setText(request.getString("problem"));
-			JSONArray comment = request.getJSONArray("comment");
 			String commentString = "";
-			for (int j = 0; j < comment.length(); j++) {
-				commentString += comment.getString(j) + '\n';
+			try {
+				JSONArray comment = request.getJSONArray("comment");
+				for (int j = 0; j < comment.length(); j++) {
+					commentString += comment.getString(j) + '\n';
+				}
+			} catch (JSONException e) {
+				// TODO: handle exception
+				commentString = request.getString("comment");
 			}
+//			JSONArray comment = request.getJSONArray("comment");
+//			String commentString = "";
+//			for (int j = 0; j < comment.length(); j++) {
+//				commentString += comment.getString(j) + '\n';
+//			}
 			message.setText(commentString);
 //			message.setText(request.getString("comment"));
-			JSONArray help = request.getJSONArray("help");
 			String replyString = "";
-			for (int j = 0; j < help.length(); j++) {
-				replyString += help.getString(j) + '\n';
+			try {
+				JSONArray help = request.getJSONArray("help");
+				for (int j = 0; j < help.length(); j++) {
+					replyString += help.getString(j) + '\n';
+				}
+			} catch (JSONException e) {
 			}
+			
 			reply.setText(replyString);
 			if (i > 0) {
 				btnPrev.setEnabled(true);

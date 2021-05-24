@@ -36,10 +36,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import dayton.ellwanger.helpbutton.exceptionMatcher.JavaExceptoinMatcher;
+import dayton.ellwanger.helpbutton.exceptionMatcher.JavaExceptionMatcher;
+import dayton.ellwanger.helpbutton.exceptionMatcher.PrologExceptionMatcher;
+import dayton.ellwanger.helpbutton.exceptionMatcher.SMLExceptionMatcher;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferencePage;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferences;
 import dayton.ellwanger.hermes.SubView;
+import dayton.ellwanger.hermes.preferences.Preferences;
 import dayton.ellwanger.hermes.preferences.PreferencesListener;
 
 import org.eclipse.swt.layout.GridLayout;
@@ -89,6 +92,7 @@ public class HelpView extends ViewPart implements PreferencesListener {
 //	private static final String[][] ASSIGNMENTS = {COMP401ASSIGNMENTS, COMP410ASSIGNMENTS, COMP411ASSIGNMENTS};
 //	private static final String[] PROBLEMS = {"1", "2", "3", "4"};
 	private Text output;
+	private static final String NOT_CONNECTED = "Not connected to server.\nTo connect to server, go to Preference->Hermes->Hermes Help->Check Connect to Server.";
 //	HttpURLConnection conn;
 //	private final int timeout = 5000;
 
@@ -142,6 +146,7 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					return;
 				}
 				EditorsUI.getPreferenceStore().setValue(HelpPreferences.TERM, termCombo.getText());
+				filterRequests();
 			}
 		});
 //		populateTermCombo();
@@ -164,6 +169,7 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					return;
 				}
 				EditorsUI.getPreferenceStore().setValue(HelpPreferences.COURSE, courseCombo.getText());
+				filterRequests();
 			}
 		});
 
@@ -185,6 +191,7 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					return;
 				}
 				EditorsUI.getPreferenceStore().setValue(HelpPreferences.ASSIGNMENT, assignCombo.getText());
+				filterRequests();
 			}
 		});
 
@@ -203,10 +210,8 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					return;
 				}
 				EditorsUI.getPreferenceStore().setValue(HelpPreferences.PROBLEM, problemCombo.getText());
-				populatePendingCombo(termCombo.getText(), courseCombo.getText(), assignCombo.getText(),
-						problemCombo.getText());
-				populateRepliedCombo(termCombo.getText(), courseCombo.getText(), assignCombo.getText(),
-						problemCombo.getText());
+				filterRequests();
+				
 			}
 		});
 		
@@ -227,6 +232,7 @@ public class HelpView extends ViewPart implements PreferencesListener {
 				helpListener.setExceptionMatcher(languageCombo.getText());
 				helpListener.consoleOutput(output.getText());
 				EditorsUI.getPreferenceStore().setValue(HelpPreferences.LANGUAGE, languageCombo.getText());
+				filterRequests();
 			}
 		});
 		
@@ -291,33 +297,23 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					errorMessagelbl.setText("");
 				} else if (index < exceptions.size()) {
 					String ex = exceptions.get(index);
-					switch (languageCombo.getText()) {
-					case "java":
-						if (ex.indexOf("\n") > 0) {
-							errorMessagelbl.setText(ex.substring(ex.indexOf("\n\t") + 2)
-									.replace("\r\n", ""));
-						} else {
-							errorMessagelbl.setText("");
-						}
-						break;
-					case "prolog":
-						if (ex.indexOf("\n") > 0) {
-							errorMessagelbl.setText(ex.substring(ex.indexOf("\n") + 1)
-									.replace("\r\n", ""));
-						} else {
-							errorMessagelbl.setText("");
-						}
-						break;
-					case "SML":
-						if (ex.indexOf("\n") > 0) {
-							errorMessagelbl.setText(ex.substring(ex.indexOf("\n")+1).replace("\r\n", ""));
-						} else {
-							errorMessagelbl.setText("");
-						}
-					default:
-						break;
+					if (ex.indexOf("\n") > 0) {
+						switch (languageCombo.getText()) {
+						case "java":
+							errorMessagelbl.setText(JavaExceptionMatcher.getInstance().getErrorMsg(ex));
+							break;
+						case "prolog":
+							errorMessagelbl.setText(PrologExceptionMatcher.getInstance().getErrorMsg(ex));
+							break;
+						case "SML":
+							errorMessagelbl.setText(SMLExceptionMatcher.getInstance().getErrorMsg(ex));
+							break;
+						default:
+							break;
+						} 
+					} else {
+						errorMessagelbl.setText("");
 					}
-					
 				} else {
 					errorMessagelbl.setText(localcheckErrors.get(index - exceptions.size()));
 				}
@@ -527,6 +523,10 @@ public class HelpView extends ViewPart implements PreferencesListener {
 		Button getHelpButton = new Button(buttonComposite, SWT.NONE);
 		getHelpButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				if (!EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER)) {
+					popupMessage("Error", NOT_CONNECTED);
+					return;
+				}
 				if (termCombo.getText().equals("")) {
 					popupMessage("Error", "Please select a term.");
 				} else if (courseCombo.getText().equals("")) {
@@ -583,6 +583,10 @@ public class HelpView extends ViewPart implements PreferencesListener {
 			public void widgetSelected(SelectionEvent e) {
 //				MessageConsoleStream out = findConsole("debugRequestHelp").newMessageStream();
 //				out.println("Request Help Pressed");
+				if (!EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER)) {
+					popupMessage("Error", NOT_CONNECTED);
+					return;
+				}
 				if (termCombo.getText().equals("")) {
 					popupMessage("Error", "Please select a term.");
 				} else if (courseCombo.getText().equals("")) {
@@ -828,15 +832,54 @@ public class HelpView extends ViewPart implements PreferencesListener {
 		}
 	}
 
-	private void populatePendingCombo(String term, String course, String assign, String problem) {
-		List<String> pending = new ArrayList<>();
-		if (!term.equals("")) {
-
+	private void filterRequests() {
+		filterPendingCombo(termCombo.getText(), courseCombo.getText(), assignCombo.getText(),
+				problemCombo.getText(), languageCombo.getText());
+		filterRepliedCombo(termCombo.getText(), courseCombo.getText(), assignCombo.getText(),
+				problemCombo.getText(), languageCombo.getText());
+	}
+	
+	private void filterPendingCombo(String term, String course, String assign, String problem, String language) {
+		pendingCombo.removeAll();
+		for (JSONObject request : filter(pendingRequests, term, course, assign, problem, language)) {
+			try {
+				pendingCombo.add(request.getString("request-id"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
+	
+	private List<JSONObject> filter(List<JSONObject> requests, String term, String course, String assign, String problem, String language) {
+		List<JSONObject> retVal = new ArrayList<>();
+		try {
+			for (int i = 0; i < requests.size(); i++) {
+				JSONObject request = requests.get(i);
+				if ((term.isEmpty() || request.getString("term").equalsIgnoreCase(term)) 
+						&& (course.isEmpty() || request.getString("course").equalsIgnoreCase(course))
+						&& (assign.isEmpty() || request.getString("assignment").equalsIgnoreCase(assign))
+						&& (problem.isEmpty() || request.getString("problem").equalsIgnoreCase(problem))
+						&& (language.isEmpty() || request.getString("language").equalsIgnoreCase(language))) {
+					retVal.add(request);
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return retVal;
+	}
 
-	private void populateRepliedCombo(String term, String course, String assign, String problem) {
-
+	private void filterRepliedCombo(String term, String course, String assign, String problem, String language) {
+		repliedCombo.removeAll();
+		for (JSONObject request : filter(repliedRequests, term, course, assign, problem, language)) {
+			try {
+				repliedCombo.add(request.getString("request-id"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void populateProblemCombo() {
@@ -865,22 +908,13 @@ public class HelpView extends ViewPart implements PreferencesListener {
 		for (String exception : this.exceptions) {
 			switch (languageCombo.getText()) {
 			case "java":
-				Matcher m = Pattern.compile("\\S(\\.\\S*)?\\S*Exception").matcher(exception);
-				m.find();
-				String ex = m.group();
-//				if (ex.lastIndexOf(" ") > 0) {
-//					errorCombo.add(ex.substring(ex.lastIndexOf(" ") + 1));
-//				} else {
-				errorCombo.add(ex);
-//				}
+				errorCombo.add(JavaExceptionMatcher.getInstance().getException(exception));
 				break;
 			case "prolog":
-				if (exception.contains("\n")) errorCombo.add(exception.substring(exception.indexOf(":")+1, exception.indexOf("\n")));
-				else errorCombo.add(exception.substring(exception.indexOf(":")+1));
+				errorCombo.add(PrologExceptionMatcher.getInstance().getException(exception));
 				break;
 			case "SML":
-				if (exception.contains("\n")) errorCombo.add(exception.substring(exception.indexOf("Error:")+7, exception.indexOf("\n")));
-				else errorCombo.add(exception.substring(exception.indexOf("Error:")+7));
+				errorCombo.add(SMLExceptionMatcher.getInstance().getException(exception));
 				break;
 			default:
 				break;

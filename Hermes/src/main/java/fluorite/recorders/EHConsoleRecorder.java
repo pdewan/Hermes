@@ -32,6 +32,13 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 	protected String lastConsoleOutput = null;
 	private final Pattern javaExceptionPattern = Pattern.compile(".+Exception[^\\n]?(((?!Exception)[\\s\\S])*)(\\s+at .++)+(\\nCaused by:.*\\n(\\s+at .++)+)?");
 	private final Pattern prologExceptionPattern = Pattern.compile("(ERROR:[^\\n]++\\n)+(\\^\\s+Call:.*\\n?)?");
+	private final Pattern SMLExcpetionPattern = Pattern.compile(".*Error:[^\\n]+\\n((\\s+)[^\\n]*\\n?)*");
+	private static final String[] UNCHECKED_OUTPUT = {"I***", "[WARN]", "[INFO]", 
+													  "Buffer traced", "ObjectEditor",
+													  "###", "Running junit test",
+													  "(Client", "(Server", "(Registry",
+													  "Steps traced"}; 
+	private static final int LINE_LIM = 50;
 
 	public EHConsoleRecorder() {
 		EHEventRecorder.getInstance().addEclipseEventListener(this);
@@ -126,32 +133,65 @@ public class EHConsoleRecorder extends EHBaseRecorder implements IConsoleListene
 						}
 						
 						//distinguish sys.out and sys.err
-						
-						if (javaExceptionPattern.matcher(event.getText()).find())
+						//Ken's code detect exceptions
+						inputOrOutputUnit = removeUncheckedOutput(inputOrOutputUnit);
+						if (inputOrOutputUnit.isEmpty()) {
+							return;
+						}
+						if (inputOrOutputUnit.contains("Exception") && javaExceptionPattern.matcher(inputOrOutputUnit).find())
 						{
 							getRecorder().recordCommand(new ExceptionCommand(inputOrOutputUnit, "java"));
 							currentConsoleContents.add(inputOrOutputUnit);
 							consoleString.append(inputOrOutputUnit);
 							return;
-						} else if (prologExceptionPattern.matcher(event.getText()).find()) {
+						} else if (prologExceptionPattern.matcher(inputOrOutputUnit).find()) {
 							getRecorder().recordCommand(new ExceptionCommand(inputOrOutputUnit, "prolog"));
 							currentConsoleContents.add(inputOrOutputUnit);
 							consoleString.append(inputOrOutputUnit);
 							return;
+						} else if (inputOrOutputUnit.contains("Error") && SMLExcpetionPattern.matcher(inputOrOutputUnit).find()) {
+							getRecorder().recordCommand(new ExceptionCommand(inputOrOutputUnit, "SML"));
+							currentConsoleContents.add(inputOrOutputUnit);
+							consoleString.append(inputOrOutputUnit);
 						}
 						// this is regular output
 						getRecorder().recordCommand(new ConsoleOutput(inputOrOutputUnit, lastConsoleOutput));
 						lastConsoleOutput = inputOrOutputUnit;
 						currentConsoleContents.add(inputOrOutputUnit);
 						consoleString.append(inputOrOutputUnit);
-
-
-
+					}
+					
+					private String removeUncheckedOutput(String input) {
+						StringBuilder sb = new StringBuilder();
+						String[] list = input.split("\\r?\\n");
+						int numLines = 0;
+						for (String s : list) {
+							if (!isUnchecked(s)) {
+								sb.append(s+"\r\n");
+								numLines++;
+								if (numLines >= 50) {
+									return sb.toString();
+								}
+							}
+						}
+						return sb.toString();
+					}
+					
+					private boolean isUnchecked(String s) {
+						for (String s2 : UNCHECKED_OUTPUT) {
+							if (s.startsWith(s2)) {
+								return true;
+							}
+						}
+						return false;
 					}
 				};
+				
 				textConsole.getDocument().addDocumentListener(
 						consoleDocumentListener);
 			}
+			
+			
 		}
 		
 	}

@@ -38,10 +38,10 @@ public class RequestHelpCommand extends GetHelpCommand{
 	public void createFrom(Element commandElement) {
 		super.createFrom(commandElement);
 		
-		NodeList nodeList = null;
-		if ((nodeList = commandElement.getElementsByTagName(XML_DIFFICULTY)).getLength() > 0) {
-			Node textNode = nodeList.item(0);
-			diffculty = Integer.getInteger(textNode.getTextContent());
-		}
+//		NodeList nodeList = null;
+//		if ((nodeList = commandElement.getElementsByTagName(XML_DIFFICULTY)).getLength() > 0) {
+//			Node textNode = nodeList.item(0);
+//			diffculty = Integer.getInteger(textNode.getTextContent());
+//		}
 	}
 }

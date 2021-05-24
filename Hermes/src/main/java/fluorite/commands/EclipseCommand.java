@@ -171,7 +171,7 @@ public class EclipseCommand
 		try {
 			return command.getDescription();
 		} catch (NotDefinedException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 
 		return "";

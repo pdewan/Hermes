@@ -15,7 +15,7 @@ public class HelpPreferences {
 	protected static final String STORE_NODE = "hermes";
 	
 	public static final String EMAIL = "email";
-	public static final String TERM = "Term";
+	public static final String TERM = "term";
 	public static final String COURSE = "course";
 	public static final String ASSIGNMENT = "assignment";
 	public static final String PROBLEM = "problem";

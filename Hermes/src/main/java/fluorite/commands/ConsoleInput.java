@@ -69,13 +69,13 @@ public class ConsoleInput extends OutputProduced implements EHICommand {
 	@Override
 	public String getCommandType() {
 		// TODO Auto-generated method stub
-		return "EHExceptionCommand";
+		return "ConsoleInput";
 	}
 
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "EHException";
+		return "ConsoleInput";
 	}
 
 //	@Override

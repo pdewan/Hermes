@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Hermes"
+            id="hermes.viewCategory">
+      </category>
+      <view
+            id="help.HelpView"
+            name="Help!"
+            icon="icons/sample.gif"
+            class="dayton.ellwanger.helpbutton.HelpView"
+            category="hermes.viewCategory"
+            inject="true">
+      </view>
+      <view
+            category="hermes.viewCategory"
+            class="dayton.ellwanger.helpbutton.HelperView"
+            icon="icons/sample.gif"
+            id="help.helperView"
+            name="Helper"
+            inject="true">
+      </view>
+            <view
+            category="hermes.viewCategory"
+            class="dayton.ellwanger.helpbutton.original.HelpView"
+            icon="icons/sample.gif"
+            id="help.oldHelpView"
+            name="Old Help"
+            inject="true">
+      </view>
+      
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="dayton.ellwanger.helpbutton.preferences.HelpPreferencePage"
+            id="hermes.preferences.help"
+            name="Hermes Help"
+            category="hermes.preferences">
+      </page>
+   </extension>
+
+</plugin>

@@ -76,6 +76,9 @@ public class HTTPRequest {
 //		} 
 //		if (status < 299) {
 			try {
+//				JSONObject response = new JSONObject(sb.toString().substring(sb.toString().indexOf("{")));
+//				System.out.println(response.toString(4));
+//				return response;
 				return new JSONObject(sb.toString().substring(sb.toString().indexOf("{")));
 			} catch (JSONException e) {
 			}
