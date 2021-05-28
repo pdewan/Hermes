@@ -10,86 +10,45 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.core.resources.IProject;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import dayton.ellwanger.helpbutton.exceptionMatcher.ExceptionMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.JavaExceptionMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.PrologExceptionMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.SMLExceptionMatcher;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferences;
-import fluorite.commands.EHICommand;
-import fluorite.commands.FileOpenCommand;
 import fluorite.commands.GetHelpCommand;
 import fluorite.commands.RequestHelpCommand;
-import fluorite.commands.ShellCommand;
 import fluorite.model.EHEventRecorder;
-import fluorite.model.EclipseEventListener;
-import fluorite.util.EHLogReader;
 import fluorite.util.EHUtilities;
 
-public class HelpViewController implements HelpListener, EclipseEventListener {
-	//	private static final String testURL = "http://localhost:12345";
+public class HelpViewController implements HelpListener {
 	private static final String getHelpURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/V2/get-available-help";
 	private static final String requestHelpURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/V2/request-help";
 //	private static final String reportURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/cyverse/add-cyverse-log";
-//	private final Pattern exceptionPattern = Pattern.compile(".+Exception[^\\n]++(\\s+at .++)+");
-//	private List<ExceptionMatcher> exceptionMatchers = new ArrayList<>();
 	private HelpView view;
-	private int numCommand = 0;
-	private static final int COMMAND_LIM = 100;
 	private ExceptionMatcher em;
-//	private static final String LOG_FILE_PATH = "LogProjPath";
-//	private static final String NUM_COMMANDS_SENT = "numCommandsSent";
-//	private ArrayBlockingQueue<EHICommand> commandsToSend;
-//	private List<EHICommand> commandsToSend2;
+	private static final int LIMIT = 1024*1024;
 	
 	public HelpViewController(HelpView view) {
 		this.view = view;
-//		addExceptionMatcher(JavaExceptoinMatcher.getInstance());
 		view.setHelpListener(this);
 		setExceptionMatcher(EditorsUI.getPreferenceStore().getString(HelpPreferences.LANGUAGE));
 		ConsoleListener.getInstance().addListener(this);
-		EHEventRecorder.getInstance().addEclipseEventListener(this);
-//		commandsToSend = EHEventRecorder.getInstance().getCommandsToSend();
-//		commandsToSend2 = new ArrayList<>();
-//		new Thread(new Runnable() {
-//			public void run() {
-//				sendLogToServer();
-//			}
-//		}).start();
 	}
 
 	public void exceptionEvent(String output){
 		List<String> exceptions = new ArrayList<>();
-//		Matcher matcher = exceptionPattern.matcher(output);
-//		while (matcher.find()) {
-//			String ex = matcher.group();
-//			if (!exceptions.contains(ex)) {
-//				exceptions.add(matcher.group());
-//			}
-//		}
-//		for (ExceptionMatcher em : exceptionMatchers) {
-			exceptions = em.match(output);
-//			if (exceptions.size() != 0) {
-//				break;
-//			}
-//		}
+		exceptions = em.match(output);
 		view.populateErrorCombo(exceptions);
 	}
-	
-//	public void addExceptionMatcher(ExceptionMatcher em) {
-//		exceptionMatchers.add(em);
-//	}
-//	
-//	public void removeExcetionMatcher(ExceptionMatcher em) {
-//		exceptionMatchers.remove(em);
-//	}
 	
 	public void setExceptionMatcher(String language) {
 		switch (language) {
@@ -117,214 +76,194 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 	}
 
 	@Override
-	public JSONObject requestHelp(String email, String course, String assign, String errorType, String errorMessage, String problem, String term, int difficulty, String helpText, String requestID, String output, String language) throws IOException {
-		try {
-//			MessageConsoleStream out = view.findConsole("debugRequestHelp").newMessageStream();
-//			out.println("requesting help");
-			JSONObject helpRequest = new JSONObject();
-			JSONObject code = new JSONObject();
-			helpRequest.put("code", code);
-			if (language == null || language.equals("")) {
-				language = "java";
-			}
-			helpRequest.put("language", language);
-			helpRequest.put("environment", "ecipse");
-			helpRequest.put("error-message", errorMessage);
-			helpRequest.put("error-type", errorType);
-			helpRequest.put("course", course);
-			helpRequest.put("assignment", assign);
-			helpRequest.put("comment", helpText);
-			helpRequest.put("problem", problem);
-			helpRequest.put("term", term);
-			helpRequest.put("email", email);
-			helpRequest.put("request-id", "");
-			helpRequest.put("output", output);
-//			out.println("project path = " + getCurrentProjectPath());
-			File src = new File(getCurrentProjectPath() + File.separator + "Logs" + File.separator + "srcOld");
-			if (!src.exists() || numCommand > 50) {
-				src = new File(getCurrentProjectPath() + File.separator + "Logs" + File.separator + "src");
-			}
-			if (!src.exists()) {
-				src = findSourceFolder(new File(getCurrentProjectPath()), EditorsUI.getPreferenceStore().getString(HelpPreferences.LANGUAGE));
-			}
-//			out.println("src = " + src);
-			if (src != null) {
-				List<String> filePaths = new ArrayList<>();
-				List<String> relevantFilePaths = new ArrayList<>();
-				findSourceFiles(src, filePaths, language);
-//				out.println("source files found");
-				if (calculateSize(src) < 900*1024) {
-					for (String filePath : filePaths) {
-						File file = new File(filePath);
-						code.put(file.getName(), readFile(file));
+	public void requestHelp(String email, String course, String assign, String errorType, String errorMessage, String problem, String term, int difficulty, String helpText, String requestID, String output, String language, IProject project) {
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+//					MessageConsoleStream out = view.findConsole("debugRequestHelp").newMessageStream();
+//					out.println("requesting help");
+					JSONObject helpRequest = new JSONObject();
+					JSONObject code = new JSONObject();
+					helpRequest.put("code", code);
+					if (language == null || language.equals("")) {
+						helpRequest.put("language", "java");
+					} else {
+						helpRequest.put("language", language);
 					}
-					addHistory(code, calculateSize(src));
-				} else if (errorMessage.indexOf("\r\n\t") >= 0) {
-					String stackTrace = errorMessage.substring(errorMessage.indexOf("\r\n\t"));
-					while (stackTrace.indexOf(".java") >= 0) {
-						String fileName = stackTrace.substring(stackTrace.lastIndexOf('(')+1, stackTrace.lastIndexOf(".java")+5);
-						for (String file : filePaths) {
-							if (file.contains(fileName)) {
-								relevantFilePaths.add(file);
-								filePaths.remove(file);
-								break;
+					helpRequest.put("environment", "ecipse");
+					helpRequest.put("error-message", errorMessage);
+					helpRequest.put("error-type", errorType);
+					helpRequest.put("course", course);
+					helpRequest.put("assignment", assign);
+					helpRequest.put("comment", helpText);
+					helpRequest.put("problem", problem);
+					helpRequest.put("term", term);
+					helpRequest.put("email", email);
+					helpRequest.put("request-id", "");
+					helpRequest.put("output", output);
+					if (project != null) {
+						String projectPath = project.getLocation().toOSString();
+						File src = findSourceFolder(new File(projectPath), language);
+						if (src.exists()) {
+							List<String> filePaths = new ArrayList<>();
+							findSourceFiles(src, filePaths, language);
+							for (String filePath : filePaths) {
+								File file = new File(filePath);
+								code.put(file.getName(), readFile(file));
 							}
 						}
-						stackTrace = stackTrace.substring(0, stackTrace.lastIndexOf('('));
+//						File logFolder = new File(projectPath, "Logs"+File.separator+"Eclipse");
+//						JSONArray log = new JSONArray();
+//						code.put("log", log);
+//						if (logFolder.exists()) {
+//							List<File> logFiles = findLogFiles(project, logFolder);
+//							if (logFiles != null) {
+//								for (File file : logFiles) {
+//									log.put(readFile(file));
+//								}
+//							}
+//						}
 					}
-					long size = 0;
-					for (String filePath : relevantFilePaths) {
-						File file = new File(filePath);
-						size += file.length();
-						if (size > 900) {
-							break;
-						}
-						code.put(file.getName(), readFile(file));
-					}
-					addHistory(code, size);
-				} else {
-					long size = addHistory(code, 0);
-					for (String filePath : filePaths) {
-						File file = new File(filePath);
-						if (code.has(file.getName())) {
-							continue;
-						}
-						size += file.length();
-						if (size > 900) {
-							break;
-						}
-						code.put(file.getName(), readFile(file));
-					}
-				}
-			}
-//			out.println("source files add to json object, sending request");
-			JSONObject response = HTTPRequest.post(helpRequest, requestHelpURL);
-			if (response == null) {
-//				out.println("response is null");
-				recordRequestHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, "", false, difficulty);
-				throw new IOException();
-			}
-//			out.println("received response from server: " + response.toString(4));
-			helpRequest.put("request-id", response.get("request-id"));
-			recordRequestHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, "", true, difficulty);
-			view.addPendingRequest(helpRequest);
-			view.removeRepliedRequest(response.getString("request-id"));
-
-			new Thread(()->{
-				try {
-//					String requestId = response.getJSONObject("input").getJSONObject("body").getString("request-id");
-					String requestId = response.getString("request-id");
-					String id = requestId.substring(requestId.lastIndexOf('.')+1);
-					File[] files = view.getRepliedFolder().listFiles(new FilenameFilter() {
-						public boolean accept(File dir, String name) {
-							return name.equals(id+".JSON");
+					JSONObject response = HTTPRequest.post(helpRequest, requestHelpURL);
+//					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+//						public void run() {
+//							try {
+//								view.popupMessage("Response", response.toString(4));
+//							} catch (JSONException e) {
+//								e.printStackTrace();
+//							}
+//						}
+//					});
+					helpRequest.put("request-id", response.get("request-id"));
+					recordRequestHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, "", response!=null, difficulty);
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							view.processRequestHelpResponse(response);
 						}
 					});
-					File file = new File(view.getPendingFolder().getPath()+ File.separator + id +".JSON");
-					if (file.exists()) {
-						file.delete();
-					}
-					file.createNewFile();
-					FileOutputStream os = new FileOutputStream(file);
-					if (files.length == 1) {
-						os.write(readJSON(files[0]).toString(4).getBytes());
-						files[0].delete();
-					} else {
-						os.write(helpRequest.toString(4).getBytes());
-					}
-					os.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+					
+
+					new Thread(()->{
+						try {
+//							String requestId = response.getJSONObject("input").getJSONObject("body").getString("request-id");
+							String requestId = response.getString("request-id");
+							String id = requestId.substring(requestId.lastIndexOf('.')+1);
+							File[] files = view.getRepliedFolder().listFiles(new FilenameFilter() {
+								public boolean accept(File dir, String name) {
+									return name.equals(id+".JSON");
+								}
+							});
+							File file = new File(view.getPendingFolder().getPath()+ File.separator + id +".JSON");
+							if (file.exists()) {
+								file.delete();
+							}
+							file.createNewFile();
+							FileOutputStream os = new FileOutputStream(file);
+							if (files.length == 1) {
+								os.write(readJSON(files[0]).toString(4).getBytes());
+								files[0].delete();
+							} else {
+								os.write(helpRequest.toString(4).getBytes());
+							}
+							os.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}).start();
 				} catch (JSONException e) {
 					e.printStackTrace();
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							view.processRequestHelpResponse(null);
+						}
+					});
 				}
-			}).start();
-			return helpRequest;
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null;
+			}
+		}).start();
 	}
 
-	public JSONObject getHelp(String email, String course, String assign, String errorType, String errorMessage, String problem, String term, String requestID, String output, String language) throws IOException {
-		try {
-			JSONObject helpRequest = new JSONObject();
-			JSONObject code = new JSONObject();
-			helpRequest.put("code", code);
-			helpRequest.put("language", language);
-			helpRequest.put("environment", "eclipse");
-			helpRequest.put("error-message", errorMessage);
-			helpRequest.put("error-type", errorType);
-			helpRequest.put("course", course);
-			helpRequest.put("assignment", assign);
-			helpRequest.put("problem", problem);
-			helpRequest.put("term", term);
-			helpRequest.put("email", email);
-			if (requestID == null) {
-				helpRequest.put("request-id", "");
-			} else {
-				helpRequest.put("request-id", requestID);
-			}
-			helpRequest.put("output", output);
-//			System.out.println(helpRequest.toString(4));
-			JSONObject response = HTTPRequest.post(helpRequest, getHelpURL);
-			if (response == null) {
-				recordGetHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, "", false);
-				throw new IOException();
-			}
-//			System.out.println(response.toString(4));
-			List<String> replies = new ArrayList<>();
-			JSONArray help = new JSONArray();
-			try {
-				help = response.getJSONArray("help");
-				for (int i = 0; i < help.length(); i++) {
-					replies.add(help.getString(i));
-				}
-			}catch (JSONException e) {
-			}
-			String id = response.getString("request-id");
-			helpRequest.put("request-id", id);
-			helpRequest.put("help", help);
-			recordGetHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, help.toString(4), true);
-			view.updateReplies(replies);
-			if (replies.size() == 0) {
-				return helpRequest;
-			}
-			
-			view.addRepliedRequest(helpRequest);
-			view.removePendingRequest(id);
-			new Thread(()->{
+	public void getHelp(String email, String course, String assign, String errorType, String errorMessage, String problem, String term, String requestID, String output, String language) {
+		new Thread(new Runnable() {
+			public void run() {
 				try {
-					String requestId = response.getString("request-id");
-					String rid = requestId.substring(requestId.lastIndexOf('.')+1);
-					File[] files = view.getPendingFolder().listFiles(new FilenameFilter() {
-						public boolean accept(File dir, String name) {
-							return name.equals(rid+".JSON");
+					JSONObject helpRequest = new JSONObject();
+					JSONObject code = new JSONObject();
+					helpRequest.put("code", code);
+					helpRequest.put("language", language);
+					helpRequest.put("environment", "eclipse");
+					helpRequest.put("error-message", errorMessage);
+					helpRequest.put("error-type", errorType);
+					helpRequest.put("course", course);
+					helpRequest.put("assignment", assign);
+					helpRequest.put("problem", problem);
+					helpRequest.put("term", term);
+					helpRequest.put("email", email);
+					if (requestID == null) {
+						helpRequest.put("request-id", "");
+					} else {
+						helpRequest.put("request-id", requestID);
+					}
+					helpRequest.put("output", output);
+//					System.out.println(helpRequest.toString(4));
+					JSONObject response = HTTPRequest.post(helpRequest, getHelpURL);
+					if (response == null) {
+						recordGetHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, "", false);
+					} else {
+//					System.out.println(response.toString(4));
+						List<String> replies = new ArrayList<>();
+						JSONArray help = new JSONArray();
+						try {
+							help = response.getJSONArray("help");
+							for (int i = 0; i < help.length(); i++) {
+								replies.add(help.getString(i));
+							}
+						}catch (JSONException e) {
+						}
+						String id = response.getString("request-id");
+						helpRequest.put("request-id", id);
+						helpRequest.put("help", help);
+						recordGetHelpCommand(email, course, assign, errorType, errorMessage, problem, term, requestID, output, help.toString(4), true);
+					}
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							view.processGetHelpResponse(helpRequest);
 						}
 					});
-					if (files.length == 1) {
-						files[0].delete();
-					}
-//					helpRequest.put("help", help);
-					File file = new File(view.getRepliedFolder().getPath()+ File.separator + rid +".JSON");
-					if (file.exists()) {
-						file.delete();
-					}
-					file.createNewFile();
-					FileOutputStream os = new FileOutputStream(file);
-					os.write(helpRequest.toString(4).getBytes());
-					os.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+
+					new Thread(()->{
+						try {
+							String requestId = response.getString("request-id");
+							String rid = requestId.substring(requestId.lastIndexOf('.')+1);
+							File[] files = view.getPendingFolder().listFiles(new FilenameFilter() {
+								public boolean accept(File dir, String name) {
+									return name.equals(rid+".JSON");
+								}
+							});
+							if (files.length == 1) {
+								files[0].delete();
+							}
+//							helpRequest.put("help", help);
+							File file = new File(view.getRepliedFolder().getPath()+ File.separator + rid +".JSON");
+							if (file.exists()) {
+								file.delete();
+							}
+							file.createNewFile();
+							FileOutputStream os = new FileOutputStream(file);
+							os.write(helpRequest.toString(4).getBytes());
+							os.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}).start();
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-			}).start();
-			return helpRequest;
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null; 
+			}
+		}).start();;
 	}
 
 	private void findSourceFiles(File file, List<String> files, String language){
@@ -359,18 +298,6 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 			default:
 				break;
 			}
-		}
-	}
-
-	private long calculateSize(File file) {
-		long size = 0;
-		if (file.isDirectory()) {
-			for (File file2 : file.listFiles()) {
-				size += calculateSize(file2);
-			}
-			return size;
-		} else {
-			return file.length();
 		}
 	}
 
@@ -453,87 +380,6 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 	//		}		
 	//	}
 	
-	private long addHistory(JSONObject code, long size) {
-		File log = new File(getCurrentProjectPath()+File.separator+"Logs"+File.separator+"Eclipse");
-		if (!log.exists()) {
-			return size;
-		}
-		File[] logs = log.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.endsWith(".xml");
-			}
-		});
-		if (logs.length == 0) {
-			return size;
-		}
-		File currentLog = logs[0];
-		for (File file : logs) {
-			if (file.lastModified() > currentLog.lastModified()) {
-				currentLog = file;
-			}
-		}
-		try {
-//			List<EHICommand> commands = EHEventRecorder.getInstance().getAllCommands();
-			File temp = new File(log, "temp.xml");
-			copyFiles(currentLog, temp);
-			List<EHICommand> commands;
-			try {
-				commands = new EHLogReader().readAll(temp.getPath());
-//				commands = new EHLogReader().readAll("C:\\Users\\Zhizhou\\OneDrive\\UNC CH\\Junior 1st Sem\\hermes\\test\\Logs\\Eclipse\\Log2020-09-02-11-07-58-675.xml");
-			} catch (NullPointerException e) {
-				temp.delete();
-				return size;
-			}
-			int num = numCommand > COMMAND_LIM/2? numCommand : numCommand + COMMAND_LIM;
-			temp.delete();
-			List<File> modifiedFiles = new ArrayList<>(); 
-			JSONArray history = new JSONArray();
-			List<EHICommand> filteredCommand = new ArrayList<>();
-			code.put("log", history);
-			for (int i = commands.size()-1; i >= 0; i--) {
-				EHICommand command = commands.get(i);
-				if (command instanceof FileOpenCommand) {
-					File f = new File(command.getDataMap().get("filePath"));
-					if (f.exists() && !modifiedFiles.contains(f)) {
-						modifiedFiles.add(f);
-					}
-				}
-//				if (command instanceof ShellCommand || command instanceof GetHelpCommand || command instanceof RequestHelpCommand) {
-//					continue;
-//				}
-				if (command instanceof ShellCommand) {
-					continue;
-				}
-				size += command.persist().length();
-				if (size > 900 * 1024) {
-					break;
-				}
-				filteredCommand.add(command);
-				if (filteredCommand.size() == num) {
-					break;
-				}
-			}
-			for (int i = filteredCommand.size() - 1; i >= 0; i--) {
-				history.put(filteredCommand.get(i).persist());
-			}
-			for (File file : modifiedFiles) {
-				if (!code.has(file.getName())) {
-					size += file.length();
-					if (size > 900*1024) {
-						break;
-					}
-					code.put(file.getName(), readFile(file));
-				}
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return size;
-	}
-	
 	private String getCurrentProjectPath(){
 		IProject project = EHUtilities.getCurrentProject();
 		if (project == null) {
@@ -557,69 +403,6 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 			e.printStackTrace();
 		}
 		return "";
-	}
-
-	@Override
-	public void eventRecordingStarted(long aStartTimestamp) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void eventRecordingEnded() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void timestampReset(long aStartTimestamp) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void commandExecuted(String aCommandName, long aTimestamp) {
-		// TODO Auto-generated method stub
-//		if (aCommandName.equals("ShellCommand")) {
-//			return;
-//		}
-		createSnapshot();
-	}
-
-	@Override
-	public void documentChanged(String aCommandName, long aTimestamp) {
-		// TODO Auto-generated method stub
-		createSnapshot();
-	}
-
-	@Override
-	public void documentChangeFinalized(long aTimestamp) {
-		// TODO Auto-generated method stub
-		createSnapshot();
-	}
-	
-	private synchronized void createSnapshot() {
-		numCommand++;
-		if (numCommand == COMMAND_LIM) {
-			numCommand = 0;
-			new Thread(()->{
-				String projectPath = getCurrentProjectPath();
-				if (projectPath.isEmpty()) {
-					return;
-				}
-				File src = findSourceFolder(new File(projectPath), EditorsUI.getPreferenceStore().getString(HelpPreferences.LANGUAGE));
-				File snapshot = new File(projectPath+File.separator+"Logs"+File.separator+"src");
-				File snapshotOld = new File(projectPath+File.separator+"Logs"+File.separator+"srcOld");
-				if (snapshot.exists()) {
-					if (snapshotOld.exists()) {
-						deleteFolder(snapshot);
-					}
-					cloneFolder(snapshot, snapshot.getPath(), snapshotOld.getPath());
-				}
-				cloneFolder(src, src.getPath(), snapshot.getPath());
-//				sendLogToServer();
-			}).start();
-		}
 	}
 
 	private File findSourceFolder(File folder, String language) {
@@ -653,111 +436,27 @@ public class HelpViewController implements HelpListener, EclipseEventListener {
 		return null;
 	}
 	
-//	private void sendLogToServer() {
-//		String storedLogFilePath = EditorsUI.getPreferenceStore().getString(LOG_FILE_PATH);
-//		int numCommandsSent = EditorsUI.getPreferenceStore().getInt(NUM_COMMANDS_SENT);
-//		if (new File(storedLogFilePath).exists()) {
-//			sendLog(new EHLogReader().readAll(storedLogFilePath), numCommandsSent, storedLogFilePath);
-//		}
-//		
-//		File log = new File(getCurrentProjectPath()+File.separator+"Logs"+File.separator+"Eclipse");
-//		if (!log.exists()) {
-//			log.mkdirs();
-//		}
-//		
-//		File[] logs = log.listFiles(new FilenameFilter() {
-//			public boolean accept(File dir, String name) {
-//				return name.endsWith(".xml");
-//			}
-//		});
-//		
-//		File currentLog = null;
-//		String logFilePath = "";
-//
-//		if (logs.length != 0) {
-//			currentLog = logs[0];
-//			for (File file : logs) {
-//				if (file.lastModified() > currentLog.lastModified()) {
-//					currentLog = file;
-//				}
-//			}
-//			logFilePath = currentLog.getPath();
-//		}
-//		EditorsUI.getPreferenceStore().putValue(LOG_FILE_PATH, logFilePath);
-//		EditorsUI.getPreferenceStore().putValue(NUM_COMMANDS_SENT, "0");
-//
-//		while (true) {
-//			try {
-//				commandsToSend2.add(commandsToSend.take());
-//			} catch (InterruptedException e1) {
-//				e1.printStackTrace();
-//			}
-//			if (commandsToSend2.size() >= 100) {
-//				sendLog(commandsToSend2, numCommand, logFilePath);
-//			}
-//		}
-//	}
-	
-	private void cloneFolder(File source, String sourcePath, String destPath){
-		try {
-			for (File file : source.listFiles()) {
-				if (file.isDirectory()) {
-					new File(file.getPath().replace(sourcePath, destPath)).mkdirs();
-					cloneFolder(file, file.getPath(), file.getPath().replace(sourcePath, destPath));
-				} else {
-					copyFiles(file, new File(file.getPath().replace(sourcePath, destPath)));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void deleteFolder(File folder) {
-		for (File file : folder.listFiles()) {
-			if (file.isDirectory()) {
-				deleteFolder(file);
+	public List<File> findLogFiles(IProject project, File logFolder) {
+		if (project == null || logFolder == null || !logFolder.exists()) {
+			return null;
+		} 
+		EHEventRecorder.getInstance().flushAndStopLogging(project);
+		List<File> retVal = new ArrayList<>();
+		List<File> logFiles = Arrays.asList(logFolder.listFiles());
+		Collections.sort(logFiles, Collections.reverseOrder());
+		int size = 0;
+		for(File file : logFiles){
+			size += file.length();
+			if (size < LIMIT) {
+				retVal.add(file);
 			} else {
-				file.delete();
+				size -= file.length();
+				break;
 			}
 		}
-		folder.delete();
+        EHEventRecorder.getInstance().continueLogging(project);
+        return retVal;
 	}
-	
-//	private List<JSONObject> sendLog(List<EHICommand> commands, int numCommandsSent, String logFileName) {
-//		try {
-//			while(numCommandsSent < commands.size()) {
-//				JSONObject log = new JSONObject();
-//				JSONObject report = new JSONObject();
-//				report.put("log_id", logFileName);
-//				try {
-//					report.put("machine_id", NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress());
-//				}catch (NoSuchElementException | SocketException e) {
-//					report.put("machine_id", "No Network Card Found");
-//				}
-//				report.put("log_type", "eclipse");
-//				report.put("course_id", EditorsUI.getPreferenceStore().getString(HelpPreferences.COURSE));
-//				report.put("log", log);
-//				int size = report.length();
-//				String commandText = "";
-//				for (int i = numCommandsSent; i < commands.size(); i++, numCommandsSent++) {
-//					EHICommand command = commands.get(i);
-//					String s = command.persist();
-//					size += s.length();
-//					commandText += s;
-//					if (size > 900 * 1024) {
-//						break;
-//					}
-//				}
-//				log.put("json", commandText);
-//				HTTPRequest.post(report, reportURL);
-//			}
-//		} catch (JSONException e) {
-//			// TODO: handle exception
-//		}
-//		return null;
-//	}
 }
 
 

@@ -1,5 +1,6 @@
 package dayton.ellwanger.helpbutton;
 
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,11 +8,9 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -29,22 +28,19 @@ import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.ViewPart;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import dayton.ellwanger.helpbutton.exceptionMatcher.JavaExceptionMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.PrologExceptionMatcher;
 import dayton.ellwanger.helpbutton.exceptionMatcher.SMLExceptionMatcher;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferencePage;
 import dayton.ellwanger.helpbutton.preferences.HelpPreferences;
-import dayton.ellwanger.hermes.SubView;
 import dayton.ellwanger.hermes.preferences.Preferences;
 import dayton.ellwanger.hermes.preferences.PreferencesListener;
-
+import fluorite.util.EHUtilities;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
@@ -83,6 +79,8 @@ public class HelpView extends ViewPart implements PreferencesListener {
 	private File repliedFolder = new File(System.getProperty("user.home") + File.separator + "helper-config"
 			+ File.separator + "Help" + File.separator + "Replied");
 	private int index;
+	private List<JSONObject> filteredPendingRequests;
+	private List<JSONObject> filteredRepliedRequests;
 	private static final String getParamURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/V2/get-available-parameters";
 //	private static final String[] TERMS = {"2018 Spring", "2018 Fall", "2019 Spring", "2019 Fall", "2020 Spring", "2020 Fall"};
 //	private static final String[] COURSES = {"comp401", "comp410", "comp411"};
@@ -378,7 +376,15 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					if (pendingCombo.getSelectionIndex() < 0) {
 						return;
 					}
-					JSONObject request = pendingRequests.get(pendingCombo.getSelectionIndex());
+					JSONObject request = null;
+					if (filteredPendingRequests == null) {
+						request = pendingRequests.get(pendingCombo.getSelectionIndex());
+					} else {
+						request = filteredPendingRequests.get(pendingCombo.getSelectionIndex());
+					}
+					if (request == null) {
+						return;
+					}
 					termCombo.setText(request.getString("term"));
 					courseCombo.setText(request.getString("course"));
 					assignCombo.setText(request.getString("assignment"));
@@ -436,7 +442,15 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					if (repliedCombo.getSelectionIndex() < 0) {
 						return;
 					}
-					JSONObject request = repliedRequests.get(repliedCombo.getSelectionIndex());
+					JSONObject request = null;
+					if (filteredRepliedRequests == null) {
+						request = repliedRequests.get(repliedCombo.getSelectionIndex());
+					} else {
+						request = filteredRepliedRequests.get(repliedCombo.getSelectionIndex());
+					}
+					if (request == null) {
+						return;
+					}
 					termCombo.setText(request.getString("term"));
 					courseCombo.setText(request.getString("course"));
 					assignCombo.setText(request.getString("assignment"));
@@ -533,15 +547,15 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					popupMessage("Error", "Please select a course.");
 				} else if (assignCombo.getText().equals("")) {
 					popupMessage("Error", "Please select an assignment.");
-				} else if (problemCombo.getText().equals("")) {
-					popupMessage("Error", "Please select a problem.");
+//				} else if (problemCombo.getText().equals("")) {
+//					popupMessage("Error", "Please select a problem.");
 				} else if (errorCombo.getText().equals("")) {
 					popupMessage("Error", "Please select an error.");
 				} else {
-					try {
+//					try {
 						if (helpListener != null) {
 							int index = errorCombo.getSelectionIndex();
-							JSONObject request = null;
+//							JSONObject request = null;
 //							if (index < errorRequests.size() && errorRequests.get(index) != null) {
 //								if (selected) {
 //									if (index > 0) {
@@ -552,22 +566,24 @@ public class HelpView extends ViewPart implements PreferencesListener {
 //								}
 //							}
 							if (index < exceptions.size()) {
-								request = helpListener.getHelp(emailText.getText(), courseCombo.getText(), assignCombo.getText(),
+//								request = 
+										helpListener.getHelp(emailText.getText(), courseCombo.getText(), assignCombo.getText(),
 										errorCombo.getText(), exceptions.get(index), problemCombo.getText(),
 										termCombo.getText(), requestID, output.getText(), languageCombo.getText());
 //								if (request != null && errorRequests.get(index) != null) {
 //									errorRequests.set(index, request);
 //								}
 							} else {
-								request = helpListener.getHelp(emailText.getText(), courseCombo.getText(), assignCombo.getText(),
+//								request = 
+										helpListener.getHelp(emailText.getText(), courseCombo.getText(), assignCombo.getText(),
 										errorCombo.getText(), errorMessagelbl.getText(), problemCombo.getText(),
 										termCombo.getText(), requestID, output.getText(), languageCombo.getText());
 							}
 							
 						}
-					} catch (IOException e1) {
-						popupMessage("Error", "Connection Failed");
-					}
+//					} catch (IOException e1) {
+//						popupMessage("Error", "Connection Failed");
+//					}
 				}
 			}
 		});
@@ -593,45 +609,45 @@ public class HelpView extends ViewPart implements PreferencesListener {
 					popupMessage("Error", "Please select a course.");
 				} else if (assignCombo.getText().equals("")) {
 					popupMessage("Error", "Please select an assignment.");
-				} else if (problemCombo.getText().equals("")) {
-					popupMessage("Error", "Please select a problem.");
+//				} else if (problemCombo.getText().equals("")) {
+//					popupMessage("Error", "Please select a problem.");
 				} else if (errorCombo.getText().equals("")) {
 					popupMessage("Error", "Please select an error.");
 				} else if (message.getText().equals("")) {
 					popupMessage("Error", "Please describe the difficulty you are facing.");
 				} else {
-					try {
+//					try {
 //						out.println("all checks are good");
 						if (helpListener != null) {
 //							out.println("help listener is not null");
 							int index = errorCombo.getSelectionIndex();
-							JSONObject request = null;
+//							JSONObject request = null;
 							if (index < exceptions.size()) {
-								request = helpListener.requestHelp(emailText.getText(), courseCombo.getText(),
+//								request = 
+										helpListener.requestHelp(emailText.getText(), courseCombo.getText(),
 										assignCombo.getText(), errorCombo.getText(), exceptions.get(index),
 										problemCombo.getText(), termCombo.getText(), difficultySelected,
-										message.getText(), requestID, output.getText(), languageCombo.getText());
-								if (request != null && errorRequests.get(index) == null) {
-									errorRequests.set(index, request);
-									requestID = request.getString("request-id");
-								}
+										message.getText(), requestID, output.getText(), languageCombo.getText(), EHUtilities.getCurrentProject());
+//								if (request != null && errorRequests.get(index) == null) {
+//									errorRequests.set(index, request);
+//									requestID = request.getString("request-id");
+//								}
 							} else {
-								request = helpListener.requestHelp(emailText.getText(), courseCombo.getText(),
+//								request = 
+										helpListener.requestHelp(emailText.getText(), courseCombo.getText(),
 										assignCombo.getText(), errorCombo.getText(), errorMessagelbl.getText(),
 										problemCombo.getText(), termCombo.getText(), difficultySelected,
-										message.getText(), requestID, output.getText(), languageCombo.getText());
-								if (errorCombo.getText().equals("Other") && request != null) {
-									errorRequests.set(index, request);
-									requestID = request.getString("request-id");
-								}
+										message.getText(), requestID, output.getText(), languageCombo.getText(), EHUtilities.getCurrentProject());
+//								if (errorCombo.getText().equals("Other") && request != null) {
+//									errorRequests.set(index, request);
+//									requestID = request.getString("request-id");
+//								}
 							}
-							popupMessage("Info", "Request Sent");
+//							popupMessage("Info", "Request Sent");
 						}
-					} catch (IOException e1) {
-						popupMessage("Error", "Connection Failed");
-					} catch (JSONException e1) {
-						e1.printStackTrace();
-					}
+//					} catch (JSONException e1) {
+//						e1.printStackTrace();
+//					}
 				}
 			}
 		});
@@ -722,6 +738,7 @@ public class HelpView extends ViewPart implements PreferencesListener {
 		populateAssignCombo();
 		populateProblemCombo();
 		populateLanguageCombo();
+		populateErrorCombo(new ArrayList<>());
 	}
 
 	private void readRequests() {
@@ -764,6 +781,7 @@ public class HelpView extends ViewPart implements PreferencesListener {
 				repliedRequests.add(request);
 				repliedCombo.add(request.getString("request-id"));
 			}
+			filterRequests();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
@@ -841,7 +859,8 @@ public class HelpView extends ViewPart implements PreferencesListener {
 	
 	private void filterPendingCombo(String term, String course, String assign, String problem, String language) {
 		pendingCombo.removeAll();
-		for (JSONObject request : filter(pendingRequests, term, course, assign, problem, language)) {
+		filteredPendingRequests = filter(pendingRequests, term, course, assign, problem, language);
+		for (JSONObject request : filteredPendingRequests) {
 			try {
 				pendingCombo.add(request.getString("request-id"));
 			} catch (JSONException e) {
@@ -872,7 +891,8 @@ public class HelpView extends ViewPart implements PreferencesListener {
 
 	private void filterRepliedCombo(String term, String course, String assign, String problem, String language) {
 		repliedCombo.removeAll();
-		for (JSONObject request : filter(repliedRequests, term, course, assign, problem, language)) {
+		filteredRepliedRequests = filter(repliedRequests, term, course, assign, problem, language);
+		for (JSONObject request : filteredRepliedRequests) {
 			try {
 				repliedCombo.add(request.getString("request-id"));
 			} catch (JSONException e) {
@@ -928,7 +948,7 @@ public class HelpView extends ViewPart implements PreferencesListener {
 		errorCombo.add("Other");
 	}
 
-	private void popupMessage(String title, String text) {
+	public void popupMessage(String title, String text) {
 		JOptionPane optionPane = new JOptionPane(text, JOptionPane.WARNING_MESSAGE);
 		JDialog dialog = optionPane.createDialog(title);
 		dialog.setAlwaysOnTop(true);
@@ -1008,6 +1028,51 @@ public class HelpView extends ViewPart implements PreferencesListener {
 			e.printStackTrace();
 		}
 	}
+	
+	public void processRequestHelpResponse(JSONObject response) {
+		if (response == null) {
+			popupMessage("Failed", "Connection Failed");
+		} else {
+			popupMessage("Success", "Request Sent");
+			try {
+				addPendingRequest(response);
+				removeRepliedRequest(response.getString("request-id"));
+				int index = errorCombo.getSelectionIndex();
+				if (index < exceptions.size()) {
+					if (response != null && errorRequests.get(index) == null) {
+						errorRequests.set(index, response);
+						requestID = response.getString("request-id");
+					}
+				} else if (errorCombo.getText().equals("Other") && response != null) {
+					errorRequests.set(index, response);
+					requestID = response.getString("request-id");
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void processGetHelpResponse(JSONObject helpRequest) {
+		if (helpRequest == null) {
+			popupMessage("Failed", "Connection Failed");
+		} else {
+			try {
+//				popupMessage("Success", "Request Sent");
+				List<String> replies = new ArrayList<>();
+				JSONArray help = new JSONArray();
+				help = helpRequest.getJSONArray("help");
+				for (int i = 0; i < help.length(); i++) {
+					replies.add(help.getString(i));
+				}
+				updateReplies(replies);
+				addRepliedRequest(helpRequest);
+				removePendingRequest(helpRequest.getString("request-id"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void updateConsoleOutput(String output) {
 		this.output.setText(output);
@@ -1033,7 +1098,6 @@ public class HelpView extends ViewPart implements PreferencesListener {
 	public void preferencesUpdated() {
 		populateParams();
 	}
-
 
 	public static MessageConsole findConsole(String name) {
 		ConsolePlugin plugin = ConsolePlugin.getDefault();

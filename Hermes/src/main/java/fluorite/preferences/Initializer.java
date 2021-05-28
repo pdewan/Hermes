@@ -109,6 +109,7 @@ public class Initializer extends AbstractPreferenceInitializer {
 		EditorsUI.getPreferenceStore().setDefault(Preferences.SHOW_STATUS_NOTIFICATION, true);
 		EditorsUI.getPreferenceStore().setDefault(LogSender.COURSE_ID, "COMP301");
 		EditorsUI.getPreferenceStore().setDefault("term", "2021 Summer");
+		EditorsUI.getPreferenceStore().setDefault(Preferences.KEEP_NOTIFICATION_LOGS, false);
 }
 
 }

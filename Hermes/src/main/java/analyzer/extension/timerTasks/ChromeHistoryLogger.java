@@ -49,30 +49,36 @@ public class ChromeHistoryLogger extends TimerTask {
 		if (path.isEmpty()) {
 			return;
 		}
-		File logFile = getChromeLogFile(path);
-		AChromeHistoryAccessor.setTerms(
-				HelperConfigurationManagerFactory.getSingleton().getTechnicalTerms(),
-				HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
-		long aTime = lastTimeStamp;
-		long aTime2 = System.currentTimeMillis();
-		WebFeatures aWebFetaures = new AWebFeatures();	
-		aWebFetaures.setUnixStartTime(aTime);
-		aWebFetaures.setElapsedTime(aTime2-aTime);
-
-		AChromeHistoryAccessor.processURLs(aWebFetaures);
 		try {
-			StringBuilder sb = new StringBuilder();
-			for (PageVisit aPageVisit:aWebFetaures.getPageVisits()) {
-				sb.append(getPageVisitString(aPageVisit));
+			AChromeHistoryAccessor.setTerms(
+					HelperConfigurationManagerFactory.getSingleton().getTechnicalTerms(),
+					HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
+			long aTime = lastTimeStamp;
+			long aTime2 = System.currentTimeMillis();
+			WebFeatures aWebFetaures = new AWebFeatures();	
+			aWebFetaures.setUnixStartTime(aTime);
+			aWebFetaures.setElapsedTime(aTime2-aTime);
+
+			AChromeHistoryAccessor.processURLs(aWebFetaures);
+			if (aWebFetaures.getNumPagesVisited() > 0) {
+				try {
+					StringBuilder sb = new StringBuilder();
+					for (PageVisit aPageVisit:aWebFetaures.getPageVisits()) {
+						sb.append(getPageVisitString(aPageVisit));
+					}
+					File logFile = getChromeLogFile(path);
+					BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
+					bw.append(sb.toString());
+					bw.close();
+					lastTimeStamp = aTime2;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
-			bw.append(sb.toString());
-			bw.close();
-			lastTimeStamp = aTime2;
-		} catch (IOException e) {
+		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
 	}
 	
 	private String getPageVisitString(PageVisit aPageVisit) {
@@ -105,8 +111,8 @@ public class ChromeHistoryLogger extends TimerTask {
 		if (!scheduled) {
 			lastTimeStamp = startTimestamp;
 			this.startTimestamp = startTimestamp;
-			timer.schedule(this, FIVE_MIN, FIVE_MIN);
-//			timer.schedule(this, 15000,15000);
+//			timer.schedule(this, FIVE_MIN, FIVE_MIN);
+			timer.schedule(this, 15000,15000);
 			scheduled = true;
 		}
 	}

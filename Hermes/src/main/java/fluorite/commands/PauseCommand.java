@@ -25,6 +25,10 @@ public class PauseCommand extends AbstractCommand implements EHICommand{
 	public static final String[] RANGES = {"1s-2s","2s-5s","5s-10s","10s-20s","20s-30s",
 											"30s-1m","1m-2m","2m-5m","5m-10m","10m-20m",
 											"20m-30m","30m-1h",">1h"};
+	public static final long[] THRESHOLD = {15109, 22531, 34266, 0, 9641, 0, 493000, 6921, 77564,
+											24868, 0, 50953, 102979, 3984, 50202, 51718, 0, 79218};
+	public static final long[] NEXT_THRESHOLD = {59079, 30031, 13407, 0, 19062, 0, 493000, 10125, 
+											472825, 104170, 0, 13780, 102797, 65204, 50202, 20110, 0, 58702};
 
 	private String prev, next, range, prevType, nextType;
 	private long pause;

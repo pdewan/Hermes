@@ -67,6 +67,9 @@ implements EHICommand {
 	}
 	
 	protected boolean record() {
+		if (mFilePath == null) {
+			return false;
+		}
 		for (String ext : EXTENSIONS) {
 			if (mFilePath.endsWith(ext)) {
 				return true;

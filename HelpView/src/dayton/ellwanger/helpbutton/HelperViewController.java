@@ -7,10 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.eclipse.ui.PlatformUI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import fluorite.util.EHUtilities;
 
 public class HelperViewController implements HelperListener{
@@ -25,79 +25,82 @@ public class HelperViewController implements HelperListener{
 		view.setHelpListener(this);
 	}
 
-	public void reply(String replyText, String email, String password, String id) throws IOException {
-		try {
-			JSONObject reply = new JSONObject();
-			JSONArray help = new JSONArray();
-			reply.put("request-id", id);
-			reply.put("help", help);
-			reply.put("instructor", email);
-			reply.put("password", password);
-			String[] replies = replyText.split("\n");
-			for (String string : replies) {
-				help.put(string);
+	public void reply(String replyText, String email, String password, String id)  {
+		new Thread(new Runnable() {
+			public void run() {
+				JSONObject response = null;
+				try {
+					JSONObject reply = new JSONObject();
+					JSONArray help = new JSONArray();
+					reply.put("request-id", id);
+					reply.put("help", help);
+					reply.put("instructor", email);
+					reply.put("password", password);
+					String[] replies = replyText.split("\n");
+					for (String string : replies) {
+						help.put(string);
+					}
+					response = HTTPRequest.post(reply, replyURL);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				} finally {
+					view.processReplyResponse(response);
+				}
 			}
-			JSONObject response = HTTPRequest.post(reply, replyURL);
-			if (response == null) {
-				throw new IOException();
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
+		}).start();
 	}
 
-	public void pull(String term, String course, String assign, String problem, String password, String regex, String language) throws IOException {
-		try {
-			JSONObject pullRequest = new JSONObject();
-			JSONObject filter = new JSONObject();
-			pullRequest.put("course", course);
-			pullRequest.put("term", term);
-			pullRequest.put("password", password);
-			pullRequest.put("filter", filter);
-			if (language == null || language.equals("")) {
-				language = "java";
-			} 
-			filter.put("language", language);
-			filter.put("assign", assign);
-			filter.put("problem", problem);
-			filter.put("regex", regex);
-			JSONObject response = HTTPRequest.post(pullRequest, getRequestURL);
-			if (response == null) {
-				throw new IOException("Connection Failed");
+	public void pull(String term, String course, String assign, String problem, String password, String regex, String language) {
+		new Thread(new Runnable() {
+			public void run() {
+				JSONObject response = null;
+				try {
+					JSONObject pullRequest = new JSONObject();
+					JSONObject filter = new JSONObject();
+					pullRequest.put("course", course);
+					pullRequest.put("term", term);
+					pullRequest.put("password", password);
+					pullRequest.put("filter", filter);
+					if (language == null || language.equals("")) {
+						filter.put("language", "java");
+					} else {
+						filter.put("language", language);
+					}
+					filter.put("assign", assign);
+					filter.put("problem", problem);
+					filter.put("regex", regex);
+					response = HTTPRequest.post(pullRequest, getRequestURL);
+					if (response.has("message") && response.getString("message").equals("payload valid")) {
+						response.put("requests", filter(response, term, course, assign, problem, regex, language));
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				} finally {
+					view.processPullResponse(response);
+				}
 			}
-//			System.out.println(response.toString(4));
-			String message = response.getString("message");
-			if (!message.equals("payload valid")) {
-				throw new IOException(message);
-			}
-//			System.out.println(response.toString(4));
-//			view.populateRequestCombo(filter(response, term, course, assign, problem, regex, language));
-			view.populateRequestCombo(response.getJSONArray("requests"));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		}).start();
 	}
 	
-//	private JSONArray filter(JSONObject response, String term, String course, String assign, String problem, String regex, String language) {
-//		JSONArray retVal = new JSONArray();
-//		try {
-//			JSONArray requests = response.getJSONArray("requests");
-//			for (int i = 0; i < requests.length(); i++) {
-//				JSONObject request = requests.getJSONObject(i);
-//				if ((term.isEmpty() || request.getString("term").equalsIgnoreCase(term)) 
-//				 && (course.isEmpty() || request.getString("course").equalsIgnoreCase(course))
-//				 && (assign.isEmpty() || request.getString("assignment").equalsIgnoreCase(assign))
-//				 && (problem.isEmpty() || request.getString("problem").equalsIgnoreCase(problem))
-//				 && (language.isEmpty() || request.getString("language").equalsIgnoreCase(language))) {
-//					retVal.put(request);
-//				}
-//			}
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//		return retVal;
-//	}
+	private JSONArray filter(JSONObject response, String term, String course, String assign, String problem, String regex, String language) {
+		JSONArray retVal = new JSONArray();
+		try {
+			JSONArray requests = response.getJSONArray("requests");
+			for (int i = 0; i < requests.length(); i++) {
+				JSONObject request = requests.getJSONObject(i);
+				if ((term.isEmpty() || request.getString("term").equalsIgnoreCase(term)) 
+				 && (course.isEmpty() || request.getString("course").equalsIgnoreCase(course))
+				 && (assign.isEmpty() || request.getString("assignment").equalsIgnoreCase(assign))
+				 && (problem.isEmpty() || request.getString("problem").equalsIgnoreCase(problem))
+				 && (language.isEmpty() || request.getString("language").equalsIgnoreCase(language))) {
+					retVal.put(request);
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return retVal;
+	}
 
 	public void createProject(JSONObject request) {
 //		JSONObject request = view.getSelectedRequest();
@@ -181,6 +184,11 @@ public class HelperViewController implements HelperListener{
 						}
 					}
 					EHUtilities.createProjectFromLocation("Student Project", helperFolder.getPath(), "JavaSE-1.8");
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							view.popupMessage("Success", "Student Project Created");
+						}
+					});
 				} catch (JSONException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

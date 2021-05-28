@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +50,6 @@ public class HTTPRequest {
 //			}
 			
 			status = conn.getResponseCode();
-			
 //			out.println("status code = " + status);
 			
 			if (status > 299) {
@@ -71,18 +69,11 @@ public class HTTPRequest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-//		catch (JSONException e) {
-//			e.printStackTrace();
-//		} 
-//		if (status < 299) {
-			try {
-//				JSONObject response = new JSONObject(sb.toString().substring(sb.toString().indexOf("{")));
-//				System.out.println(response.toString(4));
-//				return response;
-				return new JSONObject(sb.toString().substring(sb.toString().indexOf("{")));
-			} catch (JSONException e) {
-			}
-//		} 
+		try {
+			return new JSONObject(sb.toString().substring(sb.toString().indexOf("{")));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

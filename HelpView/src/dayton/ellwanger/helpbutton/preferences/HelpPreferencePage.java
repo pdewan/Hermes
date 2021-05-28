@@ -91,7 +91,7 @@ public class HelpPreferencePage extends PreferencePage {
 					EditorsUI.getPreferenceStore().setValue(preference, bValue);
 				} else if (type.equalsIgnoreCase("string")) {
 					if(secure) {
-						HelpPreferences.getInstance().storePreference(preference, value);
+						HelpPreferences.storePreference(preference, value);
 					} else {
 						EditorsUI.getPreferenceStore().setValue(preference, value);
 					}
@@ -122,7 +122,8 @@ public class HelpPreferencePage extends PreferencePage {
 				"Languages:", LANGUAGES, getFieldEditorParent());
 		BooleanFieldEditor connectToServer = new BooleanFieldEditor(Preferences.CONNECT_TO_SERVER, "Connet to Server", getFieldEditorParent());
 		BooleanFieldEditor showNotification = new BooleanFieldEditor(Preferences.SHOW_STATUS_NOTIFICATION, "Show Status Notification", getFieldEditorParent());
-
+		BooleanFieldEditor keepNotificationLogs = new BooleanFieldEditor(Preferences.KEEP_NOTIFICATION_LOGS, "Keep Notification Logs", getFieldEditorParent());
+		
 		setPreferenceStore(EditorsUI.getPreferenceStore());
 		addField(preferenceFile);
 		addField(email);
@@ -133,5 +134,6 @@ public class HelpPreferencePage extends PreferencePage {
 		addField(languages);
 		addField(connectToServer);
 		addField(showNotification);
+		addField(keepNotificationLogs);
 	}
 }

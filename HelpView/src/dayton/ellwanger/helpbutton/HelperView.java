@@ -1,15 +1,12 @@
 package dayton.ellwanger.helpbutton;
 
-import java.io.BufferedReader;
+import java.awt.Font;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -19,12 +16,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-
 import dayton.ellwanger.helpbutton.preferences.HelpPreferencePage;
-import dayton.ellwanger.hermes.SubView;
-import difficultyPrediction.ADifficultyPredictionRunnable;
-
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
@@ -209,29 +203,14 @@ public class HelperView extends ViewPart {
 		pullRequestsButton.setText("Pull Requests");
 		pullRequestsButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-//				if (emailText.getText().equals("")) {
-//					popupMessage("Error", "Please enter your email.");
-//				} else
 				if (pwText.getText().equals("")) {
 					popupMessage("Error", "Please enter your password");
 				} else {
-//				else if (termCombo.getText().equals("")) {
-//					popupMessage("Error", "Please select a term.");
-//				} else if (courseCombo.getText().equals("")) {
-//					popupMessage("Error", "Please select a course.");
-//				} else if (assignCombo.getText().equals("")) {
-//					popupMessage("Error", "Please select an assignment.");
-//				} else if (problemCombo.getText().equals("")) {
-//					popupMessage("Error", "Please select a problem.");
-//				} else {
-					try {
-						if (helperListener != null) {
-							helperListener.pull(termCombo.getText(), courseCombo.getText(), assignCombo.getText(),
-									problemCombo.getText(), pwText.getText(), regexText.getText(),
-									languageCombo.getText());
-						}
-					} catch (IOException e2) {
-						popupMessage("Error", e2.getMessage());
+					if (helperListener != null) {
+						pullRequestsButton.setEnabled(false);
+						helperListener.pull(termCombo.getText(), courseCombo.getText(), assignCombo.getText(),
+								problemCombo.getText(), pwText.getText(), regexText.getText(),
+								languageCombo.getText());
 					}
 				}
 			}
@@ -415,19 +394,15 @@ public class HelperView extends ViewPart {
 				} else {
 					try {
 						if (helperListener != null) {
+							replyButton.setEnabled(false);
 							helperListener.reply(reply.getText(), emailText.getText(), pwText.getText(),
-//									requests.get(index).getString("_id"));
-									requests.get(index).getString("request-id"));
+									requests.get(index).getString("_id"));
 						}
-						popupMessage("Info", "Reply Sent");
-					} catch (IOException e2) {
-						popupMessage("Error", "Connection Failed");
 					} catch (JSONException e1) {
 						e1.printStackTrace();
 					}
 
 				}
-				ADifficultyPredictionRunnable.getOrCreateInstance().asyncShowStatusInBallonTip("Popup"+System.currentTimeMillis());
 			}
 		});
 		replyButton.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
@@ -537,6 +512,54 @@ public class HelperView extends ViewPart {
 		populateLanguageCombo();
 	}
 	
+	public void processReplyResponse(JSONObject response) {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				try {
+					if (response == null) {
+						popupMessage("Failed", "Connection Failed");
+					} else {
+						popupMessage("Success", "Reply Sent");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					replyButton.setEnabled(true);
+				}
+			}
+		});
+	}
+	
+	public void processPullResponse(JSONObject response) {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				try {
+					if (response == null) {
+						popupMessage("Failed", "Connection Failed");
+					} else if (response.has("message") && response.getString("message").equals("payload valid")) {
+						JSONArray requests = response.getJSONArray("requests");
+						if (requests.length() == 0) {
+							popupMessage("Success", "No requests found");
+						}
+						populateRequestCombo(response.getJSONArray("requests"));
+					} else {
+						if (response.has("error")) {
+							popupMessage("Failed", response.getString("error"));
+						} else if (response.has("message")) {
+							popupMessage("Failed", response.getString("message"));
+						} else {
+							popupMessage("Failed", "Unknown Error");
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					pullRequestsButton.setEnabled(true);
+				}
+			}
+		});
+	}
+	
 	public void populateRequestCombo(JSONArray requests) {
 		try {
 //			System.out.println(response.toString(4));
@@ -593,9 +616,9 @@ public class HelperView extends ViewPart {
 		}
 	}
 
-	private void popupMessage(String title, String text) {
+	public void popupMessage(String title, String text) {
 		JOptionPane optionPane = new JOptionPane(text, JOptionPane.WARNING_MESSAGE);
-		JDialog dialog = optionPane.createDialog("Error");
+		JDialog dialog = optionPane.createDialog(title);
 		dialog.setAlwaysOnTop(true);
 		dialog.setVisible(true);
 	}

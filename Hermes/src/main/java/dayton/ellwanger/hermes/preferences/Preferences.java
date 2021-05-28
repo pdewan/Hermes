@@ -23,7 +23,7 @@ public class Preferences {
 	public static final String AUTOLOGIN = "autologin";
 	public static final String CONNECT_TO_SERVER =  "connect to server";
 	public static final String SHOW_STATUS_NOTIFICATION = "show status notification";
-
+	public static final String KEEP_NOTIFICATION_LOGS = "keep notification logs";
 	
 	
 	private static Preferences instance;
