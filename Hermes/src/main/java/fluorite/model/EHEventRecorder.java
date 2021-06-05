@@ -71,6 +71,7 @@ import config.HelperConfigurationManagerFactory;
 import dayton.ellwanger.hermes.HermesActivator;
 import dayton.ellwanger.hermes.preferences.Preferences;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
+import difficultyPrediction.DifficultyPredictionSettings;
 import fluorite.actions.FindAction;
 import fluorite.commands.AbstractCommand;
 import fluorite.commands.BaseDocumentChangeEvent;
@@ -612,7 +613,7 @@ public class EHEventRecorder {
 
 	}
 	public void initCommands() {
-		setPlugInMode(false);
+		DifficultyPredictionSettings.setPluginMode(false);
 		MacroRecordingStarted.newCase(this);
 		allDocAndNonDocCommands = new LinkedList<EHICommand>();
 		mNormalCommands = new LinkedList<EHICommand>();
@@ -642,19 +643,19 @@ public class EHEventRecorder {
 
 	}
 
-	protected boolean plugInMode = false;
+//	protected boolean plugInMode = false;
 
-	public boolean isPlugInMode() {
-		return plugInMode;
-	}
-
-	public void setPlugInMode(boolean plugInMode) {
-		this.plugInMode = plugInMode;
-	}
+//	public boolean isPlugInMode() {
+//		return plugInMode;
+//	}
+//
+//	public void setPlugInMode(boolean plugInMode) {
+//		this.plugInMode = plugInMode;
+//	}
 
 	public void start() {
 		initCommands();
-		setPlugInMode(true);
+		DifficultyPredictionSettings.setPluginMode(true);
 		//Ken's code to init timer tasks (send log, web log...)
 		initTimerTasks();
 		// FactoriesSelector.configureFactories();
@@ -1514,7 +1515,7 @@ lastCommandTimeStamp = timestamp;
 		// perhaps this is screwing performance
 
 		// WHY do we need all of the stuff below
-		if (isPlugInMode()) {
+		if (DifficultyPredictionSettings.isPluginMode()) {
 			StyledText styledText = EHUtilities.getStyledText(EHUtilities.getActiveEditor());
 			if (styledText != null) {
 				this.mLastCaretOffset = styledText.getCaretOffset();

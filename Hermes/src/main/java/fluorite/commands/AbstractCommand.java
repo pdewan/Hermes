@@ -59,26 +59,27 @@ public abstract class AbstractCommand implements
 	
 			fireCommandIndexChanged();
 		}
-
-		try {
-			if (EHActivator.getDefault().getPreferenceStore()
-					.getBoolean(Initializer.Pref_LogTopBottomLines)) {
-				mTopBottomLinesRecorded = true;
-	
-				IEditorPart editor = EHUtilities.getActiveEditor();
-				StyledText styledText = EHUtilities.getStyledText(editor);
-	
-				int clientAreaHeight = styledText.getClientArea().height;
-				mTopLineNumber = styledText.getLineIndex(0) + 1;
-				mBottomLineNumber = styledText.getLineIndex(clientAreaHeight) + 1;
-			} else {
-				mTopBottomLinesRecorded = false;
-			}
-		}
-		catch (NullPointerException e) {
-			// Maybe this is created in a JUnit test.
-			// Don't bother to add these things.
-		}
+// commenting out these lines as preference store has always been false and 
+// this causes plugin dependencies
+//		try {
+//			if (EHActivator.getDefault().getPreferenceStore()
+//					.getBoolean(Initializer.Pref_LogTopBottomLines)) {
+//				mTopBottomLinesRecorded = true;
+//	
+//				IEditorPart editor = EHUtilities.getActiveEditor();
+//				StyledText styledText = EHUtilities.getStyledText(editor);
+//	
+//				int clientAreaHeight = styledText.getClientArea().height;
+//				mTopLineNumber = styledText.getLineIndex(0) + 1;
+//				mBottomLineNumber = styledText.getLineIndex(clientAreaHeight) + 1;
+//			} else {
+//				mTopBottomLinesRecorded = false;
+//			}
+//		}
+//		catch (NullPointerException e) {
+//			// Maybe this is created in a JUnit test.
+//			// Don't bother to add these things.
+//		}
 	}
 
 	private static void fireCommandIndexChanged() {

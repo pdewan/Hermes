@@ -158,7 +158,9 @@ public class EclipseCommand
 		if (mCommandId.isEmpty()) {
 			return "";
 		}
-		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+//		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+		if (DifficultyPredictionSettings.isPluginMode()) {
+
 			return mCommandId;
 		}
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
@@ -275,7 +277,9 @@ public class EclipseCommand
 		if (getCommandID().isEmpty())
 			return "";
 //		return super.getCategoryID();
-		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+//		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+		if (DifficultyPredictionSettings.isPluginMode()) {
+
 			return mCommandId;
 		}
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
@@ -303,7 +307,9 @@ public class EclipseCommand
 		if (mCommandId.isEmpty()) {
 			return "";
 		}
-		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+//		if (!EHEventRecorder.getInstance().isPlugInMode()) {
+		if (DifficultyPredictionSettings.isPluginMode()) {
+
 			return mCommandId;
 		}
 		
@@ -311,7 +317,7 @@ public class EclipseCommand
 		ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 				.getAdapter(ICommandService.class);
 		if (cs == null) {
-			Tracer.info(this, "Null command service:" );
+//			Tracer.info(this, "Null command service:" );
 			return "";
 		}
 //		Command command = cs.getCommand(mCommandId);
@@ -334,7 +340,9 @@ public class EclipseCommand
 	if (getCommandID().isEmpty()) {
 		return getCommandID();
 	}
-	if (!EHEventRecorder.getInstance().isPlugInMode()) {
+//	if (!EHEventRecorder.getInstance().isPlugInMode()) {
+
+	if (DifficultyPredictionSettings.isPluginMode()) {
 		return mCommandId;
 	}
 //	return super.getName();
