@@ -162,7 +162,7 @@ public class EclipseCommand
 			return "";
 		}
 //		if (!EHEventRecorder.getInstance().isPlugInMode()) {
-		if (PluginModeManager.isPluginMode()) {
+		if (!PluginModeManager.isPluginMode()) {
 
 			return mCommandId;
 		}
@@ -281,7 +281,7 @@ public class EclipseCommand
 			return "";
 //		return super.getCategoryID();
 //		if (!EHEventRecorder.getInstance().isPlugInMode()) {
-		if (PluginModeManager.isPluginMode()) {
+		if (!PluginModeManager.isPluginMode()) {
 
 
 			return mCommandId;
@@ -312,7 +312,7 @@ public class EclipseCommand
 			return "";
 		}
 //		if (!EHEventRecorder.getInstance().isPlugInMode()) {
-		if (PluginModeManager.isPluginMode()) {
+		if (!PluginModeManager.isPluginMode()) {
 
 
 			return mCommandId;
@@ -323,7 +323,7 @@ public class EclipseCommand
 				.getAdapter(ICommandService.class);
 		if (cs == null) {
 //			Tracer.info(this, "Null command service:" );
-			return "";
+			return mCommandId;
 		}
 //		Command command = cs.getCommand(mCommandId);
 		Command command = cs.getCommand(getCommandID());
@@ -336,7 +336,9 @@ public class EclipseCommand
 			// e.printStackTrace();
 		}
 
-		return "";
+//		return "";
+		return mCommandId;
+
 	}
 	public String getName() {
 		// stuff added
@@ -347,16 +349,19 @@ public class EclipseCommand
 	}
 //	if (!EHEventRecorder.getInstance().isPlugInMode()) {
 
-	if (PluginModeManager.isPluginMode()) {
+	if (!PluginModeManager.isPluginMode()) {
 
 		return mCommandId;
-	}
+	} 
 //	return super.getName();
+	// commenting this out, it is not clear how we can get this information in the
+	// non plugin mode.
 	
 	ICommandService cs = (ICommandService) PlatformUI.getWorkbench()
 			.getAdapter(ICommandService.class);
 	if (cs == null) {
-		Tracer.info(this, "Null command service:" );
+//		Tracer.info(this, "Null command service:" );
+		mCommandId = "Anonymous command";
 		return mCommandId;
 	}
 	Command command = cs.getCommand(mCommandId);
