@@ -68,6 +68,7 @@ import analyzer.extension.timerTasks.ANotificationBalloon;
 import analyzer.extension.timerTasks.ChromeHistoryLogger;
 import analyzer.extension.timerTasks.LogSender;
 import config.HelperConfigurationManagerFactory;
+import config.PluginModeManager;
 import dayton.ellwanger.hermes.HermesActivator;
 import dayton.ellwanger.hermes.preferences.Preferences;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
@@ -613,7 +614,7 @@ public class EHEventRecorder {
 
 	}
 	public void initCommands() {
-		DifficultyPredictionSettings.setPluginMode(false);
+		PluginModeManager.setPluginMode(false);
 		MacroRecordingStarted.newCase(this);
 		allDocAndNonDocCommands = new LinkedList<EHICommand>();
 		mNormalCommands = new LinkedList<EHICommand>();
@@ -655,7 +656,7 @@ public class EHEventRecorder {
 
 	public void start() {
 		initCommands();
-		DifficultyPredictionSettings.setPluginMode(true);
+		PluginModeManager.setPluginMode(true);
 		//Ken's code to init timer tasks (send log, web log...)
 		initTimerTasks();
 		// FactoriesSelector.configureFactories();
@@ -1515,7 +1516,8 @@ lastCommandTimeStamp = timestamp;
 		// perhaps this is screwing performance
 
 		// WHY do we need all of the stuff below
-		if (DifficultyPredictionSettings.isPluginMode()) {
+		if (PluginModeManager.isPluginMode()) {
+
 			StyledText styledText = EHUtilities.getStyledText(EHUtilities.getActiveEditor());
 			if (styledText != null) {
 				this.mLastCaretOffset = styledText.getCaretOffset();

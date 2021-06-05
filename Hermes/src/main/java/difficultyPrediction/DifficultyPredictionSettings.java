@@ -10,7 +10,7 @@ public class DifficultyPredictionSettings {
 	static boolean ratioFileExists;
 	static boolean replayMode;
 	
-	static boolean pluginMode;
+//	static boolean pluginMode;
 	static boolean newRatioFiles;
 	static boolean replayRatioFiles;
 	static ClassifierSpecification classifierSpecification;
@@ -106,13 +106,13 @@ public class DifficultyPredictionSettings {
 	public static void setShowPredictionController(boolean newVal) {
 		showPredictionController = newVal;
 	}
-	public static boolean isPluginMode() {
-		return pluginMode;
-	}
-
-	public static void setPluginMode(boolean pluginMode) {
-		DifficultyPredictionSettings.pluginMode = pluginMode;
-	}
+//	public static boolean isPluginMode() {
+//		return pluginMode;
+//	}
+//
+//	public static void setPluginMode(boolean pluginMode) {
+//		DifficultyPredictionSettings.pluginMode = pluginMode;
+//	}
 //	public static boolean isShowReplayer() {
 //		return showReplayer;
 //	}

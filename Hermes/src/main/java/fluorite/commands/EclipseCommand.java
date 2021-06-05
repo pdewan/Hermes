@@ -16,6 +16,9 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
+import com.sun.webkit.plugin.PluginManager;
+
+import config.PluginModeManager;
 import difficultyPrediction.DifficultyPredictionSettings;
 import fluorite.model.EHEventRecorder;
 import fluorite.plugin.EHActivator;
@@ -159,7 +162,7 @@ public class EclipseCommand
 			return "";
 		}
 //		if (!EHEventRecorder.getInstance().isPlugInMode()) {
-		if (DifficultyPredictionSettings.isPluginMode()) {
+		if (PluginModeManager.isPluginMode()) {
 
 			return mCommandId;
 		}
@@ -278,7 +281,8 @@ public class EclipseCommand
 			return "";
 //		return super.getCategoryID();
 //		if (!EHEventRecorder.getInstance().isPlugInMode()) {
-		if (DifficultyPredictionSettings.isPluginMode()) {
+		if (PluginModeManager.isPluginMode()) {
+
 
 			return mCommandId;
 		}
@@ -308,7 +312,8 @@ public class EclipseCommand
 			return "";
 		}
 //		if (!EHEventRecorder.getInstance().isPlugInMode()) {
-		if (DifficultyPredictionSettings.isPluginMode()) {
+		if (PluginModeManager.isPluginMode()) {
+
 
 			return mCommandId;
 		}
@@ -342,7 +347,8 @@ public class EclipseCommand
 	}
 //	if (!EHEventRecorder.getInstance().isPlugInMode()) {
 
-	if (DifficultyPredictionSettings.isPluginMode()) {
+	if (PluginModeManager.isPluginMode()) {
+
 		return mCommandId;
 	}
 //	return super.getName();
