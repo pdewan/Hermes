@@ -50,6 +50,7 @@ public class LogSender extends TimerTask {
 	private boolean sending = false;
 	private boolean scheduled = false;
 	private List<EHICommand> commands;
+	private String lastPath = "";
 	
 	public static LogSender getInstance() {
 		if (instance == null) {
@@ -69,9 +70,16 @@ public class LogSender extends TimerTask {
 		} catch (SocketException e1) {
 			e1.printStackTrace();
 		}
+//		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+//			public void run() {
+//				lastPath = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHUtilities.getCurrentProject().getName())).getPath();
+//				System.out.println(lastPath);
+//			}
+//		});
 	}
 	
 	private void sendLog (int partNum, String path) {
+		lastPath = path;
 		sending = true;
 		int start = index;
 		try {
@@ -168,30 +176,25 @@ public class LogSender extends TimerTask {
 	
 	public void stop() {
 		while (sending);
-		if (EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER)) {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					String path = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHUtilities.getCurrentProject().getName())).getPath();
-					new Thread(()->{
-						sendLog(-1, path);
-					}).start();
-				}
-			});
-		}
+		sendLog(-1, lastPath);
 	}
 
 	public void run() {
-		if (EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER)) {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					String path = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHUtilities.getCurrentProject().getName())).getPath();
-					new Thread(()->{
-						sendLog(sequence, path);
-						sequence++;
-					}).start();
-				}
-			});
-			
+		try {
+			if (EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER) &&
+				!PlatformUI.getWorkbench().getDisplay().isDisposed()) {
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						String path = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHUtilities.getCurrentProject().getName())).getPath();
+						new Thread(()->{
+							sendLog(sequence, path);
+							sequence++;
+						}).start();
+					}
+				});
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

@@ -20,9 +20,14 @@ import fluorite.visitors.NodeCountVisitor;
 public abstract class BaseDocumentChangeEvent extends AbstractCommand {
 
 	private Map<String, Integer> mNumericalValues;
+	private static final int SIZE_LIM = 1024 * 1024;
 
 	protected Map<String, Integer> getNumericalValues() {
 		return mNumericalValues;
+	}
+	
+	protected void setNumericalValues(Map<String, Integer> numericalValues) {
+		mNumericalValues = numericalValues;
 	}
 
 	protected void replaceNumericalValues(BaseDocumentChangeEvent other) {
@@ -35,7 +40,7 @@ public abstract class BaseDocumentChangeEvent extends AbstractCommand {
 		// Document Length
 		mNumericalValues.put("docLength", documentContent.length());
 
-		if (documentContent.startsWith("<Events startTimestamp")) {
+		if (documentContent.length() > SIZE_LIM) {
 //			mNumericalValues.put("docActiveCodeLength", 0);
 //			mNumericalValues.put("docASTNodeCount", 0);
 //			mNumericalValues.put("docExpressionCount", 0);

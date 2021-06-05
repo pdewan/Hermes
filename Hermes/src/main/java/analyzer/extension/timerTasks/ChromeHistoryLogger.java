@@ -10,8 +10,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.editors.text.EditorsUI;
 
 import config.HelperConfigurationManagerFactory;
+import dayton.ellwanger.hermes.preferences.Preferences;
 import difficultyPrediction.web.WebFeatures;
 import difficultyPrediction.web.chrome.AChromeHistoryAccessor;
 import difficultyPrediction.web.chrome.AWebFeatures;
@@ -26,6 +28,7 @@ public class ChromeHistoryLogger extends TimerTask {
 	private SimpleDateFormat recordDF = new SimpleDateFormat("M/d/yyyy HH:mm:ss a");
 	private long lastTimeStamp = 0;
 	private long startTimestamp = 0;
+	private boolean sending = false;
 	
 	public static ChromeHistoryLogger getInstance() {
 		if (instance == null) {
@@ -35,21 +38,29 @@ public class ChromeHistoryLogger extends TimerTask {
 	}
 	
 	public void run() {
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				String path = getCurrentProjectPath();
-				new Thread(()->{
-					sendLog(path);
-				}).start();
+		try {
+			if (EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER) &&
+				!PlatformUI.getWorkbench().getDisplay().isDisposed()) {
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						String path = getCurrentProjectPath();
+						new Thread(()->{
+							log(path);
+						}).start();
+					}
+				});
 			}
-		});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void sendLog(String path) {
+	public void log(String path) {
 		if (path.isEmpty()) {
 			return;
 		}
 		try {
+			sending = true;
 			AChromeHistoryAccessor.setTerms(
 					HelperConfigurationManagerFactory.getSingleton().getTechnicalTerms(),
 					HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
@@ -76,8 +87,9 @@ public class ChromeHistoryLogger extends TimerTask {
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
+		} finally {
+			sending = false;
 		}
 	}
 	
@@ -111,8 +123,8 @@ public class ChromeHistoryLogger extends TimerTask {
 		if (!scheduled) {
 			lastTimeStamp = startTimestamp;
 			this.startTimestamp = startTimestamp;
-//			timer.schedule(this, FIVE_MIN, FIVE_MIN);
-			timer.schedule(this, 15000,15000);
+			timer.schedule(this, FIVE_MIN, FIVE_MIN);
+//			timer.schedule(this, 15000,15000);
 			scheduled = true;
 		}
 	}
@@ -123,5 +135,9 @@ public class ChromeHistoryLogger extends TimerTask {
 			return "";
 		}
 		return currentProject.getLocation().toOSString();
+	}
+	
+	public void stop() {
+		while (sending);
 	}
 }

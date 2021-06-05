@@ -11,6 +11,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.progress.UIJob;
 import org.osgi.framework.BundleContext;
 
+import analyzer.extension.timerTasks.ChromeHistoryLogger;
 import analyzer.extension.timerTasks.LogSender;
 import dayton.ellwanger.hermes.preferences.Preferences;
 import fluorite.model.EHEventRecorder;
@@ -79,6 +80,7 @@ public class HermesActivator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		//Ken's code to send commands to server before closing Eclipse 
 		if (EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER)) {
+			ChromeHistoryLogger.getInstance().stop();
 			LogSender.getInstance().stop();
 		}
 		plugin = null;

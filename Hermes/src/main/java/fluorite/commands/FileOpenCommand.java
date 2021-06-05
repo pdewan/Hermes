@@ -49,7 +49,13 @@ implements EHICommand {
 				mFilePath = fileInput.getFile().getLocation().toOSString();
 
 				String content = EHUtilities.getDocument(editor).get();
-				calcNumericalValues(content);
+				if (mFilePath.endsWith(".java")) {
+					calcNumericalValues(content);
+				} else if (record()) {
+					Map<String, Integer> numericalValues = new HashMap<>();
+					numericalValues.put("docLength", content.length());
+					setNumericalValues(numericalValues);
+				}
 
 				// Snapshot
 				if (record() && !FileSnapshotManager.getInstance().isSame(mFilePath,

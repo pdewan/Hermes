@@ -57,9 +57,11 @@ public class ANotificationBalloon extends TimerTask {
 //	private TrayIcon trayIcon;
 	private File logFile;
 	private File logFolder;
-	private long startTimestamp = 0;
+//	private long startTimestamp = 0;
 	private HashMap<String, Long> pauseMap;
 	private HashMap<String, Long> nextPauseMap;
+	private StringBuilder sb, sb2;
+	private EHXMLFormatter formatter;
 //	private final static String ICON_PATH = "icons/spy.png";
 	
 	private ToolTip toolTip;
@@ -74,6 +76,9 @@ public class ANotificationBalloon extends TimerTask {
 	public ANotificationBalloon() {
 		fileEdited = new HashSet<>();
 		projectWorked = new HashSet<>();
+		sb = new StringBuilder();
+		sb2 = new StringBuilder();
+		formatter = new EHXMLFormatter(EHEventRecorder.getInstance().getStartTimestamp());
 		initPauseMap();
 		try {
 			logFile = new File(System.getProperty("user.home"), "helper-config" + File.separator + "NotificationLog.txt");
@@ -111,22 +116,22 @@ public class ANotificationBalloon extends TimerTask {
 //		}
 	}
 	
-	public void showNotification(String message) {
-//		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-//			public void run() {
-				if (toolTip == null) {
-					toolTip = new ToolTip(PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getShell(), SWT.BALLOON
-							| SWT.ICON_INFORMATION);
-				}
-				if (!toolTip.isDisposed()) {
-					toolTip.setMessage(message);
-					EHEventRecorder.getTrayItem().setToolTip(toolTip);
-					toolTip.setVisible(true);
-				}
-//			}
-//		});
-	}
+//	public void showNotification(String message) {
+////		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+////			public void run() {
+//				if (toolTip == null) {
+//					toolTip = new ToolTip(PlatformUI.getWorkbench()
+//							.getActiveWorkbenchWindow().getShell(), SWT.BALLOON
+//							| SWT.ICON_INFORMATION);
+//				}
+//				if (!toolTip.isDisposed()) {
+//					toolTip.setMessage(message);
+//					EHEventRecorder.getTrayItem().setToolTip(toolTip);
+//					toolTip.setVisible(true);
+//				}
+////			}
+////		});
+//	}
 	
 	private void showNotification() {
 		if (toolTip == null) {
@@ -163,7 +168,7 @@ public class ANotificationBalloon extends TimerTask {
 		if (debug) {
 			index = 0;
 		}
-		StringBuilder sb = new StringBuilder();
+		sb.setLength(0);
 		int insert = 0;
 		int delete = 0;
 		int start = index;
@@ -244,9 +249,10 @@ public class ANotificationBalloon extends TimerTask {
 		} else {
 			sb.append("Hourly Eclipse Update:\n");
 			if (workTime == fineGrainedWorkTime) {
-				sb.append("Estimated work time: " + workTime + " min\n");
+				sb.append("Est. work time: " + workTime + " min\n");
 			} else {
-				sb.append("Estimated work times: " + workTime + " or " + fineGrainedWorkTime + " min\n");
+				sb.append("Est. work time: " + workTime + " min(fixed)\n" + 
+						"                          " + fineGrainedWorkTime + " min(context)\n");
 			}
 //			sb.append("Worked " + workTime + " minutes(5min)/" + fineGrainedWorkTime + " minutes(fine grained) in last hour\n");
 //			sb.append("Number of projects: " + projectWorked.size() + "\n");
@@ -271,10 +277,10 @@ public class ANotificationBalloon extends TimerTask {
 			BufferedWriter bw = null;
 			try {
 				bw = new BufferedWriter(new FileWriter(logFile, true));
-				StringBuilder sb2 = new StringBuilder();
+				sb2.setLength(0);
 				sb2.append("*******************************************\n");
 //				sb2.append("Worked " + workTime + " minutes from ");
-				sb2.append("Worked " + workTime + " minutes(5min)/" + fineGrainedWorkTime + " minutes(fine grained) from\n");
+				sb2.append("Worked " + workTime + " minutes(fixed)/" + fineGrainedWorkTime + " minutes(context based) from\n");
 				long currentTime = System.currentTimeMillis();
 				if (startTime > 0) {
 					sb2.append(new Date(startTime).toString() + " to ");
@@ -330,14 +336,14 @@ public class ANotificationBalloon extends TimerTask {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				StringBuilder sb3 = new StringBuilder();
-				sb3.append(e.toString());
-				sb3.append("start = " + start + "\n");
-				sb3.append("end = " + end + "\n");
-				sb3.append("size = " + commands.size() + "\n");
+				sb2.setLength(0);
+				sb2.append(e.toString());
+				sb2.append("start = " + start + "\n");
+				sb2.append("end = " + end + "\n");
+				sb2.append("size = " + commands.size() + "\n");
 				if (bw != null) {
 					try {
-						bw.write(sb3.toString());
+						bw.write(sb2.toString());
 						bw.close();
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -350,12 +356,12 @@ public class ANotificationBalloon extends TimerTask {
 	private void initializeLoggerFile(Logger aLogger, File outputFile) {
 		aLogger.setLevel(Level.FINE);
 		try {
-			if (startTimestamp == 0) {
-				startTimestamp = EHEventRecorder.getInstance().getStartTimestamp();
-			}
+//			if (startTimestamp == 0) {
+//				startTimestamp = EHEventRecorder.getInstance().getStartTimestamp();
+//			}
 			FileHandler handler = new FileHandler(outputFile.getPath());
 			handler.setEncoding("UTF-8");
-			handler.setFormatter(new EHXMLFormatter());
+			handler.setFormatter(formatter);
 			aLogger.addHandler(handler);
 			LogHandlerBound.newCase(handler, this);
 		} catch (Exception e) {
@@ -386,7 +392,7 @@ public class ANotificationBalloon extends TimerTask {
 						try {
 							deleteLogsFromPreviousDay();
 						} catch (Exception e) {
-							// TODO: handle exception
+							e.printStackTrace();
 						}
 					}
 				}, 0, DAY);
