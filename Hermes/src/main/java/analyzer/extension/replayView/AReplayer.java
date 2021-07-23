@@ -4138,17 +4138,25 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		int end = commands.size();
 		if (end > 0) {
 			int j = 0;
+			int k = -1;
 			for(; j < end; j++) {
 				EHICommand command = commands.get(j);
+				if (k == -1 && command.getStartTimestamp() + command.getTimestamp() > 0) {
+					k = j;
+				}
 				IProject project = command.getProject();
 				if (project != null && path.equals(project.getLocation().toOSString()) && (command.getStartTimestamp() > 0 || command.getTimestamp() > 0)) {
 					break;
 				}
 			}
-			long timestamp1 = commands.get(j).getTimestamp() + commands.get(j).getStartTimestamp();
+			long startTime = 0;
+			if (j >= end) {
+				startTime = commands.get(k).getTimestamp() + commands.get(k).getStartTimestamp();	
+			}
+			startTime = commands.get(j).getTimestamp() + commands.get(j).getStartTimestamp();
 			EHICommand command2 = commands.get(end-1);
-			long timestamp2 = command2.getStartTimestamp() + command2.getTimestamp();
-			workTime += timestamp2 - timestamp1;
+			long endTime = command2.getStartTimestamp() + command2.getTimestamp();
+			workTime += endTime - startTime;
 		}
 		return convertToHourMinuteSecond(workTime-restTime(commands, end, PAUSE, path));
 	}

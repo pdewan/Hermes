@@ -6,12 +6,23 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import fluorite.commands.AssistCommand;
+import fluorite.commands.CopyCommand;
+import fluorite.commands.Delete;
 import fluorite.commands.EHICommand;
+import fluorite.commands.EclipseCommand;
+import fluorite.commands.FileOpenCommand;
+import fluorite.commands.Insert;
+import fluorite.commands.InsertStringCommand;
+import fluorite.commands.PasteCommand;
 import fluorite.commands.PauseCommand;
+import fluorite.commands.Replace;
 import fluorite.util.EHLogReader;
 
 public class AnIntervalReplayer {
@@ -33,8 +44,9 @@ public class AnIntervalReplayer {
 	
 	long defaultPauseTime = FIVE_MIN;
 	double multiplier = 1;
+	boolean trace = false;
 	
-	public AnIntervalReplayer(double multiplier, int defaultPauseTime) {
+	public AnIntervalReplayer(double multiplier, int defaultPauseTime, boolean trace) {
 		if (defaultPauseTime > 0) {
 			this.defaultPauseTime = defaultPauseTime*60000L;
 		} else {
@@ -43,6 +55,7 @@ public class AnIntervalReplayer {
 		if (multiplier > 0) {
 			this.multiplier = multiplier;
 		}
+		this.trace = trace;
 	}
 	
 	protected void initPauseMap() {
@@ -61,7 +74,9 @@ public class AnIntervalReplayer {
 		Map<String, List<EHICommand>> commandMap = readStudent(student);
 		long[] retVal = new long[2];
 		if (commandMap == null) {
-			System.err.println("Error: Cannot read student log");
+			if (trace) {
+				System.err.println("Error: Cannot read student log");
+			}
 			retVal[0] = -1;
 			retVal[1] = -1;
 			return retVal;
@@ -143,10 +158,12 @@ public class AnIntervalReplayer {
 		return projectTime;
 	}
 	
-	public Map<String, List<EHICommand>> readStudent(File student) {
-		System.out.println("Reading student " + student);
+	protected File getLogFolder(File student) {
+		if (trace) {
+			System.out.println("Reading student " + student);
+		}
 		if (!student.exists()) {
-			System.out.println("Folder " + student + " does not exist");
+			System.err.println("Folder " + student + " does not exist");
 			return null;
 		}
 		File logFolder = null;
@@ -166,7 +183,15 @@ public class AnIntervalReplayer {
 			}
 		}
 		if (logFolder == null || !logFolder.exists()) {
-			System.out.println("No logs found for student " + student.getName());
+			System.err.println("No logs found for student " + student.getName());
+			return null;
+		}
+		return logFolder;
+	}
+	
+	protected Map<String, List<EHICommand>> readStudent(File student) {
+		File logFolder = getLogFolder(student);
+		if (logFolder == null) {
 			return null;
 		}
 		refineLogFiles(logFolder);
@@ -177,7 +202,7 @@ public class AnIntervalReplayer {
 			logFiles = logFolder.listFiles((file)->{return file.getName().startsWith("Log") && file.getName().endsWith(".xml");});
 		}
 		if (logFiles == null) {
-			System.out.println("No logs found for student " + student.getName());
+			System.err.println("No logs found for student " + student.getName());
 			return null;
 		}
 		Map<String, List<EHICommand>> logs = new TreeMap<>();
@@ -190,9 +215,11 @@ public class AnIntervalReplayer {
 		return logs;
 	}
 	
-	public List<EHICommand> readOneLogFile(File log){
+	protected List<EHICommand> readOneLogFile(File log){
 		String path = log.getPath();
-		System.out.println("Reading file " + path);
+		if (trace) {
+			System.out.println("Reading file " + path);
+		}
 		if (!log.exists()) {
 			System.err.println("log does not exist:" + path);
 			return null;
@@ -211,7 +238,7 @@ public class AnIntervalReplayer {
 		return null;
 	}
 	
-	public void refineLogFiles(File logFolder){
+	protected void refineLogFiles(File logFolder){
 		try {
 			for (File file : logFolder.listFiles((filename)->{return filename.getName().endsWith(".lck");})) {
 				File logFile = new File(file.getParent(), file.getName().substring(0, file.getName().indexOf(".lck")));
@@ -234,7 +261,7 @@ public class AnIntervalReplayer {
 		} 
 	}
 	
-	public void sortCommands(List<EHICommand> commands, int start, int end){
+	protected void sortCommands(List<EHICommand> commands, int start, int end){
 		for(int i = 0; i < commands.size(); i++) {
 			if (commands.get(i) == null) {
 				commands.remove(i);
@@ -273,5 +300,58 @@ public class AnIntervalReplayer {
 			}
 		}
 		return null;
+	}
+
+	public long getStartTime(File student) {
+		File logFolder = getLogFolder(student);
+		if (logFolder == null) {
+			return -1;
+		}
+		File[] logs = logFolder.listFiles((file)->{
+			return file.getName().endsWith(".xml");
+		});
+		if (logs.length == 0) {
+			System.err.println("Error: No logs found for " + student.getPath());
+			return -1;
+		}
+		for (int i = 0; i < logs.length; i++) {
+			List<EHICommand> commands = readOneLogFile(logs[i]);
+			for (EHICommand command : commands) {
+				if (command instanceof FileOpenCommand) {
+					return command.getStartTimestamp() + command.getTimestamp();
+				}
+			}
+		}
+		System.err.println("Error: No FileOpenCommand found for " + student.getPath());
+		return -1;
+	}
+	
+	public long getEndTime(File student) {
+		File logFolder = getLogFolder(student);
+		if (logFolder == null) {
+			return -1;
+		}
+		File[] logs = logFolder.listFiles((file)->{
+			return file.getName().endsWith(".xml");
+		});
+		if (logs.length == 0) {
+			System.err.println("Error: No logs found for " + student.getPath());
+			return -1;
+		}
+		for (int i = logs.length-1; i >= 0; i--) {
+			List<EHICommand> commands = readOneLogFile(logs[i]);
+			for (int j = commands.size()-1; j >= 0; j--) {
+				EHICommand command = commands.get(j);
+				if (command instanceof InsertStringCommand || command instanceof Insert ||
+					command instanceof CopyCommand || command instanceof Delete ||
+					command instanceof Replace || command instanceof PasteCommand ||
+					command instanceof AssistCommand || 
+					(command instanceof EclipseCommand && command.getAttributesMap().get(EclipseCommand.XML_ID_ATTR).toLowerCase().contains("delete"))) {
+					return command.getStartTimestamp() + command.getTimestamp();
+				}
+			}
+		}
+		System.err.println("Error: No FileOpenCommand found for " + student.getPath());
+		return -1;
 	}
 }

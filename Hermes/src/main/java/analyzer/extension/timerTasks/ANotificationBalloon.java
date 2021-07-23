@@ -133,7 +133,7 @@ public class ANotificationBalloon extends TimerTask {
 ////		});
 //	}
 	
-	private void showNotification() {
+	public void showNotification() {
 		if (toolTip == null) {
 			toolTip = new ToolTip(PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getShell(), SWT.BALLOON

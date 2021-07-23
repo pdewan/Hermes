@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Slider;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.ViewPart;
+
+import analyzer.extension.timerTasks.ANotificationBalloon;
 import dayton.ellwanger.hermes.preferences.Preferences;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -168,6 +170,7 @@ public class ReplayView extends ViewPart {
 		timeCombo.select(0);
 		timeCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				ANotificationBalloon.getInstance().showNotification();
 				if (EditorsUI.getPreferenceStore().getBoolean(Preferences.CONNECT_TO_SERVER)) {
 					String text = timeCombo.getText();
 					String path = getCurrentProjectPath();
