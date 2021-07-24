@@ -16,8 +16,10 @@ import weka.core.Instances;
  *Input parameters:<br> 
  *-train <i>filename</i>: Train with the arfffile file 
  *-test <i>filename</i>: Test with the 
- *
- *
+ * THis was probably written by Nils or Kevin.
+ * It  takes a training and test file and runs the classifier
+ * on each test item using the J48 model built using the training file
+ * Useful for leave one out testing
  * 
  * */
 public class APredictionTracker implements PredictionTracker{

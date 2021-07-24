@@ -99,10 +99,21 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 	public static final String[] FEATURES = {
 			// "insertPercentage","numeric",
 			// "deletePercentage","numeric",
-			"currentDate", "string", "currentTime", "numeric", "timeFromStart", "numeric", "percentageIntoTask", "numeric",
+			// annotation features (5) removed by prediction tracker
+			"currentDate", "string", 
+			"currentTime", "numeric", 
+			"timeFromStart", "numeric", 
+			"percentageIntoTask", "numeric",
 			"sourceDifficulty", "string",
-			"editOrInsertPercentage", "numeric", "debugPercentage", "numeric", "navigationPercentage", "numeric",
-			"focusPercentage", "numeric", "removePercentage", "numeric",
+			// features for inference
+			"editOrInsertPercentage", "numeric", 
+			"debugPercentage", "numeric", 
+			"navigationPercentage", "numeric",
+			"focusPercentage", "numeric", 
+			"removePercentage", "numeric",
+			
+			// these are removed for some reason
+			// used by nils
 			// "webLinkTimes","numeric",
 			/*
 			 * "pasteTimes","numeric", "copyTimes","numeric",
@@ -111,6 +122,7 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 			 */
 			"stuck", "{YES,NO}" };
 	
+	// these could be enums
 	public static final String DEFAULT_SOURCE_DIFFICULTY = "none";
 	public static final String STUCK_POINT_SOURCE = "stuck_point";
 	public static final String PREDICTION_SOURCE = "prediction";
@@ -130,7 +142,6 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 
 		arffWriter.writeNewLine();
 	}
-
 	protected NilsCommandCategory getCommandCategory(EHICommand command) {
 		if (command instanceof PasteCommand) {
 			return NilsCommandCategory.PASTE;
@@ -182,6 +193,7 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 	public void newCommand(EHICommand newCommand) {
 		// System.out.println("newCommand current Thread: " +
 		// Thread.currentThread().getName() );
+		// not sure why this thread should be the one we care about, this will probbaly be the main thread
 		if (!Thread.currentThread().getName().equals(DifficultyPredictionRunnable.DIFFICULTY_PREDICTION_THREAD_NAME))
 			return;
 		super.newCommand(newCommand);

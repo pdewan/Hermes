@@ -25,7 +25,11 @@ import weka.filters.unsupervised.attribute.Remove;
  *-train <i>filename</i>: Train with the arfffile file 
  *-test <i>filename</i>: Test with the 
  *
- *
+ * This is written by Ben Levine as the name suggests
+ * Supports both leave one out, using two files, and 80/20
+ * also allows the instances file to have additional data not
+ * used for prediction
+ * 
  * 
  * */
 public class BenPredictionTracker extends APredictionTracker implements PredictionTracker{
@@ -44,7 +48,7 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 	
 	private int fold = 0;
 	
-	private boolean testMode = false;
+	private boolean testMode = false; // in test mode one uses artificial data
 	private ArrayList<Double> testPredictions = new ArrayList<Double>();
 	
 	private boolean aggregation;
@@ -89,9 +93,12 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 
 
 	//Reload/load instances from the training  arff file and testing arff file
+	// gets called for each fold in case of 80/20 and I guess each test data file
+	// pair for leave one out
+	// called both by buildClassfier and evaluateTesting
 	public PredictionTracker loadInstances() {
 		
-		if (this.dataFile == "") {
+		if (this.dataFile == "") { // this is the case when we have training and test files for leave one out
 			try(BufferedReader trainStream=new BufferedReader(new InputStreamReader(new FileInputStream(trainFile)));
 					BufferedReader testStream=new BufferedReader(new InputStreamReader(new FileInputStream(testFile)))
 					) {
@@ -99,6 +106,8 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 				SortedSet<Integer> to_remove = new TreeSet<Integer>(); 
 			    
 			    int[] toRemove = {0, 1, 2, 3}; //hard code this for now
+			    
+			    // these seem to be the extra columns ignored by the tester
 				
 	
 				training=new Instances(trainStream);
@@ -130,14 +139,16 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 				e.printStackTrace();
 	
 			}
-		} else {
+		} else { // This is where the 80/20 testing is done
 		    
 		    int[] toRemove = {0, 1, 2, 3}; //hard code this for now
+		   
 		    try(BufferedReader datastream=new BufferedReader(new InputStreamReader(new FileInputStream(dataFile)));){
 		    	Instances data = new Instances(datastream);
 		    	Random rand = new Random();   // create seeded number generator
 		    	Instances randData = new Instances(data);   // create copy of original data
 		    	randData.randomize(rand);         // randomize data with number generator
+		    	// we are losing the sequencing information through randomization
 		    	training = randData.trainCV(5, fold);
 		    	Remove filter = new Remove();
 				filter.setInvertSelection(false);
@@ -157,7 +168,8 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 			    
 			    training.setClassIndex(training.numAttributes()-1);
 			    testing.setClassIndex(testing.numAttributes()-1);
-			    fold++;
+			    fold++; // so what did we do with the last fold? 
+			    // fold is a global variable so we are calling this method multiple times I guess
 		    } catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -180,16 +192,16 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 			J48 j48 =new J48();
 			classifier = fc;
 			SMOTE smote=new SMOTE();
-			smote.setPercentage(400);
+			smote.setPercentage(400); // smote precentage hadrwired!
 			smote.setInputFormat(training);
 			fc.setClassifier(j48);
 			Remove filter = new Remove();
 			filter.setInputFormat(training);
 			filter.setInvertSelection(false);
 			
-			filter.setAttributeIndicesArray(toRemove);
+			filter.setAttributeIndicesArray(toRemove); // this was also done in loadInstances, need to do it again?
 			fc.setFilter(filter);
-			training = Filter.useFilter(training, smote); // use smote on only the training set
+			training = Filter.useFilter(training, smote); // use smote automatically on only the training set
 		    if (smoteTests) {
 		    	System.out.println ("Smoting Test Data");
 		    	SMOTE testSmote=new SMOTE();
@@ -615,6 +627,7 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 		this.testMode = true;
 		if(this.classifier==null)
 			buildClassifier();
+		// so these 10 instances have just a value and class value
 		testing.instance(0).setClassValue(0.0);
 		testing.instance(1).setClassValue(0.0);
 		testing.instance(2).setClassValue(0.0);
@@ -625,6 +638,8 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 		testing.instance(7).setClassValue(0.0);
 		testing.instance(8).setClassValue(1.0);
 		testing.instance(9).setClassValue(1.0);
+		// changing value only in index 2
+		// wonder what the test values are
 		testing.instance(0).setValue(2, 0);
 		testing.instance(1).setValue(2, 200000);
 		testing.instance(2).setValue(2, 400000);
@@ -635,6 +650,8 @@ public class BenPredictionTracker extends APredictionTracker implements Predicti
 		testing.instance(7).setValue(2, 1400000);
 		testing.instance(8).setValue(2, 1600000);
 		testing.instance(9).setValue(2, 1800000);
+		
+		// 10 of these
 		this.testPredictions.add(0.0);
 		this.testPredictions.add(0.0);
 		this.testPredictions.add(1.0);

@@ -21,6 +21,9 @@ import weka.filters.unsupervised.attribute.Remove;
 /**For leave one out analysis
  * 
  * @author wangk1
+ * 
+ * For each participant two arff files are generated, one containing only its data,
+ * and one containing data of all users other that user
  *
  */
 public class LeaveOneOutAnalysis {
