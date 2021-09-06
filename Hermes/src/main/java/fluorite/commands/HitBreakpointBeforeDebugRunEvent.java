@@ -7,9 +7,9 @@ public class HitBreakpointBeforeDebugRunEvent extends ProgramExecutionEvent impl
 		
 	}
 //	
-	public HitBreakpointBeforeDebugRunEvent(boolean debug, boolean terminate, String projectName, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
+	public HitBreakpointBeforeDebugRunEvent(boolean debug, boolean terminate, String projectName, String className, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
 			boolean stepInto, boolean stepReturn, int aNumEvents) {
-		super(debug, terminate, projectName, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn,aNumEvents);
+		super(debug, terminate, projectName, className, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn,aNumEvents);
 	}
 
 //	@Override

@@ -1,5 +1,6 @@
 package fluorite.recorders;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -83,7 +84,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 		numStartDebugBreakPoints = 0;		
 	}
 // debug thread keeps changing!
-	protected boolean testAndSetLastJDIThread(Object aDebugThread, String aProjectName) {
+	protected boolean testAndSetLastJDIThread(Object aDebugThread, String aProjectName, String aClassname) {
 
 		if (lastCreatedJDIThread != null && !lastJDIThreadHasTerminated) {
 			numCreatedJDIThreads++;
@@ -97,7 +98,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// new EHProgramExecutionCommand(false,
 					// terminate, projectName, 0, false, false,
 					// false, false));
-					new DebugHitBreakpointBeforeDebugRunEvent(false, false, aProjectName, 0, false, false, false, false, numStartDebugBreakPoints));
+					new DebugHitBreakpointBeforeDebugRunEvent(false, false, aProjectName, aClassname, 0, false, false, false, false, numStartDebugBreakPoints));
 			numStartDebugBreakPoints = 0;
 		}
 		if (numPostRunBreakPoints > 0) {
@@ -105,7 +106,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// new EHProgramExecutionCommand(false,
 					// terminate, projectName, 0, false, false,
 					// false, false));
-					new HitBreakpointBeforeDebugRunEvent(false, false, aProjectName, 0, false, false, false, false, numPostRunBreakPoints));
+					new HitBreakpointBeforeDebugRunEvent(false, false, aProjectName, aClassname, 0, false, false, false, false, numPostRunBreakPoints));
 			numPostRunBreakPoints = 0;
 		}
 		lastCreatedJDIThread = aDebugThread;
@@ -115,7 +116,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 		numEndDebugBreakPoints = 0;
 		return true;
 	}
-	protected boolean testAndSetLastProcess(IProcess aProcess, String aProjectName) {
+	protected boolean testAndSetLastProcess(IProcess aProcess, String aProjectName, String aClassname) {
 		if (aProcess == lastCreatedProcess && !lastProcessHasTerminated) {
 			numRunProcesses++;
 
@@ -126,7 +127,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// new EHProgramExecutionCommand(false,
 					// terminate, projectName, 0, false, false,
 					// false, false));
-					new HitBreakpointBeforeRunEvent(false, false, aProjectName, 0, false, false, false, false, numStartBreakPoints));
+					new HitBreakpointBeforeRunEvent(false, false, aProjectName, aClassname, 0, false, false, false, false, numStartBreakPoints));
 		}
 		numStartBreakPoints = 0; // set also in lastProcessTerminated, so we really do not need this
 		numRunProcesses = 1;
@@ -195,22 +196,23 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 
 					// Retrieve the corresponding project name
 					String projectName = (String) (attributes.get("org.eclipse.jdt.launching.PROJECT_ATTR"));
-					// run command,no ddebug
+					ArrayList<String> classNames = (ArrayList<String>)(attributes.get("org.eclipse.debug.core.MAPPED_RESOURCE_PATHS"));
+					String className = classNames.size() == 0? null:classNames.get(0);					// run command,no ddebug
 					// if (terminate) {
 					//
 					// }
-					if (!testAndSetLastProcess(process, projectName)) {
+					if (!testAndSetLastProcess(process, projectName, className)) {
 						return;
 					}
 					getRecorder().recordCommand(
 							// new EHProgramExecutionCommand(false,
 							// terminate, projectName, 0, false, false,
 							// false, false));
-							new RunCommand(false, terminate, projectName, 0, false, false, false, false));
+							new RunCommand(false, terminate, projectName, className, 0, false, false, false, false));
 
 //				} else if (source instanceof IDebugTarget) {
 				} else  {
-					if (!testAndSetLastJDIThread(source, null)) {
+					if (!testAndSetLastJDIThread(source, null, null)) {
 //						return; // let us record all threads
 					}
 //					getRecorder()
@@ -243,6 +245,8 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 
 					// Retrieve the corresponding project name
 					String projectName = (String) (attributes.get("org.eclipse.jdt.launching.PROJECT_ATTR"));
+					ArrayList<String> classNames = (ArrayList<String>)(attributes.get("org.eclipse.debug.core.MAPPED_RESOURCE_PATHS"));
+					String className = classNames.size() == 0? null:classNames.get(0);
 					// run command,no ddebug
 					// if (terminate) {
 					//
@@ -250,18 +254,18 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// this should happen before the terminate process event
 					if (numCreatedJDIThreads > 0) {
 						getRecorder().recordCommand(
-								new DebugRunEvent(true, terminate, null, 0, false, false, false, false, numCreatedJDIThreads ));
+								new DebugRunEvent(true, terminate, null, null, 0, false, false, false, false, numCreatedJDIThreads ));
 //						lastJDIThreadTerminated();
 					}
 					if (numPostRunBreakPoints > 0) {
 					getRecorder().recordCommand(
 							// new EHProgramExecutionEvent(false, false,
 							// projectName, 0, true, false, false, false));
-							new HitBreakpointAfterRunEvent(false, false, projectName, 0, true, false, false, false, numPostRunBreakPoints));// this
+							new HitBreakpointAfterRunEvent(false, false, projectName, className, 0, true, false, false, false, numPostRunBreakPoints));// this
 					}
 					if (numTerminatedJDIThreads > 0) {
 						getRecorder().recordCommand(
-								new DebugTerminateEvent(true, terminate, null, 0, false, false, false, false, numTerminatedJDIThreads ));
+								new DebugTerminateEvent(true, terminate, null, null, 0, false, false, false, false, numTerminatedJDIThreads ));
 					}
 					
 					lastJDIThreadTerminated();
@@ -270,7 +274,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 							// new EHProgramExecutionCommand(false,
 							// terminate, projectName, 0, false, false,
 							// false, false));
-							new TerminateEvent(false, terminate, projectName, 0, false, false, false, false)); // occurs after terminate run event
+							new TerminateEvent(false, terminate, projectName, className, 0, false, false, false, false)); // occurs after terminate run event
 					lastProcessTerminated();
 					
 
@@ -344,7 +348,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 					// new EHProgramExecutionEvent(false, false, null,0,
 					// true, false, false, false));
 					getRecorder().recordCommand(
-							new DebugHitBreakpointEvent(false, false, null, 0, true, false, false, false));
+							new DebugHitBreakpointEvent(false, false, null, null, 0, true, false, false, false));
 
 				}
 			} else if (event.getKind() == DebugEvent.STEP_END) {
@@ -352,14 +356,14 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 				// getRecorder().recordCommand(
 				// new EHProgramExecutionEvent(false, false, null, 0, false,
 				// true, false, false));
-				getRecorder().recordCommand(new StepEndEvent(false, false, null, 0, false, true, false, false));
+				getRecorder().recordCommand(new StepEndEvent(false, false, null, null, 0, false, true, false, false));
 
 			} else if (event.getKind() == DebugEvent.STEP_INTO) {
 				// only debug I guess
 				getRecorder().recordCommand(
 						// new EHProgramExecutionEvent(false, false, null,
 						// 0, false, false, true, false));
-						new StepIntoEvent(false, false, null, 0, false, false, true, false));
+						new StepIntoEvent(false, false, null, null, 0, false, false, true, false));
 
 			}
 
@@ -372,7 +376,7 @@ public class EHDebugEventSetRecorder extends EHBaseRecorder implements IDebugEve
 				getRecorder().recordCommand(
 						// new EHProgramExecutionEvent(false, false, null,
 						// 0, false, false, false, true));
-						new StepReturnEvent(false, false, null, 0, false, false, false, true));
+						new StepReturnEvent(false, false, null, null, 0, false, false, false, true));
 
 			}
 

@@ -5,9 +5,9 @@ public class StepOverEvent extends ProgramExecutionEvent {
 		super();
 		
 	}
-	public StepOverEvent(boolean debug, boolean terminate, String projectName, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
+	public StepOverEvent(boolean debug, boolean terminate, String projectName, String className, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
 			boolean stepInto, boolean stepReturn) {
-		super(debug, terminate, projectName, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn);
+		super(debug, terminate, projectName, className, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn);
 	}
 
 }

@@ -54,7 +54,10 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	String currentParticipant;
 	protected long currentTime;
-	protected long startTime;
+	private long startTime;
+	
+
+
 	WebLink lastWebLink;
 	Integer lastPrediction = 0;
 	Integer lastCorrection = 0;
@@ -81,6 +84,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 //		participantTimeLine = new AParticipantTimeLine();
 		participantTimeLine = AnalyzerFactories.createParticipantTimeLine();
 		participantToTimeLine.put(anId, participantTimeLine);
+		participantTimeLine.setId(anId);
 
 		currentParticipant = anId;
 		this.isStuckPointFileGenerated=false;
@@ -586,7 +590,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	public void newRatios(RatioFeatures newVal) {
 
 		insertEntriesForPreviousTimeStamp();
-		currentTime = startTime + newVal.getSavedTimeStamp();
+		currentTime = getStartTime() + newVal.getSavedTimeStamp();
 		participantTimeLine.getEditList().add(newVal.getEditRatio());
 		participantTimeLine.getTimeStampList().add(currentTime);
 		participantTimeLine.getDebugList().add(newVal.getDebugRatio());
@@ -614,7 +618,8 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	void newStartTimeStamp(long aStartTimeStamp) {
 		EHEventRecorder.getInstance().setStartTimeStamp(aStartTimeStamp);
 		// System.out.println("Extension**Difficulty Prediction Started");
-		startTime = aStartTimeStamp;
+//		startTime = aStartTimeStamp;
+		setStartTime(aStartTimeStamp);
 		// System.out.println("New time stamp: " + startTime );
 		// System.out.println ("New date:" + new Date(startTime));
 
@@ -735,5 +740,13 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		// TODO Auto-generated method stub
 		
 	}
+	public long getStartTime() {
+		return startTime;
+	}
 
+
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
 }

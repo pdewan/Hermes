@@ -20,22 +20,23 @@ public class ProgramExecutionEvent
 	}
 	
 //	
-	public ProgramExecutionEvent(boolean debug, boolean terminate, String projectName, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
+	public ProgramExecutionEvent(boolean debug, boolean terminate, String projectName, String className, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
 			boolean stepInto, boolean stepReturn, int aNumEvents) {
 //		super(debug, terminate, projectName, exitValue);
 		mDebug = debug;
 		mTerminate = terminate;
 		mProjectName = projectName;
 		// stuff added
+		mClassName = className;
 		mHitBreakPoint = hitBreakPoint;
 		mStepEnd = stepEnd;
 		mStepInto = stepInto;
 		mStepReturn = stepReturn;
 		numEvents = aNumEvents;
 	}
-	public ProgramExecutionEvent(boolean debug, boolean terminate, String projectName, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
+	public ProgramExecutionEvent(boolean debug, boolean terminate, String projectName, String className, int exitValue, boolean hitBreakPoint, boolean stepEnd, 
 			boolean stepInto, boolean stepReturn) {
-		this(debug, terminate, projectName, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn, 0);
+		this(debug, terminate, projectName, className, exitValue, hitBreakPoint, stepEnd, stepInto, stepReturn, 0);
 	}
 
 	private boolean mDebug;
@@ -44,6 +45,7 @@ public class ProgramExecutionEvent
 	private boolean mCreate;
 	
 	private String mProjectName;
+	private String mClassName;
 	
 
 	public boolean execute(IEditorPart target) {
@@ -76,6 +78,8 @@ public class ProgramExecutionEvent
 		attrMap.put("kind", kind);
 		attrMap.put("projectName", mProjectName == null ? "(Unknown)"
 				: mProjectName);
+		attrMap.put("className", mClassName == null ? "(Unknown)"
+				: mClassName);
 		return attrMap;
 	}
 
@@ -89,7 +93,7 @@ public class ProgramExecutionEvent
 //	}
 
 	public String getCommandType() {
-		return "RunCommand";
+		return "ProgramExecutionEvent";
 	}
 
 	public String getName() {
@@ -229,6 +233,22 @@ public class ProgramExecutionEvent
 			if (attr.getValue().equals("Debug")) {
 				mDebug = true;
 				mRun = false;
+			}
+		}
+		
+		if ((attr = commandElement.getAttributeNode("className")) != null ) {
+			if (attr.getValue().equals("(Unknown)")) {
+				mClassName = null;
+			} else {
+				mClassName = attr.getValue();
+			}
+		}
+		
+		if ((attr = commandElement.getAttributeNode("projectName")) != null ) {
+			if (attr.getValue().equals("(Unknown)")) {
+				mProjectName = null;
+			} else {
+				mProjectName = attr.getValue();
 			}
 		}
 	}

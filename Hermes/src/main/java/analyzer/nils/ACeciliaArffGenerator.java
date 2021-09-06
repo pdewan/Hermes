@@ -202,7 +202,7 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 		NilsCommandCategory commandCategory = getCommandCategory(newCommand);
 
 		// find out which segment it belongs too
-		long aTimeStamp = startTime + newCommand.getTimestamp();
+		long aTimeStamp = getStartTime() + newCommand.getTimestamp();
 		int anIndex = participantTimeLine.getIndexBefore(aTimeStamp);
 		double newRatio;
 		int segmentLength = APredictionParameters.getInstance().getSegmentLength();
@@ -258,7 +258,7 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 
 		//System.out.println("************* NILS NEW RATIOS ****************");
 		insertEntriesForPreviousTimeStamp();
-		currentTime = startTime + newVal.getSavedTimeStamp();
+		currentTime = getStartTime() + newVal.getSavedTimeStamp();
 
 		participantTimeLine.getEditList().add(newVal.getEditRatio());
 		participantTimeLine.getTimeStampList().add(currentTime);
@@ -298,7 +298,7 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 		return hours * 3600000 + minutes * 60000 + seconds * 1000;
 	}
 	
-	public ArrayList<Date> getExtraIntervals(String participant){
+	public ArrayList<Date> getExtraIntervals(String participant, long aStartTimestamp){
 		HashMap<String, ArrayList<Date>> map = new HashMap<String, ArrayList<Date>>();
 		BufferedReader reader;
 		try {
@@ -310,13 +310,19 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 				String start = interval[1];
 				String end = interval[2];
 				
-				Date startInterval = new Date(convertHMSToMS(start) + this.startTime);
-				Date endInterval = new Date(convertHMSToMS(end) + this.startTime);
+//				Date startInterval = new Date(convertHMSToMS(start) + this.getStartTime());
+//				Date endInterval = new Date(convertHMSToMS(end) + this.getStartTime());
+				
+				Date startInterval = new Date(convertHMSToMS(start) + aStartTimestamp);
+				Date endInterval = new Date(convertHMSToMS(end) + aStartTimestamp);
 				
 				
 				if (!map.containsKey(pid)) {
 					map.put(pid, new ArrayList<Date>());
 				}
+//				if (pid.equals("23")) {
+//					int i = 0;
+//				}
 				
 				map.get(pid).add(startInterval);
 				map.get(pid).add(endInterval);
@@ -387,7 +393,15 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 	protected void outputRatios(ParticipantTimeLine p) {
 		System.out.println("************* Cecilia OUTPUT RATIOS ****************");
 		
-		ArrayList<Date> extraIntervals = getExtraIntervals(((AParticipantTimeLine)p).id);
+//		ArrayList<Date> extraIntervals = getExtraIntervals(((AParticipantTimeLine)p).id);
+//		ArrayList<Date> extraIntervals = getExtraIntervals(((AParticipantTimeLine)p).getId());
+		if (p.getTimeStampList().size() == 0) {
+			return;
+		} 
+		long aStartTimeStamp = p.getTimeStampList().get(0);
+		ArrayList<Date> extraIntervals = getExtraIntervals(p.getId(), aStartTimeStamp);
+
+
 		int counter = 0;
 //		List<Integer> finalPredictions = createFinalPredictions(p);
 		//this.printArffEntryTimestamps(p);
@@ -428,9 +442,9 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 			// double prediction = finalPredictions.get(i);
 			
 			long currentTime = p.getTimeStampList().get(i);
-			long timeFromStart = p.getTimeStampList().get(i) - startTime;
+			long timeFromStart = p.getTimeStampList().get(i) - getStartTime();
 			//expecting this.currentTime to hold the end time here
-			long percentageIntoTask = (p.getTimeStampList().get(i) - startTime) / ( startTime - this.currentTime);
+			long percentageIntoTask = (p.getTimeStampList().get(i) - getStartTime()) / ( getStartTime() - this.currentTime);
 			Date date = new Date(currentTime);
 			Format f = new SimpleDateFormat("HH.mm.ss");
 			String strDate = f.format(date);

@@ -3,15 +3,23 @@ package analyzer.logAnalyzer;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import fluorite.commands.AssistCommand;
 import fluorite.commands.CopyCommand;
 import fluorite.commands.Delete;
@@ -23,6 +31,7 @@ import fluorite.commands.InsertStringCommand;
 import fluorite.commands.PasteCommand;
 import fluorite.commands.PauseCommand;
 import fluorite.commands.Replace;
+import fluorite.commands.RunCommand;
 import fluorite.util.EHLogReader;
 
 public class AnIntervalReplayer {
@@ -71,7 +80,7 @@ public class AnIntervalReplayer {
 		if (pauseMap == null || nextPauseMap == null) {
 			initPauseMap();
 		}
-		Map<String, List<EHICommand>> commandMap = readStudent(student);
+		Map<String, List<EHICommand>> commandMap = readProject(student);
 		long[] retVal = new long[2];
 		if (commandMap == null) {
 			if (trace) {
@@ -117,6 +126,89 @@ public class AnIntervalReplayer {
 		return retVal;
 	}
 	
+	public int[] getEdits(File student, long start, long end) {
+		if (pauseMap == null || nextPauseMap == null) {
+			initPauseMap();
+		}
+		Map<String, List<EHICommand>> commandMap = readProject(student);
+		int[] retVal = new int[4];
+		if (commandMap == null) {
+			if (trace) {
+				System.err.println("Error: Cannot read student log");
+			}
+			retVal[0] = -1;
+			retVal[1] = -1;
+			retVal[2] = -1;
+			retVal[3] = -1;
+			return retVal;
+		}
+		out:
+		for (String logFile : commandMap.keySet()) {
+			List<EHICommand> commands = commandMap.get(logFile);
+			int lastIndex = commands.size()-1;
+			EHICommand last = commands.get(lastIndex);
+			long lastTimestamp = last.getStartTimestamp() + last.getTimestamp();
+			if (lastTimestamp < start) {
+				continue;
+			}
+			for (int i = 0; i < commands.size(); i++) {
+				EHICommand command = commands.get(i);
+				long timestamp = command.getStartTimestamp() + command.getTimestamp();
+				if (end > 0 && timestamp > end) {
+					break out;
+				} else if (timestamp > start) {
+					if (command instanceof Insert) {
+						retVal[0]++;
+						retVal[1] += command.getDataMap().get("text").length();
+					} else if (command instanceof Delete) {
+						retVal[2]++;
+						retVal[3] += command.getDataMap().get("text").length();
+					} else if (command instanceof EclipseCommand && ((EclipseCommand) command).getCommandID().equals("eventLogger.styledTextCommand.DELETE_PREVIOUS")) {
+						retVal[2]++;
+						retVal[3]++;
+					}
+				}
+			}
+		}
+		return retVal;
+	}
+	
+	public int getRuns(File student, long start, long end) {
+		if (pauseMap == null || nextPauseMap == null) {
+			initPauseMap();
+		}
+		Map<String, List<EHICommand>> commandMap = readProject(student);
+		int retVal = 0;
+		if (commandMap == null) {
+			if (trace) {
+				System.err.println("Error: Cannot read student log");
+			}
+			return -1;
+		}
+		out:
+		for (String logFile : commandMap.keySet()) {
+			List<EHICommand> commands = commandMap.get(logFile);
+			int lastIndex = commands.size()-1;
+			EHICommand last = commands.get(lastIndex);
+			long lastTimestamp = last.getStartTimestamp() + last.getTimestamp();
+			if (lastTimestamp < start) {
+				continue;
+			}
+			for (int i = 0; i < commands.size(); i++) {
+				EHICommand command = commands.get(i);
+				long timestamp = command.getStartTimestamp() + command.getTimestamp();
+				if (end > 0 && timestamp > end) {
+					break out;
+				} else if (timestamp > start) {
+					if (command instanceof RunCommand) {
+						retVal++;
+					}
+				}
+			}
+		}
+		return retVal;
+	}
+	
 	protected long[] restTime(List<List<EHICommand>> nestedCommands, long time) {
 		long[] restTime = new long[2];
 		for (List<EHICommand> commands : nestedCommands) {
@@ -125,6 +217,9 @@ public class AnIntervalReplayer {
 					long pause = Long.parseLong(command.getDataMap().get("pause"));
 					String prevType = command.getDataMap().get("prevType");
 					String nextType = command.getDataMap().get("nextType");
+					if (prevType == null && nextType == null) {
+						continue;
+					}
 					if (pause > pauseMap.get(prevType) && pause > nextPauseMap.get(nextType)) {
 						restTime[0] += pause;
 					}
@@ -189,18 +284,68 @@ public class AnIntervalReplayer {
 		return logFolder;
 	}
 	
-	protected Map<String, List<EHICommand>> readStudent(File student) {
+	protected File[] getLogFiles(File logFolder) {
+		File[] logFiles = logFolder.listFiles(File::isDirectory);
+		
+		if (logFiles != null && logFiles.length > 0) {
+			logFiles = logFiles[0].listFiles((file)->{
+				if(file.getName().contains("copy")) {
+					file.delete();
+					return false;
+				}
+				return file.getName().startsWith("Log") && file.getName().endsWith(".xml");});
+		} else {
+			logFiles = logFolder.listFiles((file)->{
+				if(file.getName().contains("copy")) {
+					file.delete();
+					return false;
+				}
+				return file.getName().startsWith("Log") && file.getName().endsWith(".xml");});
+		}
+		if (logFiles == null || logFiles.length == 0) {
+			return null;
+		}
+		Arrays.sort(logFiles);
+		File lastLogFile = new File(logFiles[logFiles.length-1].getPath());
+		if (lastLogFile.exists()) {
+			try {
+				if (!lastLogFile.renameTo(lastLogFile)) {
+//					File[] tempLogFiles = new File[logFiles.length-1];
+//					for (int i = 0; i < logFiles.length-1; i++) {
+//						tempLogFiles[i]= logFiles[i]; 
+//					}
+//					logFiles = tempLogFiles;
+					File copy = new File(lastLogFile.getPath().substring(0,lastLogFile.getPath().length()-4)+"copy.xml");
+					copyFiles(lastLogFile, copy);
+					logFiles[logFiles.length-1] = copy;
+				};
+			} catch (Exception e) {
+//				File[] tempLogFiles = new File[logFiles.length-1];
+//				for (int i = 0; i < logFiles.length-1; i++) {
+//					tempLogFiles[i]= logFiles[i]; 
+//				}
+//				logFiles = tempLogFiles;
+				try {
+					File copy = new File(lastLogFile.getPath().substring(0,lastLogFile.getPath().length()-4)+"copy.xml");
+					copyFiles(lastLogFile, copy);
+					logFiles[logFiles.length-1] = copy;
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+		refineLogFiles(logFiles);
+		return logFiles;
+	}
+	
+	protected Map<String, List<EHICommand>> readProject(File student) {
 		File logFolder = getLogFolder(student);
 		if (logFolder == null) {
 			return null;
 		}
-		refineLogFiles(logFolder);
-		File[] logFiles = logFolder.listFiles(File::isDirectory);
-		if (logFiles != null && logFiles.length > 0) {
-			logFiles = logFiles[0].listFiles((file)->{return file.getName().startsWith("Log") && file.getName().endsWith(".xml");});
-		} else {
-			logFiles = logFolder.listFiles((file)->{return file.getName().startsWith("Log") && file.getName().endsWith(".xml");});
-		}
+		
+		File[] logFiles = getLogFiles(logFolder);
 		if (logFiles == null) {
 			System.err.println("No logs found for student " + student.getName());
 			return null;
@@ -231,6 +376,9 @@ public class AnIntervalReplayer {
 		try {
 			List<EHICommand> commands = reader.readAll(path);
 			sortCommands(commands, 0, commands.size()-1);
+			if (log.getName().contains("copy")) {
+				log.delete();
+			}
 			return commands;
 		} catch (Exception e) {
 			System.err.println("Could not read file" + path + "\n"+ e);
@@ -238,25 +386,28 @@ public class AnIntervalReplayer {
 		return null;
 	}
 	
-	protected void refineLogFiles(File logFolder){
+	public void refineLogFiles(File[] logFiles){
 		try {
-			for (File file : logFolder.listFiles((filename)->{return filename.getName().endsWith(".lck");})) {
-				File logFile = new File(file.getParent(), file.getName().substring(0, file.getName().indexOf(".lck")));
-				BufferedReader reader = new BufferedReader(new FileReader(logFile));
-				String lastLine = null;
-				String currentLine = null;
-				while((currentLine = reader.readLine()) != null) {
-					lastLine = currentLine;
+			for (File file : logFiles) {
+				File lckFile = new File(file.getPath()+".lck");
+				if (lckFile.exists()) {
+					BufferedReader reader = new BufferedReader(new FileReader(file));
+					String lastLine = null;
+					String currentLine = null;
+					while((currentLine = reader.readLine()) != null) {
+						lastLine = currentLine;
+					}
+					if (lastLine != null && !lastLine.endsWith("</Events>")) {
+						BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+						writer.write(XML_FILE_ENDING);
+						writer.close();
+					}	
+					reader.close();
+					lckFile.delete();
 				}
-				if (lastLine != null && !lastLine.endsWith("</Events>")) {
-					BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true));
-					writer.write(XML_FILE_ENDING);
-					writer.close();
-				}	
-				reader.close();
-				file.delete();
 			}
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		} 
 	}
@@ -307,10 +458,8 @@ public class AnIntervalReplayer {
 		if (logFolder == null) {
 			return -1;
 		}
-		File[] logs = logFolder.listFiles((file)->{
-			return file.getName().endsWith(".xml");
-		});
-		if (logs.length == 0) {
+		File[] logs = getLogFiles(logFolder);
+		if (logs == null || logs.length == 0) {
 			System.err.println("Error: No logs found for " + student.getPath());
 			return -1;
 		}
@@ -331,10 +480,8 @@ public class AnIntervalReplayer {
 		if (logFolder == null) {
 			return -1;
 		}
-		File[] logs = logFolder.listFiles((file)->{
-			return file.getName().endsWith(".xml");
-		});
-		if (logs.length == 0) {
+		File[] logs = getLogFiles(logFolder);
+		if (logs == null || logs.length == 0) {
 			System.err.println("Error: No logs found for " + student.getPath());
 			return -1;
 		}
@@ -353,5 +500,38 @@ public class AnIntervalReplayer {
 		}
 		System.err.println("Error: No FileOpenCommand found for " + student.getPath());
 		return -1;
+	}
+	
+	
+	public void copyFiles(File source, File dest) throws IOException{
+		InputStream is = null;
+		OutputStream os = null;
+		try {
+			if (!dest.exists()) {
+				dest.getParentFile().mkdirs();
+				dest.createNewFile();
+			} else {
+				dest.delete();
+				dest.createNewFile();
+			}
+			is = new FileInputStream(source);
+			os = new FileOutputStream(dest);
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = is.read(buffer)) > 0) {
+				os.write(buffer, 0, length);
+			}
+			buffer = "</Events>".getBytes();
+			os.write(buffer, 0, buffer.length);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (is != null) {
+				is.close();
+			}
+			if (os != null) {
+				os.close();
+			}
+		} 
 	}
 }

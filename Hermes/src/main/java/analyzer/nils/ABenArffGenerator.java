@@ -204,7 +204,7 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 		NilsCommandCategory commandCategory = getCommandCategory(newCommand);
 
 		// find out which segment it belongs too
-		long aTimeStamp = startTime + newCommand.getTimestamp();
+		long aTimeStamp = getStartTime() + newCommand.getTimestamp();
 		int anIndex = participantTimeLine.getIndexBefore(aTimeStamp);
 		double newRatio;
 		int segmentLength = APredictionParameters.getInstance().getSegmentLength();
@@ -260,7 +260,7 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 
 		System.out.println("************* NILS NEW RATIOS ****************");
 		insertEntriesForPreviousTimeStamp();
-		currentTime = startTime + newVal.getSavedTimeStamp();
+		currentTime = getStartTime() + newVal.getSavedTimeStamp();
 
 		participantTimeLine.getEditList().add(newVal.getEditRatio());
 		participantTimeLine.getTimeStampList().add(currentTime);
@@ -353,8 +353,8 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 				String pid = interval[0];
 				String start = interval[1];
 				String end = interval[2];
-				Date startInterval = new Date(convertHMSToMS(start) + this.startTime);
-				Date endInterval = new Date(convertHMSToMS(end) + this.startTime);
+				Date startInterval = new Date(convertHMSToMS(start) + this.getStartTime());
+				Date endInterval = new Date(convertHMSToMS(end) + this.getStartTime());
 				
 				if (!map.containsKey(pid)) {
 					map.put(pid, new ArrayList<Date>());
@@ -431,7 +431,9 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 	protected void outputRatios(ParticipantTimeLine p) {
 		System.out.println("************* BEN OUTPUT RATIOS ****************");
 		
-		ArrayList<Date> extraIntervals = getExtraIntervals(((AParticipantTimeLine)p).id);
+//		ArrayList<Date> extraIntervals = getExtraIntervals(((AParticipantTimeLine)p).id);
+		ArrayList<Date> extraIntervals = getExtraIntervals(((AParticipantTimeLine)p).getId());
+
 		int counter = 0;
 //		List<Integer> finalPredictions = createFinalPredictions(p);
 		//this.printArffEntryTimestamps(p);
@@ -471,9 +473,9 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 			// double prediction = finalPredictions.get(i);
 			
 			long currentTime = p.getTimeStampList().get(i);
-			long timeFromStart = p.getTimeStampList().get(i) - startTime;
+			long timeFromStart = p.getTimeStampList().get(i) - getStartTime();
 			//expecting this.currentTime to hold the end time here
-			long percentageIntoTask = (p.getTimeStampList().get(i) - startTime) / ( startTime - this.currentTime);
+			long percentageIntoTask = (p.getTimeStampList().get(i) - getStartTime()) / ( getStartTime() - this.currentTime);
 			Date date = new Date(currentTime);
 			Format f = new SimpleDateFormat("HH.mm.ss");
 			String strDate = f.format(date);

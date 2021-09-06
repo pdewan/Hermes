@@ -30,7 +30,9 @@ public class HelpPreferencePage extends PreferencePage {
 											{"2020 Spring", "2020 Spring"},
 											{"2020 Fall", "2020 Fall"},
 											{"2021 Spring", "2021 Spring"},
-											{"2021 Summer", "2021 Summer"}};
+											{"2021 Summer", "2021 Summer"},
+											{"2021 Fall", "2021 Fall"},
+											{"2022 Spring", "2022 Spring"}};
 	public static final String[][] COURSES = {{"",""},
 											  {"COMP301", "COMP301"},
 			 								  {"COMP410", "COMP410"}, 

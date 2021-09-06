@@ -93,7 +93,10 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 		// participantTimeLine = new AParticipantTimeLine();
 		participantTimeLine = AnalyzerFactories.createParticipantTimeLine();
 		participantToTimeLine.put(anId, participantTimeLine);
-		((AParticipantTimeLine) participantTimeLine).id = anId; // added by Ben
+//		((AParticipantTimeLine) participantTimeLine).id = anId; // added by Ben
+		
+		((AParticipantTimeLine) participantTimeLine).setId(anId) ; // added by Ben
+
 
 		// set the right path for writing
 		// case I for all

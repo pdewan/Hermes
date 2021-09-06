@@ -127,7 +127,9 @@ public class CeciliaArffGeneratorTester {
 		// command classification changed by ceclia
 		APredictionParameters.getInstance().setCommandClassificationScheme(CommandClassificationSchemeName.A0Web);
 		APredictionParameters.getInstance().setSegmentLength(50);
-		useNilsCode("29", ""); // only 16
+//		useNilsCode("All", "");
+		useNilsCode("23", "");
+//		useNilsCode("29", ""); // only 16
 //		useNilsCode("All", "16"); // except 16
 ////		useNilsCode("All", "17");
 //

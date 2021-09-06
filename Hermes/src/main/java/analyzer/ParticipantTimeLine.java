@@ -96,6 +96,8 @@ public interface ParticipantTimeLine {
 	int getNumElements();
 
 	void setAggregateStatistics();
+	void setId(String anId);
+	String getId();
 
 	
 }

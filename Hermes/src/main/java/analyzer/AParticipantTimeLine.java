@@ -10,7 +10,8 @@ import analyzer.extension.StuckPoint;
 
 public class AParticipantTimeLine implements ParticipantTimeLine {
 	long starTimestamp;
-	public String id;
+	protected String id;
+
 
 
 	long lastTimestamp;
@@ -377,6 +378,11 @@ public class AParticipantTimeLine implements ParticipantTimeLine {
 	}
 
 	
-	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 
 }
