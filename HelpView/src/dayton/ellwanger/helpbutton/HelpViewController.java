@@ -440,7 +440,7 @@ public class HelpViewController implements HelpListener {
 		if (project == null || logFolder == null || !logFolder.exists()) {
 			return null;
 		} 
-		EHEventRecorder.getInstance().flushAndStopLogging(project);
+//		EHEventRecorder.getInstance().flushAndStopLogging(project);
 		List<File> retVal = new ArrayList<>();
 		List<File> logFiles = Arrays.asList(logFolder.listFiles());
 		Collections.sort(logFiles, Collections.reverseOrder());
@@ -454,7 +454,7 @@ public class HelpViewController implements HelpListener {
 				break;
 			}
 		}
-        EHEventRecorder.getInstance().continueLogging(project);
+//        EHEventRecorder.getInstance().continueLogging(project);
         return retVal;
 	}
 }

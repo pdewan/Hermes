@@ -5,12 +5,16 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import analyzer.logAnalyzer.AnIntervalReplayer;
 
 public class IntervalDriver {
 	//Path to student folder
-	public static final File STUDENT_FOLDER = new File("C:\\Users\\Zhizhou\\eclipse2021-workspace\\A1");
+//	public static final File STUDENT_FOLDER = new File("C:\\Users\\Zhizhou\\eclipse2021-workspace\\A1");
+	public static final File STUDENT_FOLDER = new File("E:\\Test\\Assignment 4\\Alsadoon, Wid(wid)");
 	//Parse time stamps to long if they are strings
 	public static final DateFormat DF = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
 	//For context based work time, a pause is considered a rest if pauseTime > MULTIPLIER * context-based-threshold
@@ -31,9 +35,11 @@ public class IntervalDriver {
 		}
 		AnIntervalReplayer replayer = new AnIntervalReplayer(MULTIPLIER, DEFAULT_THRESHOLD, TRACE);
 		//getStartTime(File studentFolder) returns the wall time of first FileOpenCommand in the project. -1 when failed
-		long startTime = replayer.getStartTime(STUDENT_FOLDER);
+//		long startTime = replayer.getStartTime(STUDENT_FOLDER);
+		long startTime = 1624286907518L + 1246288L;
 		//getEndTime(File studentFolder) returns the wall time of last edit, -1 when failed
-		long endTime = replayer.getEndTime(STUDENT_FOLDER);
+//		long endTime = replayer.getEndTime(STUDENT_FOLDER);
+		long endTime = 1624286907518L + 2104616L;
 		System.out.println("Start Time: " + parseWallTime(startTime));
 		System.out.println("End Time: " + parseWallTime(endTime));
 		
@@ -46,6 +52,27 @@ public class IntervalDriver {
 		long[] workTimes = replayer.getWorkTime(STUDENT_FOLDER, startTime, endTime);
 		System.out.println("Context Based Work Time: " + format(workTimes[0]));
 		System.out.println("Fixed Work Time (" + DEFAULT_THRESHOLD + "min): " + format(workTimes[1]));
+		int[] edits = replayer.getEdits(STUDENT_FOLDER, startTime, endTime);
+		System.out.println("Insert: " + edits[0]);
+		System.out.println("Delete: " + edits[1]);
+		/* 
+		 * getDistanceAndProcedures(File studentFolder, long startTime, long endTime)
+		 * returns a Map<String, List<String>> offsetAndProcedureMap where 
+		 * the keys are file names edited and 
+		 * the 1st value of the list is the maximum distance of the edits in the file and
+		 * the following values are the procedures in the range
+		 */
+		Map<String, List<String>> distanceAndProcedureMap = replayer.getDistanceAndProcedures(STUDENT_FOLDER, startTime, endTime);
+		for (Entry<String, List<String>> entry : distanceAndProcedureMap.entrySet()) {
+			System.out.println("Class: " + entry.getKey());
+			List<String> value = entry.getValue();
+			System.out.println("Offset Range: " + value.get(0));
+			System.out.println("Procedure in the range: ");
+			for (int i = 1; i < value.size(); i++) {
+				System.out.print(value.get(i)+" ");
+			}
+		}
+		System.exit(0);
 	}
 	
 	public static long parseTime(String date, Scanner scanner) {

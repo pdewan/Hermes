@@ -68,11 +68,9 @@ import analyzer.extension.timerTasks.ANotificationBalloon;
 import analyzer.extension.timerTasks.ChromeHistoryLogger;
 import analyzer.extension.timerTasks.LogSender;
 import config.HelperConfigurationManagerFactory;
-import config.PluginModeManager;
 import dayton.ellwanger.hermes.HermesActivator;
 import dayton.ellwanger.hermes.preferences.Preferences;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
-import difficultyPrediction.DifficultyPredictionSettings;
 import fluorite.actions.FindAction;
 import fluorite.commands.AbstractCommand;
 import fluorite.commands.BaseDocumentChangeEvent;
@@ -614,7 +612,7 @@ public class EHEventRecorder {
 
 	}
 	public void initCommands() {
-		PluginModeManager.setPluginMode(false);
+		setPlugInMode(false);
 		MacroRecordingStarted.newCase(this);
 		allDocAndNonDocCommands = new LinkedList<EHICommand>();
 		mNormalCommands = new LinkedList<EHICommand>();
@@ -644,19 +642,19 @@ public class EHEventRecorder {
 
 	}
 
-//	protected boolean plugInMode = false;
+	protected boolean plugInMode = false;
 
-//	public boolean isPlugInMode() {
-//		return plugInMode;
-//	}
-//
-//	public void setPlugInMode(boolean plugInMode) {
-//		this.plugInMode = plugInMode;
-//	}
+	public boolean isPlugInMode() {
+		return plugInMode;
+	}
+
+	public void setPlugInMode(boolean plugInMode) {
+		this.plugInMode = plugInMode;
+	}
 
 	public void start() {
 		initCommands();
-		PluginModeManager.setPluginMode(true);
+		setPlugInMode(true);
 		//Ken's code to init timer tasks (send log, web log...)
 		initTimerTasks();
 		// FactoriesSelector.configureFactories();
@@ -1169,26 +1167,26 @@ public class EHEventRecorder {
 
 	}
 	
-	public void flushAndStopLogging(IProject project) {
-		Logger logger = Logger.getLogger(project.getName());
-		for (Handler fh : logger.getHandlers()) {
-			fh.flush();
-			logger.removeHandler(fh);
-			fh.close();
-		}
-	}
+//	public void flushAndStopLogging(IProject project) {
+//		Logger logger = Logger.getLogger(project.getName());
+//		for (Handler fh : logger.getHandlers()) {
+//			fh.flush();
+//			logger.removeHandler(fh);
+//			fh.close();
+//		}
+//	}
 	
-	public void continueLogging(IProject project) {
-		Logger logger = Logger.getLogger(project.getName());
-		File logDirectory = loggerToFileName.get(logger).getParentFile();
-//		setStartTimeStamp(System.currentTimeMillis());
+//	public void continueLogging(IProject project) {
+//		Logger logger = Logger.getLogger(project.getName());
+//		File logDirectory = loggerToFileName.get(logger).getParentFile();
+////		setStartTimeStamp(System.currentTimeMillis());
+////		File outputFile = new File(logDirectory,
+////				EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
 //		File outputFile = new File(logDirectory,
-//				EHEventRecorder.getUniqueMacroNameByTimestamp(getStartTimestamp(), false));
-		File outputFile = new File(logDirectory,
-				EHEventRecorder.getUniqueMacroNameByTimestamp(System.currentTimeMillis(), false));
-		LogFileCreated.newCase(outputFile.getName(), this);
-		initializeLoggerFile(logger, outputFile);
-	}
+//				EHEventRecorder.getUniqueMacroNameByTimestamp(System.currentTimeMillis(), false));
+//		LogFileCreated.newCase(outputFile.getName(), this);
+//		initializeLoggerFile(logger, outputFile);
+//	}
 	
 	protected void handleStaleLog(Logger aLogger, Level aLevel, String aMessage, Object anObject, File aFile) {
 		Handler[] aHandlers = aLogger.getHandlers();
@@ -1516,8 +1514,7 @@ lastCommandTimeStamp = timestamp;
 		// perhaps this is screwing performance
 
 		// WHY do we need all of the stuff below
-		if (PluginModeManager.isPluginMode()) {
-
+		if (isPlugInMode()) {
 			StyledText styledText = EHUtilities.getStyledText(EHUtilities.getActiveEditor());
 			if (styledText != null) {
 				this.mLastCaretOffset = styledText.getCaretOffset();
