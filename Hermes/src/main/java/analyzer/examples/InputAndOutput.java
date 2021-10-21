@@ -26,7 +26,7 @@ public class InputAndOutput {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Please input an integer");
+		System.out.println("Please input an integer"); // input
 		int num1 = scan.nextInt();
 		System.out.println("Please input a decimal");
 		double num2 = scan.nextDouble();
