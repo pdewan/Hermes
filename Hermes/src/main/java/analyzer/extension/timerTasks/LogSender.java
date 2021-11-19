@@ -26,7 +26,7 @@ public class LogSender extends TimerTask {
 	private static final String reportURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/cyverse/add-cyverse-log";
 	private static final int timeout = 5000;
 	private static final String XML_START1 = "<Events startTimestamp=\"";
-	private static final String XML_START2 = " logVersion=\"";
+	private static final String XML_START2 = "\" logVersion=\"";
 	private static final String XML_VERSION = "1.0.0.202008151525";
 	private static final String XML_START3 = "\">\r\n";
 	private static final String XML_FILE_ENDING = "\r\n</Events>"; 
@@ -84,6 +84,7 @@ public class LogSender extends TimerTask {
 		int start = index;
 		try {
 			int end = commands.size();
+			startTimeStamp = commands.get(index).getStartTimestamp();
 			JSONObject log = new JSONObject();
 			JSONObject report = new JSONObject();
 			report.put(LOG_ID, path);

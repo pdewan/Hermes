@@ -1287,7 +1287,9 @@ lastCommandTimeStamp = timestamp;
 				.getSegmentLength();
 		boolean isFlushCommandList = 
 		numReceivedCommands > 1 && (timestamp - lastCommandTimeStamp) > commandFlushTime;
-		lastCommandTimeStamp = timestamp;	
+		if (!(docOrNormalCommands.getLast() instanceof PauseCommand)) {
+			lastCommandTimeStamp = timestamp;	
+		}
 		// while (docOrNormalCommands.size() > 1 &&
 		// docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst())
 		// {

@@ -16,7 +16,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
-import com.sun.webkit.plugin.PluginManager;
+//import com.sun.webkit.plugin.PluginManager;
 
 import config.PluginModeManager;
 import difficultyPrediction.DifficultyPredictionSettings;
@@ -37,9 +37,6 @@ public class EclipseCommand
 	public EclipseCommand(String commandId, int repeatCount) {
 //		super(commandId);
 		mCommandId = commandId;
-		if (mCommandId.contains("ename")) {
-			int i = 0;
-		}
 //		if (mCommandId.isEmpty()) {
 //			System.out.println("empty command id!");
 //		}
