@@ -235,14 +235,14 @@ public class EHLogReader {
 					+ typeName;
 			
 			
-			if (fullyQualifiedName
-//					.equals("edu.cmu.scs.fluorite.commands.EclipseCommand"))
-				.equals(EclipseCommand.class.getName()))
-
-			{
-				int i = 0;
-				int b = i;
-			}
+//			if (fullyQualifiedName
+////					.equals("edu.cmu.scs.fluorite.commands.EclipseCommand"))
+//				.equals(EclipseCommand.class.getName()))
+//
+//			{
+//				int i = 0;
+//				int b = i;
+//			}
 
 			try {
 				Class<?> c = Class.forName(fullyQualifiedName);

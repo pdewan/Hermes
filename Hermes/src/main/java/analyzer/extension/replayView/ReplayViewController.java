@@ -28,7 +28,7 @@ import fluorite.model.EHEventRecorder;
 public class ReplayViewController implements ReplayListener{
 	private Analyzer analyzer;
 	private ReplayView replayView; 
-	private AReplayer replayer;
+	private AReplayer2 replayer;
 //	private AnotherReplayer replayer;
 	
 	public ReplayViewController(ReplayView view) {
@@ -36,7 +36,7 @@ public class ReplayViewController implements ReplayListener{
 //		view.addReplayListener(this);
 		if (replayer == null || analyzer == null) {
 			analyzer = new AnAnalyzer();
-			replayer = new AReplayer(analyzer);
+			replayer = new AReplayer2(analyzer);
 //			replayer = new AnotherReplayer(analyzer);
 			analyzer.addAnalyzerListener(replayer);
 		}
@@ -47,7 +47,6 @@ public class ReplayViewController implements ReplayListener{
 		// TODO Auto-generated method stub
 		replayer.setup();
 		List<EHICommand> commands = replayer.forward(numStep, step);
-		replayer.cleanup();
 		if (commands == null) {
 			return;
 		}
@@ -56,7 +55,7 @@ public class ReplayViewController implements ReplayListener{
 		replayView.updateTimeline(replayer.timelineIndex());
 //		replayView.updateNumOfExceptions(replayer.getCurrentExceptions(), replayer.getTotalExceptions());
 		replayView.updateReplayedFile(replayer.getReplayedFile());
-		replayView.updateMetrics(replayer.getMetrics());
+//		replayView.updateMetrics(replayer.getMetrics());
 	}
 	
 	public void updateTimeSpent(String path, String time) {
@@ -74,7 +73,6 @@ public class ReplayViewController implements ReplayListener{
 		// TODO Auto-generated method stub
 		replayer.setup();
 		List<EHICommand> commands = replayer.back(numStep, step);
-		replayer.cleanup();
 		if (commands == null) {
 			return;
 		}
@@ -83,7 +81,7 @@ public class ReplayViewController implements ReplayListener{
 		replayView.updateTimeline(replayer.timelineIndex());
 //		replayView.updateNumOfExceptions(replayer.getCurrentExceptions(), replayer.getTotalExceptions());
 		replayView.updateReplayedFile(replayer.getReplayedFile());
-		replayView.updateMetrics(replayer.getMetrics());
+//		replayView.updateMetrics(replayer.getMetrics());
 	}
 	
 	public void jumpTo(int index, String step) {
@@ -96,7 +94,7 @@ public class ReplayViewController implements ReplayListener{
 //		replayView.updateTimeSpent(replayer.getTotalTimeSpent(), replayer.getCurrentTimeSpent());
 //		replayView.updateNumOfExceptions(replayer.getCurrentExceptions(), replayer.getTotalExceptions());
 		replayView.updateReplayedFile(replayer.getReplayedFile());
-		replayView.updateMetrics(replayer.getMetrics());
+//		replayView.updateMetrics(replayer.getMetrics());
 	}
 
 	public void zipCurrentProject(IProject project) {

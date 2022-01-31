@@ -1103,31 +1103,10 @@ public class AnAnalyzer implements Analyzer {
 		System.out.println("Particpant " + aFolderName + " has "
 				+ participantFiles.size() + " file(s)");
 		//Ken's code to recognize student project
-		String currentFileName = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHEventRecorder.class.getName())).getName();
-//		if (fullName.contains("helper-config"+File.separator+"Student Project")) {
-//			List<String> logFile = new Vector<>();
-//			for (String string : participantFiles) {
-//				if (string.endsWith("log.xml")) {
-//					logFile.add(string);
-//				}
-//			}
-//			participantFiles = logFile;
-//		} else if (!fullName.contains("ExperimentalData")){
-//			String largestFileName = "";
-//			String secondLargestFileName = "";
-//			for (int i = 0; i < participantFiles.size(); i++) {
-//				String aFileName = participantFiles.get(i);
-//				if (aFileName.compareTo(largestFileName) > 0) {
-//					secondLargestFileName = largestFileName;
-//					largestFileName = aFileName;
-//				} else if (aFileName.compareTo(secondLargestFileName) > 0) {
-//					secondLargestFileName = aFileName;
-//				}
-//			}
-//			participantFiles.remove(largestFileName);
-//			participantFiles.remove(secondLargestFileName);
-//		}
-		// end ken's code
+		String currentFileName = "???";
+		if (EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHEventRecorder.class.getName())) != null) {
+			currentFileName = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHEventRecorder.class.getName())).getName();
+		}
 		
 		for (int i = 0; i < participantFiles.size(); i++) {
 //			String aFileName = fullName + participantFiles.get(i);

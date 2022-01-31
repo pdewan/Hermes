@@ -122,9 +122,10 @@ implements EHICommand {
 	public Map<String, String> getDataMap() {
 		Map<String, String> dataMap = new HashMap<String, String>();
 		dataMap.put("filePath", mFilePath == null ? "null" : mFilePath);
-		if (mSnapshot != null) {
-			dataMap.put("snapshot", mSnapshot);
-		}
+		dataMap.put("snapshot", mSnapshot == null ? "null" : mSnapshot);
+//		if (mSnapshot != null) {
+//			dataMap.put("snapshot", mSnapshot);
+//		}
 
 		return dataMap;
 	}

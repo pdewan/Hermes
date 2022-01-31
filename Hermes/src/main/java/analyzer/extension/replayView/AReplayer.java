@@ -81,6 +81,12 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		PROGRAMATIC_CONTROLLER = AnEclipseProgrammaticController.getInstance();
 		currentProjectPath = getCurrentProjectPath();
 	}
+	
+	public AReplayer(Analyzer anAnalyzer, int a) {
+		super(anAnalyzer);
+		analyzer = anAnalyzer;
+		PROGRAMATIC_CONTROLLER = null;
+	}
 
 	public List<List<EHICommand>> replayLogs(String projectPath, Analyzer analyzer){
 		File logFolder = new File(projectPath, "Logs"+File.separator+"Eclipse");
@@ -97,6 +103,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		nestedCommands = analyzer.convertXMLLogToObjects(logFolder.getPath());
 		sortNestedCommands(nestedCommands);
 		buildRefactorRecord(projectPath);
+//		nestedCommands = ReplayUtility.replayLogs(projectPath, analyzer);
 		if (nestedCommands.isEmpty()) {
 			i = 0;
 			j = 0;
@@ -191,7 +198,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		}
 	}
 
-	private static final String XML_FILE_ENDING = "\r\n</Events>"; 
+	public static final String XML_FILE_ENDING = "\r\n</Events>"; 
 
 	public void refineLogFiles(String logPath){
 		try {
@@ -321,7 +328,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		}
 	}
 
-	public ArrayList<EHICommand> back(String numStep, String step){
+	public List<EHICommand> back(String numStep, String step){
 		changeByTime = false;
 		commandList.clear();
 		previousTime = currentTime;
@@ -395,7 +402,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		commandList.clear();
 		return commandList;
 	}
-	public ArrayList<EHICommand> backToWeb(){
+	public List<EHICommand> backToWeb(){
 		forwarded = false;
 		int insertLength = 0;
 		int caretOffset = -1;
@@ -487,7 +494,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToPause(int time){
+	public List<EHICommand> backToPause(int time){
 		forwarded = false;
 		int insertLength = 0;
 		int caretOffset = -1;
@@ -583,7 +590,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToLocalCheck(){
+	public List<EHICommand> backToLocalCheck(){
 		forwarded = false;
 		int insertLength = 0;
 		int caretOffset = -1;
@@ -675,7 +682,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToRun(){
+	public List<EHICommand> backToRun(){
 		forwarded = false;
 		boolean hitRun = false;
 		int insertLength = 0;
@@ -774,7 +781,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToDebug(){
+	public List<EHICommand> backToDebug(){
 		forwarded = false;
 		boolean hitDebug = false;
 		int insertLength = 0;
@@ -872,7 +879,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToCompile(){
+	public List<EHICommand> backToCompile(){
 		forwarded = false;
 		boolean hitRun = false;
 		int insertLength = 0;
@@ -970,7 +977,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToDifficulty(){
+	public List<EHICommand> backToDifficulty(){
 		previousTime = currentTime;
 		boolean difficulty = false;
 		outer:
@@ -1086,7 +1093,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToNewFile(){
+	public List<EHICommand> backToNewFile(){
 		String newFileName = null;
 		for (int k = newFiles.size()-1; k >= 0; k--) {
 			long newFileTime = Long.parseLong(newFiles.get(k).get(0));
@@ -1186,7 +1193,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 	
-	public ArrayList<EHICommand> backToDeleteFile(){
+	public List<EHICommand> backToDeleteFile(){
 		String deleteFileName = null;
 		for (int k = deletedFiles.size()-1; k >= 0; k--) {
 			long deleteFileTime = Long.parseLong(deletedFiles.get(k).get(0));
@@ -1286,7 +1293,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 	
-	public ArrayList<EHICommand> backToRefactor(){
+	public List<EHICommand> backToRefactor(){
 		String refactoredName = null;
 		for (int k = refactorRecords.size()-1; k >= 0; k--) {
 			long refactorTime = Long.parseLong(refactorRecords.get(k).get(0));
@@ -1383,7 +1390,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToSave(){
+	public List<EHICommand> backToSave(){
 		forwarded = false;
 		int insertLength = 0;
 		int caretOffset = -1;
@@ -1478,7 +1485,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToOpenFile(){
+	public List<EHICommand> backToOpenFile(){
 		forwarded = false;
 //		EHICommand newFileComand = null;
 		outer:
@@ -1534,7 +1541,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backEdit(int limit) {
+	public List<EHICommand> backEdit(int limit) {
 //		if (forwarded) {
 //			forwarded = false;
 //			backEdit(limit);
@@ -1653,7 +1660,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backByTime(long backTime) {
+	public List<EHICommand> backByTime(long backTime) {
 		forwarded = false;
 
 		outer:
@@ -1806,7 +1813,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToException(){
+	public List<EHICommand> backToException(){
 		forwarded = false;
 
 		int insertLength = 0;
@@ -1916,7 +1923,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> backToFix(){
+	public List<EHICommand> backToFix(){
 		//		commandList.clear();
 		forwarded = false;
 
@@ -2025,7 +2032,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forward(String numStep, String step){
+	public List<EHICommand> forward(String numStep, String step){
 		commandList.clear();
 		changeByTime = false;
 		switch (step) {
@@ -2100,7 +2107,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 	
-	public ArrayList<EHICommand> forwardToWeb(){
+	public List<EHICommand> forwardToWeb(){
 		backed = false;
 
 		int insertLength = 0;
@@ -2209,7 +2216,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 	
-	public ArrayList<EHICommand> forwardToLocalCheck(){
+	public List<EHICommand> forwardToLocalCheck(){
 		backed = false;
 
 		int insertLength = 0;
@@ -2318,7 +2325,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 	
-	public ArrayList<EHICommand> forwardToPause(int time){
+	public List<EHICommand> forwardToPause(int time){
 		backed = false;
 
 		int insertLength = 0;
@@ -2432,7 +2439,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardToRun(){
+	public List<EHICommand> forwardToRun(){
 		backed = false;
 		boolean hitRun = false;
 		int insertLength = 0;
@@ -2536,7 +2543,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardToDebug(){
+	public List<EHICommand> forwardToDebug(){
 		// 		commandList.clear();
 		backed = false;
 		boolean hitDebug = false;
@@ -2641,7 +2648,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardToCompile(){
+	public List<EHICommand> forwardToCompile(){
 		backed = false;
 		boolean hitRun = false;
 		int insertLength = 0;
@@ -2746,7 +2753,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList; 	
 	}
 
-	public ArrayList<EHICommand> forwardToDifficulty(){
+	public List<EHICommand> forwardToDifficulty(){
 		previousTime = currentTime;
 		boolean difficulty = false;
 		outer:
@@ -2871,7 +2878,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		//		return null;
 	}
 
-	public ArrayList<EHICommand> forwardToNoDifficulty(){
+	public List<EHICommand> forwardToNoDifficulty(){
 		boolean difficulty = true;
 		previousTime = currentTime;
 		outer:
@@ -2993,7 +3000,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardToNewFile(){
+	public List<EHICommand> forwardToNewFile(){
 		String newFileName = null;
 		for (int k = 0; k < newFiles.size(); k++) {
 			long newFileTime = Long.parseLong(newFiles.get(k).get(0));
@@ -3098,7 +3105,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardToDeleteFile(){
+	public List<EHICommand> forwardToDeleteFile(){
 		String deleteFileName = null;
 		for (int k = 0; k < deletedFiles.size(); k++) {
 			long deleteFileTime = Long.parseLong(deletedFiles.get(k).get(0));
@@ -3200,7 +3207,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 	
-	public ArrayList<EHICommand> forwardToRefactor(){
+	public List<EHICommand> forwardToRefactor(){
 		String refactoredName = null;
 		for (int k = 0; k < refactorRecords.size(); k++) {
 			long refactorTime = Long.parseLong(refactorRecords.get(k).get(0));
@@ -3298,7 +3305,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 	
-	public ArrayList<EHICommand> forwardToOpenFile(){
+	public List<EHICommand> forwardToOpenFile(){
 		backed = false;
 
 		outer:
@@ -3352,7 +3359,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardToSave(){
+	public List<EHICommand> forwardToSave(){
 		backed = false;
 
 		int insertLength = 0;
@@ -3459,7 +3466,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardEdit(int limit) {
+	public List<EHICommand> forwardEdit(int limit) {
 //		if (backed) {
 //			backed = false;
 //			forwardEdit(limit);
@@ -3574,7 +3581,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardByTime(long forwardTime) {
+	public List<EHICommand> forwardByTime(long forwardTime) {
 		backed = false;
 
 		outer:
@@ -3714,7 +3721,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardToException(){
+	public List<EHICommand> forwardToException(){
 		backed = false;
 
 		int insertLength = 0;
@@ -3819,7 +3826,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-	public ArrayList<EHICommand> forwardToFix(){
+	public List<EHICommand> forwardToFix(){
 		commandList.clear();
 		backed = false;
 
@@ -4401,7 +4408,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return hour + " hours " + minute + " minutes " + second + " seconds";
 	}
 
-	public ArrayList<EHICommand> jumpTo(int indexPercent, String step) {
+	public List<EHICommand> jumpTo(int indexPercent, String step) {
 		int index = numOfCommands * indexPercent / 1000;
 		int k = 0;
 		for (; k < nestedCommands.size(); k++) {
@@ -4423,13 +4430,13 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 				currentExceptions++;
 
 		if (indexPercent >= 990) {
-			ArrayList<EHICommand> retVal = back(null, step);
+			List<EHICommand> retVal = back(null, step);
 			//			while (retVal == null) {
 			//				retVal = back(step);
 			//			}
 			return retVal;
 		} else {
-			ArrayList<EHICommand> retVal = forward(null, step);
+			List<EHICommand> retVal = forward(null, step);
 			//			while (retVal == null) {
 			//				retVal = forward(step);
 			//			}

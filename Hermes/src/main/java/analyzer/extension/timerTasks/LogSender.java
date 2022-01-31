@@ -84,6 +84,9 @@ public class LogSender extends TimerTask {
 		int start = index;
 		try {
 			int end = commands.size();
+			if (end <= start) {
+				return;
+			}
 			startTimeStamp = commands.get(index).getStartTimestamp();
 			JSONObject log = new JSONObject();
 			JSONObject report = new JSONObject();

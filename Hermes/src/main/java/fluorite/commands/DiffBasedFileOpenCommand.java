@@ -1,30 +1,36 @@
 package fluorite.commands;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.LinkedList;
+//import java.io.BufferedReader;
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.io.FileOutputStream;
+//import java.io.FileReader;
+//import java.io.FileWriter;
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.io.OutputStream;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
+//import java.util.ArrayList;
+//import java.util.LinkedList;
 import java.util.Map;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.ltk.core.refactoring.RefactoringCore;
-import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
-import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
-import org.eclipse.ltk.core.refactoring.history.IRefactoringHistoryService;
+//import org.eclipse.core.resources.IProject;
+//import org.eclipse.ltk.core.refactoring.RefactoringCore;
+//import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
+//import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
+//import org.eclipse.ltk.core.refactoring.history.IRefactoringHistoryService;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
+//import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fluorite.commands.FileOpenCommand;
 import fluorite.util.EHUtilities;
 import hermes.proxy.Diff_Match_Patch_Proxy;
-import name.fraser.neil.plaintext.diff_match_patch;
+//import name.fraser.neil.plaintext.diff_match_patch;
 //import replayer.RefactorRecord;
 import fluorite.model.DiffBasedFileSnapshotManager;
 
@@ -60,6 +66,8 @@ public class DiffBasedFileOpenCommand extends FileOpenCommand {
 			diff = "null";
 		} else {
 			diff = Diff_Match_Patch_Proxy.diffString(oldContent, content);
+			diff = Normalizer.normalize(diff, Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+			diff = diff.substring(1, diff.length()-1);
 		}
 		DiffBasedFileSnapshotManager.getInstance().updateSnapshot(filePath, content);
 	}
@@ -321,6 +329,29 @@ public class DiffBasedFileOpenCommand extends FileOpenCommand {
 	
 	public String getCommandType(){
 		return "DiffBasedFileOpenCommand";
+	}
+	
+	public void createFrom(Element commandElement) {
+		super.createFrom(commandElement);
+		
+		String value = null;
+		NodeList nodeList = null;
+		
+		if ((nodeList = commandElement.getElementsByTagName("diff")).getLength() > 0) {
+			Node textNode = nodeList.item(0);
+			value = textNode.getTextContent();
+			if (value != null && !value.equals("null")) {
+				if (value.startsWith("Diff(")) {
+					diff = Normalizer.normalize(value, Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+					diff = diff.substring(1, diff.length()-1);
+				} else {
+					diff = value;
+				}
+			}
+		}
+		else {
+			diff = null;
+		}
 	}
 }
 

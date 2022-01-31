@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +30,7 @@ import dayton.ellwanger.hermes.xmpp.TaggedJSONListener;
 import fluorite.commands.BuildEndEvent;
 import fluorite.commands.BuildStartEvent;
 import fluorite.commands.CompilationCommand;
+import fluorite.commands.CompilationEventCommand;
 import fluorite.commands.LibrariesAdded;
 import fluorite.commands.LibrariesRemoved;
 import fluorite.commands.PropertyDialogClosedCommand;
@@ -47,6 +49,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 	Set<CompilationCommand> allCommands = new HashSet();
 //	Set<IProblem> pendingProblems = new HashSet<>();
 	Set<CompilationCommand> unrecordedCommands = new HashSet<>();
+	List<CompilationEventCommand> compilationEvents = new ArrayList<>();
 	List<CompilationCommand> reconcileCommands = new ArrayList<>(); // changed on each reconcile event
 	private final int AST_LEVEL_THREE = 3;
 	private final int AST_LEVEL_FOUR = 4;
@@ -282,6 +285,11 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		if (flushing)
 			return;
 		flushing = true;
+		for (CompilationEventCommand aCommand: compilationEvents) {
+			compilationRecorder.record(aCommand);
+		}
+		compilationEvents.clear();
+		
 		for (CompilationCommand aCommand:unrecordedCommands) {
 			if (aCommand != null) {
 				System.out.println("Recording command:" + aCommand);
@@ -380,11 +388,13 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 
 		setPackageAndProject(context); // the sets not used it seems
 
+		lastFileADT = aDelta.getCompilationUnitAST();
+
 		if (lastFileADT == null) {
 			Tracer.info(this, "Last file adt null for adelta:" + aDelta);
 			return;
 		}
-		lastFileADT = aDelta.getCompilationUnitAST();
+//		lastFileADT = aDelta.getCompilationUnitAST();
 		
 		List<String> anImports = lastFileADT.imports();
 		// System.out.println("AST/full source code:" + lastFileADT);
@@ -418,6 +428,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 
 		if (problems != null) {
 			if (problems.length > 0) {
+				compilationEvents.add(new CompilationEventCommand(false));
 				int numWarnings = 0;
 				int numErrors = 0;
 				Set<IProblem> aCurrentProblemSet = new HashSet(Arrays.asList(problems));
@@ -440,8 +451,12 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 					CompilationCommand aPossiblyNewCommand = createCommand(problem);
 					reconcileCommands.add(aPossiblyNewCommand);
 				}
+			} else {
+				compilationEvents.add(new CompilationEventCommand(true));
 			}
 		}
+		
+		
 				/*
 				 * Find each previous problem and unrecorded command in
 				 * reconsole commands to see if it should be recorded or
@@ -511,12 +526,13 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 					// EHCompilationCommand anUnrecordedCommand =
 					// find(unrecordedCommands, aReconcileCommand);
 
-					if (anExistingOrNewCommand.isPersistent() && (find (unrecordedCommands, anExistingOrNewCommand) == null)) { // shoul not
+//					if (anExistingOrNewCommand.isPersistent() && (find (unrecordedCommands, anExistingOrNewCommand) == null)) { // shoul not
 																	// return
 																	// true if
 																	// aCommand
 																	// is new
-
+					if (find (unrecordedCommands, anExistingOrNewCommand) == null) {
+//						allCommands.remove(anExistingCommand);
 						unrecordedCommands.remove(anExistingOrNewCommand);
 						compilationRecorder.record(anExistingOrNewCommand);
 					}
