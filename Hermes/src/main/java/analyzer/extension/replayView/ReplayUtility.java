@@ -57,7 +57,7 @@ public class ReplayUtility {
 				currentLCKFile = new File(logDirectory, currentLoggerFile.getName()+".lck");
 			} 
 			for (File file : logDirectory.listFiles()) {
-				if (!file.getPath().contains(".lck") &&  currentLCKFile != null &&!currentLCKFile.getPath().contains(file.getPath())) {
+				if (!file.getPath().contains(".lck") &&  (currentLCKFile == null || !currentLCKFile.getPath().contains(file.getPath()))) {
 					BufferedReader reader = new BufferedReader(new FileReader(file));
 					String lastLine = null;
 					String currentLine = null;
@@ -70,7 +70,7 @@ public class ReplayUtility {
 						writer.close();
 					}	
 					reader.close();
-				} else if (file.getPath().contains(".lck") && !file.getPath().equals(currentLCKFile.getPath())) {
+				} else if (file.getPath().contains(".lck") && (currentLCKFile == null || !file.getPath().equals(currentLCKFile.getPath()))) {
 					file.delete();
 				}
 			}

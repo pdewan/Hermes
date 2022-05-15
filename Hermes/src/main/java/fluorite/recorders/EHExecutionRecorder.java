@@ -120,14 +120,14 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 	public void notHandled(String commandId, NotHandledException exception) {
 		getRecorder().setCurrentlyExecutingCommand(false);
 		getRecorder().endIncrementalFindMode();
-		System.out.println("not handled: " + commandId);
+//		System.out.println("not handled: " + commandId);
 	}
 
 	public void postExecuteFailure(String commandId,
 			ExecutionException exception) {
 		getRecorder().setCurrentlyExecutingCommand(false);
 		getRecorder().endIncrementalFindMode();
-		System.out.println("command failed: " + commandId);
+//		System.out.println("command failed: " + commandId);
 
 	}
 
@@ -291,10 +291,10 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 
 	@Override
 	public void executionNotification(RefactoringExecutionEvent event) {
-		System.out.println("Refactoring event:" + event + " description" + event.getDescriptor().getDescription());
+//		System.out.println("Refactoring event:" + event + " description" + event.getDescriptor().getDescription());
 		RefactoringDescriptorProxy descriptorProxy = event.getDescriptor();
 		RefactoringDescriptor descriptor = descriptorProxy.requestDescriptor(new NullProgressMonitor());
-		System.out.println("Desciptor:" + descriptor);
+//		System.out.println("Desciptor:" + descriptor);
 		if (descriptor instanceof JavaRefactoringDescriptor) {
 			JavaRefactoringDescriptor aJavaRefactoringDescriptor = (JavaRefactoringDescriptor) descriptor;
 			if (aJavaRefactoringDescriptor instanceof RenameJavaElementDescriptor ) {
@@ -331,7 +331,7 @@ public class EHExecutionRecorder extends EHBaseRecorder implements
 		Change aChange = refactor.createChange(null);
 		List<TextEdit> aList = new ArrayList();
 		fillTextEdits(aChange, aList);
-		System.out.println("Changes:" + aList);
+//		System.out.println("Changes:" + aList);
 //		if (change instanceof CompositeChange) {
 //			System.out.println("Change:" + (CompositeChange) change);
 //			CompositeChange aCompositeChange = (CompositeChange) change;

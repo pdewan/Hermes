@@ -292,7 +292,7 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		
 		for (CompilationCommand aCommand:unrecordedCommands) {
 			if (aCommand != null) {
-				System.out.println("Recording command:" + aCommand);
+//				System.out.println("Recording command:" + aCommand);
 				compilationRecorder.record(aCommand);
 			}
 		}

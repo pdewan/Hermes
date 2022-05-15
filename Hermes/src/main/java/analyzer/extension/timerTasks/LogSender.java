@@ -189,7 +189,12 @@ public class LogSender extends TimerTask {
 				!PlatformUI.getWorkbench().getDisplay().isDisposed()) {
 				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 					public void run() {
-						String path = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHUtilities.getCurrentProject().getName())).getPath();
+						String path;
+						try {
+							 path = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHUtilities.getCurrentProject().getName())).getPath();
+						} catch (Exception e) {
+							return;
+						}
 						new Thread(()->{
 							sendLog(sequence, path);
 							sequence++;
