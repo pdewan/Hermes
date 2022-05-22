@@ -26,20 +26,20 @@ import fluorite.commands.Insert;
 import fluorite.commands.MoveCaretCommand;
 import fluorite.commands.Replace;
 
-public class DistillerReplayer extends ADifficultyPredictionAndStatusPrinter{
+public class DistillerReplayerPD extends ADifficultyPredictionAndStatusPrinter{
 
-	public static final String PROJECT = "E:\\Test\\524A6";
+	public static final String PROJECT = "C:\\Users\\dewan\\Downloads\\Assignment1A\\Assignment 1\\Beier, Isiah(Isiah Beier)\\Submission attachment(s)\\A1";
 	public static final String SEPARATOR = File.separator;
-	 Analyzer analyzer;
+	private Analyzer analyzer;
 	List<List<EHICommand>> nestedCommands;
-	 String currentFileName;
-	 int i, j = 0;
-	 int currentSrc = 0;
-	 String fileContent;
+	private String currentFileName;
+	private int i, j = 0;
+	private int currentSrc = 0;
+	private String fileContent;
 	static final long DAY = 24 * 3600 * 1000; 
 	static FileDistiller distiller = ChangeDistiller.createFileDistiller(Language.JAVA);
-	static File f1 = new File("E:\\Test\\524A5\\replaySrc0\\main\\lisp\\BasicOperationManager.java");
-	static File f2 = new File("E:\\Test\\524A5\\replaySrc0\\main\\lisp\\evaluator\\BasicOperationManager.java");
+//	static File f1 = new File("E:\\Test\\524A5\\replaySrc0\\main\\lisp\\BasicOperationManager.java");
+//	static File f2 = new File("E:\\Test\\524A5\\replaySrc0\\main\\lisp\\evaluator\\BasicOperationManager.java");
 
 	public static void main(String[] args) {
 //		printChangesBetweenCompile();
@@ -50,7 +50,7 @@ public class DistillerReplayer extends ADifficultyPredictionAndStatusPrinter{
 	
 	public static void printChangesByTime() {
 		Analyzer analyzer = new AnAnalyzer();
-		DistillerReplayer replayer = new DistillerReplayer(analyzer);
+		DistillerReplayerPD replayer = new DistillerReplayerPD(analyzer);
 		analyzer.addAnalyzerListener(replayer);
 		File[] src = replayer.initProject(PROJECT);
 		long startTime = replayer.nestedCommands.get(0).get(1).getStartTimestamp();
@@ -75,7 +75,7 @@ public class DistillerReplayer extends ADifficultyPredictionAndStatusPrinter{
 	
 	public static void printChangesBetweenCompile() {
 		Analyzer analyzer = new AnAnalyzer();
-		DistillerReplayer replayer = new DistillerReplayer(analyzer);
+		DistillerReplayerPD replayer = new DistillerReplayerPD(analyzer);
 		analyzer.addAnalyzerListener(replayer);
 		int count = 0;
 		for (Map<String, List<SourceCodeChange>> changes: replayer.findChangesBetweenCompile(PROJECT, 0, Long.MAX_VALUE)) {
@@ -97,7 +97,7 @@ public class DistillerReplayer extends ADifficultyPredictionAndStatusPrinter{
 	
 	public static void printChangesBetweenSave() {
 		Analyzer analyzer = new AnAnalyzer();
-		DistillerReplayer replayer = new DistillerReplayer(analyzer);
+		DistillerReplayerPD replayer = new DistillerReplayerPD(analyzer);
 		analyzer.addAnalyzerListener(replayer);
 		int count = 0;
 		for (Map<String, List<SourceCodeChange>> changes: replayer.findChangesBetweenSave(PROJECT, 0, Long.MAX_VALUE)) {
@@ -455,7 +455,7 @@ public class DistillerReplayer extends ADifficultyPredictionAndStatusPrinter{
 		}
 	}
 
-	public DistillerReplayer(Analyzer anAnalyzer) {
+	public DistillerReplayerPD(Analyzer anAnalyzer) {
 		super(anAnalyzer);
 		analyzer = anAnalyzer;
 	}

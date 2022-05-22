@@ -44,6 +44,9 @@ public class EHActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+//		System.setProperty("user.timezone", "America/New_York");
+//		System.setProperty("user.timezone", "America/Los_Angeles");
+
 		if (EHActivator.getDefault().getPreferenceStore().getBoolean(Initializer.Pref_EnableEventLogger)) {
 			System.out.println ("Read preference store, initializing fluorite");
 
