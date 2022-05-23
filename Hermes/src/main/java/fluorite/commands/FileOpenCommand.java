@@ -158,7 +158,25 @@ implements EHICommand {
 		if ((nodeList = commandElement.getElementsByTagName("snapshot")).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			value = textNode.getTextContent();
-			mSnapshot = normalizeText(value, getNumericalValues().get("docLength"));
+//			if (getTimestamp() == 3134229) {
+//				System.out.println("*****found offending time stamp");
+//			}
+			Map<String, Integer> aNumericalValues = getNumericalValues();
+			if (aNumericalValues == null) {
+//				System.out.println("aNumercial Values== null " + getTimestamp());
+				mSnapshot = null;
+			} else {
+				Integer aDocLengthValue = aNumericalValues.get("docLength");
+				if (aDocLengthValue == null) {
+//					System.out.println("aDocLengthValue == null " + getTimestamp());
+					mSnapshot = null;
+				} else {
+					mSnapshot = normalizeText(value, aDocLengthValue);
+					
+				}
+			}	
+			
+//			mSnapshot = normalizeText(value, getNumericalValues().get("docLength"));
 		}
 		else {
 			mSnapshot = null;
