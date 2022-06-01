@@ -64,6 +64,7 @@ Formatter
 		EHICommand command = (EHICommand) params[0];
 		String retVal = command.persist();
 		UnparsedCommand.newCase(command, retVal, this);
+//		System.out.println("formatted xML Command:" + retVal);
 //		return command.persist();
 		return retVal;
 	}

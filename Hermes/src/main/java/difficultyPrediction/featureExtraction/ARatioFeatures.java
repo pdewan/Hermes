@@ -156,10 +156,10 @@ public class ARatioFeatures extends AWebFeatures implements RatioFeatures {
 		featureNameToValue.put(commandCategoryMapping.getFeatureName(CommandCategory.REMOVE_CLASS), newVal) ;
 	}
 	public double getExceptionsPerRun() {
-		return (Double) featureNameToValue.get(commandCategoryMapping.getFeatureName(CommandCategory.EXEEPTIONS_PER_RUN)) ;
+		return (Double) featureNameToValue.get(commandCategoryMapping.getFeatureName(CommandCategory.EXCEPTIONS_PER_RUN)) ;
 	}
 	public void setExceptionsPerRun(double newVal) {
-		featureNameToValue.put(commandCategoryMapping.getFeatureName(CommandCategory.EXEEPTIONS_PER_RUN), newVal) ;
+		featureNameToValue.put(commandCategoryMapping.getFeatureName(CommandCategory.EXCEPTIONS_PER_RUN), newVal) ;
 	}
 	public double getInsertionRatio() {
 		return (Double) featureNameToValue.get(commandCategoryMapping.getFeatureName(CommandCategory.INSERT)) ;

@@ -3,10 +3,12 @@ package analyzer.extension.replayView;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -14,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
@@ -261,4 +265,165 @@ public class FileUtility {
 		System.out.println(result);
 		return result;
 	}
+	public static File[] listFolders(File aParent) {
+		File[] aFolders = aParent.listFiles(
+				new FileFilter() {
+            public boolean accept(File file) {
+             return file.isDirectory();
+            }});
+		if (aFolders.length == 0) {
+			return null;
+		}
+		return aFolders;
+	}
+	
+	public static File findFirstBFDescendantMatching (File aRoot, String aRegularExpression) {
+		if (aRoot.isFile()) {
+			return null;
+		}
+		File[] aFiles = aRoot.listFiles(new FilenameFilter() {
+                  public boolean accept(File dir, String name) {
+                   return name.matches(aRegularExpression);
+                  }});
+		if (aFiles.length == 0) {
+			File[] aFolders = listFolders(aRoot);
+			if (aFolders.length == 0) {
+				return null;
+			}
+			for (File aFolder:aFolders) {
+				File retVal = findFirstBFDescendantMatching(aFolder, aRegularExpression);
+				if (retVal != null) {
+					return retVal;
+				}
+			}
+			return null;
+		}
+		return aFiles[0];
+	}
+	public static File findLogsFolder (String aStudent) {
+		File aStudentFile = new File(aStudent);
+		return findFirstBFDescendantMatching(aStudentFile, "Logs");
+	}
+	public static File getCheckStyleLogFile (String aStudent) {
+		File aLogsFolder = findLogsFolder(aStudent);
+		if (aLogsFolder == null) {
+			return null;
+		}
+		File retVal = new File(aLogsFolder, "LocalChecks/CheckStyle_All.csv");
+		if (!retVal.exists())
+			return null;
+		return retVal;
+	}
+	public static File[] getLocalChecksRawsLogFiles (String aStudent) {
+		File aLogsFolder = findLogsFolder(aStudent);
+		if (aLogsFolder == null) {
+			return null;
+		}
+		return getLocalChecksRawsLogFiles(aLogsFolder);
+		
+	}
+	public static File[] getLocalChecksRawsLogFiles (File aLogsFolder) {
+		File aLocalChecksFolder = new File (aLogsFolder, "LocalChecks");
+		if (!aLocalChecksFolder.exists()) {
+			return null;
+		}
+		File[] aFiles = aLocalChecksFolder.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+             return name.endsWith("FineGrained.csv");
+            }});
+		if (aFiles.length == 0) {
+			return null;
+		}
+		return aFiles;
+		
+	}
+	public static String toCSVString (String[] aStrings) {
+		if (aStrings.length == 0) {
+			return "";
+		}
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(aStrings[0]);
+		for (int anArrayIndex = 1; anArrayIndex < aStrings.length; anArrayIndex++) {
+			stringBuilder.append(',');
+			stringBuilder.append(aStrings[anArrayIndex]);
+		}
+		return stringBuilder.toString();
+	}
+	 static List<String> allEvents = new ArrayList();
+
+	public static void getRecentEvents(File aFile, 
+			List<String> aRecentEvents, 
+			List<String[]> aRecentTuples,
+			List <Long> aRecentTimes,
+			long aLastReadTime,
+			int aDateColumn,
+			SimpleDateFormat aDateFormat) {
+//		checkStyleFile = getCheckStyleFile();
+		if (aFile == null || !aFile.exists()) {
+			return;
+		}
+		long aLastModifed = aFile.lastModified();
+		if (aLastReadTime >=  aLastModifed   ) {
+			return; 
+		}
+		allEvents.clear();
+		readLines(aFile, allEvents);
+		for (int i = allEvents.size() -1 ; i >= 0 ; i--) {
+			String anEventRow = allEvents.get(i);
+			String[] anEvents = anEventRow.split(",");
+			try {
+				long aTime = aDateFormat.parse(anEvents[aDateColumn]).getTime();
+				if (aLastReadTime < aTime) {
+					aRecentEvents.add(0, anEventRow);
+					aRecentTuples.add(0, anEvents);
+					aRecentTimes.add(0, aTime);
+					
+				} else {
+					break; // previous events occur earlier
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
+//			recentEvents.add(anAllEvents.get(i));
+		}
+
+	}
+	public static void readCheckstyleEvents(String aStudentProject, List<String> retVal) {
+//		String aCheckStyleAllFileName = aStudent + "/Submission attachment(s)/Logs/LocalChecks/CheckStyle_All.csv";
+//		File aFile = new File(aCheckStyleAllFileName);
+		File aCheckStyleFile = FileUtility.getCheckStyleLogFile(aStudentProject);
+		 readLines(aCheckStyleFile, retVal);
+		
+	}
+//	static List<String> allEvents = new ArrayList();
+
+	public static void readLines(File aFile, List<String> anAllEvents) {
+//		List<String> retVal = new ArrayList();
+
+		if (aFile == null || !aFile.exists()) {
+			return ;
+		}
+
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(aFile));
+			    String line = null;
+			    while ((line = br.readLine()) != null) {
+			    	anAllEvents.add(line);
+			    }
+			    br.close();
+				return ;
+			}
+			
+				
+				
+			
+
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
 }

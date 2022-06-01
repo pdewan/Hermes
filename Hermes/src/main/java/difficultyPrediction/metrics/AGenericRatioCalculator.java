@@ -8,14 +8,20 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.internal.compiler.ast.NullAnnotationMatching;
 
 import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.APredictionParameters;
+import difficultyPrediction.DifficultyPredictionSettings;
+import difficultyPrediction.checkstyle.ACheckStyleAccessor;
 import difficultyPrediction.featureExtraction.RatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeaturesFactorySelector;
+import difficultyPrediction.localChecksRaw.ALocalChecksRawAccessor;
 import difficultyPrediction.web.chrome.AChromeHistoryAccessor;
+import difficultyPrediction.web.chrome.PageVisit;
 import fluorite.commands.CompilationCommand;
 import fluorite.commands.EclipseCommand;
+import fluorite.commands.WebVisitCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.util.CurrentFileHolder;
 import fluorite.util.EHUtilities;
@@ -329,6 +335,11 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 	long segmentEndTime = 0;
 	int segmentSize = 0;
 	StringBuffer commandString = new StringBuffer();
+	List<PageVisit> pageVisits = new ArrayList();
+	int numPagesVisited = 0;
+	int numWebSearches = 0;
+	int maxSearchLength = 0; // not computing it right now
+	
 
 	protected void initEventCounts() {
 		numberOfDebugEvents = 0;
@@ -344,6 +355,11 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		segmentSize = 0;
 		segmentEndTime = 0;
 		commandString.setLength(0);
+		
+		pageVisits.clear();
+		numPagesVisited = 0;
+		numWebSearches = 0;
+		maxSearchLength = 0; // not computing it right now
 	}
 
 	protected void processCategorizedCommand(EHICommand myEvent, CommandCategory aCommandCategory) {
@@ -406,7 +422,7 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 			// aRatioFeatures.setEditRatio(numberOfEditOrInsertEvents/totalEvents
 			// * 100);
 			// aRatioFeatures.setInsertionRatio(aRatioFeatures.getEditRatio());
-			aRatioFeatures.setInsertionRatio(numberOfInsertEvents / totalEvents);
+			aRatioFeatures.setInsertionRatio(numberOfInsertEvents / totalEvents*100);
 			aRatioFeatures.setNavigationRatio(numberOfSearchEvents / totalEvents * 100);
 			aRatioFeatures.setFocusRatio(numberOfFocusEvents / totalEvents * 100);
 			aRatioFeatures.setRemoveRatio(numberOfRemoveEvents / totalEvents * 100);
@@ -446,7 +462,21 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		}
 		
 		aRatioFeatures.setFileName(aFileName);
+		if (DifficultyPredictionSettings.isReplayMode()) {
+			aRatioFeatures.setPageVisits(pageVisits);
+			aRatioFeatures.setNumPagesVisited(numPagesVisited);
+			aRatioFeatures.setNumWebSearches(numWebSearches);
+			aRatioFeatures.setMaxSearchLength(maxSearchLength);
+//			   
+		} else {
+			try {
 		AChromeHistoryAccessor.processURLs(aRatioFeatures);
+		ALocalChecksRawAccessor.getInstance().processRecentEvents();
+		ACheckStyleAccessor.getInstance().processRecentEvents();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return aRatioFeatures;
 	}
 
@@ -506,6 +536,8 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 
 	public static final String COMMAND_CATEGORY_SEPARATOR = " ";
 	public static final String CATEGORIES_COUNT_SEPARATOR = ":";
+	
+
 
 	@Override
 	/**
@@ -536,9 +568,35 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		Set<CommandCategory> aPreviousCategories = emptyCommandCategories;
 		int aPreviousCategoriesIndex = 0;
 		int aPreviousCategoriesCount = 0;
+		
+		
+		int aSearchLength = 0;
+		boolean aPreviousVisitWasASearch = false;
+		maxSearchLength = 0;
 
 		for (int i = 0; i < userActions.size(); i++) {
 			EHICommand myEvent = userActions.get(i);
+			if (myEvent instanceof WebVisitCommand) {
+				WebVisitCommand aWebVisitCommand = (WebVisitCommand) myEvent;
+				numWebSearches += aWebVisitCommand.getNumVisits();
+				if (AChromeHistoryAccessor.isGoogleSearch(aWebVisitCommand.getSearchString())) {
+					numWebSearches += aWebVisitCommand.getNumVisits();
+					if (aPreviousVisitWasASearch) {
+						aSearchLength ++;
+					}
+					aPreviousVisitWasASearch = true;
+				} else {
+					aPreviousVisitWasASearch = true;
+					maxSearchLength = Math.max(maxSearchLength, aSearchLength);
+					aSearchLength = 0;
+
+				}
+				
+				pageVisits.add(new PageVisit(
+						myEvent.getStartTimestamp() + myEvent.getTimestamp(), 
+						aWebVisitCommand.getSearchString(), aWebVisitCommand.getNumVisits(), aWebVisitCommand.getUrl()));
+				continue; // not counting it
+			}
 
 			Set<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
 			if (aCommandCategories == null || aCommandCategories.isEmpty()) {

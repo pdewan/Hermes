@@ -1393,7 +1393,7 @@ public class ANilsAnalyzer implements Analyzer {
 		String dateString = dateParts[0] + " " + dateParts[1];
 		Date aDate = new Date(dateString);
 		long aTimestamp = aDate.getTime();
-		WebVisitCommand aWebVisitCommand = new WebVisitCommand(parts[1], parts[2]);
+		WebVisitCommand aWebVisitCommand = new WebVisitCommand(parts[1], parts[2], 1);
 		// aWebVisitCommand.setTimestamp2(aTimestamp); //absolute tiem
 		aWebVisitCommand.setTimestamp(aTimestamp); // absolute Time, should we
 													// make it relative?

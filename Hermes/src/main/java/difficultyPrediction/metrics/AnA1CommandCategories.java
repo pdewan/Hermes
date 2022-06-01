@@ -69,6 +69,8 @@ public class AnA1CommandCategories extends AnA0CommandCategories{
 			super.initializeCommandCategoryNames();				
 			categoriesToNames[CommandCategory.INSERT.ordinal()] = "editOrInsertPercentage";
 			categoriesToNames[CommandCategory.NAVIGATION.ordinal()] = "navigationPercentage";
+			categoriesToNames[CommandCategory.REMOVE_CLASS.ordinal()] = "removeClassPercentage";
+
 
 		}
 	

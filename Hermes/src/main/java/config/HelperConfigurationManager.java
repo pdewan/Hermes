@@ -126,6 +126,7 @@ public interface HelperConfigurationManager {
 				 	"[nN]otes",
 				 	"y[vV]erse",
 				 	"Google Docs",
+				 	"drive",
 				 	"\\.pdf/",
 				 	"ecture"
 				 	

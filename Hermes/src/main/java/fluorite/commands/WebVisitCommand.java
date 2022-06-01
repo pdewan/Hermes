@@ -14,18 +14,27 @@ import fluorite.model.EHEventRecorder;
 public class WebVisitCommand extends AbstractCommand {
 	public static final String XML_SearchString_Tag = "searchString";
 	public static final String XML_URL_Tag = "url";
+	public static final String XML_NUM_VISITS_TAG = "numVisits";
 
 	protected String searchString = "";
 	protected String url = "";
+	protected int numVisits = 0;
+
+
+	//	public String title;
+//	public int numVisits;
+//	public String url;
+//	public long unixTime;
 	public WebVisitCommand()
 	{
 		
 	}
 	
-	public WebVisitCommand(String aSearchString, String aURL)
+	public WebVisitCommand(String aSearchString, String aURL, int aNumVisits)
 	{
 		searchString = aSearchString;
-		url = aURL;		
+		url = aURL;	
+		numVisits = aNumVisits;
 	}
 	
 	
@@ -43,6 +52,13 @@ public class WebVisitCommand extends AbstractCommand {
 		}
 		if ((attr = commandElement.getAttributeNode(XML_URL_Tag)) != null) {
 			url = attr.getValue();			
+		}
+		if ((attr = commandElement.getAttributeNode(XML_NUM_VISITS_TAG)) != null) {
+			try {
+			numVisits = Integer.parseInt(attr.getValue());	
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 
@@ -77,6 +93,7 @@ public class WebVisitCommand extends AbstractCommand {
 		Map<String, String> attrMap = new HashMap<String, String>();
 		attrMap.put(XML_SearchString_Tag, searchString);
 		attrMap.put(XML_URL_Tag, url);
+		attrMap.put(XML_NUM_VISITS_TAG, Integer.toString(numVisits));
 		return attrMap;
 	}
 
@@ -135,6 +152,12 @@ public class WebVisitCommand extends AbstractCommand {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+	public int getNumVisits() {
+		return numVisits;
+	}
+
+	public void setNumVisits(int numVisits) {
+		this.numVisits = numVisits;
+	}
 
 }

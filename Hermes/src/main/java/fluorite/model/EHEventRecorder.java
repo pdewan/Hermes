@@ -77,6 +77,7 @@ import fluorite.commands.BaseDocumentChangeEvent;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.FileOpenCommand;
 import fluorite.commands.FindCommand;
+import fluorite.commands.LocalChecksRawCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.MoveCaretCommand;
 import fluorite.commands.PauseCommand;
@@ -1135,6 +1136,9 @@ public class EHEventRecorder {
 		if (aLogger == null) {
 			return;
 		}
+//		if (anObject instanceof LocalChecksRawCommand) {
+//			System.out.println("Found local check raw command:" + anObject);
+//		}
  		File aFile = loggerToFileName.get(aLogger);
 		long aPreWriteTime = aFile.lastModified();
 		doLog(aLogger, aLevel, aMessage, anObject);
@@ -1153,6 +1157,9 @@ public class EHEventRecorder {
 //		}
 //		File aFile = loggerToFileName.get(aLogger);
 //		long aPreWriteTime = aFile.lastModified();
+//		if (anObject instanceof LocalChecksRawCommand) {
+//			System.out.println("Found local check raw command:" + anObject);
+//		}
 		aLogger.log(aLevel, aMessage, anObject);
 		Handler[] aHandlers = aLogger.getHandlers();
 		for (Handler aHandler:aHandlers) {

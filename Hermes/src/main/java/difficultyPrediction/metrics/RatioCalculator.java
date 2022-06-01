@@ -71,8 +71,10 @@ public interface RatioCalculator {
 //		
 //		
 //	}
+	
 	public static Set<CommandCategory> toCommandCategories(EHICommand aCommand) {
-		List<CommandCategory> retVal;
+		
+//		List<CommandCategory> retVal;
 		CommandCategoryMapping aCommandCategories = APredictionParameters.getInstance().
 						getCommandClassificationScheme().
 							getCommandCategoryMapping();

@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
 
 import difficultyPrediction.DifficultyPredictionSettings;
 import difficultyPrediction.web.WebFeatures;
+import fluorite.commands.WebVisitCommand;
+import fluorite.model.EHEventRecorder;
 
 /**
  * Adapted from http://www.javaworkspace.com/connectdatabase/connectSQLite.do
@@ -282,6 +284,10 @@ public class AChromeHistoryAccessor {
 
 				continue;
 			}
+			
+			WebVisitCommand aWebVisitCommand = new WebVisitCommand(aTitle, aURL, aVisitCount);
+			EHEventRecorder.getInstance().recordCommand(aWebVisitCommand);
+
 //
 //			String aPageVisitString = aTitle + " " + resultSet.getString("visit_count") + " "
 //					+ resultSet.getString("url");
@@ -306,6 +312,7 @@ public class AChromeHistoryAccessor {
 	
 	public static void processURLs(WebFeatures aWebFeatures) {
 		if (DifficultyPredictionSettings.isReplayMode()) {
+			
 			return; // we have t look at stored web accesses
 		}
 		try {

@@ -243,6 +243,17 @@ public class EHUtilities /*extends Utilities*/{
 		}
 		return aProject;
 	}
+	public static String getCurrentOrStoredProjectPath(){
+		IProject currentProject = EHUtilities.getAndStoreCurrentProject();
+		if (currentProject == null) {
+			currentProject = CurrentProjectHolder.getProject();
+		}
+		if (currentProject == null) {
+			return null;
+		}
+		return currentProject.getLocation().toOSString();
+//		return projectPath.replace('/', '\\');
+	}
 	
 
 	

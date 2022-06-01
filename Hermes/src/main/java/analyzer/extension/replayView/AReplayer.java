@@ -3953,7 +3953,7 @@ public class AReplayer extends ADifficultyPredictionAndStatusPrinter{
 		return retVal;
 	}
 
-	private String getCurrentProjectPath(){
+	public static String getCurrentProjectPath(){
 		IProject currentProject = EHUtilities.getCurrentProject();
 		if (currentProject == null) {
 			return "";
