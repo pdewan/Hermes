@@ -3,6 +3,9 @@ package difficultyPrediction.statusManager;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.metrics.APredictionHolder;
 import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
+import fluorite.commands.AggregatedStatusCommand;
+import fluorite.commands.PredictionCommand;
+import fluorite.model.EHEventRecorder;
 
 public class StatusAggregationDiscreteChunks implements StatusManagerStrategy{
 	public StatusManager manager;
@@ -58,11 +61,14 @@ public class StatusAggregationDiscreteChunks implements StatusManagerStrategy{
 				aggregateStatusPredicted = PROGRESS;
 				manager.onStatusHandOff(PROGRESS);
 			}
+//			AggregatedStatusCommand aStatusCommand = new AggregatedStatusCommand(aggregateStatusPredicted);
+//	         EHEventRecorder.getInstance().recordCommand(aStatusCommand);
 //			LineGraphComposer.getStatusBar().newAggregatedStatus(aggregateStatusPredicted);
 //			LineGraphComposer.getStatusBar().newAggregatedStatus(statusStringToInt(aggregateStatusPredicted));
 			holdPredictions.numberOfNo = 0;
 			holdPredictions.numberOfYes = 0;
 			holdPredictions.predictions.clear();
+			  
 		}
 	}
 }

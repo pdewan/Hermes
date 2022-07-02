@@ -73,6 +73,7 @@ import dayton.ellwanger.hermes.preferences.Preferences;
 import difficultyPrediction.ADifficultyPredictionPluginEventProcessor;
 import fluorite.actions.FindAction;
 import fluorite.commands.AbstractCommand;
+import fluorite.commands.AggregatedStatusCommand;
 import fluorite.commands.BaseDocumentChangeEvent;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.FileOpenCommand;
@@ -1064,7 +1065,9 @@ public class EHEventRecorder {
 	}
 
 	boolean isPredictionRelatedCommand(final EHICommand newCommand) {
-		return newCommand instanceof PredictionCommand || newCommand instanceof DifficultyCommand;
+		return newCommand instanceof PredictionCommand || 
+				newCommand instanceof DifficultyCommand |
+				newCommand instanceof AggregatedStatusCommand;
 	}
 
 	public int getNumNotifiedCommands() {

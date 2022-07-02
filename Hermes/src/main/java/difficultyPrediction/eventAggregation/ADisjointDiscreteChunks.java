@@ -1,7 +1,13 @@
 package difficultyPrediction.eventAggregation;
 
 import difficultyPrediction.APredictionParameters;
+import fluorite.commands.AssistCommand;
+import fluorite.commands.CheckStyleCommand;
 import fluorite.commands.EHICommand;
+import fluorite.commands.LocalCheckCommand;
+import fluorite.commands.LocalChecksRawCommand;
+import fluorite.commands.PauseCommand;
+import fluorite.commands.PredictionCommand;
 
 public class ADisjointDiscreteChunks implements EventAggregationStrategy {
 
@@ -29,10 +35,21 @@ public class ADisjointDiscreteChunks implements EventAggregationStrategy {
 	return APredictionParameters.getInstance().getSegmentLength();
 
 }
+	public static boolean ignoreEvent(EHICommand anEvent) {
+		return anEvent instanceof PauseCommand ||
+				anEvent instanceof PredictionCommand ||
+				anEvent instanceof LocalCheckCommand ||
+				anEvent instanceof AssistCommand ||
+				anEvent instanceof LocalChecksRawCommand ||
+				anEvent instanceof CheckStyleCommand;
+	}
+	
 	public void performAggregation(EHICommand event,
 			EventAggregator eventAggregator) {
 		
-
+		if (ignoreEvent(event)) {
+			return;
+		}
 		actions.addEvents(event);
 //		System.out.println("Actions:" + actions);
 
