@@ -10,6 +10,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.internal.compiler.ast.NullAnnotationMatching;
 
+import analyzer.logAnalyzer.AnIntervalReplayer;
 import config.HelperConfigurationManagerFactory;
 import difficultyPrediction.APredictionParameters;
 import difficultyPrediction.DifficultyPredictionSettings;
@@ -20,7 +21,11 @@ import difficultyPrediction.localChecksRaw.ALocalChecksRawAccessor;
 import difficultyPrediction.web.chrome.AChromeHistoryAccessor;
 import difficultyPrediction.web.chrome.PageVisit;
 import fluorite.commands.CompilationCommand;
+import fluorite.commands.Delete;
 import fluorite.commands.EclipseCommand;
+import fluorite.commands.Insert;
+import fluorite.commands.LocalChecksRawCommand;
+import fluorite.commands.PauseCommand;
 import fluorite.commands.WebVisitCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.util.CurrentFileHolder;
@@ -35,19 +40,57 @@ public class AGenericRatioCalculator implements RatioCalculator {
 	public final static int EDIT_EVENT_INDEX = 2;
 	public final static int FOCUS_EVENT_INDEX = 3;
 	public final static int REMOVE_EVENT_INDEX = 4;
+	
+	double numberOfDebugEvents = 0;
+	double numberOfSearchEvents = 0;
+	// double numberOfEditOrInsertEvents = 0;
+	double numberOfEditEvents = 0;
+	double numberOfInsertEvents = 0;
+	double numberOfFocusEvents = 0;
+	double numberOfRemoveEvents = 0;
+	double numberOfRemoveClassEvents = 0;
+	double totalEvents = 0;
+	long segmentStartTime = 0;
+	long segmentEndTime = 0;
+	int segmentSize = 0;
+	StringBuffer commandString = new StringBuffer();
+	List<PageVisit> pageVisits = new ArrayList();
+	// nils
+	double numberOfCompileEvents = 0;
+	double numberOfCutEvents = 0;
+	double numberOfPasteEvents = 0;
+	double maxDeleteLength = 0;
+	double maxInsertLength = 0;
+	
+	int numPagesVisited = 0;
+	int numWebSearches = 0;
+	int maxSearchLength = 0; // not computing it right now
+	
+	int numberOfLocalChangeNoChanges;
+	int numUnresolvedExceptions;
+	
+	List<String> rangesVector = Arrays.asList(PauseCommand.RANGES);
+	
+	int[] numPausesOfKind = new int[PauseCommand.RANGES.length];
+	
+	
 	// static RatioCalculator instance = new AGenericRatioCalculator();
 	// This belongs in CommandCategoryMapping
 	// protected Map<CommandCategory, String> commandCategoryToFetaureName = new
 	// HashMap();
 	CommandCategoryMapping commandCategoryMapping;
+	
+
 	List<CommandCategory> relevantCommandCategoryList;
 	int idleTime;
 
 	public AGenericRatioCalculator() {
 		// mapCommandCategoryToFeatureName();
-		commandCategoryMapping = APredictionParameters.getInstance().getCommandClassificationScheme()
-				.getCommandCategoryMapping();
-		relevantCommandCategoryList = Arrays.asList(commandCategoryMapping.getOrderedRelevantCommandCategories());
+		setCommandCategoryMapping(APredictionParameters.getInstance().getCommandClassificationScheme()
+				.getCommandCategoryMapping());
+//		commandCategoryMapping = APredictionParameters.getInstance().getCommandClassificationScheme()
+//				.getCommandCategoryMapping();
+//		relevantCommandCategoryList = Arrays.asList(commandCategoryMapping.getOrderedRelevantCommandCategories());
 		idleTime = HelperConfigurationManagerFactory.getSingleton().getIdleTime();
 		AChromeHistoryAccessor.setTerms(
 				HelperConfigurationManagerFactory.getSingleton().getTechnicalTerms(),
@@ -236,6 +279,12 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		initEventCounts();
 		return computeRatioFeatures(userActions);
 	}
+	
+	@Override
+	public RatioFeatures computeFeatures(List<EHICommand> userActions, int from, int to) {
+		initEventCounts();
+		return computeRatioFeatures(userActions, from, to);
+	}
 
 	@Override
 	public ArrayList<Integer> getPercentageData(List<EHICommand> userActions) {
@@ -322,23 +371,7 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		return eventData;
 	}
 
-	double numberOfDebugEvents = 0;
-	double numberOfSearchEvents = 0;
-	// double numberOfEditOrInsertEvents = 0;
-	double numberOfEditEvents = 0;
-	double numberOfInsertEvents = 0;
-	double numberOfFocusEvents = 0;
-	double numberOfRemoveEvents = 0;
-	double numberOfRemoveClassEvents = 0;
-	double totalEvents = 0;
-	long segmentStartTime = 0;
-	long segmentEndTime = 0;
-	int segmentSize = 0;
-	StringBuffer commandString = new StringBuffer();
-	List<PageVisit> pageVisits = new ArrayList();
-	int numPagesVisited = 0;
-	int numWebSearches = 0;
-	int maxSearchLength = 0; // not computing it right now
+	
 	
 
 	protected void initEventCounts() {
@@ -360,8 +393,30 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		numPagesVisited = 0;
 		numWebSearches = 0;
 		maxSearchLength = 0; // not computing it right now
+		
+		//Nils
+		numberOfCompileEvents = 0;
+		numberOfCutEvents = 0;
+		numberOfPasteEvents = 0;
+		maxDeleteLength = 0;
+		maxInsertLength = 0;
 	}
-
+	public static int getInsertLength (EHICommand myEvent) {
+		if (myEvent instanceof Insert ) {
+			return ((Insert) myEvent).getLength();
+		}
+		// other commands may be maped to it
+		return 0;
+	}
+	public static int getDeleteLength (EHICommand myEvent) {
+		if (myEvent instanceof Delete ) {
+			return ((Delete) myEvent).getLength();
+		} else if (AnIntervalReplayer.isDeletePrevious(myEvent)) {
+			return 1;
+		}
+		// other commands may be maped to it
+		return 0;
+	}
 	protected void processCategorizedCommand(EHICommand myEvent, CommandCategory aCommandCategory) {
 
 		if (aCommandCategory == null) {
@@ -378,12 +433,13 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		// numberOfEditOrInsertEvents++;
 		// break;
 		case INSERT:
-			numberOfInsertEvents++;
+			numberOfInsertEvents++;			
+			int anInsertLength = getInsertLength(myEvent);
+			maxInsertLength = Math.max(maxInsertLength, anInsertLength);
 			break;
 		case DEBUG:
 			numberOfDebugEvents++;
 			break;
-
 		case NAVIGATION:
 			numberOfSearchEvents++;
 			break;
@@ -392,6 +448,11 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 			break;
 		case REMOVE:
 			numberOfRemoveEvents++;
+			int aDeleteLength = getDeleteLength(myEvent);
+			maxDeleteLength = Math.max(maxDeleteLength, aDeleteLength);
+			break;
+		case COMPILE:
+			numberOfCompileEvents++;
 			break;
 		case REMOVE_CLASS:
 			numberOfRemoveClassEvents++;
@@ -647,6 +708,120 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 
 		return computeRatioFeatures();
 	}
+	public RatioFeatures computeRatioFeatures(List<EHICommand> userActions, int from, int to) {
+		
+		if (from == 0) {
+			from = 1;
+		}
+		segmentSize = to - from;
+		if (segmentSize > 0) {
+//			segmentStartTime = userActions.get(0).getTimestamp() + userActions.get(0).getStartTimestamp();
+//			segmentEndTime = userActions.get(userActions.size() - 1).getTimestamp() + userActions.get(userActions.size() - 1).getStartTimestamp()  ;
+			
+			segmentStartTime = userActions.get(from).getTimestamp() + userActions.get(from).getStartTimestamp();
+			segmentEndTime = userActions.get(to - 1).getTimestamp() + userActions.get(to - 1).getStartTimestamp()  ;
+		}
+
+		Set<CommandCategory> aPreviousCategories = emptyCommandCategories;
+		int aPreviousCategoriesIndex = 0;
+		int aPreviousCategoriesCount = 0;
+		
+		
+		int aSearchLength = 0;
+		boolean aPreviousVisitWasASearch = false;
+		maxSearchLength = 0;
+
+		for (int i = from; i < to; i++) {
+			EHICommand myEvent = userActions.get(i);
+			if (myEvent instanceof WebVisitCommand) {
+				WebVisitCommand aWebVisitCommand = (WebVisitCommand) myEvent;
+				numWebSearches += aWebVisitCommand.getNumVisits();
+				if (AChromeHistoryAccessor.isGoogleSearch(aWebVisitCommand.getSearchString())) {
+					numWebSearches += aWebVisitCommand.getNumVisits();
+					if (aPreviousVisitWasASearch) {
+						aSearchLength ++;
+					}
+					aPreviousVisitWasASearch = true;
+				} else {
+					aPreviousVisitWasASearch = true;
+					maxSearchLength = Math.max(maxSearchLength, aSearchLength);
+					aSearchLength = 0;
+
+				}
+				
+				pageVisits.add(new PageVisit(
+						myEvent.getStartTimestamp() + myEvent.getTimestamp(), 
+						aWebVisitCommand.getSearchString(), aWebVisitCommand.getNumVisits(), aWebVisitCommand.getUrl()));
+				continue; // not counting it
+			}
+
+			Set<CommandCategory> aCommandCategories = RatioCalculator.toCommandCategories(myEvent);
+			if (aCommandCategories == null || aCommandCategories.isEmpty()) {
+				Tracer.info(this, "Unclassified command:" + myEvent);
+				continue;
+			}
+			if (isCountableEvent(aCommandCategories)) {
+				totalEvents++;
+			}
+			// We will process non countable events also for metrics files
+			if (!aPreviousCategories.equals(aCommandCategories)) {
+				commandString.append("(");
+				aPreviousCategoriesCount = 1;
+			} else {
+				aPreviousCategoriesCount++; 
+			}
+			boolean anIsFirst = true;
+
+			for (CommandCategory aCommandCategory : aCommandCategories) {
+				processCategorizedCommand(myEvent, aCommandCategory);
+				if (!aPreviousCategories.equals(aCommandCategories)) {
+//					aPreviousCategoriesCount = 0;
+					if (anIsFirst) {
+						anIsFirst = false;
+					} else {
+						commandString.append(COMMAND_CATEGORY_SEPARATOR);
+					}
+					String aCommandCategoryString = aCommandCategory.toString();
+					char aCommandcatagoryFirstChar = aCommandCategoryString.charAt(0);
+					
+
+					commandString.append(aCommandcatagoryFirstChar);
+				}
+			}
+			
+			if (!aPreviousCategories.equals(aCommandCategories)) {
+				commandString.append(")");
+				aPreviousCategoriesIndex = commandString.length();
+				
+			} 
+			commandString.setLength(aPreviousCategoriesIndex);
+			commandString.append(aPreviousCategoriesCount);
+//			commandString.append(CATEGORIES_COUNT_SEPARATOR);
+			aPreviousCategories = aCommandCategories;
+
+
+		}
+
+		return computeRatioFeatures();
+	}
+	@Override
+	public CommandCategoryMapping getCommandCategoryMapping() {
+		return commandCategoryMapping;
+	}
+	@Override
+	public void setCommandCategoryMapping(CommandCategoryMapping newVal) {
+		this.commandCategoryMapping = newVal;
+		relevantCommandCategoryList = Arrays.asList(commandCategoryMapping.getOrderedRelevantCommandCategories());
+
+	}
+	public static boolean hasChanged (LocalChecksRawCommand aCommand) {
+		String aCSVRow = aCommand.getCSVRow();
+		RawLocalCheckFields aFields = new RawLocalCheckFields(aCSVRow);
+		return aFields.change != 0;
+	
+		
+	}
+	
 	// public RatioFeatures computeRatioFeatures(List<EHICommand> userActions) {
 	// double numberOfDebugEvents = 0;
 	// double numberOfSearchEvents = 0;

@@ -70,6 +70,10 @@ public class LocalChecksRawCommand extends AbstractCommand implements EHICommand
 		return EHEventRecorder.UserMacroCategoryID;
 	}
 	
+	public String getCSVRow() {
+		return csvRow;
+	}
+	
 	public void createFrom(Element commandElement) {
 		super.createFrom(commandElement);
 		

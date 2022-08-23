@@ -1,7 +1,7 @@
 package difficultyPrediction.metrics;
 
 public class AnA1WebCommandCategories extends AnA1CommandCategories{
-	 CommandCategory[] relevantCategoresA1Web ;
+	 private CommandCategory[] relevantCategoresA1Web ;
 	
 	 @Override
 	    public CommandCategory[] getOrderedRelevantCommandCategories() {
@@ -15,5 +15,8 @@ public class AnA1WebCommandCategories extends AnA1CommandCategories{
 		 	}
 			return relevantCategoresA1Web;
 		}
-
+//	 protected void mapCategories() {
+//		 super.mapCategories();
+//		 map(aCommand, aFeatureName);
+//		}
 }

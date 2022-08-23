@@ -10,17 +10,25 @@ import fluorite.model.EHEventRecorder;
 
 public class LocalCheckCommand extends AbstractCommand implements EHICommand{
 	String testcase, type;
+	String status = NORMAL;
 	final static String PASSED = "passed";
 //	final static String FAIL_DECLINE = "fail_decline";
 //	final static String FAIL_GROWTH = "fail_growth";
 	final static String TYPE = "type";
 	final static String TESTCASE = "testcase";
+	final static String STATUS = "status";
+	final static String NORMAL = "normal";
+	final static String DIFFICULTY = "difficulty";
+	final static String FIX = "fix";
+
+
 	
 	public LocalCheckCommand() {}
 	
 	public LocalCheckCommand(String event) {
 		testcase = event.substring(0, event.indexOf("_"));
 		type = event.substring(event.indexOf("_")+1);
+		status = NORMAL;
 	}
 	
 	@Override
@@ -43,6 +51,7 @@ public class LocalCheckCommand extends AbstractCommand implements EHICommand{
 		Map<String, String> dataMap = new HashMap<String, String>();
 		dataMap.put(TESTCASE, testcase);
 		dataMap.put(TYPE, type);
+		dataMap.put(STATUS, status);
 		return dataMap;
 	}
 
@@ -71,6 +80,19 @@ public class LocalCheckCommand extends AbstractCommand implements EHICommand{
 		return EHEventRecorder.UserMacroCategoryID;
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+	public String getTestcase() {
+		return testcase;
+	}
+	public String getProgressType() {
+		return type;
+	}
+	public void setStatus(String newVal) {
+		status = newVal;
+	}
+	
 	public void createFrom(Element commandElement) {
 		super.createFrom(commandElement);
 		
@@ -83,6 +105,10 @@ public class LocalCheckCommand extends AbstractCommand implements EHICommand{
 		if ((nodeList = commandElement.getElementsByTagName(TYPE)).getLength() > 0) {
 			Node textNode = nodeList.item(0);
 			type = textNode.getTextContent();
+		}
+		if ((nodeList = commandElement.getElementsByTagName(STATUS)).getLength() > 0) {
+			Node textNode = nodeList.item(0);
+			status = textNode.getTextContent();
 		}
 	}
 }

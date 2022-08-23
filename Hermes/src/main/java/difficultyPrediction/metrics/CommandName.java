@@ -1,5 +1,7 @@
 package difficultyPrediction.metrics;
 
+import fluorite.commands.LocalChecksRawCommand;
+
 public enum CommandName {
 	BreakPointCommand,
 	ExceptionCommand,
@@ -17,7 +19,8 @@ public enum CommandName {
 	SelectTextCommand,
 	CutCommand,
 	Replace,
-	
+	PauseCommand,
+	LocalChecksRawCommand,
 	FileOpenCommand,
 	FindCommand,
 	ShellCommand,

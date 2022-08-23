@@ -143,6 +143,12 @@ public interface RatioCalculator {
 //		}
 	}
 
+	RatioFeatures computeFeatures(List<EHICommand> userActions, int from, int to);
+
+	CommandCategoryMapping getCommandCategoryMapping();
+
+	void setCommandCategoryMapping(CommandCategoryMapping commandCategoryMapping);
+
 //	boolean[] getComputedFeatures();
 
 }

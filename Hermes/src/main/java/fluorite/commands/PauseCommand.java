@@ -45,6 +45,9 @@ public class PauseCommand extends AbstractCommand implements EHICommand{
 	}
 	
 	public String getRange(long pause) {
+		if (range != null) {
+			return range;
+		}
 		String range = "";
 		long s = 1000;
 		if (pause < 2*s) {

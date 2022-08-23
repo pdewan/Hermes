@@ -132,6 +132,12 @@ public class AnA0CommandCategories extends ACommandCategoryMapping{
 		categoriesToNames[CommandCategory.REMOVE.ordinal()] = "removePercentage"; // two removes! get rid of one	
 		categoriesToNames[CommandCategory.INSERT.ordinal()] = "insertPercentage";
 		categoriesToNames[CommandCategory.WEB_LINK_TIMES.ordinal()] = "webLinkTimes";
+//		categoriesToNames[CommandCategory.COPY.ordinal()] = "copyPercentage";
+//		categoriesToNames[CommandCategory.PASTE.ordinal()] = "pastePercentage";
+//		categoriesToNames[CommandCategory.COMPILE.ordinal()] = "compilePercentage";
+
+
+
 //		categoriesToNames[CommandCategory.REMOVE.ordinal()] = "removeTextPercentage";
 
 	}

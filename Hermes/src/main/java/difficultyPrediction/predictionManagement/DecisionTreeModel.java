@@ -208,7 +208,7 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 		predictionManager.onPredictionHandOff(predictedValue);
 	}
 	protected boolean cannotBuildModel = false;
-	public void predictSituation(RatioFeatures aRatioFeatures) {
+	public String predictSituation(RatioFeatures aRatioFeatures) {
 //		String predictedValue = "NO";
 		String predictedValue = PROGRESS_PREDICTION;
 		boolean makePrediction = HelperConfigurationManagerFactory.getSingleton().isMakePredictions();
@@ -311,7 +311,7 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 				} catch (Exception e) {
 					predictionManager.modelBuilt(false,e);
 					e.printStackTrace();
-					return;
+					return null;
 				}
 //				isClassifierModelBuilt = true;
 
@@ -329,5 +329,7 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 		}
 
 		predictionManager.onPredictionHandOff(predictedValue);
+		return predictedValue;
+		
 	}
 }

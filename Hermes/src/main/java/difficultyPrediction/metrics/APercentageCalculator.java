@@ -417,6 +417,24 @@ public class APercentageCalculator implements RatioCalculator {
 		return null;
 	}
 
+	@Override
+	public RatioFeatures computeFeatures(List<EHICommand> userActions, int from, int to) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CommandCategoryMapping getCommandCategoryMapping() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCommandCategoryMapping(CommandCategoryMapping commandCategoryMapping) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }
