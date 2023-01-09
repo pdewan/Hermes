@@ -177,7 +177,11 @@ public class EHLogReader {
 			Element child = (Element) node;
 
 			if (filter == null || filter.filter(child)) {
+				try {
 				result.add(parse(child));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -293,7 +297,7 @@ public class EHLogReader {
 			surmountableDifficultyCommand.createFrom(element);
 			return surmountableDifficultyCommand;
 		} else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(element.toString());
 		}
 		
 
