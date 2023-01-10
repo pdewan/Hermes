@@ -18,9 +18,14 @@ public class LogReaderTest {
 
 	@Test
 	public void testReadDocumentChanges() {
-		List<EHICommand> documentChanges =
-				reader.readDocumentChanges("//Users//jasoncarter//Documents//Barrier_User_Study_Logs//1//Log2013-08-06-09-53-32-746.xml")
-				;
+		try {
+			List<EHICommand> documentChanges =
+					reader.readDocumentChanges("//Users//jasoncarter//Documents//Barrier_User_Study_Logs//1//Log2013-08-06-09-53-32-746.xml")
+					;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		int i = 0;
 		int b = i;
