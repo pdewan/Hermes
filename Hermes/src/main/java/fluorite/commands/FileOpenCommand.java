@@ -167,7 +167,7 @@ implements EHICommand {
 				mSnapshot = null;
 			} else {
 				Integer aDocLengthValue = aNumericalValues.get("docLength");
-				if (aDocLengthValue == null) {
+				if (aDocLengthValue == null || mFilePath.endsWith(".xml")) {
 //					System.out.println("aDocLengthValue == null " + getTimestamp());
 					mSnapshot = null;
 				} else {

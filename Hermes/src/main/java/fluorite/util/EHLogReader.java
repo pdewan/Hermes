@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -153,7 +155,9 @@ public class EHLogReader {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
-			e.printStackTrace();
+			if (!e.getMessage().contains("XML document structures must start and end within the same entity.")) {
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -170,6 +174,7 @@ public class EHLogReader {
 		//startCommand.setTimestamp(r);
 		for (Node node = root.getFirstChild(); node != null; node = node
 				.getNextSibling()) {
+
 			if (!(node instanceof Element)) {
 				continue;
 			}

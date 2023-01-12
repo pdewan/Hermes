@@ -84,7 +84,7 @@ public class ProgramExecutionEvent
 	}
 
 	public Map<String, String> getDataMap() {
-		return null;
+		return new HashMap<>();
 	}
 
 	

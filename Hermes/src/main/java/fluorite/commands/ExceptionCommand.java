@@ -112,7 +112,7 @@ public class ExceptionCommand extends OutputProduced implements EHICommand {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "EHException";
+		return "Exception";
 	}
 
 //	@Override

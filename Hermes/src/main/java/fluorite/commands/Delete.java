@@ -116,9 +116,12 @@ public class Delete extends BaseDocumentChangeEvent {
 
 	public String getName() {
 		return "Delete text (offset: " + Integer.toString(mOffset)
-				+ ", length: " + Integer.toString(mLength) + ", startLine: "
-				+ Integer.toString(mStartLine) + ", endLine: "
-				+ Integer.toString(mEndLine) + ")";
+				+ ", length: " + Integer.toString(mLength) 
+//				+ ", startLine: "
+//				+ Integer.toString(mStartLine) + ", endLine: "
+//				+ Integer.toString(mEndLine) 
+				+ ", text:" + mText
+				+ ")";
 	}
 
 	public String getDescription() {

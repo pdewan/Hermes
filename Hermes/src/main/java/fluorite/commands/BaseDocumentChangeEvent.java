@@ -117,13 +117,14 @@ public abstract class BaseDocumentChangeEvent extends AbstractCommand {
 		}
 		
 		if (text.length() > desiredLength) {
-			text = text.substring(0, desiredLength);
+			return text.substring(0, desiredLength);
 		}
-		while (text.length() < desiredLength) {
-			text = text + "-";
+		StringBuilder sb = new StringBuilder(text);
+		while (sb.length() < desiredLength) {
+			sb.append('-');
 		}
 		
-		return text;
+		return sb.toString();
 	}
 	@Override
 	public boolean combine(EHICommand arg0) {
