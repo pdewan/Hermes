@@ -50,7 +50,7 @@ public class EHLogReader {
 	 *            the file path to the log file.
 	 * @return deserialized list of commands
 	 */
-	public List<EHICommand> readAll(String logPath) {
+	public List<EHICommand> readAll(String logPath) throws Exception {
 		return readFilter(logPath, null);
 	}
 
@@ -62,7 +62,7 @@ public class EHLogReader {
 	 *            the file path to the log file.
 	 * @return deserialized list of commands
 	 */
-	public List<EHICommand> readDocumentChanges(String logPath) {
+	public List<EHICommand> readDocumentChanges(String logPath) throws Exception {
 		return readFilter(logPath, new IFilter() {
 			@Override
 			public boolean filter(Element element) {
@@ -110,7 +110,7 @@ public class EHLogReader {
 	 * @return deserialized list of commands
 	 * @throws DocumentException
 	 */
-	public List<EHICommand> readFilter(String logPath, IFilter filter) {
+	public List<EHICommand> readFilter(String logPath, IFilter filter) throws Exception {
 		if (logPath == null) {
 			throw new IllegalArgumentException();
 		}
@@ -118,7 +118,7 @@ public class EHLogReader {
 		List<EHICommand> result = new ArrayList<EHICommand>();
 
 		Document doc = null;
-		try {
+//		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			dbFactory.setValidating(false);
@@ -152,16 +152,14 @@ public class EHLogReader {
 			File file = new File(logPath);
 			FileInputStream fis = new FileInputStream(file);
 			doc = dBuilder.parse(fis);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			if (!e.getMessage().contains("XML document structures must start and end within the same entity.")) {
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+//		} catch (ParserConfigurationException e) {
+//			e.printStackTrace();
+//		} catch (SAXException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
 		Element root = doc.getDocumentElement();
 
 		boolean prevState = AbstractCommand.getIncrementCommandID();
@@ -182,7 +180,11 @@ public class EHLogReader {
 			Element child = (Element) node;
 
 			if (filter == null || filter.filter(child)) {
+				try {
 				result.add(parse(child));
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -298,7 +300,7 @@ public class EHLogReader {
 			surmountableDifficultyCommand.createFrom(element);
 			return surmountableDifficultyCommand;
 		} else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(element.toString());
 		}
 		
 

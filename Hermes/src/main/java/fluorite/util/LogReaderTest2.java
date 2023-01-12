@@ -14,7 +14,12 @@ public class LogReaderTest2 {
 
 		EHLogReader reader = new EHLogReader();
 
-		List<EHICommand> commands = reader.readAll(logPath);
+		try {
+			List<EHICommand> commands = reader.readAll(logPath);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
