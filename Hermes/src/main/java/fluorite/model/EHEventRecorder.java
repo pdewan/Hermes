@@ -78,7 +78,7 @@ import fluorite.commands.BaseDocumentChangeEvent;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.FileOpenCommand;
 import fluorite.commands.FindCommand;
-import fluorite.commands.LocalCheckRawCommand;
+import fluorite.commands.LocalChecksRawCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.MoveCaretCommand;
 import fluorite.commands.PauseCommand;

@@ -24,7 +24,7 @@ import fluorite.commands.CompilationCommand;
 import fluorite.commands.Delete;
 import fluorite.commands.EclipseCommand;
 import fluorite.commands.Insert;
-import fluorite.commands.LocalCheckRawCommand;
+import fluorite.commands.LocalChecksRawCommand;
 import fluorite.commands.PauseCommand;
 import fluorite.commands.WebVisitCommand;
 import fluorite.model.EHEventRecorder;
@@ -814,7 +814,7 @@ HelperConfigurationManagerFactory.getSingleton().getNonTechnicalTerms());
 		relevantCommandCategoryList = Arrays.asList(commandCategoryMapping.getOrderedRelevantCommandCategories());
 
 	}
-	public static boolean hasChanged (LocalCheckRawCommand aCommand) {
+	public static boolean hasChanged (LocalChecksRawCommand aCommand) {
 		String aCSVRow = aCommand.getCSVRow();
 		RawLocalCheckFields aFields = new RawLocalCheckFields(aCSVRow);
 		return aFields.change != 0;

@@ -35,5 +35,6 @@
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.27.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/json-20170516.jar"/>
 	<classpathentry kind="lib" path="lib/diff_match_patch-current.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tools-changedistiller"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
