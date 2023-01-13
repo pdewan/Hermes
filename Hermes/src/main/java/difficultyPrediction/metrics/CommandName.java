@@ -1,6 +1,6 @@
 package difficultyPrediction.metrics;
 
-import fluorite.commands.LocalChecksRawCommand;
+import fluorite.commands.LocalCheckRawCommand;
 
 public enum CommandName {
 	BreakPointCommand,

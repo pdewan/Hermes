@@ -5,7 +5,7 @@ import fluorite.commands.AssistCommand;
 import fluorite.commands.CheckStyleCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.LocalCheckCommand;
-import fluorite.commands.LocalChecksRawCommand;
+import fluorite.commands.LocalCheckRawCommand;
 import fluorite.commands.PauseCommand;
 import fluorite.commands.PredictionCommand;
 
@@ -40,7 +40,7 @@ public class ADisjointDiscreteChunks implements EventAggregationStrategy {
 				anEvent instanceof PredictionCommand ||
 				anEvent instanceof LocalCheckCommand ||
 				anEvent instanceof AssistCommand ||
-				anEvent instanceof LocalChecksRawCommand ||
+				anEvent instanceof LocalCheckRawCommand ||
 				anEvent instanceof CheckStyleCommand;
 	}
 	

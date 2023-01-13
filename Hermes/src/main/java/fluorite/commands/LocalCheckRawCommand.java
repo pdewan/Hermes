@@ -8,16 +8,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import fluorite.model.EHEventRecorder;
 
-public class LocalChecksRawCommand extends AbstractCommand implements EHICommand{
+public class LocalCheckRawCommand extends AbstractCommand implements EHICommand{
 	protected String csvRow;
 //	final static String FAIL_DECLINE = "fail_decline";
 //	final static String FAIL_GROWTH = "fail_growth";
 	final static String CSV_ROW = "CSVRow";
 
 	
-	public LocalChecksRawCommand() {}
+	public LocalCheckRawCommand() {}
 	
-	public LocalChecksRawCommand(String aCSVRow) {
+	public LocalCheckRawCommand(String aCSVRow) {
 		csvRow = aCSVRow;
 //		csvRow = "Local Checks Raw";
 

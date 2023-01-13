@@ -13,7 +13,7 @@ import java.util.Map;
 import analyzer.extension.replayView.AReplayer;
 import analyzer.extension.replayView.FileUtility;
 import fluorite.commands.CheckStyleCommand;
-import fluorite.commands.LocalChecksRawCommand;
+import fluorite.commands.LocalCheckRawCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.util.EHUtilities;
 
@@ -70,7 +70,7 @@ public class ALocalChecksRawAccessor {
 		for (int i = 0; i < recentEvents.size(); i++) {
 //			CheckStyleCommand aCommand = new CheckStyleCommand(" a heck style command");
 
-			LocalChecksRawCommand aCommand = new LocalChecksRawCommand(recentEvents.get(i));
+			LocalCheckRawCommand aCommand = new LocalCheckRawCommand(recentEvents.get(i));
 
 			EHEventRecorder.getInstance().recordCommand(aCommand);
 //			aCommand.setTimestamp(recentTimes.get(i) - aCommand.getStartTimestamp());
