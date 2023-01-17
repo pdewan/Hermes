@@ -65,7 +65,7 @@ public class ALocalChecksRawAccessor {
 			FileUtility.getRecentEvents(aLocalChecksRawFile, recentEvents, recentTuples, recentTimes, lastReadTime, 1, df);
 		}
 		if (recentEvents.size() > 0) {
-			foundChangingFile = true;
+			foundChangingFile = true; // we will not read the directory again, found the file with recent events
 		}
 		for (int i = 0; i < recentEvents.size(); i++) {
 //			CheckStyleCommand aCommand = new CheckStyleCommand(" a heck style command");

@@ -370,7 +370,12 @@ public class FileUtility {
 		readLines(aFile, allEvents);
 		for (int i = allEvents.size() -1 ; i >= 0 ; i--) {
 			String anEventRow = allEvents.get(i);
+			
+
 			String[] anEvents = anEventRow.split(",");
+			if (i == 0 && anEvents[aDateColumn].contains("ime")) {
+				continue; //header
+			}
 			try {
 				long aTime = aDateFormat.parse(anEvents[aDateColumn]).getTime();
 				if (aLastReadTime < aTime) {
@@ -384,7 +389,10 @@ public class FileUtility {
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
+				System.out.println("Could not parse  entry " + i + " content:" + anEvents[aDateColumn]  );
 				e.printStackTrace();
+//				aRecentTimes.add(0, null);
+
 				
 			}
 //			recentEvents.add(anAllEvents.get(i));
