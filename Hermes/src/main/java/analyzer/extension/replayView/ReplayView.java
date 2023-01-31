@@ -88,7 +88,7 @@ public class ReplayView extends ViewPart {
 //	public final static String REFACTOR = "Refactor";
 	public final static String PAUSE = "Pause";
 	public final static String WEB = "Web";
-	public final static String[] METRICS = {"Prediction", "Date", "File", "BusyTime", "Web Page"};
+//	public final static String[] METRICS = {"Prediction", "Date", "File", "BusyTime", "Web Page"};
 	private final static String[] steps = {EDIT, ONE_MINUTE, ONE_HOUR, EXCEPTION, EXCEPTION_TO_FIX, FIX, LOCALCHECKS, 
 //					  NEW_FILE, DELETE_FILE, REFACTOR, 
 					  OPEN_FILE, RUN, DEBUG, 
@@ -104,9 +104,9 @@ public class ReplayView extends ViewPart {
 	private CTabItem tabItem;
 	private TabFolder tabFolder2;
 	private TabItem commandsTab;
-	private TabItem metricsTab;
+//	private TabItem metricsTab;
 	private ScrolledComposite sc;
-	private Table MetricTable;
+//	private Table MetricTable;
 	private TableColumn[] tableColumns = new TableColumn[5];
 	private Text text;
 	boolean showPause = false;
@@ -232,26 +232,26 @@ public class ReplayView extends ViewPart {
 		sc_1.setMinSize(new Point(5000, 5000));
 		sc_1.setContent(commandLabel);
 		
-		metricsTab = new TabItem(tabFolder2, SWT.NONE);
-		metricsTab.setText("Metrics");
+//		metricsTab = new TabItem(tabFolder2, SWT.NONE);
+//		metricsTab.setText("Metrics");
 		
-		sc = new ScrolledComposite(tabFolder2, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		sc.setTouchEnabled(true);
-		sc.setShowFocusedControl(true);
-		sc.setExpandVertical(true);
-		sc.setExpandHorizontal(true);
-		sc.setAlwaysShowScrollBars(true);
-		metricsTab.setControl(sc);
+//		sc = new ScrolledComposite(tabFolder2, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+//		sc.setTouchEnabled(true);
+//		sc.setShowFocusedControl(true);
+//		sc.setExpandVertical(true);
+//		sc.setExpandHorizontal(true);
+//		sc.setAlwaysShowScrollBars(true);
+//		metricsTab.setControl(sc);
+//		
+//		MetricTable = new Table(sc, SWT.NONE);
+//		MetricTable.setLinesVisible(true);
+//		MetricTable.setHeaderVisible(true);
+//		
+//		fillMetricHeaders();
 		
-		MetricTable = new Table(sc, SWT.NONE);
-		MetricTable.setLinesVisible(true);
-		MetricTable.setHeaderVisible(true);
-		
-		fillMetricHeaders();
-		
-		sc.setContent(MetricTable);
-		sc.setMinSize(MetricTable.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		sc.setMinSize(new Point(5000, 5000));
+//		sc.setContent(MetricTable);
+//		sc.setMinSize(MetricTable.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+//		sc.setMinSize(new Point(5000, 5000));
 		
 		Composite timelineComposite = new Composite(forwardBackComposite, SWT.NONE);
 		GridData gd_timelineComposite = new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1);
@@ -428,47 +428,47 @@ public class ReplayView extends ViewPart {
 		
 	}
 	
-	private void fillMetricHeaders() {
-		for (int i = 0; i < tableColumns.length; i++) {
-			tableColumns[i] = new TableColumn(MetricTable, SWT.NONE);
-			tableColumns[i].setWidth(100);
-			tableColumns[i].setText(METRICS[i]);
-		}
-	}
+//	private void fillMetricHeaders() {
+//		for (int i = 0; i < tableColumns.length; i++) {
+//			tableColumns[i] = new TableColumn(MetricTable, SWT.NONE);
+//			tableColumns[i].setWidth(100);
+//			tableColumns[i].setText(METRICS[i]);
+//		}
+//	}
 	
-	public void updateMetrics(List<List<List<String>>> metrics) {
-		MetricTable.removeAll();
-		for (List<List<String>> list : metrics) {
-			for (List<String> list2 : list) {
-				TableItem item = new TableItem(MetricTable, SWT.NONE);
-				for (int i = 0, j = 0; i < list2.size(); i++) {
-					if (i == 0 || i == 4 || i == 5 || (i >= 7 && i <= 21)) {
-						continue;
-					}
-					String text = list2.get(i);
-					if (i == 2) {
-						Date d;
-						try {
-							d = new SimpleDateFormat("E MMM dd HH:mm:ss zz yyyy").parse(list2.get(i));
-							text = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(d)+"\t";
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-					} 
-					if (i > 21) {
-						for (;i < list2.size(); i++) 
-							text += '\t' + list2.get(i);
-						text = text.replaceAll("\\[\\]", "");
-					}
-					item.setText(j,text);
-					j++;
-				}
-			}
-		}
-		for (TableColumn tableColumn : tableColumns) {
-			tableColumn.pack();
-		}
-	}
+//	public void updateMetrics(List<List<List<String>>> metrics) {
+//		MetricTable.removeAll();
+//		for (List<List<String>> list : metrics) {
+//			for (List<String> list2 : list) {
+//				TableItem item = new TableItem(MetricTable, SWT.NONE);
+//				for (int i = 0, j = 0; i < list2.size(); i++) {
+//					if (i == 0 || i == 4 || i == 5 || (i >= 7 && i <= 21)) {
+//						continue;
+//					}
+//					String text = list2.get(i);
+//					if (i == 2) {
+//						Date d;
+//						try {
+//							d = new SimpleDateFormat("E MMM dd HH:mm:ss zz yyyy").parse(list2.get(i));
+//							text = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(d)+"\t";
+//						} catch (ParseException e) {
+//							e.printStackTrace();
+//						}
+//					} 
+//					if (i > 21) {
+//						for (;i < list2.size(); i++) 
+//							text += '\t' + list2.get(i);
+//						text = text.replaceAll("\\[\\]", "");
+//					}
+//					item.setText(j,text);
+//					j++;
+//				}
+//			}
+//		}
+//		for (TableColumn tableColumn : tableColumns) {
+//			tableColumn.pack();
+//		}
+//	}
 	
 	private void createCommandLabel(List<EHICommand> commandList, boolean back) {
 		if (commandList == null) {

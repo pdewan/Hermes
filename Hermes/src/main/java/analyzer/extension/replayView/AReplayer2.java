@@ -47,7 +47,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	private long totalTimeSpent = 0;
 	private final static long ONE_MINUTE = 60 * 1000;
 	private final static long ONE_HOUR = 60 * ONE_MINUTE;
-	private List<List<List<String>>> metrics = null;
+//	private List<List<List<String>>> metrics = null;
 	private long currentTime = 0;
 	private static final long PAUSE = 5*60*1000;
 	private FileEditor currentFileEditor;
@@ -75,46 +75,46 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		return nestedCommands;
 	}
 
-	public void createMetrics(String projectPath) {
-		File metricFolder = new File(projectPath+File.separator+"Logs"+File.separator+"Metrics");
-		List<String> metricFiles = MainConsoleUI.getFilesForFolder(metricFolder);
-		metrics = new ArrayList<>();
-		String largestFileName = "";
-		String secondLargestFileName = "";
-		for (int i = 0; i < metricFiles.size(); i++) {
-			String aFileName = metricFiles.get(i);
-			if (aFileName.compareTo(largestFileName) > 0) {
-				secondLargestFileName = largestFileName;
-				largestFileName = aFileName;
-			} else if (aFileName.compareTo(secondLargestFileName) > 0) {
-				secondLargestFileName = aFileName;
-			}
-		}
-		for (int i = 0; i < metricFiles.size(); i++) {
-			List<List<String>> metric = new ArrayList<>();
-			metrics.add(metric);
-			BufferedReader r;
-			try {
-				r = new BufferedReader(new FileReader(new File(metricFolder.getPath()+File.separator+metricFiles.get(i))));
-				String line=r.readLine();
-				while(true){
-					line = r.readLine();
-					if (line == null) {
-						break;
-					}
-					try {
-						Integer.parseInt(line.substring(0, line.indexOf(",")));
-					} catch (NumberFormatException e) {
-						continue;
-					}
-					metric.add(Arrays.asList(line.split(","))); 
-				}
-				r.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public void createMetrics(String projectPath) {
+//		File metricFolder = new File(projectPath+File.separator+"Logs"+File.separator+"Metrics");
+//		List<String> metricFiles = MainConsoleUI.getFilesForFolder(metricFolder);
+//		metrics = new ArrayList<>();
+//		String largestFileName = "";
+//		String secondLargestFileName = "";
+//		for (int i = 0; i < metricFiles.size(); i++) {
+//			String aFileName = metricFiles.get(i);
+//			if (aFileName.compareTo(largestFileName) > 0) {
+//				secondLargestFileName = largestFileName;
+//				largestFileName = aFileName;
+//			} else if (aFileName.compareTo(secondLargestFileName) > 0) {
+//				secondLargestFileName = aFileName;
+//			}
+//		}
+//		for (int i = 0; i < metricFiles.size(); i++) {
+//			List<List<String>> metric = new ArrayList<>();
+//			metrics.add(metric);
+//			BufferedReader r;
+//			try {
+//				r = new BufferedReader(new FileReader(new File(metricFolder.getPath()+File.separator+metricFiles.get(i))));
+//				String line=r.readLine();
+//				while(true){
+//					line = r.readLine();
+//					if (line == null) {
+//						break;
+//					}
+//					try {
+//						Integer.parseInt(line.substring(0, line.indexOf(",")));
+//					} catch (NumberFormatException e) {
+//						continue;
+//					}
+//					metric.add(Arrays.asList(line.split(","))); 
+//				}
+//				r.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 	public static final String XML_FILE_ENDING = "\r\n</Events>"; 
 
@@ -122,7 +122,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		if (nestedCommands == null || !ReplayUtility.getCurrentProjectPath().equals(currentProjectPath)) {
 			currentProjectPath = ReplayUtility.getCurrentProjectPath();
 			replayLogs(currentProjectPath, analyzer);
-			createMetrics(currentProjectPath);
+//			createMetrics(currentProjectPath);
 			outer: 
 				for(int n = nestedCommands.size()-1; n >= 0; n--) {
 					for(int m = nestedCommands.get(n).size()-1; m >= 0; m--) {
@@ -372,16 +372,16 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	public List<EHICommand> backToDifficulty(){
 		boolean difficulty = false;
 		outer:
-			for(int k = metrics.size()-1; k >= 0; k--) {
-				List<List<String>> metric = metrics.get(k);
-				for(int l = metric.size()-1; l >= 0; l--) {
-					if (metric.get(l).get(1).equals("YES") && Long.parseLong(metric.get(l).get(4)) < currentTime) {
-						currentTime = Long.parseLong(metric.get(l).get(4));
-						difficulty = true;
-						break outer;
-					}
-				}
-			}
+//			for(int k = metrics.size()-1; k >= 0; k--) {
+//				List<List<String>> metric = metrics.get(k);
+//				for(int l = metric.size()-1; l >= 0; l--) {
+//					if (metric.get(l).get(1).equals("YES") && Long.parseLong(metric.get(l).get(4)) < currentTime) {
+//						currentTime = Long.parseLong(metric.get(l).get(4));
+//						difficulty = true;
+//						break outer;
+//					}
+//				}
+//			}
 		if (!difficulty) {
 			currentTime = 0;
 		}
@@ -857,16 +857,16 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	public List<EHICommand> forwardToDifficulty(){
 		boolean difficulty = false;
 		outer:
-			for(int k = 0; k < metrics.size(); k++) {
-				List<List<String>> metric = metrics.get(k);
-				for(int l = 0; l < metrics.get(k).size(); l++) {
-					if (metric.get(l).get(1).equals("YES") && Long.parseLong(metric.get(l).get(4)) > currentTime) {
-						currentTime = Long.parseLong(metric.get(l).get(4));
-						difficulty = true;
-						break outer;
-					}
-				}
-			}
+//			for(int k = 0; k < metrics.size(); k++) {
+//				List<List<String>> metric = metrics.get(k);
+//				for(int l = 0; l < metrics.get(k).size(); l++) {
+//					if (metric.get(l).get(1).equals("YES") && Long.parseLong(metric.get(l).get(4)) > currentTime) {
+//						currentTime = Long.parseLong(metric.get(l).get(4));
+//						difficulty = true;
+//						break outer;
+//					}
+//				}
+//			}
 		if (!difficulty) {
 			currentTime = System.currentTimeMillis();
 		}
@@ -907,16 +907,16 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	public List<EHICommand> forwardToNoDifficulty(){
 		boolean difficulty = true;
 		outer:
-			for(int k = 0; k < metrics.size(); k++) {
-				List<List<String>> metric = metrics.get(k);
-				for(int l = 0; l < metrics.get(k).size(); l++) {
-					if (metric.get(l).get(1).equals("NO") && Long.parseLong(metric.get(l).get(4)) > currentTime) {
-						currentTime = Long.parseLong(metric.get(l).get(4));
-						difficulty = false;
-						break outer;
-					}
-				}
-			}
+//			for(int k = 0; k < metrics.size(); k++) {
+//				List<List<String>> metric = metrics.get(k);
+//				for(int l = 0; l < metrics.get(k).size(); l++) {
+//					if (metric.get(l).get(1).equals("NO") && Long.parseLong(metric.get(l).get(4)) > currentTime) {
+//						currentTime = Long.parseLong(metric.get(l).get(4));
+//						difficulty = false;
+//						break outer;
+//					}
+//				}
+//			}
 		if (difficulty) {
 			currentTime = System.currentTimeMillis();
 		}
