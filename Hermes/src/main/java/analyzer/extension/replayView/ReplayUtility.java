@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IProject;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
 import analyzer.Analyzer;
 import fluorite.commands.EHICommand;
 import fluorite.commands.FileOpenCommand;
@@ -87,37 +89,38 @@ public class ReplayUtility {
 				nestedCommands.remove(i);
 				i--;
 			} else if (commands.size() > 2) {
-				sortCommands(commands, 0, commands.size()-1);
+//				sortCommands(commands, 0, commands.size()-1);
+				commands.sort((a,b) -> Long.compare(a.getTimestamp()+a.getStartTimestamp(),b.getTimestamp()+b.getStartTimestamp()));
 			}
 		}
 	}
 
-	private static void sortCommands(List<EHICommand> commands, int start, int end){
-		for(int i = 0; i < commands.size(); i++) {
-			if (commands.get(i) == null) {
-				commands.remove(i);
-				i--;
-			}
-		}
-		EHICommand command = null;
-		long cur = 0;
-		for(int i = 2; i < commands.size(); i++) {
-			command = commands.get(i);
-			cur = command.getStartTimestamp()+command.getTimestamp();
-			int j = i-1;
-			while (j > 1){
-				if (commands.get(j).getStartTimestamp() + commands.get(j).getTimestamp() > cur) {
-					j--;
-				} else {
-					break;
-				}
-			}
-			if (j < i-1) {
-				commands.remove(i);
-				commands.add(j+1, command);
-			}
-		}
-	}
+//	private static void sortCommands(List<EHICommand> commands, int start, int end){
+//		for(int i = 0; i < commands.size(); i++) {
+//			if (commands.get(i) == null) {
+//				commands.remove(i);
+//				i--;
+//			}
+//		}
+//		EHICommand command = null;
+//		long cur = 0;
+//		for(int i = 2; i < commands.size(); i++) {
+//			command = commands.get(i);
+//			cur = command.getStartTimestamp()+command.getTimestamp();
+//			int j = i-1;
+//			while (j > 1){
+//				if (commands.get(j).getStartTimestamp() + commands.get(j).getTimestamp() > cur) {
+//					j--;
+//				} else {
+//					break;
+//				}
+//			}
+//			if (j < i-1) {
+//				commands.remove(i);
+//				commands.add(j+1, command);
+//			}
+//		}
+//	}
 	
 	public static List<List<EHICommand>> replayLogs(String projectPath, Analyzer analyzer){
 		File logFolder = new File(projectPath, "Logs"+File.separator+"Eclipse");

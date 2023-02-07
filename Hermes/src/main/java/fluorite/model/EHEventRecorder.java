@@ -75,9 +75,13 @@ import fluorite.actions.FindAction;
 import fluorite.commands.AbstractCommand;
 import fluorite.commands.AggregatedStatusCommand;
 import fluorite.commands.BaseDocumentChangeEvent;
+import fluorite.commands.CompilationCommand;
+import fluorite.commands.CompilationEventCommand;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.FileOpenCommand;
 import fluorite.commands.FindCommand;
+import fluorite.commands.Insert;
+import fluorite.commands.InsertStringCommand;
 import fluorite.commands.LocalChecksRawCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.MoveCaretCommand;
@@ -229,11 +233,14 @@ public class EHEventRecorder {
 	private final static Logger LOGGER = Logger.getLogger(EHEventRecorder.class.getName());
 	protected Map<String, Logger> projectToLogger = new HashMap<>();
 //	private ANotificationBalloon notificationBalloon = ANotificationBalloon.getInstance();
+	protected IProject lastProject = null;
 
 	protected Logger projectLogger() {
 		IProject aProject = EHUtilities.getAndStoreCurrentProject();
 		if (aProject == null) {
-			return null;
+			if (lastProject == null) 
+				return null;
+			aProject = lastProject;
 		}
 		String aProjectName = aProject.getName();
 		Logger aLogger = projectToLogger.get(aProjectName);
@@ -246,6 +253,7 @@ public class EHEventRecorder {
 				return null;
 			}
 		}
+		lastProject = aProject;
 		return aLogger;
 	}
 	protected Logger projectLogger(EHICommand aCommand) {
@@ -253,6 +261,7 @@ public class EHEventRecorder {
 		if (aProject == null) {
 			return null;
 		}
+		lastProject = aProject;
 		String aProjectName = aProject.getName();
 		Logger aLogger = projectToLogger.get(aProjectName);
 		if (aLogger == null) {
@@ -780,6 +789,10 @@ public class EHEventRecorder {
 			maybeLog(Level.FINE, null, command);
 			// LOGGER.log(Level.FINE, null, command);
 		}
+		for (EHICommand command : mDocumentChangeCommands) {
+			maybeLog(Level.FINE, null, command);
+			// LOGGER.log(Level.FINE, null, command);
+		}
 		PendingCommandsLogEnd.newCase(allDocAndNonDocCommands, this);
 
 		try {
@@ -1233,7 +1246,7 @@ public class EHEventRecorder {
 				.getSegmentLength();
 		boolean isFlushCommandList = 
 		numReceivedCommands > 1 && (timestamp - lastCommandTimeStamp) > commandFlushTime;
-lastCommandTimeStamp = timestamp;	
+		lastCommandTimeStamp = timestamp;	
 		// while (docOrNormalCommands.size() > 1 &&
 		// docOrNormalCommands.getFirst() == allDocAndNonDocCommands.getFirst())
 		// {
@@ -1297,7 +1310,9 @@ lastCommandTimeStamp = timestamp;
 				.getSegmentLength();
 		boolean isFlushCommandList = 
 		numReceivedCommands > 1 && (timestamp - lastCommandTimeStamp) > commandFlushTime;
-		if (!(docOrNormalCommands.getLast() instanceof PauseCommand)) {
+
+		EHICommand lastCommand = docOrNormalCommands.getLast();
+		if (!(lastCommand instanceof PauseCommand || lastCommand instanceof CompilationEventCommand || lastCommand instanceof CompilationCommand)) {
 			lastCommandTimeStamp = timestamp;	
 		}
 		// while (docOrNormalCommands.size() > 1 &&
@@ -1398,7 +1413,6 @@ lastCommandTimeStamp = timestamp;
 		}
 		// System.out.println(" isDocChange" + isDocChange + " commandslist:" +
 		// docOrNormalCommands);
-
 		boolean combined = false;
 		final EHICommand lastCommand = docOrNormalCommands.size() > 0
 				? docOrNormalCommands.get(docOrNormalCommands.size() - 1) : null;
@@ -1428,7 +1442,7 @@ lastCommandTimeStamp = timestamp;
 			// lastcommand takes care of this info
 			// A timer determines if the combine is actually done or not, as it
 			// changes instance variables
-			maybeAddRestCommand(newCommand, mStartTimestamp+timestamp);
+//			maybeAddRestCommand(newCommand, mStartTimestamp+timestamp);
 			docOrNormalCommands.add(newCommand);
 			allDocAndNonDocCommands.add(newCommand);
 			//Ken's code to add commands to a list and add rest command

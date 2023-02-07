@@ -83,6 +83,7 @@ public class HermesActivator extends AbstractUIPlugin {
 			ChromeHistoryLogger.getInstance().stop();
 			LogSender.getInstance().stop();
 		}
+		EHEventRecorder.getInstance().stop();
 		plugin = null;
 		super.stop(context);
 	}
