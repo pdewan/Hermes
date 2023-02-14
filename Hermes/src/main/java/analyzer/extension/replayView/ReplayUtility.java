@@ -9,11 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.eclipse.core.resources.IProject;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
 import analyzer.Analyzer;
 import fluorite.commands.EHICommand;
 import fluorite.commands.FileOpenCommand;
