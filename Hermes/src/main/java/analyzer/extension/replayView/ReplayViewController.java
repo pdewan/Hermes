@@ -51,6 +51,9 @@ public class ReplayViewController implements ReplayListener{
 			return;
 		}
 		replayView.createForwardCommandList(commands);
+		replayView.updateTimeSpent(replayer.getCurrentTimeSpent());
+		replayView.updateAbsTimeSpent(replayer.getCurrentTimestamp());
+
 //		replayView.updateTimeSpent(replayer.getTotalTimeSpent(), replayer.getCurrentTimeSpent());
 		replayView.updateTimeline(replayer.timelineIndex());
 //		replayView.updateNumOfExceptions(replayer.getCurrentExceptions(), replayer.getTotalExceptions());
@@ -78,6 +81,8 @@ public class ReplayViewController implements ReplayListener{
 		}
 		replayView.createBackCommandList(commands);
 //		replayView.updateTimeSpent(replayer.getTotalTimeSpent(), replayer.getCurrentTimeSpent());
+		replayView.updateTimeSpent(replayer.getCurrentTimeSpent());
+		replayView.updateAbsTimeSpent(replayer.getCurrentTimestamp());
 		replayView.updateTimeline(replayer.timelineIndex());
 //		replayView.updateNumOfExceptions(replayer.getCurrentExceptions(), replayer.getTotalExceptions());
 		replayView.updateReplayedFile(replayer.getReplayedFile());
@@ -91,6 +96,8 @@ public class ReplayViewController implements ReplayListener{
 		} else {
 			replayView.createBackCommandList(replayer.jumpTo(index, step));
 		}
+		replayView.updateTimeSpent(replayer.getCurrentTimeSpent());
+		replayView.updateAbsTimeSpent(replayer.getCurrentTimestamp());
 //		replayView.updateTimeSpent(replayer.getTotalTimeSpent(), replayer.getCurrentTimeSpent());
 //		replayView.updateNumOfExceptions(replayer.getCurrentExceptions(), replayer.getTotalExceptions());
 		replayView.updateReplayedFile(replayer.getReplayedFile());

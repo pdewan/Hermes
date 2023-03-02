@@ -113,6 +113,7 @@ public class ReplayView extends ViewPart {
 	private Button btnShowPause;
 	private Combo timeCombo;
 	private Label timelbl;
+	private Label absTimeLbl;
 	private Button btnExport;
 //	private Timer timer;
 	
@@ -159,7 +160,7 @@ public class ReplayView extends ViewPart {
 		forwardBackTimelineComposite.setLayoutData(gd_forwardBackTimelineComposite);
 		forwardBackTimelineComposite.setBackground(backgroundColor);
 		GridLayout gl_forwardBackTimelineComposite = new GridLayout();
-		gl_forwardBackTimelineComposite.numColumns = 2;
+		gl_forwardBackTimelineComposite.numColumns = 3;
 		forwardBackTimelineComposite.setLayout(gl_forwardBackTimelineComposite);
 		
 		timeCombo = new Combo(forwardBackTimelineComposite, SWT.READ_ONLY);
@@ -212,6 +213,8 @@ public class ReplayView extends ViewPart {
 		
 		timelbl = new Label(forwardBackTimelineComposite, SWT.NONE);
 		timelbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		absTimeLbl = new Label(forwardBackTimelineComposite, SWT.NONE);
+		absTimeLbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		tabFolder2 = new TabFolder(forwardBackComposite, SWT.NONE);
 		GridData gd_tabFolder2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
@@ -388,6 +391,17 @@ public class ReplayView extends ViewPart {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				timelbl.setText(time);
+				parent.layout(true);
+			}
+		});
+//		timelbl.setText(time);
+//		parent.layout(true);
+	}
+	
+	public void updateAbsTimeSpent(String time) {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				absTimeLbl.setText("Timestamp: " + time);
 				parent.layout(true);
 			}
 		});

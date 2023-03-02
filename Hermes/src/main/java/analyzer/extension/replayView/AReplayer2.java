@@ -4,10 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import org.eclipse.core.resources.IProject;
@@ -51,12 +54,15 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	private long currentTime = 0;
 	private static final long PAUSE = 5*60*1000;
 	private FileEditor currentFileEditor;
+	private SimpleDateFormat df;
 
 	public AReplayer2(Analyzer anAnalyzer) {
 		super(anAnalyzer);
 		analyzer = anAnalyzer;
 		PROGRAMATIC_CONTROLLER = AnEclipseProgrammaticController.getInstance();
 		currentProjectPath = ReplayUtility.getCurrentProjectPath();
+		df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+		df.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 	}
 
 	public List<List<EHICommand>> replayLogs(String projectPath, Analyzer analyzer){
@@ -1435,6 +1441,11 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	public String getCurrentTimeSpent() {
 		calculateCurrentTimeSpent();
 		return convertToHourMinuteSecond(currentTimeSpent);
+	}
+	
+	public String getCurrentTimestamp() {
+		EHICommand command = nestedCommands.get(i).get(j);
+		return df.format(new Date(command.getStartTimestamp()+command.getTimestamp()));
 	}
 
 	private String unknownFile = "Unknown";
