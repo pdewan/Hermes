@@ -161,6 +161,14 @@ public class ReplayUtility {
 		return currentProject.getLocation().toOSString();
 	}
 	
+	public static String getCurrentProjectName(){
+		IProject currentProject = EHUtilities.getCurrentProject();
+		if (currentProject == null) {
+			return "";
+		}
+		return currentProject.getName();
+	}
+	
 	public static int[] findFirstFile(List<List<EHICommand>> nestedCommands) {
 		int[] idx = new int[2];
 		for (int i = 0; i < nestedCommands.size(); i++) {
