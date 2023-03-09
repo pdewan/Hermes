@@ -136,7 +136,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 							currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
 							String path = ReplayUtility.getFilePath(currentFile);
 							currentFileEditor = FileEditor.getEditor(path);
-							PROGRAMATIC_CONTROLLER.getOrCreateProject(currentProjectPath.substring(currentProjectPath.lastIndexOf(File.separator)+1), currentProjectPath);
+							PROGRAMATIC_CONTROLLER.getOrCreateProject(ReplayUtility.getCurrentProjectName(), currentProjectPath);
 							PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
 							break outer;
 						}
