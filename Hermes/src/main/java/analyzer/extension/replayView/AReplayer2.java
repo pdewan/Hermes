@@ -166,7 +166,9 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	
 	private void openEditor(EHICommand currentFile) {
 		String path = currentFile.getDataMap().get("filePath");
-		PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+		int srcIdx = path.lastIndexOf("src");
+		if (srcIdx == -1) return;
+		PROGRAMATIC_CONTROLLER.openEditor(path.substring(srcIdx));
 	}
 	
 	public void maybeAddToCommandList(EHICommand command) {
