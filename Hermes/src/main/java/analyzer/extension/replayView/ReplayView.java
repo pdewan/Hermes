@@ -80,6 +80,8 @@ public class ReplayView extends ViewPart {
 	public final static String RUN = "Run";
 	public final static String DEBUG = "Debug";
 	public final static String OPEN_FILE = "Open file";
+	public final static String PIAZZA = "Piazza post";
+	public final static String OFFICE_HOUR = "Office hour";
 	public final static String DIFFICULTY = "Difficulty";
 	public final static String DIFFICULTY_TO_NO_DIFFICULTY = "Difficulty->no difficulty";
 	public final static String COMPILE = "Compile";
@@ -94,7 +96,7 @@ public class ReplayView extends ViewPart {
 					  OPEN_FILE, RUN, DEBUG, 
 //					  DIFFICULTY, DIFFICULTY_TO_NO_DIFFICULTY, 
 //					  COMPILE, SAVE, 
-					  PAUSE, WEB};
+					  PAUSE, WEB, PIAZZA, OFFICE_HOUR};
 	public final static String WORKTIME = "Work Time";
 	public final static String WALLTIME = "Wall Time";
 	public final static long ONE_MIN = 60000;
