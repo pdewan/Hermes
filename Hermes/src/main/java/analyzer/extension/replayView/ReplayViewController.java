@@ -89,6 +89,21 @@ public class ReplayViewController implements ReplayListener{
 //		replayView.updateMetrics(replayer.getMetrics());
 	}
 	
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		replayer.reset();
+		List<EHICommand> commands = new ArrayList<>();
+		replayView.createBackCommandList(commands);
+//		replayView.updateTimeSpent(replayer.getTotalTimeSpent(), replayer.getCurrentTimeSpent());
+		replayView.updateTimeSpent(replayer.getCurrentTimeSpent());
+		replayView.updateAbsTimeSpent(replayer.getCurrentTimestamp());
+		replayView.updateTimeline(replayer.timelineIndex());
+//		replayView.updateNumOfExceptions(replayer.getCurrentExceptions(), replayer.getTotalExceptions());
+		replayView.updateReplayedFile(replayer.getReplayedFile());
+//		replayView.updateMetrics(replayer.getMetrics());
+	}
+	
 	public void jumpTo(int index, String step) {
 		replayer.setup();
 		if (index >= 990) {
@@ -303,5 +318,9 @@ public class ReplayViewController implements ReplayListener{
 				os.close();
 			}
 		} 
+	}
+
+	public void annotate(String annotation) {
+		replayer.annotate(annotation);
 	}
 }

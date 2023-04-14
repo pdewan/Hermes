@@ -2,12 +2,14 @@ package analyzer.extension.replayView;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -31,6 +33,8 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import fluorite.commands.EHICommand;
 
 public class FileUtility {
 	public static void main(String[] args) {
@@ -433,5 +437,33 @@ public class FileUtility {
 			e.printStackTrace();
 		} 
 	}
-	
+	public static final String XML_FILE_ENDING = "\r\n</Events>"; 
+
+	public static void updateLogFile(File logFile, List<EHICommand> commands) {
+		String firstLine = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(logFile))) {
+			firstLine = br.readLine();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (firstLine.isEmpty()) {
+			return;
+		}
+		StringBuilder sb = new StringBuilder(firstLine);
+		sb.append("\r\n");
+		for (EHICommand command : commands) {
+			sb.append(command.persist());
+		}
+		sb.append(XML_FILE_ENDING);
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(logFile))) {
+			bw.write(sb.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

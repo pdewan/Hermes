@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -64,7 +65,7 @@ public class ReplayUtility {
 					}
 					if (lastLine != null && !lastLine.endsWith("</Events>")) {
 						BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-						writer.write(AReplayer.XML_FILE_ENDING);
+						writer.write(AReplayer2.XML_FILE_ENDING);
 						writer.close();
 					}	
 					reader.close();
@@ -85,40 +86,36 @@ public class ReplayUtility {
 				nestedCommands.remove(i);
 				i--;
 			} else if (commands.size() > 2) {
-//				sortCommands(commands, 0, commands.size()-1);
 				commands.sort((a,b) -> Long.compare(a.getTimestamp()+a.getStartTimestamp(),b.getTimestamp()+b.getStartTimestamp()));
 			}
 		}
 	}
-
-//	private static void sortCommands(List<EHICommand> commands, int start, int end){
-//		for(int i = 0; i < commands.size(); i++) {
-//			if (commands.get(i) == null) {
-//				commands.remove(i);
-//				i--;
-//			}
-//		}
-//		EHICommand command = null;
-//		long cur = 0;
-//		for(int i = 2; i < commands.size(); i++) {
-//			command = commands.get(i);
-//			cur = command.getStartTimestamp()+command.getTimestamp();
-//			int j = i-1;
-//			while (j > 1){
-//				if (commands.get(j).getStartTimestamp() + commands.get(j).getTimestamp() > cur) {
-//					j--;
-//				} else {
-//					break;
-//				}
-//			}
-//			if (j < i-1) {
-//				commands.remove(i);
-//				commands.add(j+1, command);
-//			}
-//		}
-//	}
 	
 	public static List<List<EHICommand>> replayLogs(String projectPath, Analyzer analyzer){
+//		File logFolder = new File(projectPath, "Logs"+File.separator+"Eclipse");
+//		if (!logFolder.exists()) {
+//			System.out.println("No logs found for project " + projectPath);
+//		}
+//		File[] logFiles = logFolder.listFiles(File::isDirectory);
+//		if (logFiles != null && logFiles.length > 0) {
+//			logFolder = logFiles[0];
+//		} 
+//		if (logFolder.getName().equals("Eclipse")) {
+//			refineLogFiles(logFolder.getPath());
+//		}
+		File logFolder = getLogFolder(projectPath);
+		List<List<EHICommand>> nestedCommands = analyzer.convertXMLLogToObjects(logFolder.getPath());
+		sortNestedCommands(nestedCommands);
+		return nestedCommands;
+	}
+	
+	public static File[] getLogFiles(String projectPath) {
+		File[] logFiles = getLogFolder(projectPath).listFiles((parent, name)->name.endsWith(".xml"));
+//		Arrays.sort(logFiles, (a,b) -> a.getName().compareTo(b.getName()));
+		return logFiles;
+	}
+	
+	public static File getLogFolder(String projectPath) {
 		File logFolder = new File(projectPath, "Logs"+File.separator+"Eclipse");
 		if (!logFolder.exists()) {
 			System.out.println("No logs found for project " + projectPath);
@@ -130,13 +127,11 @@ public class ReplayUtility {
 		if (logFolder.getName().equals("Eclipse")) {
 			refineLogFiles(logFolder.getPath());
 		}
-		List<List<EHICommand>> nestedCommands = analyzer.convertXMLLogToObjects(logFolder.getPath());
-		sortNestedCommands(nestedCommands);
-		return nestedCommands;
+		return logFolder;
 	}
 	
 	public static int[] lastOpenFile(List<List<EHICommand>> nestedCommands, int i, int j) {
-		int[] idx = new int[2];
+		int[] idx = new int[] {-1,-1};
 		int m = j-1;
 		for(int n = i; n >= 0; n--) {
 			for(; m >= 0; m--) {

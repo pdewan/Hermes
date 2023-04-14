@@ -6,6 +6,8 @@ public interface ReplayListener {
 	public void forward(String numStep, String step);
 	public void back(String numStep, String step);
 	public void jumpTo(int index, String step);
+	public void reset();
+	public void annotate(String annotation);
 	public void updateTimeSpent(String path, String time);
 	public void zipCurrentProject(IProject path);
 }
