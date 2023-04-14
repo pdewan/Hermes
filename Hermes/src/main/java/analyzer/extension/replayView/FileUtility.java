@@ -271,9 +271,9 @@ public class FileUtility {
             public boolean accept(File file) {
              return file.isDirectory();
             }});
-		if (aFolders.length == 0) {
-			return null;
-		}
+//		if (aFolders.length == 0) {
+//			return null;
+//		}
 		return aFolders;
 	}
 	
@@ -287,7 +287,7 @@ public class FileUtility {
                   }});
 		if (aFiles.length == 0) {
 			File[] aFolders = listFolders(aRoot);
-			if (aFolders.length == 0) {
+			if (aFolders == null || aFolders.length == 0) {
 				return null;
 			}
 			for (File aFolder:aFolders) {
