@@ -30,6 +30,7 @@ import dayton.ellwanger.hermes.preferences.Preferences;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import difficultyPrediction.DifficultyPredictionSettings;
+import fluorite.commands.AnnotationCommand;
 import fluorite.commands.ConsoleOutput;
 import fluorite.commands.Delete;
 import fluorite.commands.EHICommand;
@@ -40,11 +41,15 @@ import fluorite.commands.Insert;
 import fluorite.commands.LocalCheckCommand;
 import fluorite.commands.MoveCaretCommand;
 import fluorite.commands.PauseCommand;
+import fluorite.commands.PiazzaPostCommand;
 import fluorite.commands.Replace;
 import fluorite.commands.RunCommand;
 import fluorite.commands.ShellCommand;
 import fluorite.commands.ShowStatCommand;
 import fluorite.commands.WebCommand;
+import fluorite.commands.ZoomChatCommand;
+import fluorite.commands.ZoomSessionEndCommand;
+import fluorite.commands.ZoomSessionStartCommand;
 import fluorite.model.EHEventRecorder;
 import fluorite.util.EHUtilities;
 import org.eclipse.swt.layout.GridData;
@@ -86,6 +91,7 @@ public class ReplayView extends ViewPart {
 	public final static String DIFFICULTY_TO_NO_DIFFICULTY = "Difficulty->no difficulty";
 	public final static String COMPILE = "Compile";
 	public final static String SAVE = "Save";
+	public final static String ANNOTATION = "Annotation";
 //	public final static String DELETE_FILE = "Delete file";
 //	public final static String REFACTOR = "Refactor";
 	public final static String PAUSE = "Pause";
@@ -96,7 +102,7 @@ public class ReplayView extends ViewPart {
 					  OPEN_FILE, RUN, DEBUG, 
 //					  DIFFICULTY, DIFFICULTY_TO_NO_DIFFICULTY, 
 //					  COMPILE, SAVE, 
-					  PAUSE, WEB, PIAZZA, OFFICE_HOUR};
+					  PAUSE, WEB, PIAZZA, OFFICE_HOUR, ANNOTATION};
 	public final static String WORKTIME = "Work Time";
 	public final static String WALLTIME = "Wall Time";
 	public final static long ONE_MIN = 60000;
@@ -286,7 +292,7 @@ public class ReplayView extends ViewPart {
 		
 		Composite composite_1 = new Composite(timelineComposite, SWT.NONE);
 		composite_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
-		composite_1.setLayout(new GridLayout(7, false));
+		composite_1.setLayout(new GridLayout(9, false));
 		
 		btnExport = new Button(composite_1, SWT.NONE);
 		GridData gd_btnExport = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -340,6 +346,23 @@ public class ReplayView extends ViewPart {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
+		
+		Button resetButton = new Button(composite_1, SWT.PUSH);
+		GridData gd_resetButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_resetButton.widthHint = 70;
+		resetButton.setLayoutData(gd_resetButton);
+		resetButton.setBackground(backgroundColor);
+		resetButton.addSelectionListener(new ResetButtonHandler());
+		resetButton.setText("Reset");
+		
+		Button annotateButton = new Button(composite_1, SWT.PUSH);
+		GridData gd_annotateButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_annotateButton.widthHint = 100;
+		annotateButton.setLayoutData(gd_annotateButton);
+		annotateButton.setBackground(backgroundColor);
+		annotateButton.addSelectionListener(new AnnotateButtonHandler());
+		annotateButton.setText("Annotate");
+		
 		
 		tabFolder = new CTabFolder(parent, SWT.BORDER);
 		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
@@ -530,8 +553,25 @@ public class ReplayView extends ViewPart {
 				if (command.getAttributesMap().get("type").equals("Run")) text.append("Run Project\n");
 				if (command.getAttributesMap().get("type").equals("Debug")) text.append("Debug Project\n");
 			}
+			if (command instanceof PiazzaPostCommand) {
+				text.append(command.getDataMap().get("piazza_post") + "\n");
+			}
+			if (command instanceof ZoomSessionStartCommand) {
+				text.append("Zoom session started: " + command.getDataMap().get("session_start_time") + "\n");
+			}
+			if (command instanceof ZoomChatCommand) {
+				text.append("Zoom chat: \n\t" + command.getDataMap().get("speaktime") + "  " + 
+							command.getDataMap().get("speaker") + ": "+ command.getDataMap().get("chat") + "\n");
+			}
+			if (command instanceof ZoomSessionEndCommand) {
+				text.append("Zoom session ended: " + command.getDataMap().get("session_end_time") + "\n");
+			}
+			if (command instanceof AnnotationCommand) {
+				text.append("Annotation: " + command.getDataMap().get("annotation") + "\n");
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	
@@ -602,6 +642,29 @@ public class ReplayView extends ViewPart {
 		}
 	}
 	
+	class ResetButtonHandler extends SelectionAdapter {
+		public void widgetSelected(SelectionEvent e) {
+//			for (ReplayListener replayListener : replayListeners) {
+			DifficultyPredictionSettings.setReplayMode(true);
+			replayListener.back(text.getText(), stepSelector.getText());
+			DifficultyPredictionSettings.setReplayMode(false);
+//			}
+			parent.layout(true);
+		}
+	}
+	
+	class AnnotateButtonHandler extends SelectionAdapter {
+		public void widgetSelected(SelectionEvent e) {
+//			for (ReplayListener replayListener : replayListeners) {
+			DifficultyPredictionSettings.setReplayMode(true);
+			String annotation = JOptionPane.showInputDialog("Enter annotation");
+			replayListener.annotate(annotation);
+			DifficultyPredictionSettings.setReplayMode(false);
+//			}
+			parent.layout(true);
+		}
+	}
+	
 	class SliderHandler implements DragDetectListener{
 		public void dragDetected(DragDetectEvent e) {
 //			for (ReplayListener replayListener : replayListeners) {
@@ -612,4 +675,6 @@ public class ReplayView extends ViewPart {
 			parent.layout(true);
 		}
 	}
+	
+
 }

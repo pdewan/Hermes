@@ -17,6 +17,8 @@ import org.eclipse.core.resources.IProject;
 import analyzer.Analyzer;
 import analyzer.MainConsoleUI;
 import analyzer.extension.ADifficultyPredictionAndStatusPrinter;
+import fluorite.commands.AnnotateCommand;
+import fluorite.commands.AnnotationCommand;
 import fluorite.commands.ConsoleOutput;
 import fluorite.commands.Delete;
 import fluorite.commands.DiffBasedFileOpenCommand;
@@ -34,12 +36,15 @@ import fluorite.commands.Replace;
 import fluorite.commands.RunCommand;
 import fluorite.commands.ShellCommand;
 import fluorite.commands.WebCommand;
+import fluorite.commands.ZoomChatCommand;
+import fluorite.commands.ZoomSessionEndCommand;
 import fluorite.commands.ZoomSessionStartCommand;
 import fluorite.model.EHEventRecorder;
 import programmatically.AnEclipseProgrammaticController;
 
 public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	private List<List<EHICommand>> nestedCommands;
+	private File[] currentLogFiles;
 	private final AnEclipseProgrammaticController PROGRAMATIC_CONTROLLER;
 	private Analyzer analyzer;
 	private String currentProjectPath;
@@ -69,6 +74,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	}
 
 	public List<List<EHICommand>> replayLogs(String projectPath, Analyzer analyzer){
+		currentLogFiles = ReplayUtility.getLogFiles(projectPath);
 		nestedCommands = ReplayUtility.replayLogs(projectPath, analyzer);
 		if (nestedCommands.isEmpty()) {
 			i = 0;
@@ -132,41 +138,75 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 			currentProjectPath = ReplayUtility.getCurrentProjectPath();
 			replayLogs(currentProjectPath, analyzer);
 //			createMetrics(currentProjectPath);
-			outer: 
-				for(int n = nestedCommands.size()-1; n >= 0; n--) {
-					for(int m = nestedCommands.get(n).size()-1; m >= 0; m--) {
-						if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
-							currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
-							String path = ReplayUtility.getFilePath(currentFile);
-							currentFileEditor = FileEditor.getEditor(path);
-							PROGRAMATIC_CONTROLLER.getOrCreateProject(ReplayUtility.getCurrentProjectName(), currentProjectPath);
-							PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
-							break outer;
-						}
-					}
-				}
-			numOfCommands = 0;
-			currentExceptions = 0;
-			totalTimeSpent = 0;
-			currentTimeSpent = 0;
-			currentTime = System.currentTimeMillis();
-			calculateCurrentTimeSpent();
-			calculateTotalTimeSpent();
-			for (List<EHICommand> commands : nestedCommands) {
-				numOfCommands += commands.size();
-				for (EHICommand command : commands) {
-					if (command instanceof ExceptionCommand) {
-						currentExceptions++;
-					}
-				}
-			}
-			i = nestedCommands.size() - 1;
-			j = nestedCommands.get(i).size() - 1;
+			reset();
+//			outer: 
+//				for(int n = nestedCommands.size()-1; n >= 0; n--) {
+//					for(int m = nestedCommands.get(n).size()-1; m >= 0; m--) {
+//						if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
+//							currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
+//							String path = ReplayUtility.getFilePath(currentFile);
+//							currentFileEditor = FileEditor.getEditor(path);
+//							PROGRAMATIC_CONTROLLER.getOrCreateProject(ReplayUtility.getCurrentProjectName(), currentProjectPath);
+//							PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+//							break outer;
+//						}
+//					}
+//				}
+//			numOfCommands = 0;
+//			currentExceptions = 0;
+//			totalTimeSpent = 0;
+//			currentTimeSpent = 0;
+//			calculateCurrentTimeSpent();
+//			calculateTotalTimeSpent();
+//			for (List<EHICommand> commands : nestedCommands) {
+//				numOfCommands += commands.size();
+//				for (EHICommand command : commands) {
+//					if (command instanceof ExceptionCommand) {
+//						currentExceptions++;
+//					}
+//				}
+//			}
+//			i = nestedCommands.size() - 1;
+//			j = nestedCommands.get(i).size() - 1;
 		} else {
 			openEditor(currentFile);
 		}
 	}
 	
+	public void reset() {
+		if (nestedCommands == null) {
+			return;
+		}
+		outer: 
+			for(int n = nestedCommands.size()-1; n >= 0; n--) {
+				for(int m = nestedCommands.get(n).size()-1; m >= 0; m--) {
+					if (nestedCommands.get(n).get(m) instanceof FileOpenCommand) {
+						currentFile = (FileOpenCommand)nestedCommands.get(n).get(m);
+						String path = ReplayUtility.getFilePath(currentFile);
+						currentFileEditor = FileEditor.getEditor(path);
+						PROGRAMATIC_CONTROLLER.getOrCreateProject(ReplayUtility.getCurrentProjectName(), currentProjectPath);
+						PROGRAMATIC_CONTROLLER.openEditor(path.substring(path.lastIndexOf("src")));
+						break outer;
+					}
+				}
+			}
+		numOfCommands = 0;
+		currentExceptions = 0;
+		totalTimeSpent = 0;
+		currentTimeSpent = 0;
+		calculateCurrentTimeSpent();
+		calculateTotalTimeSpent();
+		for (List<EHICommand> commands : nestedCommands) {
+			numOfCommands += commands.size();
+			for (EHICommand command : commands) {
+				if (command instanceof ExceptionCommand) {
+					currentExceptions++;
+				}
+			}
+		}
+		i = nestedCommands.size() - 1;
+		j = nestedCommands.get(i).size() - 1;
+	}
 	private void openEditor(EHICommand currentFile) {
 		String path = currentFile.getDataMap().get("filePath");
 		int srcIdx = path.lastIndexOf("src");
@@ -178,7 +218,10 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		if (command instanceof WebCommand || command instanceof ExceptionCommand || 
 			command instanceof ConsoleOutput || command instanceof PauseCommand || 
 			command instanceof LocalCheckCommand || command instanceof FileOpenCommand ||
-			command instanceof Insert || command instanceof Delete || command instanceof Replace) {
+			command instanceof Insert || command instanceof Delete || command instanceof Replace ||
+			command instanceof PiazzaPostCommand || command instanceof ZoomSessionStartCommand ||
+			command instanceof ZoomChatCommand || command instanceof ZoomSessionEndCommand ||
+			command instanceof AnnotationCommand) {
 			commandList.add(command);
 		}
 	}
@@ -214,29 +257,38 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		case ReplayView.DEBUG:
 			backToDebug();
 			break;
-		case ReplayView.DIFFICULTY:
-		case ReplayView.DIFFICULTY_TO_NO_DIFFICULTY:
-		case ReplayView.OPEN_FILE:
-		case ReplayView.WEB:
-		case ReplayView.EXCEPTION:
-		case ReplayView.EXCEPTION_TO_FIX:
-		case ReplayView.FIX:
-		case ReplayView.LOCALCHECKS:
-		case ReplayView.SAVE:
-		case ReplayView.OFFICE_HOUR:
-		case ReplayView.PIAZZA:
-			backToCommandType(step);
-			break;
+//		case ReplayView.DIFFICULTY:
+//		case ReplayView.DIFFICULTY_TO_NO_DIFFICULTY:
+//		case ReplayView.OPEN_FILE:
+//		case ReplayView.WEB:
+//		case ReplayView.EXCEPTION:
+//		case ReplayView.EXCEPTION_TO_FIX:
+//		case ReplayView.FIX:
+//		case ReplayView.LOCALCHECKS:
+//		case ReplayView.SAVE:
+//		case ReplayView.OFFICE_HOUR:
+//		case ReplayView.PIAZZA:
+//		case ReplayView.ANNOTATION:
+//			backToCommandType(step);
+//			break;
 		default:
-			commandList.clear();
+			backToCommandType(step);
+//			commandList.clear();
 			break;
 		}
 		openEditor(currentFile);
+		if (i < 0) {
+			i = 0;
+		}
+		if (j < 0) {
+			j = 0;
+		}
 		return commandList;
 	}
+	
 	public List<EHICommand> backToCommandType(String type){
 		outer:
-			for(; i >= 0; i--) {
+			for(; i >= 0 && i < nestedCommands.size(); i--) {
 				if (i >= nestedCommands.size()) {
 					i = nestedCommands.size()-1;
 				}
@@ -261,7 +313,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 
 	public List<EHICommand> backToPause(int time){
 		outer:
-			for(; i >= 0; i--) {
+			for(; i >= 0 && i < nestedCommands.size(); i--) {
 				if (i >= nestedCommands.size()) {
 					i = nestedCommands.size()-1;
 				}
@@ -287,11 +339,10 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		return commandList;
 	}
 
-
 	public List<EHICommand> backToRun(){
 		boolean hitRun = false;
 		outer:
-			for(; i >= 0; i--) {
+			for(; i >= 0 && i < nestedCommands.size(); i--) {
 				if (i >= nestedCommands.size()) {
 					i = nestedCommands.size()-1;
 				}
@@ -303,7 +354,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 					EHICommand command = commands.get(j);
 					processBackCommand(command);
 					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Run")) {
-						commandList.add(command);
+//						commandList.add(command);
 						hitRun = true;
 					}
 					if (hitRun && !(command instanceof RunCommand)) {
@@ -320,7 +371,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	public List<EHICommand> backToDebug(){
 		boolean hitDebug = false;
 		outer:
-			for(; i >= 0; i--) {
+			for(; i >= 0 && i < nestedCommands.size(); i--) {
 				if (i >= nestedCommands.size()) {
 					i = nestedCommands.size()-1;
 				}
@@ -333,7 +384,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 					EHICommand command = commands.get(j);
 					processBackCommand(command);
 					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Debug")) {
-						commandList.add(command);
+//						commandList.add(command);
 						hitDebug = true;
 					}
 					if (hitDebug && !(command instanceof RunCommand)) {
@@ -394,7 +445,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 //	}
 
 	public List<EHICommand> backEdit(int limit) {
-		for(; i >= 0; i--) {
+		for(; i >= 0 && i < nestedCommands.size(); i--) {
 			if (i >= nestedCommands.size()) {
 				i = nestedCommands.size()-1;
 			}
@@ -433,7 +484,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 
 	public List<EHICommand> backByTime(long backTime) {
 		outer:
-			for(; i >= 0; i--) {
+			for(; i >= 0 && i < nestedCommands.size(); i--) {
 				if (i >= nestedCommands.size()) {
 					i = nestedCommands.size()-1;
 				}
@@ -510,6 +561,8 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 			return command instanceof PiazzaPostCommand;
 		case ReplayView.OFFICE_HOUR:
 			return command instanceof ZoomSessionStartCommand;
+		case ReplayView.ANNOTATION:
+			return command instanceof AnnotationCommand;
 		default:
 			return false;
 		}
@@ -556,22 +609,29 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		case ReplayView.DEBUG:
 			forwardToDebug();
 			break;
-		case ReplayView.EXCEPTION:
-		case ReplayView.EXCEPTION_TO_FIX:
-		case ReplayView.FIX:
-		case ReplayView.LOCALCHECKS:
-		case ReplayView.DIFFICULTY:
-		case ReplayView.DIFFICULTY_TO_NO_DIFFICULTY:
-		case ReplayView.OPEN_FILE:
-		case ReplayView.WEB:
-		case ReplayView.SAVE:
-		case ReplayView.OFFICE_HOUR:
-		case ReplayView.PIAZZA:
+//		case ReplayView.EXCEPTION:
+//		case ReplayView.EXCEPTION_TO_FIX:
+//		case ReplayView.FIX:
+//		case ReplayView.LOCALCHECKS:
+//		case ReplayView.DIFFICULTY:
+//		case ReplayView.DIFFICULTY_TO_NO_DIFFICULTY:
+//		case ReplayView.OPEN_FILE:
+//		case ReplayView.WEB:
+//		case ReplayView.SAVE:
+//		case ReplayView.OFFICE_HOUR:
+//		case ReplayView.PIAZZA:
+//			forwardToCommandType(step);
+//			break;
+		default: 
+//			commandList.clear();
 			forwardToCommandType(step);
 			break;
-		default: 
-			commandList.clear();
-			break;
+		}
+		if (i >= nestedCommands.size()) {
+			i = nestedCommands.size() - 1;
+		}
+		if (j >= nestedCommands.size()) {
+			j = nestedCommands.size() - 1;
 		}
 //		commandList.clear();
 		openEditor(currentFile);
@@ -580,7 +640,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	
 	public List<EHICommand> forwardToPause(int time){
 		outer:
-			for(; i < nestedCommands.size(); i++) {
+			for(; i < nestedCommands.size() && i >= 0; i++) {
 				if (i >= nestedCommands.size()) {
 					return commandList;
 				}
@@ -613,7 +673,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	public List<EHICommand> forwardToRun(){
 		boolean hitRun = false;
 		outer:
-			for(; i < nestedCommands.size(); i++) {
+			for(; i < nestedCommands.size() && i >= 0; i++) {
 				if (i >= nestedCommands.size()) {
 					return commandList;
 				}
@@ -629,7 +689,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 					EHICommand command = commands.get(j);
 					processForwardCommand(command);
 					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Run")) {
-						commandList.add(command);
+//						commandList.add(command);
 						hitRun = true;
 					}
 					if (hitRun && !(command instanceof RunCommand)) {
@@ -644,7 +704,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	public List<EHICommand> forwardToDebug(){
 		boolean hitDebug = false;
 		outer:
-			for(; i < nestedCommands.size(); i++) {
+			for(; i < nestedCommands.size() && i >= 0; i++) {
 				if (i >= nestedCommands.size()) {
 					return commandList;
 				}
@@ -660,7 +720,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 					EHICommand command = commands.get(j);
 					processForwardCommand(command);
 					if (command instanceof RunCommand && command.getAttributesMap().get("type").equals("Debug")) {
-						commandList.add(command);
+//						commandList.add(command);
 						hitDebug = true;
 					}
 					if (hitDebug && !(command instanceof RunCommand)) {
@@ -806,7 +866,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 
 	public List<EHICommand> forwardToCommandType(String type){
 		outer:
-			for(; i < nestedCommands.size(); i++) {
+			for(; i < nestedCommands.size() && i >= 0; i++) {
 				if (i >= nestedCommands.size()) {
 					return commandList;
 				}
@@ -822,6 +882,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 					EHICommand command = commands.get(j);
 					processForwardCommand(command);
 					if (commandIsType(command, type)) {
+						j++;
 						break outer;
 					}
 				}
@@ -833,7 +894,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	}
 
 	public List<EHICommand> forwardEdit(int limit) {
-		for(; i < nestedCommands.size(); i++) {
+		for(; i < nestedCommands.size() && i >= 0; i++) {
 			if (i >= nestedCommands.size()) {
 				return commandList;
 			}
@@ -873,7 +934,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 
 	public List<EHICommand> forwardByTime(long forwardTime) {
 		outer:
-			for(; i < nestedCommands.size(); i++) {
+			for(; i < nestedCommands.size() && i >= 0; i++) {
 				if (i >= nestedCommands.size()) {
 					return commandList;
 				}
@@ -1295,6 +1356,9 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		}
 		if (command instanceof FileOpenCommand) {
 			int[] idx = ReplayUtility.lastOpenFile(nestedCommands, i, j);
+			if (idx[0] == -1 || idx[1] == -1) {
+				return;
+			}
 			currentFile = (FileOpenCommand)nestedCommands.get(idx[0]).get(idx[1]);
 			String snapshot = ReplayUtility.getSnapshot(currentFile);
 			if (!ReplayUtility.isNull(snapshot)) {
@@ -1384,5 +1448,16 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		file[0] = currentFileEditor.getFileName();
 		file[1] = currentFileEditor.getContent();
 		return file;
+	}
+	
+	public void annotate(String annotation) {
+		List<EHICommand> commands = nestedCommands.get(i);
+		EHICommand lastCommand = commands.get(j);
+		AnnotationCommand annotationCommand = new AnnotationCommand(annotation);
+		annotationCommand.setStartTimestamp(lastCommand.getStartTimestamp());
+		annotationCommand.setTimestamp(lastCommand.getTimestamp()+1);
+		File logFile = currentLogFiles[i];
+		commands.add(++j, annotationCommand);
+		FileUtility.updateLogFile(logFile, commands);
 	}
 }
