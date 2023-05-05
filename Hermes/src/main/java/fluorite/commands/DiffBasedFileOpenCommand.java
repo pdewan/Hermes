@@ -343,7 +343,7 @@ public class DiffBasedFileOpenCommand extends FileOpenCommand {
 			if (value != null && !value.equals("null")) {
 				if (value.startsWith("Diff(")) {
 					diff = Normalizer.normalize(value, Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-					diff = diff.substring(1, diff.length()-1);
+//					diff = diff.substring(1, diff.length()-1);
 				} else {
 					diff = value;
 				}
