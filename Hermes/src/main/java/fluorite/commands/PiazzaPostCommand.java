@@ -13,7 +13,7 @@ public class PiazzaPostCommand extends AbstractCommand implements EHICommand{
 	protected JSONObject piazzaPost;
 //	final static String FAIL_DECLINE = "fail_decline";
 //	final static String FAIL_GROWTH = "fail_growth";
-	final static String PIAZZA_POST = "piazza_post";
+	public final static String PIAZZA_POST = "piazza_post";
 
 	
 	public PiazzaPostCommand() {}

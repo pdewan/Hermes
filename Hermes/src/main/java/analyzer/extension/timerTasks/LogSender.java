@@ -33,10 +33,12 @@ public class LogSender extends TimerTask {
 	private long startTimeStamp = 0;
 	private static LogSender instance;
 //	private String logFilePath = "";
-	private byte[] machineID; 
+//	private byte[] machineID; 
+//	private String loggedName;
 	private int sequence = 0;
 	private static final String MACHINE_ID = "machine_id";
 	private static final String LOG_ID = "log_id";
+//	private static final String USER_ID = "uer_id";
 	private static final String SESSION_ID = "session_id";
 	private static final String LOG_TYPE = "log_type";
 	public static final String COURSE_ID = "course_id";
@@ -59,17 +61,40 @@ public class LogSender extends TimerTask {
 		return instance;
 	}
 	
+//	void initMachineID() {
+//		Enumeration<NetworkInterface> e;
+//		machineID = null;
+//		try {
+//			e = NetworkInterface.getNetworkInterfaces();
+//			while(machineID == null && e.hasMoreElements()) {
+//				machineID = e.nextElement().getHardwareAddress();
+//			}
+//		} catch (SocketException e1) {
+//			e1.printStackTrace();
+//		}
+//	}
+//	
+//	void initLoggedName() {
+//		loggedName = LogNameManager.getLoggedName();
+//	}
+	
 	private LogSender() {
-		Enumeration<NetworkInterface> e;
-		machineID = null;
-		try {
-			e = NetworkInterface.getNetworkInterfaces();
-			while(machineID == null && e.hasMoreElements()) {
-				machineID = e.nextElement().getHardwareAddress();
-			}
-		} catch (SocketException e1) {
-			e1.printStackTrace();
-		}
+//		initMachineID();
+//		initLoggedName();
+
+		
+//		Enumeration<NetworkInterface> e;
+//		machineID = null;
+//		try {
+//			e = NetworkInterface.getNetworkInterfaces();
+//			while(machineID == null && e.hasMoreElements()) {
+//				machineID = e.nextElement().getHardwareAddress();
+//			}
+//		} catch (SocketException e1) {
+//			e1.printStackTrace();
+//		}
+		
+		
 //		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 //			public void run() {
 //				lastPath = EHEventRecorder.loggerToFileName.get(Logger.getLogger(EHUtilities.getCurrentProject().getName())).getPath();
@@ -92,11 +117,24 @@ public class LogSender extends TimerTask {
 			JSONObject report = new JSONObject();
 			report.put(LOG_ID, path);
 			report.put(SESSION_ID, partNum);
-			if (machineID == null) {
-				report.put(MACHINE_ID, NO_NETWORK);
-			} else {
-				report.put(MACHINE_ID, machineID);
+//			if (machineID == null) {
+//				report.put(MACHINE_ID, NO_NETWORK);
+//			} else {
+//				report.put(MACHINE_ID, machineID);
+//			}
+			
+			String aLoggedName = LogNameManager.getLoggedName();
+			if (aLoggedName == null) { // this should never happen
+				aLoggedName = LogNameManager.getMachineId();
 			}
+			report.put(MACHINE_ID, aLoggedName);
+			
+//			if (loggedName == null) {
+//				report.put(MACHINE_ID, NO_NETWORK);
+//			} else {
+//				report.put(MACHINE_ID, loggedName);
+//			}
+			
 			report.put(LOG_TYPE, ECLIPSE);
 			report.put(COURSE_ID, EditorsUI.getPreferenceStore().getString(COURSE));
 			report.put(LOG, log);
