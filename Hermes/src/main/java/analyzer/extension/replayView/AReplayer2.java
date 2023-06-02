@@ -208,9 +208,11 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		j = nestedCommands.get(i).size() - 1;
 	}
 	private void openEditor(EHICommand currentFile) {
+		if (currentFile == null) return;
 		String path = currentFile.getDataMap().get("filePath");
 		int srcIdx = path.lastIndexOf("src");
 		if (srcIdx == -1) return;
+//		if (new File(path))
 		PROGRAMATIC_CONTROLLER.openEditor(path.substring(srcIdx));
 	}
 	
@@ -1238,7 +1240,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 				}
 			}
 			long timestamp1 = commands.get(j).getTimestamp() + commands.get(j).getStartTimestamp();
-			EHICommand command2 = commands.get(k==i?this.j:commands.size()-1);
+			EHICommand command2 = commands.get(k==i?Math.max(0, this.j-1):commands.size()-1);
 			long timestamp2 = command2.getStartTimestamp() + command2.getTimestamp();
 			projectTime += timestamp2 - timestamp1;
 		}
@@ -1251,7 +1253,7 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	}
 	
 	public String getCurrentTimestamp() {
-		EHICommand command = nestedCommands.get(i).get(j);
+		EHICommand command = nestedCommands.get(i).get(j==nestedCommands.get(i).size()?Math.max(j-1, 0):j);
 		return df.format(new Date(command.getStartTimestamp()+command.getTimestamp()));
 	}
 

@@ -1,5 +1,7 @@
 package analyzer.extension.replayView;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -70,7 +74,7 @@ public class ReplayView extends ViewPart {
 	ScrolledComposite scrolledComposite;
 	private ScrolledComposite sc_1;
 	Slider timeline;
-	Composite forwardBackComposite;
+	Composite controlComposite;
 	Combo stepSelector;
 	Label commandLabel;
 	Label lblFile;
@@ -135,6 +139,10 @@ public class ReplayView extends ViewPart {
 	
 	public ReplayView() {
 		replayListener = new ReplayViewController(this);
+		UIManager.put("OptionPane.messageFont", new Font("Arial", Font.BOLD, 18));
+		UIManager.put("OptionPane.buttonFont", new Font("Arial", Font.PLAIN, 14));
+		UIManager.put("OptionPane.minimumSize",new Dimension(300,200)); 
+
 //		timer = new Timer();
 	}
 	
@@ -149,29 +157,29 @@ public class ReplayView extends ViewPart {
 //		rl_parent.wrap = false;
 		parent.setLayout(rl_parent);
 		
-		forwardBackComposite = new Composite(parent, SWT.NONE);
-		GridData gd_forwardBackComposite = new GridData(917, 480);
-		gd_forwardBackComposite.horizontalAlignment = SWT.FILL;
-		gd_forwardBackComposite.verticalAlignment = SWT.FILL;
-		gd_forwardBackComposite.grabExcessHorizontalSpace = true;
-		gd_forwardBackComposite.grabExcessVerticalSpace = true;
-		forwardBackComposite.setLayoutData(gd_forwardBackComposite);
-		forwardBackComposite.setBackground(backgroundColor);
-		GridLayout rl_forwardBackComposite = new GridLayout();
+		controlComposite = new Composite(parent, SWT.NONE);
+		GridData gd_controlComposite = new GridData(917, 480);
+		gd_controlComposite.horizontalAlignment = SWT.FILL;
+		gd_controlComposite.verticalAlignment = SWT.FILL;
+		gd_controlComposite.grabExcessHorizontalSpace = true;
+		gd_controlComposite.grabExcessVerticalSpace = false;
+		controlComposite.setLayoutData(gd_controlComposite);
+		controlComposite.setBackground(backgroundColor);
+		GridLayout rl_controlComposite = new GridLayout();
 //		rl_forwardBackComposite.wrap = false;
-		forwardBackComposite.setLayout(rl_forwardBackComposite);
+		controlComposite.setLayout(rl_controlComposite);
 		
-		Composite forwardBackTimelineComposite = new Composite(forwardBackComposite, SWT.NONE);
-		GridData gd_forwardBackTimelineComposite = new GridData(541, -1);
-		gd_forwardBackTimelineComposite.horizontalAlignment = SWT.FILL;
-		gd_forwardBackTimelineComposite.verticalAlignment = SWT.TOP;
-		forwardBackTimelineComposite.setLayoutData(gd_forwardBackTimelineComposite);
-		forwardBackTimelineComposite.setBackground(backgroundColor);
-		GridLayout gl_forwardBackTimelineComposite = new GridLayout();
-		gl_forwardBackTimelineComposite.numColumns = 3;
-		forwardBackTimelineComposite.setLayout(gl_forwardBackTimelineComposite);
+		Composite timeComposite = new Composite(controlComposite, SWT.NONE);
+		GridData gd_timeComposite = new GridData(541, -1);
+		gd_timeComposite.horizontalAlignment = SWT.FILL;
+		gd_timeComposite.verticalAlignment = SWT.TOP;
+		timeComposite.setLayoutData(gd_timeComposite);
+		timeComposite.setBackground(backgroundColor);
+		GridLayout gd_Composite = new GridLayout();
+		gd_Composite.numColumns = 3;
+		timeComposite.setLayout(gd_Composite);
 		
-		timeCombo = new Combo(forwardBackTimelineComposite, SWT.READ_ONLY);
+		timeCombo = new Combo(timeComposite, SWT.READ_ONLY);
 		GridData gd_timeCombo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_timeCombo.widthHint = 86;
 		timeCombo.setLayoutData(gd_timeCombo);
@@ -219,12 +227,12 @@ public class ReplayView extends ViewPart {
 //			}
 //		}, ONE_MIN, ONE_MIN);
 		
-		timelbl = new Label(forwardBackTimelineComposite, SWT.NONE);
+		timelbl = new Label(timeComposite, SWT.NONE);
 		timelbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		absTimeLbl = new Label(forwardBackTimelineComposite, SWT.NONE);
+		absTimeLbl = new Label(timeComposite, SWT.NONE);
 		absTimeLbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		tabFolder2 = new TabFolder(forwardBackComposite, SWT.NONE);
+		tabFolder2 = new TabFolder(controlComposite, SWT.NONE);
 		GridData gd_tabFolder2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_tabFolder2.heightHint = 287;
 		tabFolder2.setLayoutData(gd_tabFolder2);
@@ -264,7 +272,7 @@ public class ReplayView extends ViewPart {
 //		sc.setMinSize(MetricTable.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 //		sc.setMinSize(new Point(5000, 5000));
 		
-		Composite timelineComposite = new Composite(forwardBackComposite, SWT.NONE);
+		Composite timelineComposite = new Composite(controlComposite, SWT.NONE);
 		GridData gd_timelineComposite = new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1);
 		gd_timelineComposite.widthHint = 910;
 		timelineComposite.setLayoutData(gd_timelineComposite);
@@ -290,11 +298,68 @@ public class ReplayView extends ViewPart {
 		timeline.setBounds(115, 50, 500, 500);
 		timeline.addDragDetectListener(new SliderHandler());
 		
-		Composite composite_1 = new Composite(timelineComposite, SWT.NONE);
-		composite_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
-		composite_1.setLayout(new GridLayout(9, false));
+		Composite moveComposite = new Composite(controlComposite, SWT.NONE);
+		moveComposite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		moveComposite.setLayout(new GridLayout(4, false));
 		
-		btnExport = new Button(composite_1, SWT.NONE);
+		Button backButton = new Button(moveComposite, SWT.PUSH);
+		GridData gd_backButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_backButton.widthHint = 70;
+		backButton.setLayoutData(gd_backButton);
+		backButton.setBackground(backgroundColor);
+		backButton.addSelectionListener(new BackButtonHandler());
+		backButton.setText("Back");
+		
+		text = new Text(moveComposite, SWT.BORDER);
+		text.setText("1");
+		GridData gd_text = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_text.widthHint = 50;
+		text.setLayoutData(gd_text);
+		
+		stepSelector = new Combo(moveComposite, SWT.DROP_DOWN | SWT.READ_ONLY);
+		stepSelector.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
+		stepSelector.setItems(steps);
+		stepSelector.setText(EDIT);
+		
+		Button forwardButton = new Button(moveComposite, SWT.PUSH);
+		forwardButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		forwardButton.setBackground(backgroundColor);
+		forwardButton.addSelectionListener(new ForwardButtonHandler());
+		forwardButton.setBackground(backgroundColor);
+		forwardButton.setText("Forward");
+		
+		Composite utilComposite = new Composite(controlComposite, SWT.NONE);
+		utilComposite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		utilComposite.setLayout(new GridLayout(4, false));
+		
+		btnShowPause = new Button(utilComposite, SWT.CHECK);
+		btnShowPause.setText("Show Pause");
+		btnShowPause.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				showPause = !showPause;
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		
+		Button resetButton = new Button(utilComposite, SWT.PUSH);
+		GridData gd_resetButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_resetButton.widthHint = 70;
+		resetButton.setLayoutData(gd_resetButton);
+		resetButton.setBackground(backgroundColor);
+		resetButton.addSelectionListener(new ResetButtonHandler());
+		resetButton.setText("Reset");
+		
+		Button annotateButton = new Button(utilComposite, SWT.PUSH);
+		GridData gd_annotateButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_annotateButton.widthHint = 100;
+		annotateButton.setLayoutData(gd_annotateButton);
+		annotateButton.setBackground(backgroundColor);
+		annotateButton.addSelectionListener(new AnnotateButtonHandler());
+		annotateButton.setText("Annotate");
+		
+		btnExport = new Button(utilComposite, SWT.NONE);
 		GridData gd_btnExport = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnExport.widthHint = 70;
 		btnExport.setLayoutData(gd_btnExport);
@@ -308,61 +373,6 @@ public class ReplayView extends ViewPart {
 				}).start();
 			}
 		});
-		
-		Button backButton = new Button(composite_1, SWT.PUSH);
-		GridData gd_backButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
-		gd_backButton.widthHint = 70;
-		backButton.setLayoutData(gd_backButton);
-		backButton.setBackground(backgroundColor);
-		backButton.addSelectionListener(new BackButtonHandler());
-		backButton.setText("Back");
-		
-		text = new Text(composite_1, SWT.BORDER);
-		text.setText("1");
-		GridData gd_text = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_text.widthHint = 50;
-		text.setLayoutData(gd_text);
-		
-		stepSelector = new Combo(composite_1, SWT.DROP_DOWN | SWT.READ_ONLY);
-		stepSelector.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
-		stepSelector.setItems(steps);
-		stepSelector.setText(EDIT);
-		
-		Button forwardButton = new Button(composite_1, SWT.PUSH);
-		forwardButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		forwardButton.setBackground(backgroundColor);
-		forwardButton.addSelectionListener(new ForwardButtonHandler());
-		forwardButton.setBackground(backgroundColor);
-		forwardButton.setText("Forward");
-		
-		btnShowPause = new Button(composite_1, SWT.CHECK);
-		btnShowPause.setText("Show Pause");
-		new Label(composite_1, SWT.NONE);
-		btnShowPause.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				showPause = !showPause;
-			}
-			
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		
-		Button resetButton = new Button(composite_1, SWT.PUSH);
-		GridData gd_resetButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
-		gd_resetButton.widthHint = 70;
-		resetButton.setLayoutData(gd_resetButton);
-		resetButton.setBackground(backgroundColor);
-		resetButton.addSelectionListener(new ResetButtonHandler());
-		resetButton.setText("Reset");
-		
-		Button annotateButton = new Button(composite_1, SWT.PUSH);
-		GridData gd_annotateButton = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
-		gd_annotateButton.widthHint = 100;
-		annotateButton.setLayoutData(gd_annotateButton);
-		annotateButton.setBackground(backgroundColor);
-		annotateButton.addSelectionListener(new AnnotateButtonHandler());
-		annotateButton.setText("Annotate");
-		
 		
 		tabFolder = new CTabFolder(parent, SWT.BORDER);
 		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
@@ -646,7 +656,7 @@ public class ReplayView extends ViewPart {
 		public void widgetSelected(SelectionEvent e) {
 //			for (ReplayListener replayListener : replayListeners) {
 			DifficultyPredictionSettings.setReplayMode(true);
-			replayListener.back(text.getText(), stepSelector.getText());
+			replayListener.reset();
 			DifficultyPredictionSettings.setReplayMode(false);
 //			}
 			parent.layout(true);

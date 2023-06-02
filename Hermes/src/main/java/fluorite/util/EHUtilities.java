@@ -805,7 +805,9 @@ public class EHUtilities /*extends Utilities*/{
 	}
 	public static void  openEditorInUIThread(IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
-		
+		if (!aFile.exists()) {
+			return;
+		}
 		StringBuilder sb = new StringBuilder();
 		try (BufferedReader  br = new BufferedReader (new InputStreamReader(aFile.getContents()))) {
 			while (br.ready()) {
@@ -881,6 +883,9 @@ public class EHUtilities /*extends Utilities*/{
 	
 	public static void openEditorSynchronous(IProject aProject, String aFileName) {
 		IFile aFile = aProject.getFile(aFileName);
+		if (!aFile.exists()) {
+			return;
+		}
 		getDisplay().syncExec(new Runnable() {
 			@Override
 			public void run() {
