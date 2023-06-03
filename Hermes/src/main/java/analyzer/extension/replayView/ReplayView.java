@@ -547,7 +547,16 @@ public class ReplayView extends ViewPart {
 			if (command instanceof Delete) text.append(command.getCommandType() + " \"" + command.getDataMap().get("text") + "\" at " + command.getAttributesMap().get("offset") + "\n");
 			if (command instanceof ExceptionCommand) text.append("Exception: \"" + command.getDataMap().get("exceptionString") + "\"\n");
 			if (command instanceof ConsoleOutput) text.append("Console Output: \"" + command.getDataMap().get("outputString") + "\"\n");
-			if (command instanceof FileOpenCommand) text.append("Opened File " + command.getDataMap().get("filePath").substring(command.getDataMap().get("filePath").indexOf("src")) + "\n"); 
+			if (command instanceof FileOpenCommand) {
+				String fileName = command.getDataMap().get("filePath");
+				if (fileName.contains("src")) {
+					fileName = fileName.substring(fileName.indexOf("src"));
+				}
+				if (fileName.contains("Logs")) {
+					fileName = fileName.substring(fileName.indexOf("src"));
+				}
+				text.append("Opened File " + fileName + "\n"); 
+			}
 			if (command instanceof WebCommand) {
 					openWebsite(command);
 					text.append("Web Access: " + command.getAttributesMap().get("type") + " keyword = " + command.getDataMap().get("keyword") + " URL = " + command.getDataMap().get("URL")+"\n");
