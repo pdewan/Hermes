@@ -553,7 +553,7 @@ public class ReplayView extends ViewPart {
 					fileName = fileName.substring(fileName.indexOf("src"));
 				}
 				if (fileName.contains("Logs")) {
-					fileName = fileName.substring(fileName.indexOf("src"));
+					fileName = fileName.substring(fileName.indexOf("Logs"));
 				}
 				text.append("Opened File " + fileName + "\n"); 
 			}

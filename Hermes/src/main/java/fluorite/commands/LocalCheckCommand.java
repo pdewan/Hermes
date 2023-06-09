@@ -11,15 +11,15 @@ import fluorite.model.EHEventRecorder;
 public class LocalCheckCommand extends AbstractCommand implements EHICommand{
 	String testcase, type;
 	String status = NORMAL;
-	final static String PASSED = "passed";
+	public final static String PASSED = "passed";
 //	final static String FAIL_DECLINE = "fail_decline";
 //	final static String FAIL_GROWTH = "fail_growth";
-	final static String TYPE = "type";
-	final static String TESTCASE = "testcase";
-	final static String STATUS = "status";
-	final static String NORMAL = "normal";
-	final static String DIFFICULTY = "difficulty";
-	final static String FIX = "fix";
+	public final static String TYPE = "type";
+	public final static String TESTCASE = "testcase";
+	public final static String STATUS = "status";
+	public final static String NORMAL = "normal";
+	public final static String DIFFICULTY = "difficulty";
+	public final static String FIX = "fix";
 
 
 	

@@ -81,6 +81,7 @@ public class AChromeHistoryAccessor {
 
 	public static void copyTargetFile() throws IOException {
 		targetFile = new File(targetFileName);
+		try {
 		deleteTargetFile();
 
 		Path aFrom = Paths.get(sourceFile.getAbsolutePath());
@@ -88,6 +89,9 @@ public class AChromeHistoryAccessor {
 		CopyOption[] options = new CopyOption[] { StandardCopyOption.REPLACE_EXISTING,
 				StandardCopyOption.COPY_ATTRIBUTES };
 		java.nio.file.Files.copy(aFrom, aTo, options);
+		} catch (Exception e) {
+			System.err.println("Could not copy chrome history:" + e.getMessage());
+		}
 	}
 
 	public static void initializeJDBCFileName() {
