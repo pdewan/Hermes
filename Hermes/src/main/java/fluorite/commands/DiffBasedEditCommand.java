@@ -11,6 +11,8 @@ package fluorite.commands;
 //import java.io.OutputStream;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.LinkedList;
+import java.util.List;
 //import java.util.ArrayList;
 //import java.util.LinkedList;
 import java.util.Map;
@@ -30,37 +32,61 @@ import org.w3c.dom.NodeList;
 import fluorite.commands.FileOpenCommand;
 import fluorite.util.EHUtilities;
 import hermes.proxy.Diff_Match_Patch_Proxy;
+import name.fraser.neil.plaintext.diff_match_patch;
+import name.fraser.neil.plaintext.diff_match_patch.Diff;
+import name.fraser.neil.plaintext.diff_match_patch.Operation;
 //import name.fraser.neil.plaintext.diff_match_patch;
 //import replayer.RefactorRecord;
 import fluorite.model.DiffBasedFileSnapshotManager;
 
-public class DiffBasedFileOpenCommand extends FileOpenCommand {
+public class DiffBasedEditCommand extends DiffBasedFileOpenCommand {
 	
-	public DiffBasedFileOpenCommand(){}
+	public DiffBasedEditCommand(){}
 	
-	public DiffBasedFileOpenCommand(IEditorPart editor) {
-		super(editor);
-		if (record()) {
-			addDiff(editor);
-		}
+	public DiffBasedEditCommand(String filePath, String content) {
+		super(null);
+//		if (record()) {
+//			addDiff(editor);
+//		}
 //		updateProjectStructure();
+		addDiff(filePath, content);
 	}
 	
-	private String diff;
+	protected boolean record() {
+		return true;
+	}
+	
+//	private String diff;
 
-	protected void addDiff(IEditorPart editor) {
-		if (editor == null) {
-			return;
-		}
-		String filePath = getFilePath();
-		IDocument aDocument = EHUtilities.getDocument(editor);
-		if (aDocument == null) {
-			return;
-		}
-//		String content = EHUtilities.getDocument(editor).get();
-		String content = aDocument.get();
-
-//		calcNumericalValues(content);
+//	protected void addDiff(IEditorPart editor) {
+//		if (editor == null) {
+//			return;
+//		}
+//		String filePath = getFilePath();
+//		IDocument aDocument = EHUtilities.getDocument(editor);
+//		if (aDocument == null) {
+//			return;
+//		}
+////		String content = EHUtilities.getDocument(editor).get();
+//		String content = aDocument.get();
+//
+////		calcNumericalValues(content);
+////		String oldContent = DiffBasedFileSnapshotManager.getInstance().getSnapshot(filePath);
+////		if (oldContent == null) {
+////			diff = "null";
+////		} else {
+////			diff = Diff_Match_Patch_Proxy.diffString(oldContent, content);
+////			diff = Normalizer.normalize(diff, Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+////			diff = diff.substring(1, diff.length()-1);
+////		}
+////		DiffBasedFileSnapshotManager.getInstance().updateSnapshot(filePath, content);
+//		addDiff(filePath, content);
+//	}
+//	
+//	protected void addDiff(String filePath, String content) {
+//		
+//
+////		calcNumericalValues(content);
 //		String oldContent = DiffBasedFileSnapshotManager.getInstance().getSnapshot(filePath);
 //		if (oldContent == null) {
 //			diff = "null";
@@ -70,23 +96,7 @@ public class DiffBasedFileOpenCommand extends FileOpenCommand {
 //			diff = diff.substring(1, diff.length()-1);
 //		}
 //		DiffBasedFileSnapshotManager.getInstance().updateSnapshot(filePath, content);
-		addDiff(filePath, content);
-	}
-	
-	protected void addDiff(String filePath, String content) {
-		
-
-//		calcNumericalValues(content);
-		String oldContent = DiffBasedFileSnapshotManager.getInstance().getSnapshot(filePath);
-		if (oldContent == null) {
-			diff = "null";
-		} else {
-			diff = Diff_Match_Patch_Proxy.diffString(oldContent, content);
-			diff = Normalizer.normalize(diff, Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-			diff = diff.substring(1, diff.length()-1);
-		}
-		DiffBasedFileSnapshotManager.getInstance().updateSnapshot(filePath, content);
-	}
+//	}
 	
 //	private ArrayList<RefactorRecord> refactorRecord; 
 //	private ArrayList<String> newFiles;
@@ -328,47 +338,41 @@ public class DiffBasedFileOpenCommand extends FileOpenCommand {
 //		}
 //	}
 	
-	public Map<String, String> getDataMap() {
-		Map<String, String> dataMap = super.getDataMap();
-		if (diff != null) {
-			dataMap.put("diff", diff);
-		} else {
-			dataMap.put("diff", "null");
-		}
-		
-		return dataMap;			
-	}
 	
-	public String getDiff(){
-		return diff;
-	}
+	
 	
 	public String getCommandType(){
-		return "DiffBasedFileOpenCommand";
+		return "DiffBasedEditCommand";
 	}
 	
-	public void createFrom(Element commandElement) {
-		super.createFrom(commandElement);
+	public static void main (String[] args) {
+		DiffBasedEditCommand aCommand1 = new DiffBasedEditCommand("cell1", "hello world");
+		DiffBasedEditCommand aCommand2 = new DiffBasedEditCommand("cell1", "goodbye and hello world wonderful");
+		List<Diff> aDiffs = Diff_Match_Patch_Proxy.diff("hello world", "goodbye and hello world wonderful");
 		
-		String value = null;
-		NodeList nodeList = null;
 		
-		if ((nodeList = commandElement.getElementsByTagName("diff")).getLength() > 0) {
-			Node textNode = nodeList.item(0);
-			value = textNode.getTextContent();
-			if (value != null && !value.equals("null")) {
-				if (value.startsWith("Diff(")) {
-					diff = Normalizer.normalize(value, Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-//					diff = diff.substring(1, diff.length()-1);
-				} else {
-					diff = value;
-				}
-			}
+		
+		for (Diff aDiff:aDiffs) {
+			String anOperation = aDiff.operation.toString();
+			Operation anOperationObject = aDiff.operation;
 		}
-		else {
-			diff = null;
-		}
+		diff_match_patch differ = new diff_match_patch();
+		String oldSnapshot = "hello world";
+		String newSnapshot = "goodbye and hello world wonderful";
+		LinkedList<diff_match_patch.Diff> diff = differ.diff_main(oldSnapshot, newSnapshot);
+		differ.diff_cleanupSemantic(diff);
+		LinkedList<diff_match_patch.Patch> patchs = differ.patch_make(oldSnapshot, diff);
+		Object[] aRetVal = differ.patch_apply(patchs,  newSnapshot);
+		
+		
+		String aText1 = aCommand1.persist();
+		String aText2 = aCommand2.persist();
+		System.out.println("Text1:" + aText1);
+		System.out.println("Text2:" + aText2);
+
+				
 	}
+	
 }
 
 //class RefactorRecord {

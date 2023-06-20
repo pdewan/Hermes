@@ -34,6 +34,9 @@ implements EHICommand {
 
 	public FileOpenCommand(IEditorPart editor) {
 //		super(editor);
+		if (editor == null) { //pd addition, to se can use it outside eclipse world
+			return;
+		}
 		initialize(editor);
 	}
 

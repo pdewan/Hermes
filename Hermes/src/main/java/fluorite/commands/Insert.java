@@ -50,11 +50,12 @@ public class Insert extends BaseDocumentChangeEvent {
 		Map<String, String> attrMap = new HashMap<String, String>();
 		attrMap.put("offset", Integer.toString(mOffset));
 		attrMap.put("length", Integer.toString(mLength));
-
+		//pd addition for when there is no doc
+		if (getNumericalValues() != null) {
 		for (Map.Entry<String, Integer> pair : getNumericalValues().entrySet()) {
 			attrMap.put(pair.getKey(), Integer.toString(pair.getValue()));
 		}
-
+		}
 		return attrMap;
 	}
 
