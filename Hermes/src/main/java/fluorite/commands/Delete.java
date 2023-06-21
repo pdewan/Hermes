@@ -60,9 +60,10 @@ public class Delete extends BaseDocumentChangeEvent {
 		attrMap.put("length", Integer.toString(mLength));
 		attrMap.put("startLine", Integer.toString(mStartLine));
 		attrMap.put("endLine", Integer.toString(mEndLine));
-
+		if (getNumericalValues() != null) {
 		for (Map.Entry<String, Integer> pair : getNumericalValues().entrySet()) {
 			attrMap.put(pair.getKey(), Integer.toString(pair.getValue()));
+		}
 		}
 
 		return attrMap;
