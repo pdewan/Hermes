@@ -387,8 +387,12 @@ public class EHCompilationParticipantRecorder extends CompilationParticipant  im
 		// maybeProcessNewFile(lastFileName, aNewFileName);
 
 		setPackageAndProject(context); // the sets not used it seems
-
+		if (aDelta != null) {
 		lastFileADT = aDelta.getCompilationUnitAST();
+		} else {
+		     Tracer.info(this, "adelta is null:" );
+
+		}
 
 		if (lastFileADT == null) {
 			Tracer.info(this, "Last file adt null for adelta:" + aDelta);

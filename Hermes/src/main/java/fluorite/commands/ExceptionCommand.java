@@ -139,5 +139,9 @@ public class ExceptionCommand extends OutputProduced implements EHICommand {
 //		return false;
 //	}
 
-
+	public static void main(String[] args) {
+		ExceptionCommand aCommand = 		new ExceptionCommand("Exception Message", "java");
+		String aPersistedCommand = aCommand.persist();
+		System.out.println("Command:" + aPersistedCommand);
+	}
 }

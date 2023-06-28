@@ -12,4 +12,10 @@ public class RunCommand extends ProgramExecutionEvent {
 	public String getCommandType() {
 		return "RunCommand";
 	}
+	public static void main(String[] args) {
+		RunCommand aCommand = 		 new RunCommand(false, false, null, "1", 0, false, false, false, false);
+		String aPersistedCommand = aCommand.persist();
+		System.out.println("Command:" + aPersistedCommand);
+	}
+	
 }

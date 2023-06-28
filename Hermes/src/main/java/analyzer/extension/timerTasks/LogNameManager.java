@@ -111,12 +111,25 @@ public class LogNameManager {
 	}
 	
 	private static void initializeFileStore() {
-		
+		fileStore = new File(uuidFile); // in the current directory whataver it is
+
+		File aHomeDirectory = new File(System.getProperty("user.home"));
+		if (!aHomeDirectory.exists()) {
+			return;
+		}
 		File searchLoc = new File(System.getProperty("user.home") + "/helper-config/");
-		if (searchLoc.exists())
-			fileStore = new File(System.getProperty("user.home") + "/helper-config/" + uuidFile);
-		else
-			fileStore = new File(uuidFile);
+		if (!searchLoc.exists()) {
+			boolean createdHelperConfig = searchLoc.mkdir();
+			if (!createdHelperConfig) {
+				return;
+			}
+		}
+		fileStore = new File(System.getProperty("user.home") + "/helper-config/" + uuidFile); 
+	
+//		if (searchLoc.exists())
+//			fileStore = new File(System.getProperty("user.home") + "/helper-config/" + uuidFile);
+//		else
+//			fileStore = new File(uuidFile);
 	}
 
 	public static String readSavedName() {

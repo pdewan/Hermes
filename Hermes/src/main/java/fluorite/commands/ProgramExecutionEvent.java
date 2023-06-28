@@ -59,12 +59,12 @@ public class ProgramExecutionEvent
 	}
 
 	public Map<String, String> getAttributesMap() {
-		String kind;
+		String kind = "Run";
 		if(mTerminate)
 			kind = "Terminate";
 		if(mCreate)
 			kind = "Create";
-		if(mHitBreakPoint);
+		if(mHitBreakPoint)
 			kind = "HitBreakPoint";
 		if(mStepEnd)
 			kind = "StepEnd";

@@ -229,6 +229,18 @@ public class CompilationCommand extends AbstractCommand {
 			Node textNode = nodeList.item(0);
 			commandDuration = Integer.parseInt(textNode.getTextContent());
 		}
+		
+		//pd addition
+		if ((nodeList = commandElement.getElementsByTagName(XML_Problem_Text_Tag))
+				.getLength() > 0) {
+			Node textNode = nodeList.item(0);
+			problemText = textNode.getTextContent();
+		}
+		if ((nodeList = commandElement.getElementsByTagName(XML_Problem_Line_Tag))
+				.getLength() > 0) {
+			Node textNode = nodeList.item(0);
+			problemLine = textNode.getTextContent();
+		}
 	}
 
 	@Override
@@ -251,6 +263,10 @@ public class CompilationCommand extends AbstractCommand {
 	public static final String XML_FileName_Tag = "filename";
 	public static final String XML_Physical_Duration_Tag = "physicalDuration";
 	public static final String XML_Logical_Duration_Tag = "logicalDuration";
+	public static final String XML_Problem_Text_Tag = "problemText";
+	public static final String XML_Problem_Line_Tag = "problemLine";
+
+
 	
 
 	@Override
@@ -277,6 +293,13 @@ public class CompilationCommand extends AbstractCommand {
 			dataMap.put(XML_FileName_Tag, mFileName);
 		dataMap.put(XML_Physical_Duration_Tag, String.valueOf(physicalDuration));
 		dataMap.put(XML_Logical_Duration_Tag, String.valueOf(commandDuration));
+		//pd addition
+		if (problemText != null) {
+			dataMap.put(XML_Problem_Text_Tag, problemText);
+		}
+		if (problemLine != null) {
+			dataMap.put(XML_Problem_Line_Tag, problemLine);
+		}
 
 		return dataMap;
 	}
@@ -368,6 +391,11 @@ public class CompilationCommand extends AbstractCommand {
 	public boolean combine(EHICommand anotherCommand) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public static void main(String[] args) {
+		CompilationCommand aCommand = 		new CompilationCommand(true," errorMessage", 5, 6, 3, 2, "aProblemText", "aProblemLine", "fileName");
+		String aPersistedCommand = aCommand.persist();
+		System.out.println("Command:" + aPersistedCommand);
 	}
 
 }
