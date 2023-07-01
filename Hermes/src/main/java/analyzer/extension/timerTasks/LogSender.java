@@ -1,13 +1,19 @@
 package analyzer.extension.timerTasks;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Timer;
@@ -53,6 +59,12 @@ public class LogSender extends TimerTask {
 	private boolean scheduled = false;
 	private List<EHICommand> commands;
 	private String lastPath = "";
+	private File lastLogDirectory = null;
+	private String lastLogFile = "";
+	private long totalLogSizeSent = 0;
+	private long totalTimeTaken = 0;
+	private long totalSends = 0;
+	private static final String TIME_STATISTICS_FILE_NAME = "timeStatistics.csv";
 	
 	public static LogSender getInstance() {
 		if (instance == null) {
@@ -103,8 +115,63 @@ public class LogSender extends TimerTask {
 //		});
 	}
 	
-	private void sendLog (int partNum, String path) {
+	private void appendStatistics(final String aStats)  {
+		PrintWriter out = null;
+		try {
+		if (lastLogDirectory == null) {
+			return;
+		}
+		File aStatsFile = new File(lastLogDirectory, TIME_STATISTICS_FILE_NAME);
+		
+		
+		    out = new PrintWriter(new BufferedWriter(new FileWriter(aStatsFile, true)));
+		    out.println(aStats);
+		} catch (IOException e) {
+		    System.err.println(e);
+		} finally {
+		    if (out != null) {
+		        out.close();
+		    }
+		}
+	}
+	protected String getLogIdIncremental(String aLoggedName) {
+		return  aLoggedName + ":" + index + ":" + System.currentTimeMillis() + ":" + lastLogFile; // need log to be unique key
+//		return  aLoggedName + ":" + lastLogFile; // need log to be unique key
+
+	}
+	
+	protected String getLogIdSession(String aLoggedName) {
+		return  aLoggedName + 
+				":" + lastLogFile; // need log to be unique key
+
+	}
+	
+	protected String getLog(int aFrom,int anEnd) {
+		StringBuilder sb = new StringBuilder();
+//		for (int anIndex = 0; anIndex < anEnd; anIndex++) {
+
+		for (int anIndex = aFrom; anIndex < anEnd; anIndex++) {
+			EHICommand command = commands.get(anIndex);
+			sb.append(command.persist());
+		}
+		index = anEnd;
+		return  format(sb.toString());
+	}
+	
+	private synchronized void sendLog (int partNum, String path) {
+		long aStartTime = System.currentTimeMillis();
+		if (lastPath != path) {
 		lastPath = path;
+		File aPathFile = new File(lastPath);
+		lastLogFile = aPathFile.getName();
+		lastLogDirectory = new File(aPathFile.getParent());
+		
+		}
+//		int aFileNameIndex = lastPath.indexOf("Log");
+//		if (aFileNameIndex != -1) {
+//			lastLogFile = lastPath.substring(aFileNameIndex);
+//			lastLogDirectory = lastPath.substring(0, aFileNameIndex);
+//		}
 		sending = true;
 		int start = index;
 		try {
@@ -115,7 +182,7 @@ public class LogSender extends TimerTask {
 			startTimeStamp = commands.get(index).getStartTimestamp();
 			JSONObject log = new JSONObject();
 			JSONObject report = new JSONObject();
-			report.put(LOG_ID, path);
+//			report.put(LOG_ID, path); // need log to be unique key
 			report.put(SESSION_ID, partNum);
 //			if (machineID == null) {
 //				report.put(MACHINE_ID, NO_NETWORK);
@@ -128,6 +195,18 @@ public class LogSender extends TimerTask {
 				aLoggedName = LogNameManager.getMachineId();
 			}
 			report.put(MACHINE_ID, aLoggedName);
+//			String aLoggedPath = lastLogDirectory.isEmpty()?
+//			report.put(LOG_ID, aLoggedName + ":" + index + ":" + System.currentTimeMillis() + ":" + path); // need log to be unique key
+
+			
+
+			
+//			report.put(LOG_ID, aLoggedName + ":" + index + ":" + System.currentTimeMillis() + ":" + lastLogFile); // need log to be unique key
+
+			String aLogID = getLogIdIncremental(aLoggedName);
+			report.put(LOG_ID, aLogID); // need log to be unique key
+
+			
 			
 //			if (loggedName == null) {
 //				report.put(MACHINE_ID, NO_NETWORK);
@@ -137,23 +216,37 @@ public class LogSender extends TimerTask {
 			
 			report.put(LOG_TYPE, ECLIPSE);
 			report.put(COURSE_ID, EditorsUI.getPreferenceStore().getString(COURSE));
-			report.put(LOG, log);
-			StringBuilder sb = new StringBuilder();
-			for (; index < end; index++) {
-				EHICommand command = commands.get(index);
-				sb.append(command.persist());
-			}
-			log.put(JSON, format(sb.toString()));
+//			report.put(LOG, log);
+			report.put(LOG, log); 
+			
+			String aLog = getLog(start, end); // get from last end position
+
+//			StringBuilder sb = new StringBuilder();
+//			for (; index < end; index++) {
+//				EHICommand command = commands.get(index);
+//				sb.append(command.persist());
+//			}
+//			log.put(JSON, format(sb.toString()));
+			log.put(JSON, aLog);
 			JSONObject response = post(report, reportURL);
 			if(response == null) {
 				index = start;
 			}
+			long anEndTime = System.currentTimeMillis();
+			long aTimeTaken = anEndTime - aStartTime;
+			int  aLogLength = aLog.length();
+			totalSends++;
+			totalLogSizeSent += aLogLength;
+			totalTimeTaken += aTimeTaken;
+//			System.out.println(aLogID + " " + aLogLength + " " + aTimeTaken);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			index = start;
 		} finally {
 			sending = false;
 		}
+	
 	}
 	
 	private String format(String s) {
@@ -216,8 +309,10 @@ public class LogSender extends TimerTask {
 		return null;
 	}
 	
-	public void stop() {
-		while (sending);
+	public synchronized  void stop() {
+//		while (sending);
+		String aStatsString = totalSends + "," + totalLogSizeSent + "," + totalTimeTaken;
+		appendStatistics(aStatsString);
 		sendLog(-1, lastPath);
 	}
 
@@ -233,10 +328,19 @@ public class LogSender extends TimerTask {
 						} catch (Exception e) {
 							return;
 						}
-						new Thread(()->{
+//						new Thread(()->{
+//							sendLog(sequence, path);
+//							sequence++;
+//						}).start();
+						
+						Thread aThread = new Thread(()->{
 							sendLog(sequence, path);
 							sequence++;
-						}).start();
+						});
+//						int aPriority = Thread.currentThread().getPriority();
+//						if (aPriority > 1)
+						aThread.setPriority(1); // lowest priority
+						aThread.start();
 					}
 				});
 			}

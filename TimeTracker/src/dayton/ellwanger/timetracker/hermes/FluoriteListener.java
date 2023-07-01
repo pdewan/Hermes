@@ -287,8 +287,8 @@ public class FluoriteListener implements
 			ActivitySessionEnded.newCase(this, activityEndTimestamp, ativityDuration);
 			Date aStartDate = new Date(activityStartTimestamp);
 			Date anEndDate = new Date (activityEndTimestamp);
-			System.out.println("Start dates:" + aStartDate + "," + startDate);
-			System.out.println("End dates:" + anEndDate + "," + endDate);
+//			System.out.println("Start dates:" + aStartDate + "," + startDate);
+//			System.out.println("End dates:" + anEndDate + "," + endDate);
 			sessionEnded(startDate, endDate);
 		}
 		

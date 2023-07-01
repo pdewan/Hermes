@@ -37,9 +37,15 @@ public class LogNameManager {
 		return sb.toString();
 	}
 
+//	public static String getRandomID() {
+//		String val = Double.toString(Math.random()) + Double.toString(Math.random()) + Double.toString(Math.random());
+//		return val.replaceAll("0.", "");
+//	}
+	
 	public static String getRandomID() {
-		String val = Double.toString(Math.random()) + Double.toString(Math.random()) + Double.toString(Math.random());
-		return val.replaceAll("0.", "");
+		Double aRandomDouble = Math.random();
+		long aRandomInteger = Math.round(aRandomDouble*1000);
+		return Long.toString(aRandomInteger);
 	}
 
 	public static void saveLoggedName(String aName) {
@@ -62,7 +68,7 @@ public class LogNameManager {
 	}
 
 	public static void setLoggedName(String aName) {
-		loggedName = aName + "(" + getRandomID() + ")" ;
+		loggedName = aName + " " + getRandomID();
 		saveLoggedName(loggedName);
 	}
 
@@ -173,6 +179,12 @@ public class LogNameManager {
 		}
 		return loggedName;
 	}
+	public static void main (String[] args) {
+		String aRandomId = getRandomID();
+		aRandomId = getRandomID();
+		aRandomId = getRandomID();
+
+	} 
 	//
 	// // String machineId;
 	// if (fileStore.exists()) {

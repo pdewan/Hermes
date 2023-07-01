@@ -1156,6 +1156,9 @@ public class EHEventRecorder {
 //			System.out.println("Found local check raw command:" + anObject);
 //		}
  		File aFile = loggerToFileName.get(aLogger);
+// 		if (aFile == null) {
+// 			return;
+// 		}
 		long aPreWriteTime = aFile.lastModified();
 		doLog(aLogger, aLevel, aMessage, anObject);
 		long aPostWriteTime = aFile.lastModified();

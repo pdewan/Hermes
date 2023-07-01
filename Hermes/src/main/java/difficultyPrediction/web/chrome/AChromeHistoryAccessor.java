@@ -90,7 +90,7 @@ public class AChromeHistoryAccessor {
 				StandardCopyOption.COPY_ATTRIBUTES };
 		java.nio.file.Files.copy(aFrom, aTo, options);
 		} catch (Exception e) {
-			System.err.println("Could not copy chrome history:" + e.getMessage());
+//			System.err.println("Could not copy chrome history:" + e.getMessage());
 		}
 	}
 
