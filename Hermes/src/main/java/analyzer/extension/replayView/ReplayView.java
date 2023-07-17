@@ -444,6 +444,14 @@ public class ReplayView extends ViewPart {
 //		parent.layout(true);
 	}
 	
+	public void removeTabItems() {
+		CTabItem[] anItems = tabFolder.getItems();
+		for (CTabItem anItem:anItems) {
+			anItem.dispose();
+		}
+		
+	}
+	
 	public void updateReplayedFile(String[] text) {
 		for (int i = 0; i < tabFolder.getItemCount(); i++){
 			if (tabFolder.getItem(i).getText().equals(text[0]) || tabFolder.getItem(i).getText().equals("New Item")) {

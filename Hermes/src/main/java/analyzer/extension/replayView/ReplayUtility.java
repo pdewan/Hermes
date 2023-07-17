@@ -103,7 +103,11 @@ public class ReplayUtility {
 //		if (logFolder.getName().equals("Eclipse")) {
 //			refineLogFiles(logFolder.getPath());
 //		}
-		File logFolder = getLogFolder(projectPath);
+//		File logFolder = getLogFolder(projectPath);
+//		File logFolder = getAndFixLogFolder(projectPath);
+		File logFolder = searchLogFolders(projectPath);
+
+
 		List<List<EHICommand>> nestedCommands = analyzer.convertXMLLogToObjects(logFolder.getPath());
 		sortNestedCommands(nestedCommands);
 		return nestedCommands;
@@ -115,7 +119,44 @@ public class ReplayUtility {
 		return logFiles;
 	}
 	
-	public static File getLogFolder(String projectPath) {
+	public static File getImportedLogFolder(File aLogFolder) {
+		File retVal = new File(aLogFolder.getParentFile(), "Imported/Eclipse");
+		if (retVal.exists()) {
+			return retVal;
+		}
+		else {
+			return null;
+		}
+	}
+	public static File getGeneratedLogFolder(File aLogFolder) {
+		File retVal = new File(aLogFolder, "Generated");
+		if (retVal.exists()) {
+			return retVal;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public static File searchLogFolders(String projectPath) {
+		File aLogFolder = getLogFolder(projectPath); // this will not refine log files
+		if (aLogFolder == null) {
+			return aLogFolder;
+		}
+		File anImportedLogFolder = getImportedLogFolder(aLogFolder);
+		if (anImportedLogFolder != null ) {
+			aLogFolder = anImportedLogFolder;
+		} 
+		File aGeneratedLogFolder = getGeneratedLogFolder(aLogFolder);
+		if (aGeneratedLogFolder == null) {
+			refineLogFiles(aLogFolder.getPath());
+			return aLogFolder;
+		}
+		return aGeneratedLogFolder;
+		
+	}
+	
+	public static File getLogFolderOld(String projectPath) {
 		File logFolder = new File(projectPath, "Logs"+File.separator+"Eclipse");
 		if (!logFolder.exists()) {
 			System.out.println("No logs found for project " + projectPath);
@@ -124,6 +165,25 @@ public class ReplayUtility {
 		if (logFiles != null && logFiles.length > 0) {
 			logFolder = logFiles[0];
 		} 
+		if (logFolder.getName().equals("Eclipse")) {
+			refineLogFiles(logFolder.getPath());
+		}
+		return logFolder;
+	}
+	
+	public static File getLogFolder(String projectPath) {
+		File logFolder = new File(projectPath, "Logs"+File.separator+"Eclipse");
+		if (!logFolder.exists()) {
+			System.out.println("No logs found for project " + projectPath);
+		}
+		File[] logFiles = logFolder.listFiles(File::isDirectory);
+		if (logFiles != null && logFiles.length > 0) {
+			logFolder = logFiles[0];
+		} 		
+		return logFolder;
+	}
+	public static File getAndFixLogFolder(String projectPath) {
+		File logFolder = getLogFolder(projectPath);
 		if (logFolder.getName().equals("Eclipse")) {
 			refineLogFiles(logFolder.getPath());
 		}

@@ -100,6 +100,7 @@ public class ReplayViewController implements ReplayListener{
 		replayView.updateAbsTimeSpent(replayer.getCurrentTimestamp());
 		replayView.updateTimeline(replayer.timelineIndex());
 //		replayView.updateNumOfExceptions(replayer.getCurrentExceptions(), replayer.getTotalExceptions());
+		replayView.removeTabItems();
 		replayView.updateReplayedFile(replayer.getReplayedFile());
 //		replayView.updateMetrics(replayer.getMetrics());
 	}

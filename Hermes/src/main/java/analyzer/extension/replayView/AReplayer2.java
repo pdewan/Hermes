@@ -135,8 +135,8 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 
 	public void setup() {
 		if (nestedCommands == null || !ReplayUtility.getCurrentProjectPath().equals(currentProjectPath)) {
-			currentProjectPath = ReplayUtility.getCurrentProjectPath();
-			replayLogs(currentProjectPath, analyzer);
+//			currentProjectPath = ReplayUtility.getCurrentProjectPath();
+//			replayLogs(currentProjectPath, analyzer);
 //			createMetrics(currentProjectPath);
 			reset();
 //			outer: 
@@ -174,6 +174,8 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	}
 	
 	public void reset() {
+		currentProjectPath = ReplayUtility.getCurrentProjectPath();
+		replayLogs(currentProjectPath, analyzer);
 		if (nestedCommands == null) {
 			return;
 		}
@@ -632,8 +634,8 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 		if (i >= nestedCommands.size()) {
 			i = nestedCommands.size() - 1;
 		}
-		if (j >= nestedCommands.size()) {
-			j = nestedCommands.size() - 1;
+		if (j >= nestedCommands.get(i).size()) {
+			j = nestedCommands.get(i).size() - 1;
 		}
 //		commandList.clear();
 		openEditor(currentFile);
@@ -1227,6 +1229,9 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 	}
 
 	public void calculateCurrentTimeSpent() {
+		if (nestedCommands == null) {
+			return;
+		}
 		long projectTime = 0;
 		for(int k = 0; k <= i; k++) {
 			List<EHICommand> commands = nestedCommands.get(k);
@@ -1444,8 +1449,11 @@ public class AReplayer2 extends ADifficultyPredictionAndStatusPrinter{
 			currentFileEditor.moveCursor(Integer.parseInt(command.getAttributesMap().get("caretOffset")));
 		}
 	}
-	
+	private static String[] noFile = {"no opened file", "No file contents"};
 	public String[] getReplayedFile() {
+		if (currentFileEditor == null) {
+			return noFile;
+		}
 		String[] file = new String[2];
 		file[0] = currentFileEditor.getFileName();
 		file[1] = currentFileEditor.getContent();

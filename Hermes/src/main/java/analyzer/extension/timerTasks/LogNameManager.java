@@ -60,7 +60,7 @@ public class LogNameManager {
 			FileWriter fw = new FileWriter(fileStore);
 			fw.write(aName);
 			fw.close();
-			fileStore.setWritable(false);
+//			fileStore.setWritable(false);
 		} catch (Exception e) {
 			System.err.println("Cannot save file:" + e.getMessage());
 			cannotSaveName = true;
@@ -180,9 +180,11 @@ public class LogNameManager {
 		return loggedName;
 	}
 	public static void main (String[] args) {
-		String aRandomId = getRandomID();
-		aRandomId = getRandomID();
-		aRandomId = getRandomID();
+//		String aRandomId = getRandomID();
+//		aRandomId = getRandomID();
+//		aRandomId = getRandomID();
+		String aLoggedName = LogNameManager.getLoggedName();
+		System.out.println("logged name" + aLoggedName);
 
 	} 
 	//
@@ -233,5 +235,7 @@ public class LogNameManager {
 	// return loggedName;
 	//
 	// }
+	
+	
 
 }
