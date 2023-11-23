@@ -29,7 +29,10 @@ import fluorite.model.EHEventRecorder;
 import fluorite.util.EHUtilities;
 
 public class LogSender extends TimerTask {
-	private static final String reportURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/cyverse/add-cyverse-log";
+//	private static final String reportURL = "https://us-south.functions.appdomain.cloud/api/v1/web/ORG-UNC-dist-seed-james_dev/cyverse/add-cyverse-log";
+	private static final String reportURL=
+			"https://us-east-1.aws.data.mongodb-api.com/app/rest-api-vsfoo/endpoint/add_log?db=studies&collection=dewan-eclipse";
+	private static final String password = "sYCUBa*shZKU4F-yxHrTk8D7FHo4xbBBV.-BK!-L";
 	private static final int timeout = 5000;
 	private static final String XML_START1 = "<Events startTimestamp=\"";
 	private static final String XML_START2 = "\" logVersion=\"";
@@ -48,6 +51,8 @@ public class LogSender extends TimerTask {
 	private static final String SESSION_ID = "session_id";
 	private static final String LOG_TYPE = "log_type";
 	public static final String COURSE_ID = "course_id";
+	public static final String PASSWORD = "password";
+
 	private static final String LOG = "log";
 	private static final String JSON = "json";
 	private static final String NO_NETWORK = "No Network Interface Found";
@@ -216,6 +221,7 @@ public class LogSender extends TimerTask {
 			
 			report.put(LOG_TYPE, ECLIPSE);
 			report.put(COURSE_ID, EditorsUI.getPreferenceStore().getString(COURSE));
+			report.put(PASSWORD, password);
 //			report.put(LOG, log);
 			report.put(LOG, log); 
 			
