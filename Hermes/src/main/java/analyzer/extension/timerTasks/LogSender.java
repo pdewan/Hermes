@@ -51,6 +51,8 @@ public class LogSender extends TimerTask {
 	private static final String SESSION_ID = "session_id";
 	private static final String LOG_TYPE = "log_type";
 	public static final String COURSE_ID = "course_id";
+	public static final String TIME_STAMP = "timestamp";
+
 	public static final String PASSWORD = "password";
 
 	private static final String LOG = "log";
@@ -188,7 +190,7 @@ public class LogSender extends TimerTask {
 			JSONObject log = new JSONObject();
 			JSONObject report = new JSONObject();
 //			report.put(LOG_ID, path); // need log to be unique key
-			report.put(SESSION_ID, partNum);
+			report.put(SESSION_ID, Integer.toString(partNum));
 //			if (machineID == null) {
 //				report.put(MACHINE_ID, NO_NETWORK);
 //			} else {
@@ -222,6 +224,7 @@ public class LogSender extends TimerTask {
 			report.put(LOG_TYPE, ECLIPSE);
 			report.put(COURSE_ID, EditorsUI.getPreferenceStore().getString(COURSE));
 			report.put(PASSWORD, password);
+			report.put(TIME_STAMP, Long.toString(System.currentTimeMillis()));
 //			report.put(LOG, log);
 			report.put(LOG, log); 
 			
