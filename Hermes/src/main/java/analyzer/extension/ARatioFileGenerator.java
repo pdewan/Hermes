@@ -175,9 +175,13 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 ////		System.out.println("e");
 	}
 
+	// this does not get called actuall
 	@Override
 	public void finishedBrowserLines() {
-		saveRatioFile();
+		saveRatioFile(); // no op, does not get called
+		
+		
+		
 		// this is the original code
 //		if (!DifficultyPredictionSettings.isNewRatioFiles()
 //				&& DifficultyPredictionSettings.isRatioFileExists())
@@ -631,10 +635,12 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	}
 
 	
-
+	// dual of newParticipant
 	@Override
 	public void finishParticipant(String anId, String aFolder) {
 		// TODO Auto-generated method stub
+		saveRatioFile();
+
 
 	}
 	
@@ -650,42 +656,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 //	}
 
 	
-	public static void main(String[] args) {
-		 RatioFileGenerator analyzerProcessor; // why is this static
-
-		 DifficultyPredictionSettings.setReplayMode(true);
-		//
-		 Analyzer analyzer = new AnAnalyzer();
-		 analyzerProcessor = new ARatioFileGenerator();
-		 analyzer.addAnalyzerListener(analyzerProcessor);
-//		 HermesObjectEditorProxy.edit(analyzer);
-		 OEFrame frame = ObjectEditor.edit(analyzer);
-		 
-		// frame.setSize(550, 275);
-		//
-		// JFrame qframe=new JFrame("Query V1.0");
-		// qframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// qframe.setResizable(false);
-		// qframe.setLocationRelativeTo(null);
-		//
-		// qframe.add(new AQueryUI(((AnAnalyzerProcessor)
-		// analyzerProcessor).participantToTimeLine));
-		// qframe.pack();
-		// qframe.setVisible(true);
-
-		/*
-		AnAnalyzerProcessor a = new AnAnalyzerProcessor();
-
-		System.out.println(a.getTimeValueMilli(new Date().getTime()));
-		try {
-			System.out.println(new SimpleDateFormat("HH:mm:ss")
-					.parse("12:21:00"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	*/
-	}
+	
 
 	@Override
 	public void newCorrectStatus(DifficultyCommand newCommand, Status aStatus, long aStartRelativeTime, long aDuration) {
@@ -748,5 +719,55 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
+	}
+	
+	public static void main(String[] args) {
+		 RatioFileGenerator analyzerProcessor; // why is this static
+
+		 DifficultyPredictionSettings.setReplayMode(true);
+		//
+		 Analyzer analyzer = new AnAnalyzer();
+//		 analyzerProcessor = new ARatioFileGenerator();
+		 analyzerProcessor = new ARatioFileGenerator(analyzer);
+
+		 analyzer.addAnalyzerListener(analyzerProcessor);
+//		 HermesObjectEditorProxy.edit(analyzer);
+		 
+		 // if we want to process all logs interactively
+//		 OEFrame frame = ObjectEditor.edit(analyzer);
+		 
+		 // if we want to programmaticall choose one
+			analyzer.loadDirectory();
+			analyzer.getAnalyzerParameters().getParticipants().setValue("17");
+//			analyzer.addAnalyzerListener(analyzerProcessor);
+			analyzer.getAnalyzerParameters().replayLogs();
+			analyzer.getAnalyzerParameters().setMakePredictions(true);
+			
+			analyzer.getAnalyzerParameters().setNewOutputFiles(true);
+
+		// frame.setSize(550, 275);
+		//
+		// JFrame qframe=new JFrame("Query V1.0");
+		// qframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// qframe.setResizable(false);
+		// qframe.setLocationRelativeTo(null);
+		//
+		// qframe.add(new AQueryUI(((AnAnalyzerProcessor)
+		// analyzerProcessor).participantToTimeLine));
+		// qframe.pack();
+		// qframe.setVisible(true);
+
+		/*
+		AnAnalyzerProcessor a = new AnAnalyzerProcessor();
+
+		System.out.println(a.getTimeValueMilli(new Date().getTime()));
+		try {
+			System.out.println(new SimpleDateFormat("HH:mm:ss")
+					.parse("12:21:00"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	*/
 	}
 }

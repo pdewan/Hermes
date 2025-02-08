@@ -830,7 +830,11 @@ public class AnAnalyzer implements Analyzer {
 		try {
 			if (difficultyEventProcessor.getDifficultyPredictionThread() != null) {
 			// difficultyPredictionThread.join();
-			difficultyEventProcessor.getDifficultyPredictionThread().join();
+				Thread aDifficultyPredictionThread = difficultyEventProcessor.getDifficultyPredictionThread();
+				System.out.println("Waiting wait for difficulty prediction thread to finish:" + aDifficultyPredictionThread );
+
+//			difficultyEventProcessor.getDifficultyPredictionThread().join();
+			aDifficultyPredictionThread.join();
 			} else {
 				System.out.println("Cannot wait for difficulty prediction thread to finish");
 			}
@@ -962,6 +966,7 @@ public class AnAnalyzer implements Analyzer {
 
 
 				difficultyEventProcessor.commandProcessingStopped();
+				
 				waitForParticipantLogsToBeProcessed();
 
 				

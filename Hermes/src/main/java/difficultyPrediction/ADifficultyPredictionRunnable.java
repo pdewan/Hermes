@@ -177,7 +177,7 @@ public class ADifficultyPredictionRunnable implements
 				e.printStackTrace();
 			}
 		}
-		System.out.println ("Difficulty prediction thread ends");
+		System.out.println ("Difficulty prediction thread ends" + Thread.currentThread());
 		pendingCommands.clear();
 	}
 

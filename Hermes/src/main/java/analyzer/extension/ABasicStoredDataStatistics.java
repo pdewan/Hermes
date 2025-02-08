@@ -224,7 +224,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 	protected boolean isMadePediction() {
 		return numStoredProgressPredictions > 0 || numStoredDifficultyPredictions > 0;
 	}
-
+	// this where the printing occurs
 	protected void printStatistics() {
 		System.out.println("Num Commands:" + numInputCommands);
 		System.out.println("Num Commands After First Prediction:" + numInputCommandsAfterFirstPrediction);
@@ -705,7 +705,7 @@ public class ABasicStoredDataStatistics implements AnalyzerListener {
 		}
 
 	}
-
+// it does not seem to be priting any command
 	protected void computeAndPrintInputCommandStatistics(EHICommand aNewCommand, long aStartAbsoluteTime,
 			long aDuration) {
 		numEvents++;

@@ -314,6 +314,9 @@ public class AParticipantTimeLine implements ParticipantTimeLine {
 			aStringBuffer.append(predictionCorrections.get(index) + ", ");// Column J
 			aStringBuffer.append((stuckInterval.get(index)==null? ", ":stuckInterval.get(index).toText())+", ");// Column K, L (type, suromoutability)
 			aStringBuffer.append((stuckPoint.get(index)==null? "":stuckPoint.get(index).toText())+", ");// Column M
+
+			aStringBuffer.append("\n"); // why was this not there in the original code
+
 			//test if null first			
 		}
 		return aStringBuffer;
