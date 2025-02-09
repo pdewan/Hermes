@@ -79,7 +79,7 @@ public class ANilsArffGenerator extends AnArffGenerator implements ArffGenerator
 		// TODO Auto-generated method stub
 
 	}
-
+	// same as kevin's
 	public static final String[] FEATURES = {
 			// "insertPercentage","numeric",
 			// "deletePercentage","numeric",
@@ -181,6 +181,7 @@ public class ANilsArffGenerator extends AnArffGenerator implements ArffGenerator
 
 		// add to that segment idx of respective list
 		Double listValue;
+		// the PASTE stuff can can integrated with the insert rate etc. It seems like a rate.
 		if (anIndex != -1) {
 			switch (commandCategory) {
 			case PASTE:
@@ -223,7 +224,7 @@ public class ANilsArffGenerator extends AnArffGenerator implements ArffGenerator
 		if (!Thread.currentThread().getName().equals(DifficultyPredictionRunnable.DIFFICULTY_PREDICTION_THREAD_NAME))
 			return;
 
-		System.out.println("************* NILS NEW RATIOS ****************");
+//		System.out.println("************* NILS NEW RATIOS ****************");
 		insertEntriesForPreviousTimeStamp();
 //		currentTime = startTime + newVal.getSavedTimeStamp();
 		currentTime = getStartTime() + newVal.getSavedTimeStamp();
@@ -238,7 +239,7 @@ public class ANilsArffGenerator extends AnArffGenerator implements ArffGenerator
 		participantTimeLine.getRemoveList().add(newVal.getRemoveRatio());
 		participantTimeLine.getWebLinks().add(null);
 
-		// bad cast fix this later
+		// &bad cast fix this later
 		((NilsParticipantTimeLine) participantTimeLine).getPasteList().add(0.0);
 		((NilsParticipantTimeLine) participantTimeLine).getCopyList().add(0.0);
 		((NilsParticipantTimeLine) participantTimeLine).getLongestDeleteList().add(0.0);
@@ -270,11 +271,21 @@ public class ANilsArffGenerator extends AnArffGenerator implements ArffGenerator
 	// person (but not sorry enough)
 	// return finalPredictions;
 	// }
+	
+	public static long calculatePrediction (ParticipantTimeLine p, int index) {
+		long anActualPrediction = p.getPredictions().get(index);
+		long aPredictionCorrection = p.getPredictionCorrections().get(index);
+		return aPredictionCorrection < 0? 
+				anActualPrediction:
+					aPredictionCorrection;
+	}
 	protected void printArffEntryTimestamps(ParticipantTimeLine p) {
 		System.out.println("Running printArffEntryTimestamp");
 		for (int i = 0; i < p.getTimeStampList().size(); i++) {
 			Date date = new Date(p.getTimeStampList().get(i));
-			long prediction = p.getPredictionCorrections().get(i) < 0 ? 0 : p.getPredictionCorrections().get(i);
+			//if there are no prediction corrections than one should predict prediction[i] not 0
+//			long prediction = p.getPredictionCorrections().get(i) < 0 ? 0 : p.getPredictionCorrections().get(i);
+			long prediction = calculatePrediction(p, i);
 			System.out.println(
 					"Prediction for arff entry: " + i + " is " + prediction + " and the timestamp for this entry is: "
 							+ date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
@@ -289,10 +300,14 @@ public class ANilsArffGenerator extends AnArffGenerator implements ArffGenerator
 			// //get the correct numerical representation of prediction
 			// long prediction = p.getPredictionCorrections().get(i)<0 ?
 			// p.getPredictions().get(i) : p.getPredictionCorrections().get(i);
-			long prediction = p.getPredictionCorrections().get(i) < 0 ? 0 : p.getPredictionCorrections().get(i);
+			
+			//if there are no prediction corrections than one should predict prediction[i] not 0
+
+//			long prediction = p.getPredictionCorrections().get(i) < 0 ? 0 : p.getPredictionCorrections().get(i);
+			long prediction = calculatePrediction(p, i);
 
 			// double prediction = finalPredictions.get(i);
-
+			// why are his paste etc not being witten
 			arffWriter.writeData(
 					// prediction==0? "NO":"YES",
 					prediction == 0 ? PredictionManagerStrategy.PROGRESS_PREDICTION
@@ -350,9 +365,18 @@ public class ANilsArffGenerator extends AnArffGenerator implements ArffGenerator
 		// featureExtractor.setFeatureExtractionStrategy(featureExtractionStrategy);
 		// mediator.setFeatureExtractor(featureExtractor);
 
-		OEFrame frame = ObjectEditor.edit(analyzer);
-		frame.setSize(550, 200);
+//		OEFrame frame = ObjectEditor.edit(analyzer);
+//		frame.setSize(550, 200);
 		// HermesObjectEditorProxy.edit(analyzer, 550, 200);
+		
+		analyzer.loadDirectory();
+		analyzer.getAnalyzerParameters().getParticipants().setValue("All");
+//		analyzer.addAnalyzerListener(analyzerProcessor);
+		analyzer.getAnalyzerParameters().replayLogs();
+		analyzer.getAnalyzerParameters().setMakePredictions(true);
+		
+		analyzer.getAnalyzerParameters().setNewOutputFiles(true);
+		
 	}
 
 }

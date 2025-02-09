@@ -258,7 +258,7 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 		if (!Thread.currentThread().getName().equals(DifficultyPredictionRunnable.DIFFICULTY_PREDICTION_THREAD_NAME))
 			return;
 
-		System.out.println("************* NILS NEW RATIOS ****************");
+//		System.out.println("************* NILS NEW RATIOS ****************");
 		insertEntriesForPreviousTimeStamp();
 		currentTime = getStartTime() + newVal.getSavedTimeStamp();
 
@@ -308,7 +308,8 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 		System.out.println("Running printArffEntryTimestamp");
 		for (int i = 0; i < p.getTimeStampList().size(); i++) {
 			Date date = new Date(p.getTimeStampList().get(i));
-			long prediction = p.getPredictionCorrections().get(i) < 0 ? 0 : p.getPredictionCorrections().get(i);
+//			long prediction = p.getPredictionCorrections().get(i) < 0 ? 0 : p.getPredictionCorrections().get(i);
+			long prediction = ANilsArffGenerator.calculatePrediction(p, i);
 			//System.out.println(
 			//		"Prediction for arff entry: " + i + " is " + prediction + " and the timestamp for this entry is: "
 			//				+ date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
@@ -542,8 +543,16 @@ public class ABenArffGenerator extends AnArffGenerator implements ArffGenerator 
 		// featureExtractor.setFeatureExtractionStrategy(featureExtractionStrategy);
 		// mediator.setFeatureExtractor(featureExtractor);
 
-		OEFrame frame = ObjectEditor.edit(analyzer);
-		frame.setSize(550, 200);
+//		OEFrame frame = ObjectEditor.edit(analyzer);
+//		frame.setSize(550, 200);
+		
+		analyzer.loadDirectory();
+		analyzer.getAnalyzerParameters().getParticipants().setValue("All");
+//		analyzer.addAnalyzerListener(analyzerProcessor);
+		analyzer.getAnalyzerParameters().replayLogs();
+		analyzer.getAnalyzerParameters().setMakePredictions(true);		
+		analyzer.getAnalyzerParameters().setNewOutputFiles(true);
+		
 		// HermesObjectEditorProxy.edit(analyzer, 550, 200);
 	}
 

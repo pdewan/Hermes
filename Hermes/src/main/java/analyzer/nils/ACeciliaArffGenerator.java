@@ -251,8 +251,8 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 
 	@Override
 	public void newRatios(RatioFeatures newVal) {
-		 System.out.println("newRatios current Thread: " +
-		 Thread.currentThread().getName() );
+//		 System.out.println("newRatios current Thread: " +
+//		 Thread.currentThread().getName() );
 		if (!Thread.currentThread().getName().equals(DifficultyPredictionRunnable.DIFFICULTY_PREDICTION_THREAD_NAME))
 			return;
 
@@ -408,7 +408,9 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 		for(int i=0;i<p.getDebugList().size();i++) {
 			String difficulty_source = DEFAULT_SOURCE_DIFFICULTY;
 //			//get the correct numerical representation of prediction
-			long prediction = p.getPredictionCorrections().get(i)<0 ? p.getPredictions().get(i) : p.getPredictionCorrections().get(i);
+//			long prediction = p.getPredictionCorrections().get(i)<0 ? p.getPredictions().get(i) : p.getPredictionCorrections().get(i);
+			long prediction = ANilsArffGenerator.calculatePrediction(p, i);
+
 			//long prediction = p.getPredictionCorrections().get(i)<0 ? 0 : p.getPredictionCorrections().get(i);
 			StuckPoint aStuckPoint = p.getStuckPoint().get(i);
 			StuckInterval aStuckInterval = p.getStuckInterval().get(i);
@@ -484,8 +486,15 @@ public class ACeciliaArffGenerator extends AnArffGenerator implements ArffGenera
 		analyzer.addAnalyzerListener(arffGenerator);
 		AnalyzerFactories.setParticipantTimeLineFactory(new ANilsParticipantTimeLineFactory());
 
-		OEFrame frame = ObjectEditor.edit(analyzer);
-		frame.setSize(550, 200);
+//		OEFrame frame = ObjectEditor.edit(analyzer);
+//		frame.setSize(550, 200);
+		
+		analyzer.loadDirectory();
+		analyzer.getAnalyzerParameters().getParticipants().setValue("All");
+//		analyzer.addAnalyzerListener(analyzerProcessor);
+		analyzer.getAnalyzerParameters().replayLogs();
+		analyzer.getAnalyzerParameters().setMakePredictions(true);		
+		analyzer.getAnalyzerParameters().setNewOutputFiles(true);
 	}
 	
 }

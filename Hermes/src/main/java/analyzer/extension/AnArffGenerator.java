@@ -304,8 +304,11 @@ public class AnArffGenerator extends ARatioFileGenerator implements ArffGenerato
 		if (all) {
 			// for each participant
 			for (Map.Entry<String, ParticipantTimeLine> e : super.participantToTimeLine.entrySet()) {
+				if (e.getKey().equals("All")) {
+					continue; // there is no particpant time line for all
+				}
 				// for each participant's data points
-
+				
 				ParticipantTimeLine p = e.getValue();
 				this.arffWriter.writeToArffFile("%Participant" + e.getKey());
 				this.arffWriter.writeNewLine();
