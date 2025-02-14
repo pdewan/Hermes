@@ -19,6 +19,7 @@ import analyzer.AnAnalyzer;
 import analyzer.Analyzer;
 import analyzer.AnalyzerFactories;
 import analyzer.ParticipantTimeLine;
+import analyzer.TimeStampComputer;
 import analyzer.WebLink;
 import bus.uigen.OEFrame;
 import bus.uigen.ObjectEditor;
@@ -544,12 +545,13 @@ public class AModularRatioAndPredictionListener extends APrintingDifficultyPredi
 			lastCorrection = toInt((DifficultyCommand) newCommand);
 		}
 	}
-
+	long lastTime;
 	@Override
 	public void newCommand(EHICommand newCommand) {
 		maybeInitializeTimeStamp(newCommand);
 		maybeProcessPrediction(newCommand);
 		maybeProcessCorrection(newCommand);
+		lastTime = startTime + newCommand.getTimestamp();
 		// if (newCommand.getTimestamp() == 0 && newCommand.getTimestamp2() !=
 		// 0) {
 		// newStartTimeStamp(newCommand.getTimestamp2() );
@@ -610,6 +612,7 @@ public class AModularRatioAndPredictionListener extends APrintingDifficultyPredi
 				.add(newVal.getNavigationRatio());
 		participantTimeLine.getRemoveList().add(newVal.getRemoveRatio());
 		participantTimeLine.getWebLinks().add(null);
+		System.out.println("New ratios " + lastTime  + " " + AResettingTimeStampComputer.toDateString(lastTime) + currentTime + " " + AResettingTimeStampComputer.toDateString(currentTime));
 		
 	}
 
@@ -798,14 +801,14 @@ public class AModularRatioAndPredictionListener extends APrintingDifficultyPredi
 
 	@Override
 	public void newStatus(String aStatus) {
-		System.out.println(AResettingTimeStampComputer.toDateString(currentTime) + " " + currentTime + "  new caclulated status:" + aStatus);
+		System.out.println(AResettingTimeStampComputer.toDateString(lastTime) + " " + lastTime + "  new caclulated status:" + aStatus);
 	}
 
 
 
 	@Override
 	public void newAggregatedStatus(String aStatus) {
-		System.out.println(AResettingTimeStampComputer.toDateString(currentTime) + " " + currentTime + "  new calculated aggregated Status:" + aStatus);
+		System.out.println(AResettingTimeStampComputer.toDateString(lastTime) + " " + lastTime + "  new calculated aggregated Status:" + aStatus);
 
 	}
 
@@ -813,7 +816,7 @@ public class AModularRatioAndPredictionListener extends APrintingDifficultyPredi
 
 	@Override
 	public void newStatus(int aStatus) {
-		System.out.println(AResettingTimeStampComputer.toDateString(currentTime) + " " + currentTime + "  new caclulated int status:" + aStatus);
+		System.out.println(AResettingTimeStampComputer.toDateString(lastTime) + " " + lastTime + "  new caclulated int status:" + aStatus);
 
 		
 	}
@@ -822,7 +825,7 @@ public class AModularRatioAndPredictionListener extends APrintingDifficultyPredi
 
 	@Override
 	public void newAggregatedStatus(int aStatus) {
-		System.out.println(AResettingTimeStampComputer.toDateString(currentTime) + " " + currentTime + "  new calculated int aggregated Status:" + aStatus);
+		System.out.println(AResettingTimeStampComputer.toDateString(lastTime) + " " + lastTime + "  new calculated int aggregated Status:" + aStatus);
 		
 	}
 
