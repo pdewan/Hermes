@@ -1577,4 +1577,10 @@ public class ANilsAnalyzer implements Analyzer {
 
 	}
 
+	@Override
+	public void processParticipant(String aParticipantId, boolean generateRatioFiles) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

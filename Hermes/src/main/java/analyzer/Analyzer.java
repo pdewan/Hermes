@@ -49,8 +49,15 @@ public interface Analyzer
 	public abstract boolean preLoadLogs();
 
 	public abstract void loadLogs(boolean createNewThread);
+	public abstract void processParticipant(String aParticipantId,
+//			String outPath,String dataPath, 
+			boolean generateRatioFiles);
+	public abstract void processParticipant(String aParticipantId,
+			String outPath,String dataPath, 
+			boolean generateRatioFiles);
 
-	public abstract void processParticipant(String aParticipantId,String outPath,String dataPath, boolean generateRatioFiles);
+
+//	public abstract void processParticipant(String aParticipantId,String outPath,String dataPath, boolean generateRatioFiles);
 
 	public abstract List<List<EHICommand>> convertXMLLogToObjects(
 			String aFolderName);

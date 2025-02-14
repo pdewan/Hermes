@@ -13,6 +13,7 @@ import java.util.TimeZone;
 
 import analyzer.AModularAnalyzer;
 import analyzer.AParticipantTimeLine;
+import analyzer.AResettingTimeStampComputer;
 import analyzer.AWebLink;
 import analyzer.AnAnalyzer;
 import analyzer.Analyzer;
@@ -26,6 +27,7 @@ import difficultyPrediction.DifficultyRobot;
 import difficultyPrediction.extension.APrintingDifficultyPredictionListener;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
+import difficultyPrediction.statusManager.StatusListener;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
 import fluorite.commands.PredictionCommand;
@@ -48,8 +50,8 @@ import util.trace.difficultyPrediction.analyzer.AnalyzerPredictionStopNotificati
  * in the frozen output files
  *
  */
-public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
-		implements RatioFileGenerator {
+public class AModularRatioAndPredictionListener extends APrintingDifficultyPredictionListener
+		implements RatioFileGenerator, StatusListener {
 	Analyzer analyzer;
 	protected Map<String, ParticipantTimeLine> participantToTimeLine = new HashMap();
 
@@ -64,7 +66,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 	Integer lastCorrection = 0;
 	protected ParticipantTimeLine participantTimeLine;
 	
-	public ARatioFileGenerator(Analyzer a) {
+	public AModularRatioAndPredictionListener(Analyzer a) {
 		this.analyzer=a;
 		
 	}
@@ -72,7 +74,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	private boolean isStuckPointFileGenerated;
 	
-	public ARatioFileGenerator() {
+	public AModularRatioAndPredictionListener() {
 //		RatioFilePlayerFactory.getSingleton().addPluginEventEventListener(this);
 //		RatioFilePlayerFactory.getSingleton().addRatioFeaturesListener(this);
 	}
@@ -96,6 +98,8 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 			// should this not be in the constructor?
 			DifficultyRobot.getInstance().addPluginEventListener(this);
 			DifficultyRobot.getInstance().addRatioFeaturesListener(this);
+			DifficultyRobot.getInstance().addStatusListener(this);
+
 //			
 //			RatioFilePlayerFactory.getSingleton().addPluginEventEventListener(this);
 //			RatioFilePlayerFactory.getSingleton().addPluginEventEventListener(this);
@@ -667,8 +671,8 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 
 	@Override
 	public void newPrediction(PredictionCommand newParam, PredictionType aPredictionType, long aStartRelativeTime, long aDuration) {
-		// TODO Auto-generated method stub
 		
+		System.out.println (AResettingTimeStampComputer.toDateString(aStartRelativeTime) + " " +aStartRelativeTime + " new stored prediction:" + aPredictionType);
 	}
 
 	@Override
@@ -731,7 +735,7 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 		 Analyzer analyzer = new AModularAnalyzer();
 
 //		 analyzerProcessor = new ARatioFileGenerator();
-		 analyzerProcessor = new ARatioFileGenerator(analyzer);
+		 analyzerProcessor = new AModularRatioAndPredictionListener(analyzer);
 
 		 analyzer.addAnalyzerListener(analyzerProcessor);
 //		 HermesObjectEditorProxy.edit(analyzer);
@@ -772,5 +776,77 @@ public class ARatioFileGenerator extends APrintingDifficultyPredictionListener
 			e.printStackTrace();
 		}
 	*/
+	}
+
+
+
+	@Override
+	public void modelBuilt(boolean newVal, Exception e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void predictionError(Exception e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void newStatus(String aStatus) {
+		System.out.println(AResettingTimeStampComputer.toDateString(currentTime) + " " + currentTime + "  new caclulated status:" + aStatus);
+	}
+
+
+
+	@Override
+	public void newAggregatedStatus(String aStatus) {
+		System.out.println(AResettingTimeStampComputer.toDateString(currentTime) + " " + currentTime + "  new calculated aggregated Status:" + aStatus);
+
+	}
+
+
+
+	@Override
+	public void newStatus(int aStatus) {
+		System.out.println(AResettingTimeStampComputer.toDateString(currentTime) + " " + currentTime + "  new caclulated int status:" + aStatus);
+
+		
+	}
+
+
+
+	@Override
+	public void newAggregatedStatus(int aStatus) {
+		System.out.println(AResettingTimeStampComputer.toDateString(currentTime) + " " + currentTime + "  new calculated int aggregated Status:" + aStatus);
+		
+	}
+
+
+
+	@Override
+	public void newManualStatus(String aStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void newManualStatus(DifficultyCommand aCommand) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void newReplayedStatus(int aStatus) {
+		// TODO Auto-generated method stub
+		
 	}
 }

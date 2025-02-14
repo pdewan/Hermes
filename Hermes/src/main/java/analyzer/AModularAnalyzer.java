@@ -97,7 +97,7 @@ import util.trace.recorder.LogHandlerBound;
  * @author dewan
  *
  */
-public class AnAnalyzer implements Analyzer {
+public class AModularAnalyzer extends AnAnalyzer {
 //	private final static Logger ANALYZER_LOGGER = Logger.getLogger(Analyzer.class.getName());
 
 //	public static final String PARTICIPANT_DIRECTORY = "data/";
@@ -179,25 +179,31 @@ public class AnAnalyzer implements Analyzer {
 
 
 	// random comment to make sure things can commit
-	public AnAnalyzer() {
-		propertyChangeSupport = new PropertyChangeSupport(this);
-		// whoever invokes the analyzer should set the replay mode
-		// DifficultyPredictionSettings.setReplayMode(true);
+	public AModularAnalyzer() {
+//		reader = new EHLogReader();
+//		participantsFolder = new AFileSetterModel(JFileChooser.DIRECTORIES_ONLY);
+//		participantsFolder.setText(defaultParticipantDirectory());
+		initInputDataStores();
+		
+		propertyChangeSupport = new PropertyChangeSupport(this);		
 		DifficultyPredictionSettings.setSegmentLength(SEGMENT_LENGTH);
 
-		reader = new EHLogReader();
-		participantsFolder = new AFileSetterModel(JFileChooser.DIRECTORIES_ONLY);
-//		participantsFolder.setText(DEFAULT_PARTICIPANT_DIRECTORY);
-		participantsFolder.setText(defaultParticipantDirectory());
+		
 		parameters = new AnAnalyzerParameters(this);
 		parameters.getParticipants().addChoice(ALL_PARTICIPANTS);
 		parameters.getParticipants().setValue(ALL_PARTICIPANTS);
-//		difficultyEventProcessor = ADifficultyPredictionPluginEventProcessor.getInstance();
 
 		FactorySingletonInitializer.configure();
 
 
 	}
+	protected void initInputDataStores() {
+		reader = new EHLogReader();
+		participantsFolder = new AFileSetterModel(JFileChooser.DIRECTORIES_ONLY);
+		participantsFolder.setText(defaultParticipantDirectory());
+
+	}
+	
 	protected File getOrCreateLogLocation(String aParticipantId) {
 		String aFileName = Paths.get(outPath, aParticipantId, REPLAYED_LOG_FOLDER,aParticipantId ).toString();
 		File aFile = new File(aFileName);
@@ -539,6 +545,15 @@ public class AnAnalyzer implements Analyzer {
 		parser.stop();
 
 	}
+    protected void initOutputDataStores() {
+		outPath = Paths.get(getParticipantsFolderName(), OUTPUT_DATA ).toString();
+
+	}
+    protected void initOutputDataStore(String participantId) {
+		this.outputSubdirectory = Paths.get(outPath, participantId).toString();
+
+    }
+	
 	@Visible(false)
 
 	public void doLoadLogs() {
@@ -634,7 +649,9 @@ public class AnAnalyzer implements Analyzer {
 			// each participant
 			// this.outputSubdirectory=outPath += participantId+"/";
 			// keep this for AnArffGenerator
-			this.outputSubdirectory = outPath + participantId;
+			initOutputDataStore(participantId);
+			// this is suprseded by the next statememt and seems useless
+//			this.outputSubdirectory = outPath + participantId;
 			notifyNewParticipant(ALL_PARTICIPANTS, null);
 			notifyReplayStarted();
 			// all if first on the list
@@ -646,16 +663,27 @@ public class AnAnalyzer implements Analyzer {
 				// ECLIPSE_FOLDER,false);
 				if (ignoreParticipants.contains(aParticipantId)) 
 					continue;
-				this.outputSubdirectory = outPath + aParticipantId + "/";
+				initOutputDataStore(aParticipantId);
+//				this.outputSubdirectory = outPath + aParticipantId + "/";
 				// should there be a notifyNewParticipant here also
+//				processParticipant(aParticipantId, 
+//						this.outputSubdirectory,
+////						participantsFolder.getText() + EXPERIMENTAL_DATA,
+//						Paths.get(getParticipantsFolderName(), EXPERIMENTAL_DATA).toString(),
+//
+//						// + AnAnalyzer.participants.get(aParticipantId) + "/" +
+//						// ECLIPSE_FOLDER,
+//						false);
+				
 				processParticipant(aParticipantId, 
-						this.outputSubdirectory,
+//						this.outputSubdirectory,
 //						participantsFolder.getText() + EXPERIMENTAL_DATA,
-						Paths.get(getParticipantsFolderName(), EXPERIMENTAL_DATA).toString(),
+//						Paths.get(getParticipantsFolderName(), EXPERIMENTAL_DATA).toString(),
 
 						// + AnAnalyzer.participants.get(aParticipantId) + "/" +
 						// ECLIPSE_FOLDER,
 						false);
+
 
 			}
 
@@ -667,11 +695,17 @@ public class AnAnalyzer implements Analyzer {
 //			this.outputSubdirectory = outPath + participantId + "/";
 			this.outputSubdirectory = Paths.get(outPath, participantId).toString();
 
-			processParticipant(participantId, this.outputSubdirectory,
-					Paths.get (getParticipantsFolderName(), EXPERIMENTAL_DATA).toString()
+//			processParticipant(participantId, this.outputSubdirectory,
+//					Paths.get (getParticipantsFolderName(), EXPERIMENTAL_DATA).toString()
+////					participantsFolder.getText() + EXPERIMENTAL_DATA
+//					// + aParticipanttFolder + "/" + ECLIPSE_FOLDER
+//					, true);
+			processParticipant(participantId,
+//					this.outputSubdirectory,
+//					Paths.get (getParticipantsFolderName(), EXPERIMENTAL_DATA).toString()
 //					participantsFolder.getText() + EXPERIMENTAL_DATA
 					// + aParticipanttFolder + "/" + ECLIPSE_FOLDER
-					, true);
+				    true);
 
 		}
 		// old stuff, in case we need to revert 12/20/2014
@@ -741,6 +775,28 @@ public class AnAnalyzer implements Analyzer {
 		notifyFinishedBrowserLines();
 
 	}
+	
+//	storeBrowserHistoryOfFolder(
+//	Paths.get(
+//			getParticipantsFolderName()
+//				, EXPERIMENTAL_DATA,
+////				aParticipantFolder + "/"
+//				aParticipantFolder,
+//
+//				BROWSER_FOLDER).toString());
+	
+	public void storeBrowserHistoryOfFolder() {
+		String aFolderName = Paths.get(
+			getParticipantsFolderName()
+				, EXPERIMENTAL_DATA,
+//				aParticipantFolder + "/"
+				participantFolder,
+
+				BROWSER_FOLDER).toString();
+		storeBrowserHistoryOfFolder(aFolderName);
+	}
+
+	
 	@Visible(false)
 	public void storeBrowserHistoryOfFolder(String aFolderName) {
 		String fullName = aFolderName;
@@ -780,7 +836,6 @@ public class AnAnalyzer implements Analyzer {
 
 	}
 
-	@Visible(false)
 	public void processBrowserHistoryOfFile(String aFileName) {
 		try {
 			FileInputStream fis = new FileInputStream(aFileName);
@@ -844,6 +899,60 @@ public class AnAnalyzer implements Analyzer {
 		}
 
 	}
+	
+//	processParticipant(aParticipantId, 
+//			this.outputSubdirectory,
+////			participantsFolder.getText() + EXPERIMENTAL_DATA,
+//			Paths.get(getParticipantsFolderName(), EXPERIMENTAL_DATA).toString(),
+//
+//			// + AnAnalyzer.participants.get(aParticipantId) + "/" +
+//			// ECLIPSE_FOLDER,
+//			false);
+	
+	protected String getOutPath() {
+		return this.outputSubdirectory;
+	}
+	protected String getDataPath() {
+		return Paths.get(getParticipantsFolderName(), EXPERIMENTAL_DATA).toString();
+	}
+	protected String fullParticipantDataFolderName;
+	protected File ratiosFile;
+	protected String fullRatiosFileName;
+	protected String participantFolder;
+	
+	protected void setRatiosFileName() {
+		DifficultyPredictionSettings.setRatiosFileName(fullRatiosFileName);
+	}
+	
+	protected void processOutputData (String aParticipantId) {
+		participantFolder = participants.get(aParticipantId);
+		String aFullParticipantOutputFolderName = getOutPath();
+		String dataPath = getDataPath();
+
+		fullParticipantDataFolderName = Paths.get(dataPath, participantFolder,
+				ECLIPSE_FOLDER).toString();
+		File anOutputFolder = new File(aFullParticipantOutputFolderName);
+		if (!anOutputFolder.exists())
+			anOutputFolder.mkdirs();
+
+	
+		 fullRatiosFileName = Paths.get(aFullParticipantOutputFolderName,
+				"ratios.csv").toString();
+		 ratiosFile = new File(fullRatiosFileName);
+		if (ratiosFile.exists()) {
+			DifficultyPredictionSettings.setRatioFileExists(true);
+
+		} else {
+			try {
+				DifficultyPredictionSettings.setRatioFileExists(false);
+				ratiosFile.createNewFile();
+			} catch (IOException e1) {
+
+				e1.printStackTrace();
+			}
+		}
+	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -856,28 +965,20 @@ public class AnAnalyzer implements Analyzer {
 	public void processParticipant(String aParticipantId, String outPath,
 			String dataPath, boolean isIndividualPart) {
 
-		// if (parameters.isVisualizePrediction()) {
-		// PredictorConfigurer.visualizePrediction();
-		// }
+		
 		parameters.getParticipants().setValue(aParticipantId);
 		String aParticipantFolder = participants.get(aParticipantId);
 		// notifyNewParticipant(aParticipantId);
 		// we now get the correct outpath with individual folder
 		String aFullParticipantOutputFolderName = outPath;
-		// String aFullParticipantOutputFolderName = outPath+(isIndividualPart?
-		// aParticipantFolder+"/":"");
-//		String aFullParticipantDataFolderName = dataPath + aParticipantFolder
-//				+ "/" + ECLIPSE_FOLDER;
+	
 		String aFullParticipantDataFolderName = Paths.get(dataPath, aParticipantFolder,
 				ECLIPSE_FOLDER).toString();
 		File anOutputFolder = new File(aFullParticipantOutputFolderName);
 		if (!anOutputFolder.exists())
 			anOutputFolder.mkdirs();
 
-		// if (isIndividualPart) {
-//
-//		String aFullRatiosFileName = aFullParticipantOutputFolderName
-//				+ "ratios.csv";
+	
 		String aFullRatiosFileName = Paths.get(aFullParticipantOutputFolderName,
 				"ratios.csv").toString();
 		File aRatiosFile = new File(aFullRatiosFileName);
@@ -885,7 +986,6 @@ public class AnAnalyzer implements Analyzer {
 			DifficultyPredictionSettings.setRatioFileExists(true);
 
 		} else {
-			// if (!aRatiosFile.exists())
 			try {
 				DifficultyPredictionSettings.setRatioFileExists(false);
 				aRatiosFile.createNewFile();
@@ -930,20 +1030,17 @@ public class AnAnalyzer implements Analyzer {
 			RatioFilePlayerFactory.getSingleton().setReplayedData(
 					nestedCommandsList, aRatiosFile.getAbsolutePath());
 			RatioFilePlayerFactory.getSingleton().replay();
-			// ratioFileReader = new ARatioFileReader();
-			// ratioFileReader.readFile(aRatiosFile.getAbsolutePath());
+			
 		} else {
 
-			// nestedCommandsList =
-			// convertXMLLogToObjects(aFullParticipantDataFolderName);
+			
 			TimeStampComputerFactory.getSingleton().reset(); // this is called by setRpelayedData
 			DifficultyPredictionSettings.setRatiosFileName(aFullRatiosFileName);
 			//moving this up in the constructor so we do not configure many times
 //			difficultyEventProcessor = new ADifficultyPredictionPluginEventProcessor();
 			difficultyEventProcessor = ADifficultyPredictionPluginEventProcessor.getInstance();
 
-//			ADifficultyPredictionPluginEventProcessor
-//					.setInstance(difficultyEventProcessor);
+;
 			difficultyEventProcessor.commandProcessingStarted();
 			 mediator = difficultyEventProcessor
 					.getDifficultyPredictionRunnable().getMediator();
@@ -954,13 +1051,14 @@ public class AnAnalyzer implements Analyzer {
 							+ PredictionParametersSetterSelector.getSingleton()
 									.getSegmentLength()));
 			notifyNewParticipant(aParticipantId, aParticipantFolder);
-			storeBrowserHistoryOfFolder(Paths.get(
-					getParticipantsFolderName()
-						, EXPERIMENTAL_DATA,
-//						aParticipantFolder + "/"
-						aParticipantFolder,
-
-						BROWSER_FOLDER).toString());
+//			storeBrowserHistoryOfFolder(Paths.get(
+//					getParticipantsFolderName()
+//						, EXPERIMENTAL_DATA,
+////						aParticipantFolder + "/"
+//						aParticipantFolder,
+//
+//						BROWSER_FOLDER).toString());
+			storeBrowserHistoryOfFolder();
 			playNestedCommandList();
 
 
@@ -970,11 +1068,7 @@ public class AnAnalyzer implements Analyzer {
 				waitForParticipantLogsToBeProcessed();
 
 				
-				//maybe do this before notifying events so we can use the info in prediction
-				// getting rid of call as we have already read the lines
-//				processBrowserHistoryOfFolder(participantsFolder.getText()
-//						+ EXPERIMENTAL_DATA + aParticipantFolder + "/"
-//						+ BROWSER_FOLDER);
+
 				
 				notifyAllWebVisitsInFile();
 				notifyAllWebCommandsInFile();
@@ -982,7 +1076,133 @@ public class AnAnalyzer implements Analyzer {
 				notifyFinishParticipant(aParticipantId, aParticipantFolder);
 				
 				
+		}
+
+	}
+	protected void setReplayedData() {
+		RatioFilePlayerFactory.getSingleton().setReplayedData(
+				nestedCommandsList, ratiosFile.getAbsolutePath());
+	}
+	@Override
+	@Visible(false)
+	public void processParticipant(String aParticipantId, boolean isIndividualPart) {
+
+		
+		parameters.getParticipants().setValue(aParticipantId);
+		String aParticipantFolder = participants.get(aParticipantId);
+		// notifyNewParticipant(aParticipantId);
+		// we now get the correct outpath with individual folder
+		processOutputData(aParticipantId);
+//		String aFullParticipantOutputFolderName = outPath;
+//	
+//		String aFullParticipantDataFolderName = Paths.get(dataPath, aParticipantFolder,
+//				ECLIPSE_FOLDER).toString();
+//		File anOutputFolder = new File(aFullParticipantOutputFolderName);
+//		if (!anOutputFolder.exists())
+//			anOutputFolder.mkdirs();
+//
+//	
+//		String aFullRatiosFileName = Paths.get(aFullParticipantOutputFolderName,
+//				"ratios.csv").toString();
+//		File aRatiosFile = new File(aFullRatiosFileName);
+//		if (aRatiosFile.exists()) {
+//			DifficultyPredictionSettings.setRatioFileExists(true);
+//
+//		} else {
+//			try {
+//				DifficultyPredictionSettings.setRatioFileExists(false);
+//				aRatiosFile.createNewFile();
+//			} catch (IOException e1) {
+//
+//				e1.printStackTrace();
 //			}
+//		}
+
+		// erase file if it exists
+		// if (aRatiosFile.exists() &&
+		// DifficultyPredictionSettings.isNewRatioFiles()) {
+//		if (DifficultyPredictionSettings.isRatioFileExists()
+//				&& DifficultyPredictionSettings.isNewRatioFiles()) {
+//
+//			try {
+//				FileOutputStream writer = new FileOutputStream(aRatiosFile);
+//				writer.close();
+//
+//			} catch (FileNotFoundException e1) {
+//				e1.printStackTrace();
+//			} catch (IOException e) {
+//			}
+//
+//			DifficultyPredictionSettings.setCreateRatioFile(isIndividualPart);
+//		}
+		// we will replay commands in both cases
+//		nestedCommandsList = convertXMLLogToObjects(aFullParticipantDataFolderName);
+		nestedCommandsList = convertXMLLogToObjects();
+
+
+		if (DifficultyPredictionSettings.isRatioFileExists()
+				&& DifficultyPredictionSettings.isReplayRatioFiles()) {
+			// System.out.println
+			// ("Need to read ratio file and replay logs");
+			RatioFileGeneratorFactory
+					.setSingleton(FileReplayAnalyzerProcessorFactory
+							.getSingleton());
+			notifyNewParticipant(aParticipantId, aParticipantFolder); // should
+																		// probably
+																		// factor
+																		// this
+																		// out
+//			RatioFilePlayerFactory.getSingleton().setReplayedData(
+//					nestedCommandsList, aRatiosFile.getAbsolutePath());
+			setReplayedData();
+			RatioFilePlayerFactory.getSingleton().replay();
+			
+		} else {
+
+			
+			TimeStampComputerFactory.getSingleton().reset(); // this is called by setRpelayedData
+//			DifficultyPredictionSettings.setRatiosFileName(aFullRatiosFileName);
+			setRatiosFileName();
+			//moving this up in the constructor so we do not configure many times
+//			difficultyEventProcessor = new ADifficultyPredictionPluginEventProcessor();
+			difficultyEventProcessor = ADifficultyPredictionPluginEventProcessor.getInstance();
+
+;
+			difficultyEventProcessor.commandProcessingStarted();
+			 mediator = difficultyEventProcessor
+					.getDifficultyPredictionRunnable().getMediator();
+
+			 eventAggregator = mediator.getEventAggregator();
+			eventAggregator
+					.setEventAggregationStrategy(new DiscreteChunksAnalyzer(""
+							+ PredictionParametersSetterSelector.getSingleton()
+									.getSegmentLength()));
+			notifyNewParticipant(aParticipantId, aParticipantFolder);
+//			storeBrowserHistoryOfFolder(Paths.get(
+//					getParticipantsFolderName()
+//						, EXPERIMENTAL_DATA,
+////						aParticipantFolder + "/"
+//						aParticipantFolder,
+//
+//						BROWSER_FOLDER).toString());
+			storeBrowserHistoryOfFolder();
+			playNestedCommandList();
+
+
+
+				difficultyEventProcessor.commandProcessingStopped();
+				
+				waitForParticipantLogsToBeProcessed();
+
+				
+
+				
+				notifyAllWebVisitsInFile();
+				notifyAllWebCommandsInFile();
+
+				notifyFinishParticipant(aParticipantId, aParticipantFolder);
+				
+				
 		}
 
 	}
@@ -1080,6 +1300,11 @@ public class AnAnalyzer implements Analyzer {
 			}
 		}
 	}
+	@Visible(false)
+	public List<List<EHICommand>> convertXMLLogToObjects() {
+		return convertXMLLogToObjects(fullParticipantDataFolderName);
+	}
+
 		
 
 	/*
@@ -1391,11 +1616,11 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 
 	@Visible(false)
 	public static Analyzer getInstance() {
-		return AnalyzerFactory.getSingleton();
-		// if (instance == null) {
-		// instance = new AnAnalyzer();
-		// }
-		// return instance;
+//		return AnalyzerFactory.getSingleton();
+		 if (instance == null) {
+		 instance = new AModularAnalyzer();
+		 }
+		 return instance;
 	}
 
 	@Override
@@ -1532,20 +1757,14 @@ protected WebVisitCommand toWebVisitCommand(String aLine) {
 		// Analyzer analyzer = new AnAnalyzer();
 		DifficultyPredictionSettings.setReplayMode(true);
 
-//		OEFrame frame = ObjectEditor.edit(AnAnalyzer.getInstance());
+//		OEFrame frame = ObjectEditor.edit(AModularAnalyzer.getInstance());
 //		frame.setSize(500, 335);
-		
-		Analyzer anAnalyzer = AnAnalyzer.getInstance();
+		DifficultyPredictionSettings.setMakePredictions(true);
+		Analyzer anAnalyzer = AModularAnalyzer.getInstance();
 		anAnalyzer.loadDirectory();
 		anAnalyzer.getAnalyzerParameters().getParticipants().setValue("17");
 		anAnalyzer.getAnalyzerParameters().replayLogs();
 
-	}
-
-	@Override
-	public void processParticipant(String aParticipantId, boolean generateRatioFiles) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
