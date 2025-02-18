@@ -1,5 +1,7 @@
 package difficultyPrediction.predictionManagement;
 
+import difficultyPrediction.Mediator;
+
 public interface PredictionManager {
 
 	public abstract void onPredictionHandOff(String predictionValue);
@@ -9,5 +11,7 @@ public interface PredictionManager {
 	PredictionManagerStrategy getPredictionStrategy();
 
 	void setPredictionStrategy(PredictionManagerStrategy predictionStrategy);
+	Mediator getMediator();
+	void setMediator(Mediator mediator);
 
 }

@@ -34,6 +34,9 @@ import difficultyPrediction.metrics.RatioCalculatorSelector;
 import difficultyPrediction.predictionManagement.APredictionManager;
 import difficultyPrediction.predictionManagement.DecisionTreeModel;
 import difficultyPrediction.predictionManagement.PredictionManager;
+import difficultyPrediction.predictionManagement.PredictionManagerFactory;
+import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
+import difficultyPrediction.predictionManagement.PredictionManagerStrategyFactory;
 import fluorite.commands.AssistCommand;
 import fluorite.commands.CopyCommand;
 import fluorite.commands.Delete;
@@ -107,8 +110,16 @@ public class AnIntervalReplayer {
 	public static void initPredictionObjects() {
 	
 		
-		predictionManager = new APredictionManager(null);
-		predictionManager.setPredictionStrategy(new DecisionTreeModel(predictionManager));
+//		predictionManager = new APredictionManager();
+		predictionManager = PredictionManagerFactory.getPredictionManager();
+
+		PredictionManagerFactory.setPredictionStrategy(predictionManager);
+//		PredictionManagerStrategy aPredictionManagerStrategy = new DecisionTreeModel();
+		PredictionManagerStrategy aPredictionManagerStrategy = PredictionManagerStrategyFactory.getPredictionManagerStrategy();
+		aPredictionManagerStrategy.setPredictionManager(predictionManager);
+//		predictionManager.setPredictionStrategy(new DecisionTreeModel(predictionManager));
+		predictionManager.setPredictionStrategy(aPredictionManagerStrategy);
+
 		DifficultyPredictionSettings.setReplayMode(true);
 		
 	}

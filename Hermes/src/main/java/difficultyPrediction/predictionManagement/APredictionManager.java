@@ -6,8 +6,10 @@ public class APredictionManager implements PredictionManager {
 	
 	Mediator mediator;
 	
-	public APredictionManager(Mediator mediator) {
-		this.mediator = mediator;
+//	public APredictionManager(Mediator mediator) {
+//		this.mediator = mediator;
+//	}
+	public APredictionManager() {
 	}
 	
 	PredictionManagerStrategy predictionStrategy;
@@ -22,11 +24,11 @@ public class APredictionManager implements PredictionManager {
 			mediator.predictionManager_HandOffPrediction(this, details);
 		}
 	}
-
+	@Override
 	public Mediator getMediator() {
 		return mediator;
 	}
-
+	@Override
 	public void setMediator(Mediator mediator) {
 		this.mediator = mediator;
 	}

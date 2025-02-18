@@ -26,7 +26,8 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 
 //	private J48 j48Model = new J48();
 
-//	private boolean isClassifierModelBuilt = false;
+
+	//	private boolean isClassifierModelBuilt = false;
 	protected Map<Classifier, Boolean> classifierBuilt = new HashMap();
 
 	private String wekaDataFileLocation = "data/userStudy2010.arff";
@@ -35,7 +36,16 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 //	CommandCategory[] relevantCommandCategories;
 	String[] relevantFeatureNames;
 
-	public DecisionTreeModel(PredictionManager predictionManager) {
+//	public DecisionTreeModel(PredictionManager predictionManager) {
+//		this.predictionManager = predictionManager;
+//		commandCategoryMapping = APredictionParameters.getInstance().
+//				getCommandClassificationScheme().
+//				getCommandCategoryMapping();
+////		relevantCommandCategories = commandCategoryMapping.getRelevantCommandCategories();
+//		relevantFeatureNames = commandCategoryMapping.getOrderedRelevantFeatureNames();
+//	}
+
+	public DecisionTreeModel() {
 		this.predictionManager = predictionManager;
 		commandCategoryMapping = APredictionParameters.getInstance().
 				getCommandClassificationScheme().
@@ -43,7 +53,14 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 //		relevantCommandCategories = commandCategoryMapping.getRelevantCommandCategories();
 		relevantFeatureNames = commandCategoryMapping.getOrderedRelevantFeatureNames();
 	}
-	
+	@Override
+	public PredictionManager getPredictionManager() {
+		return predictionManager;
+	}
+	@Override
+	public void setPredictionManager(PredictionManager predictionManager) {
+		this.predictionManager = predictionManager;
+	}
 	protected String wekaDataFileLocation() {
 		 String aSpecifiedLocation = HelperConfigurationManagerFactory.getSingleton().getARFFFileName();
 		 return aSpecifiedLocation;
@@ -57,7 +74,7 @@ public class DecisionTreeModel implements PredictionManagerStrategy {
 //		return j48Model;
 	}
 
-	private void buildClassifierModel() throws Exception {
+	protected void buildClassifierModel() throws Exception {
 		weka.core.Instances trainingSet;
 		URL url;
 

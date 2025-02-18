@@ -18,7 +18,9 @@ import difficultyPrediction.predictionManagement.APredictionManager;
 import difficultyPrediction.predictionManagement.APredictionManagerDetails;
 import difficultyPrediction.predictionManagement.DecisionTreeModel;
 import difficultyPrediction.predictionManagement.PredictionManager;
+import difficultyPrediction.predictionManagement.PredictionManagerFactory;
 import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
+import difficultyPrediction.predictionManagement.PredictionManagerStrategyFactory;
 import difficultyPrediction.statusManager.StatusAggregationDiscreteChunks;
 import difficultyPrediction.statusManager.StatusManager;
 import difficultyPrediction.statusManager.StatusManagerDetails;
@@ -61,8 +63,14 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 		featureExtractor = new ARatioBasedFeatureExtractor(this);
 		featureExtractor.setFeatureExtractionStrategy(new ExtractRatiosBasedOnNumberOfEvents());
 		
-		predictionManager = new APredictionManager(this);
-		predictionManager.setPredictionStrategy(new DecisionTreeModel(predictionManager));
+//		predictionManager = new APredictionManager(this);
+		predictionManager = PredictionManagerFactory.getPredictionManager();
+		predictionManager.setMediator(this);
+//		predictionManager.setPredictionStrategy(new DecisionTreeModel(predictionManager));
+		PredictionManagerStrategy aPredictionManagerStrategy = PredictionManagerStrategyFactory.getPredictionManagerStrategy();
+//		predictionManager.setPredictionStrategy(aPredictionManagerStrategy);
+		aPredictionManagerStrategy.setPredictionManager(predictionManager);
+
 		
 		statusManager = new StatusManager(this);
 		statusManager.strategy = new StatusAggregationDiscreteChunks(statusManager);
@@ -349,9 +357,16 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 //	}
 	
 	
+//	public static Mediator getInstance() {
+//		if (instance == null)
+//			instance = new DifficultyRobot(""); // not sure what the id is actually used for
+//		return instance;
+//	}
+
 	public static Mediator getInstance() {
 		if (instance == null)
-			instance = new DifficultyRobot(""); // not sure what the id is actually used for
+			instance = MediatorFactory.getMediator();
+//			instance = new DifficultyRobot(""); // not sure what the id is actually used for
 		return instance;
 	}
 

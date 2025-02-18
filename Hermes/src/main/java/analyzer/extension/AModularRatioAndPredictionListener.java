@@ -28,6 +28,11 @@ import difficultyPrediction.DifficultyRobot;
 import difficultyPrediction.extension.APrintingDifficultyPredictionListener;
 import difficultyPrediction.featureExtraction.ARatioFeatures;
 import difficultyPrediction.featureExtraction.RatioFeatures;
+import difficultyPrediction.predictionManagement.DecisionTreeModel;
+import difficultyPrediction.predictionManagement.ModularDecisionTreeModel;
+import difficultyPrediction.predictionManagement.PredictionManagerFactory;
+import difficultyPrediction.predictionManagement.PredictionManagerStrategy;
+import difficultyPrediction.predictionManagement.PredictionManagerStrategyFactory;
 import difficultyPrediction.statusManager.StatusListener;
 import fluorite.commands.DifficultyCommand;
 import fluorite.commands.EHICommand;
@@ -739,7 +744,11 @@ public class AModularRatioAndPredictionListener extends APrintingDifficultyPredi
 
 //		 analyzerProcessor = new ARatioFileGenerator();
 		 analyzerProcessor = new AModularRatioAndPredictionListener(analyzer);
+		 
+		  PredictionManagerStrategy predictionManagerStrategy = 
+			       new ModularDecisionTreeModel();
 
+		  PredictionManagerStrategyFactory.setPredictionManagerStrategy(predictionManagerStrategy);
 		 analyzer.addAnalyzerListener(analyzerProcessor);
 //		 HermesObjectEditorProxy.edit(analyzer);
 		 
