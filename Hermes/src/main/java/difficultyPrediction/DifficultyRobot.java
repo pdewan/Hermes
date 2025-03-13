@@ -70,6 +70,7 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 		PredictionManagerStrategy aPredictionManagerStrategy = PredictionManagerStrategyFactory.getPredictionManagerStrategy();
 //		predictionManager.setPredictionStrategy(aPredictionManagerStrategy);
 		aPredictionManagerStrategy.setPredictionManager(predictionManager);
+		predictionManager.setPredictionStrategy(aPredictionManagerStrategy);
 
 		
 		statusManager = new StatusManager(this);
@@ -122,10 +123,12 @@ public class DifficultyRobot extends AMediatorRegistrar implements Mediator {
 
 		notifyNewRatios(details);
 		AnAnalyzer.maybeRecordFeatures(details);
-		if (modelCannotBeBuilt || predictionError) {
+		if (modelCannotBeBuilt || predictionError
+				|| predictionManager == null ||
+				predictionManager.getPredictionStrategy() == null) {
 			return;
 		}
-
+		
 //		this.predictionManager.getPredictionStrategy().predictSituation(details.getEditRatio(), details.getDebugRatio(), details.getNavigationRatio(), details.getFocusRatio(), details.getRemoveRatio());
 		this.predictionManager.getPredictionStrategy().predictSituation(details);
 

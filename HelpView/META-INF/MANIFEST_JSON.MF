@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: dayton.ellwanger.helpbutton.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.json;bundle-version="1.0.0",
  dayton.ellwanger.Hermes,
  org.eclipse.ui.workbench,
  org.eclipse.ui.ide,
@@ -21,6 +22,3 @@ Import-Package: org.eclipse.core.resources,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: HelpView
 Bundle-ActivationPolicy: lazy
-Export-Package: org.json
-Bundle-ClassPath: lib/json-20170516.jar,
- .
